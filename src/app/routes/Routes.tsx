@@ -1,4 +1,5 @@
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
+import CourseLayout from "../layouts/CourseLayout/CourseLayout";
 import InstructorLayout from "../layouts/instructorLayout/InstructorLayout";
 import Signin from "../pages/Auth/Signin";
 import Courses from "../pages/ListCourses";
@@ -9,6 +10,7 @@ const AppRoutes = () => {
     <Router>
       <Routes>
         <Route path="/login" element={<Signin />} />
+        <Route path="/test" element={<Test />} />
 
         <Route path="/instructor" element={<InstructorLayout />}>
           <Route path="test" element={<Test />} />
@@ -16,6 +18,7 @@ const AppRoutes = () => {
           <Route path="exams" element={<Test />} />
           <Route path="dashboard" element={<Test />} />
           <Route path="calendar" element={<Test />} />
+          <Route path="course" element={<CourseLayout />} />
         </Route>
       </Routes>
     </Router>

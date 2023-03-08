@@ -166,7 +166,7 @@ export default function InstructorLayout() {
                     fontWeight: "bold",
                   }}
                 >
-                  <ListItem key={text} disablePadding>
+                  <ListItem key={index} disablePadding>
                     <ListItemButton>
                       <NavLink  
                         style={({isActive}) => {
