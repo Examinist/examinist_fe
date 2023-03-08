@@ -12,7 +12,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { Avatar, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from "@mui/material";
 import { AccountCircle, ExpandMore, Logout, PersonAdd, Settings } from "@mui/icons-material";
-import { Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 const drawerWidth = 220;
 
 export default function InstructorLayout() {
@@ -168,14 +168,21 @@ export default function InstructorLayout() {
                 >
                   <ListItem key={text} disablePadding>
                     <ListItemButton>
-                      <ListItemText primary={text} />
+                      <NavLink  
+                        style={({isActive}) => {
+                          return isActive ? { color: "red" } : {};
+                        }}
+                        to={text.toLowerCase()}
+                      >
+                        <ListItemText primary={text} />
+                      </NavLink>
                     </ListItemButton>
                   </ListItem>
                 </Box>
               )
             )}
           </List>
-          <Divider /> 
+          <Divider />
           <Box
             sx={{
               color: "#6B6767",

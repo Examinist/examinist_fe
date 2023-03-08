@@ -51,10 +51,9 @@ const LeftColumn = () => {
   const [password, setPassword] = useState<string>();
 
   const signin = () => {
-    const isInstructor = username == "prof" && password == "prof";
-    if (isInstructor) {
-      navigate("/");
-    }
+   
+    navigate("/instructor");
+    
   };
 
   return (
@@ -117,6 +116,7 @@ const LeftColumn = () => {
             backgroundColor: "#1B84BF",
           }}
           variant="contained"
+          onClick={signin}
         >
           Sign In
         </Button>
