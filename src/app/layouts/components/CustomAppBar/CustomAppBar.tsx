@@ -1,5 +1,6 @@
 import { AppBar, Toolbar } from '@mui/material';
 import React from 'react'
+import theme from '../../../../assets/theme';
 import Logo from '../Logo/logo';
 import UserMenu from '../UserMenu/UserMenu';
 
@@ -8,7 +9,12 @@ export default function CustomAppBar() {
     <AppBar
       style={{ background: "#fff" }}
       position="fixed"
-      sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      elevation={0}
+      sx={{
+        zIndex: (theme) => theme.zIndex.drawer + 1,
+        border: 1,
+        borderColor: theme.palette.gray.main,
+      }}
     >
       <Toolbar
         sx={{

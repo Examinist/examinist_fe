@@ -18,8 +18,7 @@ export default function CourseLayout() {
         width: "100%",
         bgcolor: "background.paper",
         display: "flex",
-        justifyContent: "space-between",
-        boxShadow: 4
+        boxShadow: 4,
       }}
     >
       <Typography
@@ -28,31 +27,22 @@ export default function CourseLayout() {
           fontWeight: "bold",
           color: theme.palette.gray.dark,
           mt: "7px",
-          mx: "20px",
+          mx: "30px",
         }}
       >
         CSE123
       </Typography>
 
-      <Box sx={{ alignSelf: "flex-end" }}>
+      <Box sx={{ alignSelf: "flex-end", flexGrow: 1 }}>
         <Tabs value={value} onChange={handleChange} centered>
-          <Tab label="Item One" />
-          <Tab label="Item Two" />
-          <Tab label="Item Three" />
+          <Tab label="Question Bank" />
+          <Tab label="Exams" />
+          <Tab label="Analytics" />
+          <Tab label="Course Info" />
+          <Tab label="Analytics" />
+          <Tab label="Settings" />
         </Tabs>
       </Box>
-
-      <Button
-        sx={{
-          color: "white",
-          fontSize: "1rem",
-          my: "5px",
-          mx: "20px",
-        }}
-        variant="contained"
-      >
-        Create Exam
-      </Button>
     </Box>
   );
 }

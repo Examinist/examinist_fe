@@ -31,7 +31,7 @@ export default function InstructorLayout() {
         <InstructorMenu />
       </Drawer>
 
-      <Box component="main" sx={{ flexGrow: 1, p: 1.5 }}>
+      <Box component="main" sx={{ flexGrow: 1 }}>
         <Toolbar />
         <Outlet />
       </Box>

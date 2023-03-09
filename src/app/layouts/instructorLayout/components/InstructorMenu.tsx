@@ -22,7 +22,7 @@ const menuItems: IMenuItem[] = [
   {
     text: "Courses",
     icon: <GridViewOutlinedIcon />,
-    to: "courses",
+    to: "course",
   },
   {
     text: "Calendar",
