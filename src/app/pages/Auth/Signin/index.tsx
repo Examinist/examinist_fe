@@ -51,9 +51,7 @@ const LeftColumn = () => {
   const [password, setPassword] = useState<string>();
 
   const signin = () => {
-   
-    navigate("/instructor");
-    
+    navigate("/instructor/courses");
   };
 
   return (

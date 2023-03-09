@@ -36,6 +36,15 @@ const theme = createTheme({
   typography: {
     fontFamily: ["Montserrat", "sans-serif"].join(","),
   },
+  components: {
+    MuiListItemIcon: {
+      styleOverrides: {
+        root: {
+          minWidth: 40
+        },
+      },
+    },
+  },
 });
 
 export default theme;
