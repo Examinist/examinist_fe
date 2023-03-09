@@ -69,7 +69,7 @@ export default function InstructorMenu() {
 
 
   return (
-    <Box sx={{ overflow: "auto", p: "1rem" }}>
+    <Box sx={{ overflow: "auto", px: "1rem", py: "0.5rem" }}>
       <List>
         {menuItems.map((item) => (
           <div key={item.text}>

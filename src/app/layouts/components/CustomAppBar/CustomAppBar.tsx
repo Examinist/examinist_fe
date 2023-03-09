@@ -1,8 +1,8 @@
-import { AppBar, Toolbar } from '@mui/material';
-import React from 'react'
-import theme from '../../../../assets/theme';
-import Logo from '../Logo/logo';
-import UserMenu from '../UserMenu/UserMenu';
+import { AppBar, Toolbar } from "@mui/material";
+import React from "react";
+import theme from "../../../../assets/theme";
+import Logo from "../Logo/Logo";
+import UserMenu from "../UserMenu/UserMenu";
 
 export default function CustomAppBar() {
   return (
