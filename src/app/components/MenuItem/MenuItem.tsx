@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
-import theme from "../../../../assets/theme";
+import theme from "../../../assets/theme";
 
 export interface IMenuItem {
   text: string;
@@ -17,9 +17,15 @@ export interface IMenuItem {
   selected?: boolean;
 }
 
-export default function MenuItem({ text, icon, to, handleClick, selected = false }: IMenuItem) {
+export default function MenuItem({
+  text,
+  icon,
+  to,
+  handleClick,
+  selected = false,
+}: IMenuItem) {
   return (
-    <ListItem disablePadding>
+    <ListItem disablePadding style={{ textAlign: "center" }}>
       <ListItemButton
         component={NavLink}
         to={to}

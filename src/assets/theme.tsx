@@ -26,7 +26,7 @@ const theme = createTheme({
     },
     gray: {
       main: "#CFCCCC",
-      light: "#F5F5F5", //background
+      light: "#DDDDDD",
       dark: "#6B6767",
     },
     background: {
@@ -40,7 +40,7 @@ const theme = createTheme({
     MuiListItemIcon: {
       styleOverrides: {
         root: {
-          minWidth: 40
+          minWidth: 40,
         },
       },
     },

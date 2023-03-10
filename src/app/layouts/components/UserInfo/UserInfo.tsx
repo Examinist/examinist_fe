@@ -1,24 +1,34 @@
-import { AccountCircle, ExpandMore, Logout } from '@mui/icons-material';
-import { Avatar, Box, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
-import React from 'react'
-import { useNavigate } from 'react-router-dom';
-import theme from '../../../../assets/theme';
+import { AccountCircle, ExpandMore, Logout } from "@mui/icons-material";
+import {
+  Avatar,
+  Box,
+  Divider,
+  IconButton,
+  ListItemIcon,
+  Menu,
+  MenuItem,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import theme from "../../../../assets/theme";
 
-export default function UserMenu() {
-    const navigate = useNavigate();
+export default function UserInfo() {
+  const navigate = useNavigate();
 
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
+  };
+  const handleClose = () => {
     setAnchorEl(null);
-    };
+  };
 
-    const logout = () =>{
-        navigate('/login')
-    }
+  const logout = () => {
+    navigate("/login");
+  };
 
   return (
     <Box sx={{ display: "flex", alignItems: "center", m: 3, mr: 1.5, mt: 2 }}>

@@ -2,13 +2,11 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
-import Toolbar from "@mui/material/Toolbar";
 
 import { Outlet } from "react-router-dom";
 import InstructorMenu from "./components/InstructorMenu";
-import CustomAppBar from "../components/CustomAppBar/CustomAppBar";
 import Logo from "../components/Logo/Logo";
-import UserMenu from "../components/UserMenu/UserMenu";
+import UserInfo from "../components/UserInfo/UserInfo";
 import { Divider } from "@mui/material";
 
 const drawerWidth = 260;
@@ -17,7 +15,6 @@ export default function InstructorLayout() {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      {/* <CustomAppBar/> */}
 
       <Drawer
         variant="permanent"
@@ -30,17 +27,15 @@ export default function InstructorLayout() {
           },
         }}
       >
-        {/* <Toolbar /> */}
         <Logo />
         <InstructorMenu />
-        <Box sx={{mt: 'auto'}}>
-          <Divider/>
-          <UserMenu />
+        <Box sx={{ mt: "auto" }}>
+          <Divider />
+          <UserInfo />
         </Box>
       </Drawer>
 
       <Box component="main" sx={{ flexGrow: 1 }}>
-        {/* <Toolbar /> */}
         <Outlet />
       </Box>
     </Box>

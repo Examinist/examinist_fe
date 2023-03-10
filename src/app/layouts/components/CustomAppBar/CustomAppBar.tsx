@@ -2,7 +2,7 @@ import { AppBar, Toolbar } from "@mui/material";
 import React from "react";
 import theme from "../../../../assets/theme";
 import Logo from "../Logo/Logo";
-import UserMenu from "../UserMenu/UserMenu";
+import UserInfo from "../UserInfo/UserInfo";
 
 export default function CustomAppBar() {
   return (
@@ -28,7 +28,7 @@ export default function CustomAppBar() {
         disableGutters
       >
         <Logo />
-        <UserMenu />
+        <UserInfo />
       </Toolbar>
     </AppBar>
   );

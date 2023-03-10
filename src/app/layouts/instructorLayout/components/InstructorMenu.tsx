@@ -9,7 +9,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import theme from "../../../../assets/theme";
-import MenuItem, { IMenuItem } from "../../components/MenuItem/MenuItem";
+import MenuItem, { IMenuItem } from "../../../components/MenuItem/MenuItem";
 
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import GridViewOutlinedIcon from "@mui/icons-material/GridViewOutlined";
@@ -22,7 +22,7 @@ const menuItems: IMenuItem[] = [
   {
     text: "Courses",
     icon: <GridViewOutlinedIcon />,
-    to: "course",
+    to: "courses",
   },
   {
     text: "Calendar",
@@ -55,9 +55,9 @@ const controlMenuItems: IMenuItem[] = [
 ];
 
 const getCurrentMenuItem = (path: string) => {
-  const index = path.lastIndexOf('/'); 
-  return path.substring(index + 1);
-}
+  const arr = path.split("/");
+  return arr[2];
+};
 export default function InstructorMenu() {
   const location = useLocation();
   const [selectedItem, setSelectedItem] = useState(
@@ -66,7 +66,6 @@ export default function InstructorMenu() {
   const handleClick = (to: string) => {
     setSelectedItem(to);
   };
-
 
   return (
     <Box sx={{ overflow: "auto", px: "1rem", py: "0.5rem" }}>
