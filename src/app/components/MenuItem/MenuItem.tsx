@@ -13,50 +13,38 @@ export interface IMenuItem {
   text: string;
   icon?: React.ReactElement;
   to: string;
-  handleClick?: any;
-  selected?: boolean;
 }
 
-export default function MenuItem({
-  text,
-  icon,
-  to,
-  handleClick,
-  selected = false,
-}: IMenuItem) {
+export default function MenuItem({ text, icon, to }: IMenuItem) {
+  const nonActiveColor = theme.palette.gray.dark;
+  const activeColor = theme.palette.primary.main;
+
   return (
-    <ListItem disablePadding style={{ textAlign: "center" }}>
-      <ListItemButton
-        component={NavLink}
-        to={to}
-        onClick={() => handleClick(to)}
-      >
-        {icon ? (
-          <ListItemIcon
-            sx={
-              selected
-                ? { color: theme.palette.primary.main, fontWeight: "bold" }
-                : {}
-            }
-          >
-            {icon}
-          </ListItemIcon>
-        ) : null}
-        <ListItemText
-          className={selected ? "selected" : ""}
-          primary={
-            <Box
-              sx={
-                selected
-                  ? { color: theme.palette.primary.main, fontWeight: "bold" }
-                  : {}
+    <NavLink
+      to={to}
+      style={({ isActive }) => {
+        return {
+          textDecoration: "none",
+          color: isActive ? activeColor : nonActiveColor,
+        };
+      }}
+    >
+      {({ isActive }) => (
+        <ListItem disablePadding>
+          <ListItemButton>
+            {icon && (
+              <ListItemIcon sx={{ color: isActive ? activeColor : "" }}>
+                {icon}
+              </ListItemIcon>
+            )}
+            <ListItemText
+              primary={
+                <Box sx={{ fontWeight: isActive ? "bold" : "" }}>{text}</Box>
               }
-            >
-              {text}
-            </Box>
-          }
-        />
-      </ListItemButton>
-    </ListItem>
+            />
+          </ListItemButton>
+        </ListItem>
+      )}
+    </NavLink>
   );
 }

@@ -1,42 +1,28 @@
-import * as React from "react";
+import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
-import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
+import * as React from "react";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import theme from "../../../assets/theme";
-import {Toolbar, Typography } from "@mui/material";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 
-const rootPath = "/instructor/course/";
-const defaultTab = "question-bank"; 
-const getCurrentTab= (path: string) => {
-  const arr = path.split("/");
-  return (arr.length == 3 || arr[3] === '') ? defaultTab : arr[3];
+const tabs = ["Question Bank", "Exams", "DashBoard", "Course Info", "Settings"];
+
+const tabUrl = (tabName: string) => tabName.toLowerCase().replace(" ", "-");
+
+const activeTab = (path: string) => {
+  for (const [i, tab] of tabs.entries()) {
+    if (path.includes(tabUrl(tab))) return i;
+  }
 };
 
-
-const tabs = ["Question Bank", "Exams", "DashBoard", "Course Info", "Settings"]
 export default function CourseLayout() {
   const location = useLocation();
-  const navigate = useNavigate();
-  const [value, setValue] = React.useState(0);
-  const [currTab, setCurrTab] = React.useState(getCurrentTab(location.pathname))
-  const isFirstRender = () => location.pathname.split("/").length == 3;
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-    const newTap = tabs[newValue].toLowerCase().replace(" ", "-");
-    setCurrTab(newTap);
-    navigate(rootPath + newTap);
-    localStorage.setItem('course-tab', newValue.toString());
-  };
+  const [currTab, setCurrTab] = React.useState(activeTab(location.pathname));
 
-  useEffect(() => {
-    if (!isFirstRender()) {
-      setValue(parseInt(localStorage.getItem("course-tab") || "0"));
-    }
-    navigate(rootPath + getCurrentTab(location.pathname));
-  
-  }, []);
+  const handleChangeTab = (event: React.SyntheticEvent, newTab: number) => {
+    setCurrTab(newTab);
+  };
 
   return (
     <Box>
@@ -62,9 +48,9 @@ export default function CourseLayout() {
         </Typography>
 
         <Box sx={{ alignSelf: "flex-end", flexGrow: 1 }}>
-          <Tabs value={value} onChange={handleChange} centered>
+          <Tabs value={currTab} onChange={handleChangeTab} centered>
             {tabs.map((tab) => (
-              <Tab key={tab} label={tab} />
+              <Tab key={tab} label={tab} component={Link} to={tabUrl(tab)} />
             ))}
           </Tabs>
         </Box>
@@ -73,8 +59,7 @@ export default function CourseLayout() {
         component="main"
         sx={{ flexGrow: 1, overflow: "auto", height: "100vh" }}
       >
-
-        <Outlet/>
+        <Outlet />
       </Box>
     </Box>
   );
