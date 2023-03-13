@@ -35,12 +35,11 @@ export default function CourseSettings() {
   }
   return (
     <Box sx={{ height: "100%", display:'flex' }}>
-      <Box sx={{ width: "270px", borderRight: 1, borderColor: "#DDDDDD" }}>
+      <Box sx={{ width: "270px", borderRight: 1, borderColor: "#DDDDDD" ,marginRight:"8px",}}>
         <Box
           sx={{
             backgroundColor: "Background",
             pt: 5,
-
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
