@@ -16,3 +16,8 @@ body {
 .active{
   color: #1B84BF
 }
+
+.selected{
+  color:#1B84BF;
+  font-weight: bold;
+}

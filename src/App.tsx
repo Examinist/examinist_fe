@@ -1,23 +1,8 @@
-import { createTheme, ThemeProvider } from '@mui/material';
+import { ThemeProvider } from '@mui/material';
 import './App.css'
 import AppRoutes from './app/routes/Routes'
+import theme from './assets/theme';
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#1B84BF",
-    },
-    secondary: {
-      main: "#6B6767",
-    },
-    background: {
-      default: "#F5F5F5",
-    },
-  },
-  typography: {
-    fontFamily: ["Montserrat", "sans-serif"].join(","),
-  },
-});
 
 const App = () => {
   return (
@@ -27,4 +12,4 @@ const App = () => {
   );
 }
 
-export default App
+export default App;
