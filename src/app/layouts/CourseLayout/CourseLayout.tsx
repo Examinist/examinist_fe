@@ -1,19 +1,27 @@
-import * as React from "react";
+import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
-import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
+import * as React from "react";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import theme from "../../../assets/theme";
-import { Toolbar, Typography } from "@mui/material";
-import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-
-const newTabUrl = (tabName: string) => tabName.toLowerCase().replace(" ", "-");
 
 const tabs = ["Question Bank", "Exams", "DashBoard", "Course Info", "Settings"];
+
+const tabUrl = (tabName: string) => tabName.toLowerCase().replace(" ", "-");
+
+const activeTab = (path: string) => {
+  for (const [i, tab] of tabs.entries()) {
+    if (path.includes(tabUrl(tab))) return i;
+  }
+};
+
 export default function CourseLayout() {
-  const [currTab, setCurrTab] = React.useState(newTabUrl(tabs[0]));
-  const handleChange = (event: React.SyntheticEvent, newTab: string) => {
-    setCurrTab(newTabUrl(newTab));
+  const location = useLocation();
+  const [currTab, setCurrTab] = React.useState(activeTab(location.pathname));
+
+  const handleChangeTab = (event: React.SyntheticEvent, newTab: number) => {
+    setCurrTab(newTab);
   };
 
   return (
@@ -40,14 +48,9 @@ export default function CourseLayout() {
         </Typography>
 
         <Box sx={{ alignSelf: "flex-end", flexGrow: 1 }}>
-          <Tabs value={currTab} onChange={handleChange} centered>
+          <Tabs value={currTab} onChange={handleChangeTab} centered>
             {tabs.map((tab) => (
-              <Tab
-                key={tab}
-                label={tab}
-                component={NavLink}
-                to={tab.toLowerCase().replace(" ", "-")}
-              />
+              <Tab key={tab} label={tab} component={NavLink} to={tabUrl(tab)} />
             ))}
           </Tabs>
         </Box>
