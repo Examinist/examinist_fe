@@ -1,6 +1,7 @@
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import InstructorLayout from "../layouts/instructorLayout/InstructorLayout";
 import Signin from "../pages/Auth/Signin";
+import Topics from "../pages/Course/CourseSettings/Topics";
 import Courses from "../pages/ListCourses";
 import Test from "../pages/Test";
 
@@ -16,6 +17,7 @@ const AppRoutes = () => {
           <Route path="exams" element={<Test />} />
           <Route path="dashboard" element={<Test />} />
           <Route path="calendar" element={<Test />} />
+          <Route path="topics" element={<Topics />} />
         </Route>
       </Routes>
     </Router>
