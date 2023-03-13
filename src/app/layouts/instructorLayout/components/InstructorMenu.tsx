@@ -72,11 +72,7 @@ export default function InstructorMenu() {
       <List>
         {menuItems.map((item) => (
           <div key={item.text}>
-            <MenuItem
-              {...item}
-              handleClick={handleClick}
-              selected={selectedItem === item.to}
-            />
+            <MenuItem {...item} />
           </div>
         ))}
       </List>
@@ -94,11 +90,7 @@ export default function InstructorMenu() {
       <List>
         {controlMenuItems.map((item) => (
           <div key={item.text}>
-            <MenuItem
-              {...item}
-              handleClick={handleClick}
-              selected={selectedItem === item.to}
-            />
+            <MenuItem {...item} />
           </div>
         ))}
       </List>

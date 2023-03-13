@@ -13,25 +13,19 @@ export interface IMenuItem {
   text: string;
   icon?: React.ReactElement;
   to: string;
-  handleClick?: any;
-  selected?: boolean;
 }
 
-export default function MenuItem({
-  text,
-  icon,
-  to,
-  handleClick,
-  selected = false,
-}: IMenuItem) {
+export default function MenuItem({ text, icon, to }: IMenuItem) {
+  const nonActiveColor = theme.palette.gray.dark;
+  const activeColor = theme.palette.primary.main;
+
   return (
     <NavLink
       to={to}
-      style={({ isActive, isPending }) => {
+      style={({ isActive }) => {
         return {
           textDecoration: "none",
-          color: isActive ? theme.palette.primary.main : "black",
-          fontWeight: isActive ? "bold" : "",
+          color: isActive ? activeColor : nonActiveColor,
         };
       }}
     >
@@ -39,20 +33,15 @@ export default function MenuItem({
         <ListItem disablePadding>
           <ListItemButton>
             {icon && (
-              <ListItemIcon
-                sx={
-                  isActive
-                    ? {
-                        color: theme.palette.primary.main,
-                        fontWeight: "bold",
-                      }
-                    : undefined
-                }
-              >
+              <ListItemIcon sx={{ color: isActive ? activeColor : "" }}>
                 {icon}
               </ListItemIcon>
             )}
-            {text}
+            <ListItemText
+              primary={
+                <Box sx={{ fontWeight: isActive ? "bold" : "" }}>{text}</Box>
+              }
+            />
           </ListItemButton>
         </ListItem>
       )}

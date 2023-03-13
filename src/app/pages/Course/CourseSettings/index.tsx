@@ -4,9 +4,6 @@ import { Outlet, useNavigate } from "react-router-dom";
 import theme from "../../../../assets/theme";
 import MenuItem, { IMenuItem } from "../../../components/MenuItem/MenuItem";
 
-
-const rootPath = "/instructor/course/settings";
-
 const menuItems: IMenuItem[] = [
   {
     text: "Topics",
@@ -20,21 +17,13 @@ const menuItems: IMenuItem[] = [
     text: "Exam Template",
     to: "exam-template",
   },
-
 ];
 
 export default function CourseSettings() {
   const navigate = useNavigate();
-  const [currMenuItem, setCurrMenuItem] = useState(menuItems[0].to);
-  useEffect(
-    () =>{
-      navigate("/instructor/course/settings/topics");
-    },[]);
-  const handleClick = (to:string)=>{
-    setCurrMenuItem(to);
-  }
+
   return (
-    <Box sx={{ height: "100%", display:'flex' }}>
+    <Box sx={{ height: "100%", display: "flex" }}>
       <Box sx={{ width: "270px", borderRight: 1, borderColor: "#DDDDDD" }}>
         <Box
           sx={{
@@ -62,7 +51,7 @@ export default function CourseSettings() {
                 key={item.text}
                 style={{ marginBlock: "20px", textAlign: "center" }}
               >
-                <MenuItem {...item} selected={currMenuItem === item.to} handleClick={handleClick} />
+                <MenuItem {...item} />
               </div>
             ))}
           </List>
