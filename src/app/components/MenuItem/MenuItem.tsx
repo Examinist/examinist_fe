@@ -30,7 +30,8 @@ export default function MenuItem({
       style={({ isActive, isPending }) => {
         return {
           textDecoration: "none",
-          color: isPending ? "" : "black",
+          color: isActive ? theme.palette.primary.main : "black",
+          fontWeight: isActive ? "bold" : "",
         };
       }}
     >
@@ -51,22 +52,7 @@ export default function MenuItem({
                 {icon}
               </ListItemIcon>
             )}
-            <ListItemText
-              primary={
-                <Box
-                  sx={
-                    isActive
-                      ? {
-                          color: theme.palette.primary.main,
-                          fontWeight: "bold",
-                        }
-                      : undefined
-                  }
-                >
-                  {text}
-                </Box>
-              }
-            />
+            {text}
           </ListItemButton>
         </ListItem>
       )}
