@@ -1,6 +1,5 @@
-import { Box, Grid, List, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Box, List, Typography } from "@mui/material";
+import { Outlet } from "react-router-dom";
 import theme from "../../../../assets/theme";
 import MenuItem, { IMenuItem } from "../../../components/MenuItem/MenuItem";
 
@@ -20,8 +19,6 @@ const menuItems: IMenuItem[] = [
 ];
 
 export default function CourseSettings() {
-  const navigate = useNavigate();
-
   return (
     <Box sx={{ height: "100%", display: "flex" }}>
       <Box sx={{ width: "270px", borderRight: 1, borderColor: "#DDDDDD" }}>

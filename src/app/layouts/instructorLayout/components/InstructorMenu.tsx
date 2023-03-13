@@ -1,22 +1,13 @@
-import {
-  Box,
-  Divider,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-} from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Box, Divider, List } from "@mui/material";
 import theme from "../../../../assets/theme";
 import MenuItem, { IMenuItem } from "../../../components/MenuItem/MenuItem";
 
-import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
-import GridViewOutlinedIcon from "@mui/icons-material/GridViewOutlined";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
-import QuizOutlinedIcon from "@mui/icons-material/QuizOutlined";
+import GridViewOutlinedIcon from "@mui/icons-material/GridViewOutlined";
 import MonitorOutlinedIcon from "@mui/icons-material/MonitorOutlined";
 import PendingActionsOutlinedIcon from "@mui/icons-material/PendingActionsOutlined";
+import QuizOutlinedIcon from "@mui/icons-material/QuizOutlined";
+import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 
 const menuItems: IMenuItem[] = [
   {
@@ -54,19 +45,7 @@ const controlMenuItems: IMenuItem[] = [
   },
 ];
 
-const getCurrentMenuItem = (path: string) => {
-  const arr = path.split("/");
-  return arr[2];
-};
 export default function InstructorMenu() {
-  const location = useLocation();
-  const [selectedItem, setSelectedItem] = useState(
-    getCurrentMenuItem(location.pathname)
-  );
-  const handleClick = (to: string) => {
-    setSelectedItem(to);
-  };
-
   return (
     <Box sx={{ overflow: "auto", px: "1rem", py: "0.5rem" }}>
       <List>
