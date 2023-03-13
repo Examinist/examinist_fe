@@ -25,38 +25,51 @@ export default function MenuItem({
   selected = false,
 }: IMenuItem) {
   return (
-    <ListItem disablePadding style={{ textAlign: "center" }}>
-      <ListItemButton
-        component={NavLink}
-        to={to}
-        onClick={() => handleClick(to)}
-      >
-        {icon ? (
-          <ListItemIcon
-            sx={
-              selected
-                ? { color: theme.palette.primary.main, fontWeight: "bold" }
-                : {}
-            }
-          >
-            {icon}
-          </ListItemIcon>
-        ) : null}
-        <ListItemText
-          className={selected ? "selected" : ""}
-          primary={
-            <Box
-              sx={
-                selected
-                  ? { color: theme.palette.primary.main, fontWeight: "bold" }
-                  : {}
+    <NavLink
+      to={to}
+      style={({ isActive, isPending }) => {
+        return {
+          textDecoration: "none",
+          color: isPending ? "" : "black",
+        };
+      }}
+    >
+      {({ isActive }) => (
+        <ListItem disablePadding>
+          <ListItemButton>
+            {icon && (
+              <ListItemIcon
+                sx={
+                  isActive
+                    ? {
+                        color: theme.palette.primary.main,
+                        fontWeight: "bold",
+                      }
+                    : undefined
+                }
+              >
+                {icon}
+              </ListItemIcon>
+            )}
+            <ListItemText
+              primary={
+                <Box
+                  sx={
+                    isActive
+                      ? {
+                          color: theme.palette.primary.main,
+                          fontWeight: "bold",
+                        }
+                      : undefined
+                  }
+                >
+                  {text}
+                </Box>
               }
-            >
-              {text}
-            </Box>
-          }
-        />
-      </ListItemButton>
-    </ListItem>
+            />
+          </ListItemButton>
+        </ListItem>
+      )}
+    </NavLink>
   );
 }
