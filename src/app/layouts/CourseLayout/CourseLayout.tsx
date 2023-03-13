@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import * as React from "react";
-import { NavLink, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import theme from "../../../assets/theme";
 
 const tabs = ["Question Bank", "Exams", "DashBoard", "Course Info", "Settings"];
@@ -50,7 +50,7 @@ export default function CourseLayout() {
         <Box sx={{ alignSelf: "flex-end", flexGrow: 1 }}>
           <Tabs value={currTab} onChange={handleChangeTab} centered>
             {tabs.map((tab) => (
-              <Tab key={tab} label={tab} component={NavLink} to={tabUrl(tab)} />
+              <Tab key={tab} label={tab} component={Link} to={tabUrl(tab)} />
             ))}
           </Tabs>
         </Box>
