@@ -43,6 +43,7 @@ export default function CustomTabs({tabs}: {tabs: ITab[]}) {
       };
 
       const handlePopoverClose = () => {
+        setCurrTab(hoverTab);
         setAnchorEl(null);
       };
 
