@@ -1,28 +1,40 @@
-import { Typography } from "@mui/material";
+import {
+  MenuItem,
+  MenuList,
+  Paper,
+  Popper,
+  Typography,
+} from "@mui/material";
 import Box from "@mui/material/Box";
-import Tab from "@mui/material/Tab";
-import Tabs from "@mui/material/Tabs";
+// import ITab from "@mui/material/Tab";
+// import Tabs from "@mui/material/Tabs";
 import * as React from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import theme from "../../../assets/theme";
+import CustomTabs, { ITab } from "../../components/CustomTabs/CustomTabs";
 
-const tabs = ["Question Bank", "Exams", "DashBoard", "Course Info", "Settings"];
-
-const tabUrl = (tabName: string) => tabName.toLowerCase().replace(" ", "-");
-
-const activeTab = (path: string) => {
-  for (const [i, tab] of tabs.entries()) {
-    if (path.includes(tabUrl(tab))) return i;
-  }
-};
+const tabs: ITab[] = [
+  { name: "Question Bank" },
+  { name: "Exams" },
+  { name: "DashBoard" },
+  {
+    name: "Course Info",
+    menu: [
+      { name: "General Info", to: "course-info/general-info" },
+      { name: "Course Groups", to: "course-info/course-groups" },
+    ],
+  },
+  {
+    name: "Settings",
+    menu: [
+      { name: "Topics", to: "settings/topics" },
+      { name: "Question Types", to: "settings/question-types" },
+      { name: "Exam Template", to: "settings/exam-template" },
+    ],
+  },
+];
 
 export default function CourseLayout() {
-  const location = useLocation();
-  const [currTab, setCurrTab] = React.useState(activeTab(location.pathname));
-
-  const handleChangeTab = (event: React.SyntheticEvent, newTab: number) => {
-    setCurrTab(newTab);
-  };
 
   return (
     <Box>
@@ -48,16 +60,12 @@ export default function CourseLayout() {
         </Typography>
 
         <Box sx={{ alignSelf: "flex-end", flexGrow: 1 }}>
-          <Tabs value={currTab} onChange={handleChangeTab} centered>
-            {tabs.map((tab) => (
-              <Tab key={tab} label={tab} component={Link} to={tabUrl(tab)} />
-            ))}
-          </Tabs>
+          <CustomTabs tabs={tabs}/>
         </Box>
       </Box>
       <Box
         component="main"
-        sx={{ flexGrow: 1, overflow: "auto", height: "100vh" }}
+        sx={{ flexGrow: 1, overflow: "auto", height: "100vh", px: 15, py: 3 }}
       >
         <Outlet />
       </Box>

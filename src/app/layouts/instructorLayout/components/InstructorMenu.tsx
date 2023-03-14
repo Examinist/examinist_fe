@@ -1,6 +1,8 @@
 import { Box, Divider, List } from "@mui/material";
 import theme from "../../../../assets/theme";
-import MenuItem, { IMenuItem } from "../../../components/MenuItem/MenuItem";
+import CustomListItem, {
+  IListItem,
+} from "../../../components/CustomListItem/CustomListItem";
 
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import GridViewOutlinedIcon from "@mui/icons-material/GridViewOutlined";
@@ -9,7 +11,7 @@ import PendingActionsOutlinedIcon from "@mui/icons-material/PendingActionsOutlin
 import QuizOutlinedIcon from "@mui/icons-material/QuizOutlined";
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 
-const menuItems: IMenuItem[] = [
+const menuItems: IListItem[] = [
   {
     text: "Courses",
     icon: <GridViewOutlinedIcon />,
@@ -32,7 +34,7 @@ const menuItems: IMenuItem[] = [
   },
 ];
 
-const controlMenuItems: IMenuItem[] = [
+const controlMenuItems: IListItem[] = [
   {
     text: "Exam Sessions",
     icon: <MonitorOutlinedIcon />,
@@ -51,7 +53,7 @@ export default function InstructorMenu() {
       <List>
         {menuItems.map((item) => (
           <div key={item.text}>
-            <MenuItem {...item} />
+            <CustomListItem {...item} />
           </div>
         ))}
       </List>
@@ -69,7 +71,7 @@ export default function InstructorMenu() {
       <List>
         {controlMenuItems.map((item) => (
           <div key={item.text}>
-            <MenuItem {...item} />
+            <CustomListItem {...item} />
           </div>
         ))}
       </List>

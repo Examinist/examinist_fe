@@ -1,9 +1,11 @@
 import { Box, List, Typography } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import theme from "../../../../assets/theme";
-import MenuItem, { IMenuItem } from "../../../components/MenuItem/MenuItem";
+import CustomListItem, {
+  IListItem,
+} from "../../../components/CustomListItem/CustomListItem";
 
-const menuItems: IMenuItem[] = [
+const menuItems: IListItem[] = [
   {
     text: "Topics",
     to: "topics",
@@ -47,7 +49,7 @@ export default function CourseSettings() {
                 key={item.text}
                 style={{ marginBlock: "20px", textAlign: "center" }}
               >
-                <MenuItem {...item} />
+                <CustomListItem {...item} />
               </div>
             ))}
           </List>

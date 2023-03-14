@@ -35,7 +35,7 @@ const AppRoutes = () => {
               <Route path="exams" element={<Exams />} />
               <Route path="course-info" element={<CourseInfo />} />
               <Route path="dashboard" element={<Dashboard />} />
-              <Route path="settings" element={<CourseSettings />}>
+              <Route path="settings">
                 <Route path="" element={<Navigate to="topics" />} />
                 <Route path="question-types" element={<QuestionTypes />} />
                 <Route path="topics" element={<Topics />} />

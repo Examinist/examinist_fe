@@ -39,8 +39,8 @@ export default function Topics() {
 
   return (
     <Box>
-      <Grid container>
-        <Grid item xs={9}>
+      <Grid container sx={{mb: 4}}>
+        <Grid item xs={8} md={10}>
           <Box sx={{
             fontSize: "2rem",
             fontWeight: "medium",
@@ -48,7 +48,7 @@ export default function Topics() {
           }}>
             Course Topics</Box>
         </Grid>
-        <Grid item xs={2.5}>
+        <Grid item xs={4} md={2}>
           <Button
             variant='outlined'
             onClick={handleAddTopicButton}
@@ -61,10 +61,9 @@ export default function Topics() {
               border: 1,
               fontSize: "14px",
               fontWeight: "bold",
-              fontFamily: "montserrat",
               textTransform: 'none',
               borderRadius: "10px",
-            }}>Add new topic
+            }}>Add New Topic
           </Button>
         </Grid>
       </Grid>
@@ -72,35 +71,49 @@ export default function Topics() {
       disablePadding
       sx={{
         marginTop:"5px",
-        marginLeft: "20px",
+        mx: "20px",
         bgcolor: "White",
         borderRadius: "15px",
       }}>
         {topics.map((value, index) => {
           return (
-            <Box>
-              <ListItem secondaryAction={
-                <IconButton onClick={() => handleRename(index)}>
-                  <EditIcon />
-                </IconButton>
-              }>
-                {renameTopics[index] ? <TextField
-                //value={topics[index]}
-                onKeyDown={(event)=>handleTopicChange(event,index)}
-                size='small'
-                label="Enter new topic name"
-                sx={{
-                  bgcolor: "#F5F5F5",
-                  borderColor: "#D9D9D9",
-                  width: "35%",
-                  '& .MuiFormLabel-root': {
-                    fontSize: "14px",
-                    fontWeight: "medium",
-                  },
-                }}></TextField> : <ListItemText primary={value} sx={{ color: "Black", }}></ListItemText>}
-              </ListItem>
-              {index != (topics.length - 1) && <Divider sx={{ color: "#D9D9D9" }}></Divider>}
-            </Box>
+            <div key={value}>
+              <Box>
+                <ListItem
+                  secondaryAction={
+                    <IconButton onClick={() => handleRename(index)}>
+                      <EditIcon />
+                    </IconButton>
+                  }
+                >
+                  {renameTopics[index] ? (
+                    <TextField
+                      //value={topics[index]}
+                      onKeyDown={(event) => handleTopicChange(event, index)}
+                      size="small"
+                      label="Enter new topic name"
+                      sx={{
+                        bgcolor: "#F5F5F5",
+                        borderColor: "#D9D9D9",
+                        width: "35%",
+                        "& .MuiFormLabel-root": {
+                          fontSize: "14px",
+                          fontWeight: "medium",
+                        },
+                      }}
+                    ></TextField>
+                  ) : (
+                    <ListItemText
+                      primary={value}
+                      sx={{ color: "Black" }}
+                    ></ListItemText>
+                  )}
+                </ListItem>
+                {index != topics.length - 1 && (
+                  <Divider sx={{ color: "#D9D9D9" }}></Divider>
+                )}
+              </Box>
+            </div>
           );
         })}
         {addTopic &&

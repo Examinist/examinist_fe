@@ -6,16 +6,16 @@ import {
   ListItemText,
 } from "@mui/material";
 import React from "react";
-import {NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import theme from "../../../assets/theme";
 
-export interface IMenuItem {
+export interface IListItem {
   text: string;
   icon?: React.ReactElement;
   to: string;
 }
 
-export default function MenuItem({ text, icon, to }: IMenuItem) {
+export default function CustomListItem({ text, icon, to }: IListItem) {
   const nonActiveColor = theme.palette.gray.dark;
   const activeColor = theme.palette.primary.main;
 
