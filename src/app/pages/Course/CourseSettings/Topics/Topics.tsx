@@ -14,7 +14,7 @@ export default function Topics() {
     showAddTopic(!addTopic);
   };
 
-  const handleTopicChange = (event,index: number) =>{
+  const handleTopicChange = (event:any,index: number) =>{
     if(event.key=='Enter'){
       let topicName = [...topics];
       topicName[index] = event.target.value;
@@ -23,7 +23,7 @@ export default function Topics() {
     }
   }
 
-  const handleAddTopic = (event) =>{
+  const handleAddTopic = (event:any) =>{
     if(event.key=='Enter'){
       let topicName = [...topics,event.target.value];
       changeTopics(topicName);

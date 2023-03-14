@@ -6,7 +6,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import React from "react";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import {NavLink } from "react-router-dom";
 import theme from "../../../assets/theme";
 
 export interface IMenuItem {

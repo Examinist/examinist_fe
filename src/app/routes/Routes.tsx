@@ -7,15 +7,15 @@ import {
 import CourseLayout from "../layouts/CourseLayout/CourseLayout";
 import InstructorLayout from "../layouts/instructorLayout/InstructorLayout";
 import Signin from "../pages/Auth/Signin";
-import CourseInfo from "../pages/Course/CourseInfo";
+import CourseInfo from "../pages/Course/CourseInfo/CourseInfo";
 import CourseSettings from "../pages/Course/CourseSettings";
-import QuestionTypes from "../pages/Course/CourseSettings/QuestionTypse";
-import Template from "../pages/Course/CourseSettings/Template";
-import Topics from "../pages/Course/CourseSettings/Topics";
-import Dashboard from "../pages/Course/DashBoard";
-import Exams from "../pages/Course/Exams";
-import QuestionBank from "../pages/Course/QuestionBank";
-import Courses from "../pages/ListCourses";
+import QuestionTypes from "../pages/Course/CourseSettings/QuestionTypes/QuestionTypes";
+import Template from "../pages/Course/CourseSettings/Template/Template";
+import Topics from "../pages/Course/CourseSettings/Topics/Topics";
+import Dashboard from "../pages/Course/DashBoard/DashBoard";
+import Exams from "../pages/Course/Exams/Exams";
+import QuestionBank from "../pages/Course/QuestionBank/QuestionBank";
+import Courses from "../pages/ListCourses/ListCourses";
 import Test from "../pages/Test";
 
 const AppRoutes = () => {
