@@ -1,42 +1,40 @@
-import * as React from "react";
+import {
+  MenuItem,
+  MenuList,
+  Paper,
+  Popper,
+  Typography,
+} from "@mui/material";
 import Box from "@mui/material/Box";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
+// import ITab from "@mui/material/Tab";
+// import Tabs from "@mui/material/Tabs";
+import * as React from "react";
+import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import theme from "../../../assets/theme";
-import {Toolbar, Typography } from "@mui/material";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import CustomTabs, { ITab } from "../../components/CustomTabs/CustomTabs";
 
-const rootPath = "/instructor/course/";
-const defaultTab = "question-bank"; 
-const getCurrentTab= (path: string) => {
-  const arr = path.split("/");
-  return (arr.length == 3 || arr[3] === '') ? defaultTab : arr[3];
-};
+const tabs: ITab[] = [
+  { name: "Question Bank" },
+  { name: "Exams" },
+  { name: "DashBoard" },
+  {
+    name: "Course Info",
+    menu: [
+      { name: "General Info", to: "course-info/general-info" },
+      { name: "Course Groups", to: "course-info/course-groups" },
+    ],
+  },
+  {
+    name: "Settings",
+    menu: [
+      { name: "Topics", to: "settings/topics" },
+      { name: "Question Types", to: "settings/question-types" },
+      { name: "Exam Template", to: "settings/exam-template" },
+    ],
+  },
+];
 
-
-const tabs = ["Question Bank", "Exams", "DashBoard", "Course Info", "Settings"]
 export default function CourseLayout() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const [value, setValue] = React.useState(0);
-  const [currTab, setCurrTab] = React.useState(getCurrentTab(location.pathname))
-  const isFirstRender = () => location.pathname.split("/").length == 3;
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-    const newTap = tabs[newValue].toLowerCase().replace(" ", "-");
-    setCurrTab(newTap);
-    navigate(rootPath + newTap);
-    localStorage.setItem('course-tab', newValue.toString());
-  };
-
-  useEffect(() => {
-    if (!isFirstRender()) {
-      setValue(parseInt(localStorage.getItem("course-tab") || "0"));
-    }
-    navigate(rootPath + getCurrentTab(location.pathname));
-  
-  }, []);
 
   return (
     <Box>
@@ -62,19 +60,14 @@ export default function CourseLayout() {
         </Typography>
 
         <Box sx={{ alignSelf: "flex-end", flexGrow: 1 }}>
-          <Tabs value={value} onChange={handleChange} centered>
-            {tabs.map((tab) => (
-              <Tab key={tab} label={tab} />
-            ))}
-          </Tabs>
+          <CustomTabs tabs={tabs}/>
         </Box>
       </Box>
       <Box
         component="main"
-        sx={{ flexGrow: 1, overflow: "auto", height: "100vh" }}
+        sx={{ flexGrow: 1, overflow: "auto", height: "100vh", px: 15, py: 3 }}
       >
-
-        <Outlet/>
+        <Outlet />
       </Box>
     </Box>
   );
