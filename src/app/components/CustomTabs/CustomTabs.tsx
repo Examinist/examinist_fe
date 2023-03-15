@@ -50,7 +50,7 @@ export default function CustomTabs({tabs}: {tabs: ITab[]}) {
       const open = Boolean(anchorEl);
       
   return (
-    <Box onMouseLeave={handlePopoverClose}>
+    <Box onMouseLeave={() => setAnchorEl(null)}>
       <Tabs value={currTab} onChange={handleChangeTab} centered>
         {tabs.map(({ name }, index) => (
           <Tab

@@ -7,7 +7,7 @@ const OnlineExamsImage = () => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clip-path="url(#clip0_69_42)">
+      <g clipPath="url(#clip0_69_42)">
         <path
           d="M404.823 291.043H15.1152C6.78081 291.043 0 284.262 0 275.928V229.023H419.938V275.928C419.938 284.262 413.158 291.043 404.823 291.043Z"
           fill="#F5F5F5"

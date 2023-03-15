@@ -26,7 +26,7 @@ export default function Template() {
     editPercDiff(diff)
   }
 
-  const handleTypeChange = (event, index: number) => {
+  const handleTypeChange = (event: any, index: number) => {
     if (event.key == 'Enter') {
       let types = [...questionType]
       types[index].percent = event.target.value;
@@ -35,7 +35,7 @@ export default function Template() {
     }
   }
 
-  const handleDiffChange = (event, index: number) => {
+  const handleDiffChange = (event: any, index: number) => {
     if (event.key == 'Enter') {
       let diff = [...difficulty]
       diff[index].percent = event.target.value;
