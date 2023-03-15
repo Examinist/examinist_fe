@@ -57,15 +57,16 @@ export default function Template() {
       </Box>
       <Box
         sx={{
-          marginTop: "5px",
+          marginTop: "10px",
           marginLeft: "20px",
           bgcolor: "White",
           borderRadius: "15px",
+          paddingBottom: "8px",
         }}>
         <Typography
           sx={{
-            marginLeft: "9px",
-            paddingTop: "3px",
+            marginLeft: "10px",
+            paddingTop: "8px",
             fontSize: "23px",
           }}>
           Question Types
@@ -87,7 +88,7 @@ export default function Template() {
                   </IconButton>
                 }>
                   <Grid container
-                  sx={{marginLeft: "2px"}}>
+                  sx={{marginLeft: "4px"}}>
                     <Grid item xs={3}>
                       <ListItemText primary={value.name} 
                       sx={{ color: "#6B6767", width: '100%', 
@@ -97,7 +98,6 @@ export default function Template() {
                     <Grid item xs={3}>
                       {percType[index] ? <TextField
                         onKeyDown={(event) => handleTypeChange(event, index)}
-                        size='small'
                         placeholder='%'
                         InputProps={{sx:{height: "30px", "& input":{textAlign:"right"}}}}
                         sx={{
@@ -116,15 +116,16 @@ export default function Template() {
       </Box>
       <Box
         sx={{
-          marginTop: "20px",
+          marginTop: "25px",
           marginLeft: "20px",
           bgcolor: "White",
           borderRadius: "15px",
+          paddingBottom:"8px"
         }}>
         <Typography
           sx={{
-            marginLeft: "9px",
-            paddingTop: "3px",
+            marginLeft: "10px",
+            paddingTop: "8px",
             fontSize: "23px",
           }}>
           Difficulty Levels
@@ -145,7 +146,7 @@ export default function Template() {
                     <EditIcon />
                   </IconButton>
                 }>
-                  <ListItemIcon sx={{minWidth: "30px"}}>
+                  <ListItemIcon sx={{minWidth: "30px", marginLeft:"2px"}}>
                     <SquareRounded
                     fontSize='medium'
                     sx={{
@@ -163,7 +164,6 @@ export default function Template() {
                     <Grid item xs={3}>
                       {percDiff[index] ? <TextField
                         onKeyDown={(event) => handleDiffChange(event, index)}
-                        size='small'
                         placeholder='%'
                         InputProps={{sx:{height: "30px", "& input":{textAlign:"right"}}}}
                         sx={{

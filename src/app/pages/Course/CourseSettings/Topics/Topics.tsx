@@ -39,8 +39,8 @@ export default function Topics() {
 
   return (
     <Box>
-      <Grid container sx={{mb: 4}}>
-        <Grid item xs={8} md={10}>
+      <Grid container sx={{mb: 1}}>
+        <Grid item xs={8} md={8.5}>
           <Box sx={{
             fontSize: "2rem",
             fontWeight: "medium",
@@ -48,7 +48,7 @@ export default function Topics() {
           }}>
             Course Topics</Box>
         </Grid>
-        <Grid item xs={4} md={2}>
+        <Grid item xs={4} md={3}>
           <Button
             variant='outlined'
             onClick={handleAddTopicButton}
@@ -88,10 +88,9 @@ export default function Topics() {
                 >
                   {renameTopics[index] ? (
                     <TextField
-                      //value={topics[index]}
                       onKeyDown={(event) => handleTopicChange(event, index)}
-                      size="small"
-                      label="Enter new topic name"
+                      placeholder="Enter new topic name"
+                      InputProps={{sx:{height: "32px",}}}
                       sx={{
                         bgcolor: "#F5F5F5",
                         borderColor: "#D9D9D9",
