@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   FormControl,
@@ -18,16 +19,18 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 enum Role {
   Student = "Student",
   UniversityStaff = "University Staff",
 }
 
-interface SignInInputs{
-    username: string;
-    password: string;
-    role: Role;
+interface SignInInputs {
+  username: string;
+  password: string;
+  role: Role;
 }
 
 const initialState: SignInInputs = {
@@ -36,25 +39,34 @@ const initialState: SignInInputs = {
   role: Role.UniversityStaff,
 };
 
-
 const schema = yup.object({
   username: yup.string().required("Username is required"),
   password: yup.string().required("Password is required"),
-  role: yup.string().required("Role is required"),  
+  role: yup.string().required("Role is required"),
 });
 
+const url = "/admin_portal/sessions";
 
 export default function SignInForm() {
-    const {
-      register,
-      handleSubmit,
-      control,
-      formState: { errors },
-    } = useForm<SignInInputs>({
-      resolver: yupResolver(schema),
-      defaultValues: initialState,
-    });
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<SignInInputs>({
+    resolver: yupResolver(schema),
+    defaultValues: initialState,
+  });
 
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
+
+  const navigate = useNavigate();
+
+  const navigateToLayout = (role: string) => {
+    if(role === 'instructor'){
+      navigate('/instructor');
+    }
+  };
 
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -64,8 +76,24 @@ export default function SignInForm() {
     event.preventDefault();
   };
 
-
-  const onSubmit: SubmitHandler<SignInInputs>= (data: SignInInputs) => console.log(data);
+  const onSubmit: SubmitHandler<SignInInputs> = (data: SignInInputs) => {
+    axios
+      .post(url, data)
+      .then(({data: {status, data, message}}) => {
+        console.log(data);
+        if (status === "success") {
+          // console.log(data);
+          navigateToLayout(data.role);
+        }
+        else {
+          setErrorMessage(message);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    console.log(data);
+  };
 
   return (
     <form
@@ -100,6 +128,7 @@ export default function SignInForm() {
             Use your academic email and password to sign in to Examinist
           </Box>
         </Box>
+       { errorMessage && <Alert severity="error" >{errorMessage}</Alert>}
 
         <Box sx={{ display: "flex", flexDirection: "column", rowGap: "1rem" }}>
           <TextField
