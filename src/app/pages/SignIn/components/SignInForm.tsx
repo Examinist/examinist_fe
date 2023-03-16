@@ -63,8 +63,8 @@ export default function SignInForm() {
   const navigate = useNavigate();
 
   const navigateToLayout = (role: string) => {
-    if(role === 'instructor'){
-      navigate('/instructor');
+    if (role === "instructor") {
+      navigate("/instructor");
     }
   };
 
@@ -76,23 +76,42 @@ export default function SignInForm() {
     event.preventDefault();
   };
 
-  const onSubmit: SubmitHandler<SignInInputs> = (data: SignInInputs) => {
-    axios
-      .post(url, data)
-      .then(({data: {status, data, message}}) => {
-        console.log(data);
-        if (status === "success") {
-          // console.log(data);
-          navigateToLayout(data.role);
-        }
-        else {
-          setErrorMessage(message);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    console.log(data);
+  async function login(inputs: SignInInputs){
+    console.log(localStorage.getItem("user"))
+     try {
+       const response = await axios.post(url, inputs);
+       const { status, data, message } = response.data;
+       if (status === "success") {
+        
+        localStorage.setItem("auth_token", data.auth_token);
+        localStorage.setItem("user", JSON.stringify(data));
+         navigateToLayout(data.role);
+       } else {
+         setErrorMessage(message);
+       }
+     } catch (error) {
+       console.error(error);
+     }
+     
+  }
+
+  const onSubmit: SubmitHandler<SignInInputs> = async (inputs: SignInInputs) => {
+    login(inputs);
+    // axios
+    //   .post(url, inputs)
+    //   .then(({data: {status, data, message}}) => {
+    //     console.log(data);
+    //     if (status === "success") {
+    //       // console.log(data);
+    //       navigateToLayout(data.role);
+    //     }
+    //     else {
+    //       setErrorMessage(message);
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   };
 
   return (
@@ -128,7 +147,7 @@ export default function SignInForm() {
             Use your academic email and password to sign in to Examinist
           </Box>
         </Box>
-       { errorMessage && <Alert severity="error" >{errorMessage}</Alert>}
+        {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
 
         <Box sx={{ display: "flex", flexDirection: "column", rowGap: "1rem" }}>
           <TextField

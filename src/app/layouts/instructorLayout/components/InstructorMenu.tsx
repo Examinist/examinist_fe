@@ -1,5 +1,4 @@
 import { Box, Divider, List } from "@mui/material";
-import theme from "../../../../assets/theme";
 import CustomListItem, {
   IListItem,
 } from "../../../components/CustomListItem/CustomListItem";
@@ -10,6 +9,7 @@ import MonitorOutlinedIcon from "@mui/icons-material/MonitorOutlined";
 import PendingActionsOutlinedIcon from "@mui/icons-material/PendingActionsOutlined";
 import QuizOutlinedIcon from "@mui/icons-material/QuizOutlined";
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
+import { useTheme } from "@mui/material/styles";
 
 const menuItems: IListItem[] = [
   {
@@ -48,6 +48,7 @@ const controlMenuItems: IListItem[] = [
 ];
 
 export default function InstructorMenu() {
+  const theme = useTheme();
   return (
     <Box sx={{ overflow: "auto", px: "1rem", py: "0.5rem" }}>
       <List>
