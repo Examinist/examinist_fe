@@ -21,6 +21,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../../../hooks/useAuth";
 
 enum Role {
   Student = "Student",
@@ -48,6 +49,7 @@ const schema = yup.object({
 const url = "/admin_portal/sessions";
 
 export default function SignInForm() {
+  const { auth, setAuth } = useAuth();
   const {
     register,
     handleSubmit,
@@ -84,7 +86,10 @@ export default function SignInForm() {
        if (status === "success") {
         
         localStorage.setItem("auth_token", data.auth_token);
-        localStorage.setItem("user", JSON.stringify(data));
+        // localStorage.setItem("user", JSON.stringify(data));
+         setAuth(data);
+         console.log(auth);
+
          navigateToLayout(data.role);
        } else {
          setErrorMessage(message);
