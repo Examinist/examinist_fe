@@ -49,7 +49,6 @@ const controlMenuItems: IListItem[] = [
 ];
 
 export default function InstructorMenu() {
-  const theme = useTheme();
   return (
     <Box sx={{ overflow: "auto", px: "1rem", py: "0.5rem" }}>
       <List>

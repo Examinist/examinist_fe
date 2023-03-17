@@ -12,6 +12,7 @@ import { Divider } from "@mui/material";
 const drawerWidth = 260;
 
 export default function InstructorLayout() {
+  console.log(`4`)
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
