@@ -19,16 +19,16 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
+import { loginAPI } from "../../../apis/AuthApi";
 
 enum Role {
   Student = "Student",
   UniversityStaff = "University Staff",
 }
 
-interface SignInInputs {
+export interface SignInInputs {
   username: string;
   password: string;
   role: Role;
@@ -50,6 +50,10 @@ const url = "/admin_portal/sessions";
 
 export default function SignInForm() {
   const { auth, setAuth } = useAuth();
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const {
     register,
     handleSubmit,
@@ -61,8 +65,6 @@ export default function SignInForm() {
   });
 
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
-
-  const navigate = useNavigate();
 
   const navigateToLayout = (role: string) => {
     if (role === "instructor") {
@@ -78,45 +80,19 @@ export default function SignInForm() {
     event.preventDefault();
   };
 
-  async function login(inputs: SignInInputs){
-    console.log(localStorage.getItem("user"))
-     try {
-       const response = await axios.post(url, inputs);
-       const { status, data, message } = response.data;
-       if (status === "success") {
-        
+  const onSubmit: SubmitHandler<SignInInputs> = (inputs: SignInInputs) => {
+    loginAPI(inputs)
+    .then((response) => {
+      const { status, data, message } = response;
+      if (status === "success") {
         localStorage.setItem("auth_token", data.auth_token);
-        // localStorage.setItem("user", JSON.stringify(data));
-         setAuth(data);
-         console.log(auth);
-
-         navigateToLayout(data.role);
-       } else {
-         setErrorMessage(message);
-       }
-     } catch (error) {
-       console.error(error);
-     }
-     
-  }
-
-  const onSubmit: SubmitHandler<SignInInputs> = async (inputs: SignInInputs) => {
-    login(inputs);
-    // axios
-    //   .post(url, inputs)
-    //   .then(({data: {status, data, message}}) => {
-    //     console.log(data);
-    //     if (status === "success") {
-    //       // console.log(data);
-    //       navigateToLayout(data.role);
-    //     }
-    //     else {
-    //       setErrorMessage(message);
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+        setAuth(data);
+        const from = location.state?.from?.pathname || "/instructor";
+        navigate(from, { replace: true });
+      } else {
+        setErrorMessage(message);
+      }
+    });
   };
 
   return (
