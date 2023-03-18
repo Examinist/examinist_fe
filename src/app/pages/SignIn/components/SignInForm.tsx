@@ -81,18 +81,20 @@ export default function SignInForm() {
   };
 
   const onSubmit: SubmitHandler<SignInInputs> = (inputs: SignInInputs) => {
-    loginAPI(inputs)
-    .then((response) => {
-      const { status, data, message } = response;
-      if (status === "success") {
-        localStorage.setItem("auth_token", data.auth_token);
-        setAuth(data);
-        const from = location.state?.from?.pathname || "/instructor";
-        navigate(from, { replace: true });
-      } else {
-        setErrorMessage(message);
-      }
-    });
+    // loginAPI(inputs)
+    // .then((response) => {
+    //   const { status, data, message } = response;
+    //   if (status === "success") {
+    //     localStorage.setItem("auth_token", data.auth_token);
+    //     setAuth(data);
+    //     const from = location.state?.from?.pathname || "/instructor";
+    //     navigate(from, { replace: true });
+    //   } else {
+    //     setErrorMessage(message);
+    //   }
+    // });
+ 
+     navigate("/instructor");
   };
 
   return (
