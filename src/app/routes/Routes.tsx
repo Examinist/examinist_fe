@@ -27,7 +27,7 @@ const AppRoutes = () => {
         <Route path="/login" element={<Signin />} />
         <Route path="/test" element={<Test />} />
 
-        {/* <Route element={<RequireAuth allowedRole="instructor"/>}> */}
+        <Route element={<RequireAuth allowedRole="instructor"/>}>
           <Route path="instructor" element={<InstructorLayout />}>
              <Route path="" element={<Navigate to="courses" />}/>
             <Route path="test" element={<Test />} />
@@ -53,7 +53,7 @@ const AppRoutes = () => {
             <Route path="exam-sessions" element={<Test />} />
             <Route path="pending-reports" element={<Test />} />
           </Route>
-        {/* </Route> */}
+        </Route>
 
         <Route path="/unauthorized" element={<UnAuthorized />} />
 

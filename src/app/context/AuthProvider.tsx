@@ -1,23 +1,39 @@
-import {createContext, useState, ReactNode} from 'react'
+import { createContext, useState, ReactNode } from "react";
+
+export type User = {
+  auth_token: string;
+  role: string;
+  username: string;
+  first_name: string;
+  last_name: string;
+};
 
 type AuthContextType = {
-    auth: any;
-    setAuth: (auth: any) => void;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  user?: User;
+  setUser: (user: User) => void;
+  setIsLoading: (isLoading: boolean) => void;
+  setIsAuthenticated: (isAuthenticated: boolean) => void;
+};
 
-}
 const AuthContext = createContext<AuthContextType>({
-    auth: {},
-    setAuth: () => {}
+  setUser: () => {},
+  isAuthenticated: false,
+  setIsAuthenticated: () => {},
+  isLoading: false,
+  setIsLoading: () => {},
 });
 
-export function AuthProvider({children}: {children: ReactNode}) {
-    const [auth, setAuth] = useState({});
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [user, setUser] = useState({} as User);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   return (
-    <AuthContext.Provider value={{auth, setAuth}}>
-        {children}
+    <AuthContext.Provider value={{user, isAuthenticated, isLoading, setUser, setIsAuthenticated, setIsLoading}}>
+      {children}
     </AuthContext.Provider>
-  )
+  );
 }
 
 export default AuthContext;
-

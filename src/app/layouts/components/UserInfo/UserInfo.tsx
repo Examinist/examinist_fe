@@ -16,9 +16,8 @@ import theme from "../../../../assets/theme";
 import useAuth from "../../../hooks/useAuth";
 
 export default function UserInfo() {
-  const { auth } = useAuth();
+  const { user} = useAuth();
   const navigate = useNavigate();
-  console.log(auth);
 
   const logout = () => {
     localStorage.clear();
@@ -35,7 +34,7 @@ export default function UserInfo() {
             fontWeight: "400px",
           }}
         >
-          {auth?.first_name + " " + auth?.last_name}
+          {user?.first_name + " " + user?.last_name}
         </Typography>
         <Typography
           sx={{
@@ -44,7 +43,7 @@ export default function UserInfo() {
             fontWeight: "400px",
           }}
         >
-          {auth?.username}
+          {user?.username}
         </Typography>
       </Box>
       <Tooltip title="Log out" sx={{ marginLeft: "auto" }}>

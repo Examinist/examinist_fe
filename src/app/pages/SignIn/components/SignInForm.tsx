@@ -21,7 +21,8 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
-import { loginAPI } from "../../../apis/AuthApi";
+import { loginAPI } from "../../../services/AuthApi";
+import { User } from "../../../context/AuthProvider";
 
 enum Role {
   Student = "Student",
@@ -49,7 +50,7 @@ const schema = yup.object({
 const url = "/admin_portal/sessions";
 
 export default function SignInForm() {
-  const { auth, setAuth } = useAuth();
+  const {setIsAuthenticated, setIsLoading, setUser} = useAuth();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -93,8 +94,18 @@ export default function SignInForm() {
     //     setErrorMessage(message);
     //   }
     // });
- 
-     navigate("/instructor");
+
+    
+    const user: User ={
+      role: "instructor",
+      username: "nohaahmed",
+      first_name: "Noha",
+      last_name: "Ahmed",
+      auth_token: "1212398u798u7"
+    }
+    setUser(user);
+    setIsAuthenticated(true);
+    navigate("/instructor");
   };
 
   return (
