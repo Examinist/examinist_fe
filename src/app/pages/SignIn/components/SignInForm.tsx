@@ -13,6 +13,7 @@ import {
   Radio,
   RadioGroup,
   TextField,
+  capitalize,
 } from "@mui/material";
 import React from "react";
 import * as yup from "yup";
@@ -21,24 +22,18 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
-import { loginAPI } from "../../../services/AuthApi";
-import { User } from "../../../context/AuthProvider";
-
-enum Role {
-  Student = "Student",
-  UniversityStaff = "University Staff",
-}
+import { UserRoleEnum } from "../../../utils/User";
 
 export interface SignInInputs {
   username: string;
   password: string;
-  role: Role;
+  role: UserRoleEnum;
 }
 
 const initialState: SignInInputs = {
   username: "",
   password: "",
-  role: Role.UniversityStaff,
+  role: UserRoleEnum.UNIVERSITY_ADMIN,
 };
 
 const schema = yup.object({
@@ -50,10 +45,7 @@ const schema = yup.object({
 const url = "/admin_portal/sessions";
 
 export default function SignInForm() {
-  const {setIsAuthenticated, setIsLoading, setUser} = useAuth();
-
-  const navigate = useNavigate();
-  const location = useLocation();
+  const { login } = useAuth();
 
   const {
     register,
@@ -66,12 +58,6 @@ export default function SignInForm() {
   });
 
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
-
-  const navigateToLayout = (role: string) => {
-    if (role === "instructor") {
-      navigate("/instructor");
-    }
-  };
 
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -94,18 +80,7 @@ export default function SignInForm() {
     //     setErrorMessage(message);
     //   }
     // });
-
-    
-    const user: User ={
-      role: "instructor",
-      username: "nohaahmed",
-      first_name: "Noha",
-      last_name: "Ahmed",
-      auth_token: "1212398u798u7"
-    }
-    setUser(user);
-    setIsAuthenticated(true);
-    navigate("/instructor");
+    login();
   };
 
   return (
@@ -202,14 +177,14 @@ export default function SignInForm() {
                   sx={{ display: "flex", justifyContent: "center", gap: 4 }}
                 >
                   <FormControlLabel
-                    value={Role.UniversityStaff}
+                    value={UserRoleEnum.UNIVERSITY_ADMIN}
                     control={<Radio />}
-                    label={Role.UniversityStaff}
+                    label={capitalize(UserRoleEnum.UNIVERSITY_ADMIN)}
                   />
                   <FormControlLabel
-                    value={Role.Student}
+                    value={UserRoleEnum.STUDENT}
                     control={<Radio />}
-                    label={Role.Student}
+                    label={capitalize(UserRoleEnum.STUDENT)}
                   />
                 </RadioGroup>
               )}

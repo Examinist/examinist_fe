@@ -1,18 +1,17 @@
-interface User{
-    username: string;
-    firstName: string;
-    lastName: string;
-    role: string;
-    auth_token: string;
+interface IUser {
+  auth_token: string;
+  role: string;
+  username: string;
+  first_name: string;
+  last_name: string;
 }
 
-export enum Roles{
-    Instructor = "instructor",
-    Student = "student",
-    UniversityAdmin = "university_admin",
-    FacultyAdmin = "faculty_admin",
-    Proctor="proctor"
+export enum UserRoleEnum {
+  INSTRUCTOR = "instructor",
+  STUDENT = "student",
+  UNIVERSITY_ADMIN = "university_admin",
+  FACULTY_ADMIN = "faculty_admin",
+  PROCTOR = "proctor",
 }
 
-
-export default User;
+export default IUser;
