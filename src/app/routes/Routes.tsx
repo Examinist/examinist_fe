@@ -19,6 +19,8 @@ import Courses from "../pages/ListCourses/ListCourses";
 import Test from "../pages/Test";
 import RequireAuth from "../components/RequireAuth/RequireAuth";
 import UnAuthorized from "../pages/UnAuthorized/UnAuthorized";
+import GeneralInfo from "../pages/Course/CourseInfo/GeneralInfo/GeneralInfo";
+import CourseGroups from "../pages/Course/CourseInfo/CourseGroups/CourseGroups";
 
 const AppRoutes = () => {
   return (
@@ -27,9 +29,9 @@ const AppRoutes = () => {
         <Route path="/login" element={<Signin />} />
         <Route path="/test" element={<Test />} />
 
-        <Route element={<RequireAuth allowedRole="instructor"/>}>
+        <Route element={<RequireAuth allowedRole="instructor" />}>
           <Route path="instructor" element={<InstructorLayout />}>
-             <Route path="" element={<Navigate to="courses" />}/>
+            <Route path="" element={<Navigate to="courses" />} />
             <Route path="test" element={<Test />} />
             <Route path="courses">
               <Route index element={<Courses />} />
@@ -37,7 +39,11 @@ const AppRoutes = () => {
                 <Route path="" element={<Navigate to="question-bank" />} />
                 <Route path="question-bank" element={<QuestionBank />} />
                 <Route path="exams" element={<Exams />} />
-                <Route path="course-info" element={<CourseInfo />} />
+                <Route path="course-info">
+                  <Route path="" element={<Navigate to="general-info" />} />
+                  <Route path="general-info" element={<GeneralInfo />} />
+                  <Route path="course-groups" element={<CourseGroups />} />
+                </Route>
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="settings">
                   <Route path="" element={<Navigate to="topics" />} />
@@ -56,8 +62,6 @@ const AppRoutes = () => {
         </Route>
 
         <Route path="/unauthorized" element={<UnAuthorized />} />
-
-        
       </Routes>
     </Router>
   );

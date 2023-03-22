@@ -44,6 +44,15 @@ const theme = createTheme({
         },
       },
     },
+    MuiAccordion: {
+      styleOverrides: {
+        root: {
+          "&:before": {
+            display: "none",
+          },
+        },
+      },
+    },
   },
 });
 
