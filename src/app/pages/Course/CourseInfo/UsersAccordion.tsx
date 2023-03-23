@@ -36,27 +36,6 @@ export default function UsersAccordion({ title, users }: IUsersAccordian) {
         </AccordionSummary>
         <AccordionDetails sx={{ mr: 4 }}>
           <UsersTable users={users}></UsersTable>
-          {/* {users.ma0p((user) => (
-            <Box sx={{ display: "flex", mb: 3, ml: 1 }}>
-              <Box
-                sx={{
-                  fontSize: 16,
-                  width: "40%",
-                  weight: "bold",
-                }}
-              >
-                {user.name}
-              </Box>
-              <Box
-                sx={{
-                  fontSize: 16,
-                  color: "grey",
-                }}
-              >
-                {user.username}
-              </Box>
-            </Box>
-          ))} */}
         </AccordionDetails>
       </Accordion>
     </Box>
