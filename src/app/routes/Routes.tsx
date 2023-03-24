@@ -7,7 +7,6 @@ import {
 import CourseLayout from "../layouts/CourseLayout/CourseLayout";
 import InstructorLayout from "../layouts/instructorLayout/InstructorLayout";
 import Signin from "../pages/SignIn";
-import CourseInfo from "../pages/Course/CourseInfo/CourseInfo";
 import CourseSettings from "../pages/Course/CourseSettings";
 import QuestionTypes from "../pages/Course/CourseSettings/QuestionTypes/QuestionTypes";
 import Template from "../pages/Course/CourseSettings/Template/Template";
