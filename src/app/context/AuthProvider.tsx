@@ -48,7 +48,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .then(({ user }) => {
         setIsAuthenticated(true);
         setUser(user);
-        if (location.pathname == "/login") GoToHomePage(user);
+        if (location.pathname == "/login" || location.pathname == "/") GoToHomePage(user);
       })
       .catch(() => redirectToLogin())
       .finally(() => {
