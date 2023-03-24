@@ -2,7 +2,8 @@ import { Navigate, Route } from "react-router-dom";
 import RoleGuard from "../components/RoleGuard/RoleGuard";
 import CourseLayout from "../layouts/CourseLayout/CourseLayout";
 import InstructorLayout from "../layouts/instructorLayout/InstructorLayout";
-import CourseInfo from "../pages/Course/CourseInfo/CourseInfo";
+import CourseGroups from "../pages/Course/CourseInfo/CourseGroups/CourseGroups";
+import GeneralInfo from "../pages/Course/CourseInfo/GeneralInfo/GeneralInfo";
 import QuestionTypes from "../pages/Course/CourseSettings/QuestionTypes/QuestionTypes";
 import Template from "../pages/Course/CourseSettings/Template/Template";
 import Topics from "../pages/Course/CourseSettings/Topics/Topics";
@@ -25,7 +26,11 @@ const InstructorRoutes = () => {
             <Route path="" element={<Navigate to="question-bank" />} />
             <Route path="question-bank" element={<QuestionBank />} />
             <Route path="exams" element={<Exams />} />
-            <Route path="course-info" element={<CourseInfo />} />
+            <Route path="course-info">
+              <Route path="" element={<Navigate to="general-info" />} />
+              <Route path="general-info" element={<GeneralInfo />} />
+              <Route path="course-groups" element={<CourseGroups />} />
+            </Route>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="settings">
               <Route path="" element={<Navigate to="topics" />} />
