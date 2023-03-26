@@ -5,6 +5,7 @@ import { UserRoleEnum } from "../../utils/User";
 const RoleGuard = ({ allowedRole }: { allowedRole: UserRoleEnum }) => {
   const { role } = useAuth();
   const location = useLocation();
+  console.log(role)
 
   if (role === allowedRole) return <Outlet />;
 

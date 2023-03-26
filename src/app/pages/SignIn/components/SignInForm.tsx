@@ -22,27 +22,26 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
-import { UserRoleEnum } from "../../../utils/User";
+import { UserPortalEnum, UserRoleEnum } from "../../../utils/User";
+import { loginAPI } from "../../../services/AuthApi";
 
-export interface SignInInputs {
+export interface ISignInInputs {
   username: string;
   password: string;
-  role: UserRoleEnum;
+  portal: UserPortalEnum;
 }
 
-const initialState: SignInInputs = {
+const initialState: ISignInInputs = {
   username: "",
   password: "",
-  role: UserRoleEnum.UNIVERSITY_ADMIN,
+  portal: UserPortalEnum.STAFF,
 };
 
 const schema = yup.object({
   username: yup.string().required("Username is required"),
   password: yup.string().required("Password is required"),
-  role: yup.string().required("Role is required"),
+  portal: yup.string().required("Role is required"),
 });
-
-const url = "/admin_portal/sessions";
 
 export default function SignInForm() {
   const { login } = useAuth();
@@ -52,7 +51,7 @@ export default function SignInForm() {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<SignInInputs>({
+  } = useForm<ISignInInputs>({
     resolver: yupResolver(schema),
     defaultValues: initialState,
   });
@@ -67,20 +66,16 @@ export default function SignInForm() {
     event.preventDefault();
   };
 
-  const onSubmit: SubmitHandler<SignInInputs> = (inputs: SignInInputs) => {
-    // loginAPI(inputs)
-    // .then((response) => {
-    //   const { status, data, message } = response;
-    //   if (status === "success") {
-    //     localStorage.setItem("auth_token", data.auth_token);
-    //     setAuth(data);
-    //     const from = location.state?.from?.pathname || "/instructor";
-    //     navigate(from, { replace: true });
-    //   } else {
-    //     setErrorMessage(message);
-    //   }
-    // });
-    login();
+  const onSubmit: SubmitHandler<ISignInInputs> = (inputs: ISignInInputs) => {
+    console.log(inputs);
+
+    loginAPI(inputs)
+      .then((user) => {
+        login(user);
+      })
+      .catch(({message}) => {
+         setErrorMessage(message);
+      });
   };
 
   return (
@@ -167,7 +162,7 @@ export default function SignInForm() {
 
           <FormControl>
             <Controller
-              name="role"
+              name="portal"
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
@@ -177,14 +172,14 @@ export default function SignInForm() {
                   sx={{ display: "flex", justifyContent: "center", gap: 4 }}
                 >
                   <FormControlLabel
-                    value={UserRoleEnum.UNIVERSITY_ADMIN}
+                    value={UserPortalEnum.STAFF}
                     control={<Radio />}
-                    label={capitalize(UserRoleEnum.UNIVERSITY_ADMIN)}
+                    label={"University Staff"}
                   />
                   <FormControlLabel
-                    value={UserRoleEnum.STUDENT}
+                    value={UserPortalEnum.STUDENT}
                     control={<Radio />}
-                    label={capitalize(UserRoleEnum.STUDENT)}
+                    label={"Student"}
                   />
                 </RadioGroup>
               )}

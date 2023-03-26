@@ -5,7 +5,8 @@ import react from '@vitejs/plugin-react-swc'
 export default defineConfig({
   server: {
     proxy: {
-      "/admin_portal": "http://localhost:3000",
+      "/staff_portal": "http://localhost:3000",
+      "/student_portal": "http://localhost:3000",
     },
   },
   plugins: [react()],

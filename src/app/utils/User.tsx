@@ -6,6 +6,11 @@ interface IUser {
   last_name: string;
 }
 
+export enum UserPortalEnum{
+  STUDENT = "student_portal",
+  STAFF = "staff_portal",
+}
+
 export enum UserRoleEnum {
   INSTRUCTOR = "instructor",
   STUDENT = "student",
