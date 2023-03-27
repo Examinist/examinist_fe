@@ -19,15 +19,12 @@ export default function QuestionTypeAccordion({questionType, difficultyLevels, e
       <Accordion
         elevation={0}
         expanded={expanded === questionType}
+        onChange={() => handleChange(questionType)}
       >
         <AccordionSummary
           sx={{ mr: 3 }}
           expandIcon={
-            <IconButton onClick={() =>{
-                console.log(questionType)
-                 handleChange(questionType);}}>
-              <ExpandMoreIcon />
-            </IconButton>
+            <ExpandMoreIcon />
           }
           aria-controls="panel1a-content"
           id="panel1a-header"
@@ -46,7 +43,8 @@ export default function QuestionTypeAccordion({questionType, difficultyLevels, e
              { removable && <IconButton
                 aria-label="delete"
                 sx={{ mr: 2 }}
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   alert("clicked");
                 }}
               >

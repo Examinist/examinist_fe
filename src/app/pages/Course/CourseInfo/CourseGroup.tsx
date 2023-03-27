@@ -1,15 +1,13 @@
 import { Box, Typography } from '@mui/material';
 import React from 'react'
 import theme from '../../../../assets/theme';
-import UsersAccordion, { User } from './UsersAccordion';
+import { ICourseGroup } from '../../../types/Course';
+import SimpleInfo from './SimpleInfo';
+import UsersAccordion from './UsersAccordion';
 
 
-export interface ICourseGroup{
-    name: string;
-    instructors: User[];
-    students: User[];
-}
-export default function CourseGroup({name, instructors, students}: ICourseGroup) {
+
+export default function CourseGroup({name, end_date, instructors, students}: ICourseGroup) {
   return (
     <div>
       <Typography
@@ -24,6 +22,7 @@ export default function CourseGroup({name, instructors, students}: ICourseGroup)
       <Box
         sx={{ mt: 4, display: "flex", flexDirection: "column", gap: 2 }}
       >
+        <SimpleInfo title="End Data" content={end_date.toString()}></SimpleInfo>
         <UsersAccordion title="Instructors" users={instructors} />
         <UsersAccordion title="Students" users={students} />
       </Box>

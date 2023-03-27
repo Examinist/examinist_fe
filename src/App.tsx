@@ -6,9 +6,9 @@ import { BrowserRouter as Router } from "react-router-dom";
 import AppRoutes from "./app/routes/Routes";
 import theme from "./assets/theme";
 
-// axios.defaults.baseURL = "http://localhost:3000/";
-axios.defaults.headers.common["Authorization"] = "AUTH TOKEN";
-axios.defaults.headers.post["Content-Type"] = "application/json";
+// // axios.defaults.baseURL = "http://localhost:3000/";
+// axios.defaults.headers.common["Authorization"] = localStorage.getItem("auth_token");
+// axios.defaults.headers.post["Content-Type"] = "application/json";
 
 const App = () => {
   return (

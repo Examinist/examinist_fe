@@ -21,9 +21,15 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router-dom";
+
+import IUser, { UserPortalEnum, UserRoleEnum } from "../../../types/User";
+import {
+  ISignInRequest,
+  ISignInResponse,
+  SignInAPI,
+} from "../../../services/APIs/AuthAPIs";
 import useAuth from "../../../hooks/useAuth";
-import { UserPortalEnum, UserRoleEnum } from "../../../utils/User";
-import { loginAPI } from "../../../services/AuthApi";
+import { IErrorResponse } from "../../../services/Response";
 
 export interface ISignInInputs {
   username: string;
@@ -68,13 +74,21 @@ export default function SignInForm() {
 
   const onSubmit: SubmitHandler<ISignInInputs> = (inputs: ISignInInputs) => {
     console.log(inputs);
+    const requestData: ISignInRequest = {
+      username: inputs.username,
+      password: inputs.password,
+    };
 
-    loginAPI(inputs)
-      .then((user) => {
+    SignInAPI(requestData, inputs.portal)
+      .then(({ data }: ISignInResponse) => {
+        const user: IUser = data.staff! || data.student!;
+        localStorage.setItem("auth_token", user.auth_token!);
+        localStorage.setItem("portal", inputs.portal);
         login(user);
       })
-      .catch(({message}) => {
-         setErrorMessage(message);
+      .catch(({ response: { status, data, statusText } }: IErrorResponse) => {
+        console.log(status, data, statusText);
+        setErrorMessage(data.message || statusText);
       });
   };
 

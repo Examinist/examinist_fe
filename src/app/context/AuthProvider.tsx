@@ -1,6 +1,9 @@
 import { createContext, useState, ReactNode, useEffect } from "react";
-import IUser, { UserRoleEnum } from "../utils/User";
-import { getUserProfile, loginAPI } from "../services/AuthApi";
+import IUser, { UserRoleEnum } from "../types/User";
+import {
+  getUserProfileAPI,
+  IGetUserProfileResponse,
+} from "../services/APIs/AuthAPIs";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Box, CircularProgress } from "@mui/material";
 import { ISignInInputs } from "../pages/SignIn/components/SignInForm";
@@ -9,7 +12,7 @@ type AuthContextType = {
   isAuthenticated: boolean;
   user?: IUser;
   role?: UserRoleEnum;
-  login: (user:IUser) => void;
+  login: (user: IUser) => void;
   logout: () => void;
 };
 
@@ -32,33 +35,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const login =  (user: IUser) => {
+  const login = (user?: IUser) => {
     console.log(user);
     setIsAuthenticated(true);
     setUser(user);
-    GoToHomePage(user);
-
-    // setIsLoading(true);
-
-    // const data  = await loginAPI(inputs);
-    // console.log(data);
-    // setIsAuthenticated(true);
-    // setUser(user);
-    // localStorage.setItem("auth_token", user.auth_token);
-    // localStorage.setItem("portal", inputs.role);
-
-    // setIsLoading(false);
-    // GoToHomePage(user);
+    GoToHomePage(user!);
   };
 
   const logout = () => {};
 
   useEffect(() => {
-    getUserProfile()
-      .then(( user ) => {
+    getUserProfileAPI()
+      .then(({ data }: IGetUserProfileResponse) => {
+        const user = data.staff! || data.student!;
         setIsAuthenticated(true);
         setUser(user);
-        if (location.pathname == "/login" || location.pathname == "/") GoToHomePage(user);
+        if (location.pathname == "/login" || location.pathname == "/")
+          GoToHomePage(user);
       })
       .catch(() => redirectToLogin())
       .finally(() => {

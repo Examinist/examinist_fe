@@ -33,6 +33,7 @@ export default function QuestionTypes() {
   const handleChange = (panel: string) => {
     expanded === panel ? setExpanded(false) : setExpanded(panel);
   };
+  
   return (
     <div>
       <Box

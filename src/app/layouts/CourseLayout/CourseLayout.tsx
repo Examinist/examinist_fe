@@ -14,9 +14,6 @@ import theme from "../../../assets/theme";
 import CustomTabs, { ITab } from "../../components/CustomTabs/CustomTabs";
 
 const tabs: ITab[] = [
-  { name: "Question Bank" },
-  { name: "Exams" },
-  { name: "DashBoard" },
   {
     name: "Course Info",
     menu: [
@@ -24,6 +21,9 @@ const tabs: ITab[] = [
       { name: "Course Groups", to: "course-info/course-groups" },
     ],
   },
+  { name: "Question Bank" },
+  { name: "Exams" },
+  { name: "DashBoard" },
   {
     name: "Settings",
     menu: [
