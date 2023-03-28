@@ -2,48 +2,60 @@ import {
   Button,
   Divider,
   Grid,
-  IconButton,
   List,
-  ListItem,
-  ListItemText,
-  TextField,
-  Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
 import React from "react";
-import EditIcon from "@mui/icons-material/Edit";
+import TopicElement from "./components/TopicElement";
+import { ITopic } from "../../../../types/CourseTopics";
+
+const topic:ITopic[] =[
+  {name: "Topic1", id: 1},
+  {name: "Topic 2", id: 2},
+  {name: "Topic 3",  id: 3},
+]
 
 export default function Topics() {
-  const [addTopic, showAddTopic] = useState(false);
-  const [topics, changeTopics] = useState(["Topic 1", "Topic 2", "Topic 3"]);
-  const [renameTopics, renameTopic] = useState(topics.map((value) => false));
+  const [addTopic, setAddTopic] = useState(-1);
+  const [topics, setTopics] = useState(topic);
+  const [renameId, setRenameId] = useState(-1);
 
-  const handleAddTopicButton = () => {
-    showAddTopic(!addTopic);
+  const handleAddTopicButton = (id: number) => {
+    setAddTopic(id);
   };
 
-  const handleTopicChange = (event: any, index: number) => {
-    if (event.key == "Enter") {
-      let topicName = [...topics];
-      topicName[index] = event.target.value;
-      changeTopics(topicName);
-      handleRename(index);
-    }
+  const handleTopicChange = (id: number, newName: string) => {
+    //api call
+    //if success
+      setTopics(
+        topics.map(item=>{
+          if(item.id===id){
+            return {...item, name: newName};
+          }else{
+            return item;
+          }
+      }));
+      setRenameId(-1);
+    //if fail
+    //popup error
   };
 
-  const handleAddTopic = (event: any) => {
-    if (event.key == "Enter") {
-      let topicName = [...topics, event.target.value];
-      changeTopics(topicName);
-      handleAddTopicButton();
-    }
-  };
+  const handleDeleteTopic = (id: number) => {
+    //api call
+    //if success
+    setTopics(topics.filter(item => item.id!=id));
+    //if fail
+    //popup call
+  }
 
-  const handleRename = (index: number) => {
-    let rename = [...renameTopics];
-    rename[index] = !rename[index];
-    renameTopic(rename);
+  const handleAddTopic = (id:number, name:string) => {
+    //api call
+    //if success
+      setTopics(topics.concat({name:name, id:id}));
+      setAddTopic(-1);
+    //if fail
+    //popup error
   };
 
   return (
@@ -63,7 +75,7 @@ export default function Topics() {
         <Grid item xs={4} md={3}>
           <Button
             variant="outlined"
-            onClick={handleAddTopicButton}
+            onClick={() => handleAddTopicButton(1)}
             sx={{
               color: "#1B84BF",
               backgroundColor: "white",
@@ -90,66 +102,33 @@ export default function Topics() {
           borderRadius: "15px",
         }}
       >
-        {topics.map((value, index) => {
+        {topics.map((topic, index) => {
           return (
-            <div key={value}>
-              <Box>
-                <ListItem
-                  secondaryAction={
-                    <IconButton onClick={() => handleRename(index)}>
-                      <EditIcon />
-                    </IconButton>
-                  }
-                >
-                  {renameTopics[index] ? (
-                    <TextField
-                      onKeyDown={(event) => handleTopicChange(event, index)}
-                      placeholder="Enter new topic name"
-                      value={value}
-                      InputProps={{ sx: { height: "32px" } }}
-                      sx={{
-                        bgcolor: "#F5F5F5",
-                        borderColor: "#D9D9D9",
-                        width: "35%",
-                        "& .MuiFormLabel-root": {
-                          fontSize: "14px",
-                          fontWeight: "medium",
-                        },
-                      }}
-                    />
-                  ) : (
-                    <ListItemText
-                      primary={value}
-                      sx={{ color: "Black" }}
-                    ></ListItemText>
-                  )}
-                </ListItem>
-                {index != topics.length - 1 && (
-                  <Divider sx={{ color: "#D9D9D9" }}></Divider>
-                )}
-              </Box>
+            <div key={topic.id}>
+              <TopicElement
+            {...topic}
+            topics={topics}
+            renamedId={renameId}
+            lastElement={index == topics.length-1 ? true : false}
+            setRenameId={setRenameId}
+            handleTopicChange={handleTopicChange}
+            handleDeleteTopic={handleDeleteTopic}></TopicElement>
             </div>
           );
         })}
-        {addTopic && (
+        {addTopic!=-1 && (
           <Box>
             <Divider sx={{ color: "#D9D9D9" }}></Divider>
-            <ListItem>
-              <TextField
-                onKeyDown={handleAddTopic}
-                size="small"
-                label="Enter new topic name"
-                sx={{
-                  bgcolor: "#F5F5F5",
-                  borderColor: "#D9D9D9",
-                  width: "35%",
-                  "& .MuiFormLabel-root": {
-                    fontSize: "14px",
-                    fontWeight: "medium",
-                  },
-                }}
-              />
-            </ListItem>
+              <TopicElement
+              name={""}
+              id={topics.length-1}
+              renamedId={topics.length-1}
+              lastElement={true}
+              topics={topics}
+              setRenameId={setAddTopic}
+              handleTopicChange={handleAddTopic}
+              handleDeleteTopic={handleDeleteTopic}
+              ></TopicElement>
           </Box>
         )}
       </List>
