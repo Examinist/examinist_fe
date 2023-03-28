@@ -88,7 +88,7 @@ export default function SignInForm() {
       })
       .catch(({ response: { status, data, statusText } }: IErrorResponse) => {
         console.log(status, data, statusText);
-        setErrorMessage(data.message || statusText);
+        setErrorMessage(data.message! || statusText!);
       });
   };
 
