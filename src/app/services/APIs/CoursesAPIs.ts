@@ -52,7 +52,7 @@ const mockCourseGroupsResponse: ICourseGroupsResponse = {
 const getCourseGeneralInfoAPI = async (courseId: string) => {
   try {
     const portal = localStorage.getItem("portal");
-    const response = await axiosInstance.get(`${portal}/couses/${courseId}`);
+    const response = await axiosInstance.get(`${portal}/courses/${courseId}`);
     return response as ICourseInfoResponse;
   } catch (error) {
     return mockCourseInfoResponse;
@@ -62,7 +62,7 @@ const getCourseGeneralInfoAPI = async (courseId: string) => {
 const getCourseGroupsAPI = async (courseId: string) => {
   try {
     const portal = localStorage.getItem("portal");
-    const response = await axiosInstance.get(`${portal}/couses/${courseId}/course_groups`);
+    const response = await axiosInstance.get(`${portal}/courses/${courseId}/course_groups`);
     return response as ICourseGroupsResponse;
   } catch (error) {
     return mockCourseGroupsResponse;

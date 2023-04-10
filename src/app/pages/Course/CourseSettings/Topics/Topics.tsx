@@ -8,12 +8,12 @@ import { Box } from "@mui/system";
 import { useState } from "react";
 import React from "react";
 import TopicElement from "./components/TopicElement";
-import { ITopic } from "../../../../types/CourseTopics";
+import { ITopic } from "../../../../types/Course";
 
 const topic:ITopic[] =[
-  {name: "Topic1", id: 1},
-  {name: "Topic 2", id: 2},
-  {name: "Topic 3",  id: 3},
+  {name: "Chapter 1", id: 1},
+  {name: "Chapter 2", id: 2},
+  {name: "Chapter 3",  id: 3},
 ]
 
 export default function Topics() {
@@ -60,7 +60,7 @@ export default function Topics() {
 
   return (
     <Box>
-      <Grid container sx={{ mb: 1 }}>
+      <Grid container sx={{ mb: 3 }}>
         <Grid item xs={8} md={8.5}>
           <Box
             sx={{

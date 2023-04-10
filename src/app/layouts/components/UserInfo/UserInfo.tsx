@@ -14,6 +14,11 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import theme from "../../../../assets/theme";
 import useAuth from "../../../hooks/useAuth";
+import IUser from "../../../types/User";
+
+const initials = (user: IUser) => {
+  return user.first_name[0] + user.last_name[0];
+};
 
 export default function UserInfo() {
   const { user} = useAuth();
@@ -26,7 +31,7 @@ export default function UserInfo() {
 
   return (
     <Box sx={{ display: "flex", alignItems: "center", m: 3, mr: 1.5, mt: 2 }}>
-      <Avatar sx={{}}> NA </Avatar>
+      <Avatar sx={{}}> {initials(user!)}</Avatar>
       <Box sx={{ ml: 1.5 }}>
         <Typography
           sx={{
