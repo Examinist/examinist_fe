@@ -5,16 +5,34 @@ import { useFormContext } from 'react-hook-form';
 
 interface IDifficultyLevelRow{
     level: "Easy" | "Medium" | "Hard",
-    weight: number,
+    weight?: number,
     edited: boolean;
 }
 
 export default function DifficultyLevelRow({level, weight, edited}: IDifficultyLevelRow) {
   const methods = useFormContext();
-  const {
-    register,
-    formState: { errors },
-  } = methods;
+
+  const renderRow = () => {
+    if(edited){
+       const {
+         register,
+         formState: { errors },
+       } = methods;
+       return (
+         <TextField
+           variant="outlined"
+           sx={{ width: 100 }}
+           size="small"
+           type="number"
+           {...register(level.toLowerCase())}
+           error={errors[level.toLowerCase()]?.message ? true : false}
+         />
+       );
+    }
+
+    return weight;
+  }
+ 
   return (
     <TableRow
       key={level}
@@ -23,18 +41,8 @@ export default function DifficultyLevelRow({level, weight, edited}: IDifficultyL
       <TableCell component="th" scope="row">
         {level}
       </TableCell>
-      <TableCell align="left">
-        {edited ? (
-          <TextField
-            variant="outlined"
-            sx={{ width: 40 }}
-            size="small"
-            {...register(level.toLowerCase())}
-            error={errors[level.toLowerCase()]?.message ? true : false}
-          />
-        ) : (
-          weight
-        )}
+      <TableCell align="left" sx={{ ml: 10 }}>
+        {renderRow()}
       </TableCell>
     </TableRow>
   );

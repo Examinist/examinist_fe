@@ -1,8 +1,16 @@
-import { Box } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  DialogActions,
+  DialogContent,
+  Snackbar,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import QuestionTypeAccordion from "./components/QuestionTypeAccordion";
 import { IQuestionType } from "../../../../types/Question";
-import { IDifficultyLevelsFormInputs } from "./components/DifficultyLevelsTable";
+import QuestionTypeFormDialog from "./components/QuestionTypeFormDialog";
 
 const intitalQuestionTypes: IQuestionType[] = [
   {
@@ -48,64 +56,126 @@ const intitalQuestionTypes: IQuestionType[] = [
 ];
 
 export default function QuestionTypes() {
+  const [dialogOpen, setDialogOpen] = React.useState<boolean>(false);
+  const [alertState, setAlertState] = React.useState<any>({
+    open: false,
+    message: "",
+  });
+  const [modifiedQuestionType, setModifiedQuestionType] =
+    React.useState<IQuestionType | null>(null);
   const [expandedId, setExpandedId] = React.useState<number>(-1);
-  const [editedId, setEditedId] = React.useState<number>(-1);
   const [questionTypes, setQuestionTypes] =
     React.useState<IQuestionType[]>(intitalQuestionTypes);
 
+  const handleDialogOpen = () => {
+    setModifiedQuestionType(null);
+    console.log("handleDialogOpen");
+    setDialogOpen(true);
+  };
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  };
+
   const handleChange = (id: number) => {
     expandedId === id ? setExpandedId(-1) : setExpandedId(id);
-    setEditedId(-1);
   };
 
   const handleEdit = (id: number) => {
-    setEditedId(id);
+    // setEditedId(id);
+    setModifiedQuestionType(
+      questionTypes.find((q) => q.id === id) as IQuestionType
+    );
+    setDialogOpen(true);
   };
 
-  const updateQuestionTypes = (
-    id: number,
-    data: IDifficultyLevelsFormInputs
-  ) => {
-    console.log(id, data);
+  const handleUpdate = (data: IQuestionType, isNew: boolean) => {
+    console.log(data);
+    if(isNew) {
+      setQuestionTypes((q) => [...q, data]);
+      setAlertState({ open: true, message: "Question type added successfully!" });
+    } else {
     setQuestionTypes((q) =>
-      q.map((q: IQuestionType) =>
-        q.id === id
-          ? {
-              ...q,
-              easy_weight: data.easy,
-              medium_weight: data.medium,
-              hard_weight: data.hard,
-            }
-          : q
-      )
-    );
+      q.map((q: IQuestionType) => (q.id === data.id ? data : q)));
+      setAlertState({ open: true, message: "Question type updated successfully!" });
+    }
+    
+  };
+
+  const handleDelete = (id: number) => {
+    setQuestionTypes((q) => q.filter((q) => q.id !== id));
+    setAlertState({ open: true, message: "Question type deleted successfully!" });
   };
 
   return (
     <div>
-      <Box
-        sx={{
-          fontSize: "2rem",
-          fontWeight: "medium",
-          fontFamily: "montserrat",
-        }}
-      >
-        Question Types
+      <Box sx={{ display: "flex" }}>
+        <Box
+          sx={{
+            fontSize: "2rem",
+            fontWeight: "medium",
+            fontFamily: "montserrat",
+          }}
+        >
+          Question Types
+        </Box>
+
+        <Button
+          variant="outlined"
+          sx={{
+            color: "#1B84BF",
+            backgroundColor: "white",
+            marginLeft: "auto",
+            border: 1,
+            fontSize: "14px",
+            fontWeight: "bold",
+            px: 4,
+            textTransform: "none",
+            borderRadius: "15px",
+          }}
+          onClick={handleDialogOpen}
+        >
+          Add New Question Type
+        </Button>
       </Box>
       <Box sx={{ mt: 4, display: "flex", flexDirection: "column", gap: 3 }}>
         {questionTypes.map((questionType, index) => (
           <div key={index}>
             <QuestionTypeAccordion
               onEdit={handleEdit}
-              editedId={editedId}
+              onDelete={handleDelete}
               questionType={questionType}
               expandedId={expandedId}
               onChange={handleChange}
-              updateQuestionType={updateQuestionTypes}
             ></QuestionTypeAccordion>
           </div>
         ))}
       </Box>
+
+      {dialogOpen && (
+        <QuestionTypeFormDialog
+          initialValues={modifiedQuestionType}
+          open={dialogOpen}
+          onClose={handleDialogClose}
+          onUpdate={handleUpdate}
+        ></QuestionTypeFormDialog>
+      )}
+
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        open={alertState.open}
+        autoHideDuration={6000}
+        onClose={() => setAlertState((a: any) => ({ ...a, open: false }))}
+      >
+        <Alert
+          onClose={() => setAlertState((a: any) => ({ ...a, open: false }))}
+          variant="filled"
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          {alertState.message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
