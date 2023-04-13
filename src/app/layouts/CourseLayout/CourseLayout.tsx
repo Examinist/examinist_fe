@@ -81,7 +81,6 @@ export default function CourseLayout() {
         >
           {courseInfo?.code}
         </Typography>
-
         <Box sx={{ alignSelf: "flex-end", flexGrow: 1 }}>
           <CustomTabs tabs={tabs} />
         </Box>
