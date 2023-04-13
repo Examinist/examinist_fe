@@ -1,10 +1,4 @@
-import {
-  MenuItem,
-  MenuList,
-  Paper,
-  Popper,
-  Typography,
-} from "@mui/material";
+import { MenuItem, MenuList, Paper, Popper, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 // import ITab from "@mui/material/Tab";
 // import Tabs from "@mui/material/Tabs";
@@ -35,7 +29,6 @@ const tabs: ITab[] = [
 ];
 
 export default function CourseLayout() {
-
   return (
     <Box>
       <Box
@@ -58,14 +51,13 @@ export default function CourseLayout() {
         >
           CSE123
         </Typography>
-
         <Box sx={{ alignSelf: "flex-end", flexGrow: 1 }}>
-          <CustomTabs tabs={tabs}/>
+          <CustomTabs tabs={tabs} />
         </Box>
       </Box>
       <Box
         component="main"
-        sx={{ flexGrow: 1, overflow: "auto", height: "100vh", px: 15, py: 3 }}
+        sx={{ flexGrow: 1, overflow: "auto", height: "100vh", px: 5, py: 3 }}
       >
         <Outlet />
       </Box>
