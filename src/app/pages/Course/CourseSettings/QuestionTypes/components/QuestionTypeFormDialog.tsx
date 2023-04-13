@@ -84,20 +84,21 @@ export default function QuestionTypeFormDialog({open, onClose, initialValues, on
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <CustomDialogTitle onClose={handleClose}>
-            <Box sx={{mx: 2, my: 1}}>
+            <Box sx={{ mx: 2, my: 1 }}>
               {isNew ? "Add Question Type" : "Edit Question Type"}
             </Box>
           </CustomDialogTitle>
           <DialogContent dividers sx={{ p: 3 }}>
             <Box sx={{ display: "flex", flexDirection: "column" }}>
               <TextField
-              autoComplete='off'
+                autoComplete="off"
                 variant="standard"
                 sx={{ m: 3 }}
                 label="Question Type"
                 placeholder="Question Type"
                 {...register("name")}
                 error={errors.name?.message ? true : false}
+                disabled={!isNew && !initialValues?.is_deletable}
                 helperText={errors.name?.message}
               />
 
