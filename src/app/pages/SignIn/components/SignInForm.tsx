@@ -5,7 +5,6 @@ import {
   FormControl,
   FormControlLabel,
   FormHelperText,
-  FormLabel,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -13,14 +12,12 @@ import {
   Radio,
   RadioGroup,
   TextField,
-  capitalize,
 } from "@mui/material";
 import React from "react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useLocation, useNavigate } from "react-router-dom";
 
 import IUser, { UserPortalEnum, UserRoleEnum } from "../../../types/User";
 import {

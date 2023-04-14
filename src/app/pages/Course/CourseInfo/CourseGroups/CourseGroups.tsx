@@ -20,7 +20,7 @@ export default function CourseGroups() {
   }, []);
   
   return (
-    <div>
+    <Box sx={{ px: 15, py: 5 }}>
       <Box
         sx={{
           fontSize: "2rem",
@@ -37,6 +37,6 @@ export default function CourseGroups() {
           </div>
         ))}
       </Box>
-    </div>
+    </Box>
   );
 }

@@ -13,6 +13,8 @@ import QuestionBank from "../pages/Course/QuestionBank/QuestionBank";
 import Courses from "../pages/ListCourses/ListCourses";
 import Test from "../pages/Test";
 import { UserRoleEnum } from "../types/User";
+import AddQuestion from "../pages/Course/AddQuestion/AddQuestion";
+import QuestionForm from "../pages/Course/AddQuestion/QuestionForm/QuestionForm";
 
 const InstructorRoutes = () => {
   return (
@@ -24,7 +26,10 @@ const InstructorRoutes = () => {
           <Route index element={<Courses />} />
           <Route path=":courseId" element={<CourseLayout />}>
             <Route path="" element={<Navigate to="course-info" />} />
-            <Route path="question-bank" element={<QuestionBank />} />
+            <Route path="question-bank">
+              <Route path="" element={<QuestionBank />} />
+              <Route path="add" element={<AddQuestion />}></Route>
+            </Route>
             <Route path="exams" element={<Exams />} />
             <Route path="course-info">
               <Route path="" element={<Navigate to="general-info" />} />

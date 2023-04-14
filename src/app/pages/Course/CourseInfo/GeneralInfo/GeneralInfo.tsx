@@ -22,7 +22,7 @@ export default function GeneralInfo() {
   }, [])
   
   return (
-    <div>
+    <Box sx={{px: 15, py: 5}}>
       {isLoading && (
         <Box
           sx={{
@@ -61,7 +61,7 @@ export default function GeneralInfo() {
           </Box>
         </>
       )}
-    </div>
+    </Box>
   );
 }
 

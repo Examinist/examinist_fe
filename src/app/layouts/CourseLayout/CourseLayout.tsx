@@ -65,7 +65,7 @@ export default function CourseLayout() {
       </Box>
       <Box
         component="main"
-        sx={{ flexGrow: 1, overflow: "auto", height: "100vh", px: 15, py: 3 }}
+        sx={{ flexGrow: 1, overflow: "auto", height: "100vh" }}
       >
         <Outlet />
       </Box>

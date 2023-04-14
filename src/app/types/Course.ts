@@ -24,5 +24,6 @@ export interface ITopic {
   id: number;
 }
 
+
 export type {ICourse, ICourseInfo, ICourseGroup};
 

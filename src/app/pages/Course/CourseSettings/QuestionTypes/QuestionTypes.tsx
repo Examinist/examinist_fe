@@ -108,7 +108,7 @@ export default function QuestionTypes() {
   };
 
   return (
-    <div>
+    <Box sx={{ px: 15, py: 5 }}>
       <Box sx={{ display: "flex" }}>
         <Box
           sx={{
@@ -176,6 +176,6 @@ export default function QuestionTypes() {
           {alertState.message}
         </Alert>
       </Snackbar>
-    </div>
+    </Box>
   );
 }
