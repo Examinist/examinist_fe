@@ -65,9 +65,7 @@ export default function SelectTopic() {
                 <em>Topics List</em>
               </MenuItem>
               {topics.map((topic) => (
-                <div key={topic.id}>
                   <MenuItem value={topic.name}>{topic.name}</MenuItem>
-                </div>
               ))}
             </Select>
           )}
