@@ -10,7 +10,7 @@ export default function SelectAnswerType({answerTypes}: AnswerTypeProps) {
   const {control} = useFormContext();
   return (
     <Box sx={{ display: "flex", py: 2 }}>
-      <Typography sx={{ fontSize: "16px", pt: 1 }} color="#6B6767">
+      <Typography sx={{ fontSize: "18px", py: 1 }} color="#6B6767">
         Answer Type:
       </Typography>
       <FormControl sx={{ ml: 5 }}>

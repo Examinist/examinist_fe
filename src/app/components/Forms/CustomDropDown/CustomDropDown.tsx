@@ -10,48 +10,31 @@ import {
   Typography,
 } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
-import { ITopic } from "../../../../../../types/Course";
 
-const mockTopics: ITopic[] = [
-  {
-    id: 1,
-    name: "Topic 1",
-  },
-  {
-    id: 2,
-    name: "Topic 2",
-  },
-  {
-    id: 3,
-    name: "Topic 3",
-  },
-  {
-    id: 4,
-    name: "Topic 4",
-  },
-];
-
-export default function SelectTopic() {
-  const { courseId } = useParams<{ courseId: string }>();
-  const [topics, setTopics] = React.useState<ITopic[]>([]);
-
-  React.useEffect(() => {
-    setTopics(mockTopics);
-  }, []);
-
-  console.log(courseId);
+export interface IItem{
+    label: string;
+    value: string;
+}
+interface ICustomDropDownProps {
+    items: IItem[];
+    title?: string;
+    name: string;
+    firstOption?: string;
+}
+export default function CustomDropDown({items, name, title, firstOption}: ICustomDropDownProps) {
+  
   const { control } = useFormContext();
   return (
-    <Box sx={{ px: 5 }}>
-      <Typography
+    <>
+      {title && <Typography
         sx={{ fontSize: "20px", fontWeight: "500", py: 2 }}
         color="#6B6767"
       >
-        Topic
-      </Typography>
+        {title}
+      </Typography>}
       <FormControl sx={{ width: "80%", ml: 2 }}>
         <Controller
-          name="topic"
+          name={name}
           control={control}
           render={({ field: { onChange, value } }) => (
             <Select
@@ -62,15 +45,15 @@ export default function SelectTopic() {
               displayEmpty
             >
               <MenuItem value="" disabled color="white">
-                <em>Topics List</em>
+                <em>{firstOption}</em>
               </MenuItem>
-              {topics.map((topic) => (
-                  <MenuItem value={topic.name}>{topic.name}</MenuItem>
+              {items.map((item) => (
+                <MenuItem value={item.value} key={item.value}>{item.label}</MenuItem>
               ))}
             </Select>
           )}
         ></Controller>
       </FormControl>
-    </Box>
+    </>
   );
 }

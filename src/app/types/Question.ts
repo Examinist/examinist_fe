@@ -13,6 +13,8 @@ export interface IQuestion {
   difficulty: string;
   header: string;
   answerType: AnswerTypeEnum;
+  choices?: IChoice[];
+  correctAnswer?: string[];
 }
 
 export enum AnswerTypeEnum{
@@ -20,4 +22,9 @@ export enum AnswerTypeEnum{
     multiple = "multiple",
     text = "text",
     pdf = "pdf",
+}
+
+export interface IChoice{
+    id?: number;
+    choice: string;
 }

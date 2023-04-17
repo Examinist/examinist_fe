@@ -23,7 +23,6 @@ export default function SelectDifficulty() {
                 value="easy"
                 control={<Radio />}
                 label="Easy"
-                
               />
               <FormControlLabel
                 value="medium"
