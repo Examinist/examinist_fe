@@ -71,11 +71,12 @@ export default function QuestionTypeAccordion({
 
               {expandedId === id && (
                 <Box sx={{ mr: 2, ml: "auto" }}>
-                  {is_deletable && (
+                  { (
                     <IconButton
                       aria-label="delete"
                       sx={{ mr: 2 }}
                       onClick={handleDelete}
+                      disabled={!is_deletable}
                     >
                       <DeleteOutlineIcon />
                     </IconButton>

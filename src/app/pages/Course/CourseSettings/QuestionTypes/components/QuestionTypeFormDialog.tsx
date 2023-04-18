@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import CustomDialog, { CustomDialogTitle } from './CustomDialog';
-import { DialogContent, Typography, DialogActions, Button, TextField, Box, DialogContentText } from '@mui/material';
+import { DialogContent, Typography, DialogActions, Button, TextField, Box, DialogContentText, Alert } from '@mui/material';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -12,6 +12,7 @@ interface IQuestionTypeFormDialogProps {
     onClose: () => void;
     initialValues: IQuestionType | null; 
     onUpdate: any;
+    errorMessage?: string;
 }
 
 export interface IQuestionTypeForm {
@@ -29,7 +30,7 @@ const schema = yup.object({
   hard: yup.number().min(0).required("Weight is required."),
 });
 
-export default function QuestionTypeFormDialog({open, onClose, initialValues, onUpdate}: IQuestionTypeFormDialogProps) {
+export default function QuestionTypeFormDialog({open, onClose, initialValues, onUpdate, errorMessage}: IQuestionTypeFormDialogProps) {
   console.log(initialValues);
   const isNew = initialValues === null;
     const onSubmit: SubmitHandler<IQuestionTypeForm> = (
@@ -46,7 +47,7 @@ export default function QuestionTypeFormDialog({open, onClose, initialValues, on
         is_deletable: isNew? true : initialValues?.is_deletable,
     };
     onUpdate(questionType, isNew);
-    handleClose();
+    // handleClose();
     };
 
 
@@ -113,6 +114,9 @@ export default function QuestionTypeFormDialog({open, onClose, initialValues, on
 
               <DifficultyLevelsTable edited={true}></DifficultyLevelsTable>
             </Box>
+           {errorMessage && <Alert severity="error" sx={{my: 2}}>
+              {errorMessage}
+            </Alert>}
           </DialogContent>
           <DialogActions>
             <Button type="submit">Save changes</Button>
