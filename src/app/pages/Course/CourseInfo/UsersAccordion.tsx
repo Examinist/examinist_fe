@@ -6,13 +6,11 @@ import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box, Grid } from "@mui/material";
 import UsersTable from "./UsersTable";
+import IUser from "../../../types/User";
 
-export interface User {
-  name: string;
-  username: string;
-}
+
 interface IUsersAccordian {
-  users: User[];
+  users: IUser[];
   title: string;
 }
 export default function UsersAccordion({ title, users }: IUsersAccordian) {

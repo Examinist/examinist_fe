@@ -9,10 +9,11 @@ import {
   TableRow,
 } from "@mui/material";
 import React from "react";
-import { User } from "./UsersAccordion";
+import IUser from "../../../types/User";
+
 
 interface IUsersList {
-  users: User[];
+  users: IUser[];
 }
 
 export default function UsersTable({ users }: IUsersList) {
@@ -30,11 +31,11 @@ export default function UsersTable({ users }: IUsersList) {
         <TableBody>
           {users.map((user) => (
             <TableRow
-              key={user.name}
+              key={user.username}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {user.name}
+                {`${user.first_name} ${user.last_name}`}
               </TableCell>
               <TableCell align="left">{user.username}</TableCell>
             </TableRow>

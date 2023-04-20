@@ -1,37 +1,26 @@
 import { Box } from "@mui/material";
 import React from "react";
-import CourseGroup, { ICourseGroup } from "../CourseGroup";
+import { useParams } from "react-router-dom";
+import { getCourseGroupsAPI, ICourseGroupsResponse } from "../../../../services/APIs/CoursesAPIs";
+import { ICourseGroup } from "../../../../types/Course";
+import CourseGroup from "../CourseGroup";
 
-const groups: ICourseGroup[] = [
-  {
-    name: "Group 1",
-    instructors: [
-      { name: "Yousry Taha", username: "yousrytaha" },
-      { name: "Marwan Torki", username: "marwantorki" },
-    ],
-    students: [
-      { name: "Yasmine Hassan", username: "yasminehassan" },
-      { name: "Menna Samir", username: "mennasamir" },
-      { name: "Noha Ahmed", username: "nohaahmed" },
-    ],
-  },
-  {
-    name: "Group 2",
-    instructors: [
-      { name: "Yousry Taha", username: "yousrytaha" },
-      { name: "Marwan Torki", username: "marwantorki" },
-    ],
-    students: [
-      { name: "Yasmine Hassan", username: "yasminehassan" },
-      { name: "Menna Samir", username: "mennasamir" },
-      { name: "Noha Ahmed", username: "nohaahmed" },
-    ],
-  },
-];
 
 export default function CourseGroups() {
+  const [groups, setGroups] = React.useState<ICourseGroup[]>([]);
+  const { courseId } = useParams<{courseId: string}>();
+  const [loading, setLoading] = React.useState<boolean>(true);
+  React.useEffect(() => {
+    getCourseGroupsAPI(courseId!)
+    .then(({data}: ICourseGroupsResponse) => {
+      console.log(data);
+      setGroups(data.course_groups);
+      setLoading(false);
+    });
+  }, []);
+  
   return (
-    <div>
+    <Box sx={{ px: 15, py: 5 }}>
       <Box
         sx={{
           fontSize: "2rem",
@@ -48,6 +37,6 @@ export default function CourseGroups() {
           </div>
         ))}
       </Box>
-    </div>
+    </Box>
   );
 }

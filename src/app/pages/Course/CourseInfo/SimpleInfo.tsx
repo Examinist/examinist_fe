@@ -4,7 +4,7 @@ import React from "react";
 
 interface ISimpleInfo {
   title: string;
-  content: string;
+  content: any;
 }
 export default function SimpleInfo({ title, content }: ISimpleInfo) {
   return (

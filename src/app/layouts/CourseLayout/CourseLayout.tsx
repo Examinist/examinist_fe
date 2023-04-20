@@ -8,9 +8,6 @@ import theme from "../../../assets/theme";
 import CustomTabs, { ITab } from "../../components/CustomTabs/CustomTabs";
 
 const tabs: ITab[] = [
-  { name: "Question Bank" },
-  { name: "Exams" },
-  { name: "DashBoard" },
   {
     name: "Course Info",
     menu: [
@@ -18,6 +15,9 @@ const tabs: ITab[] = [
       { name: "Course Groups", to: "course-info/course-groups" },
     ],
   },
+  { name: "Question Bank" },
+  { name: "Exams" },
+  { name: "DashBoard" },
   {
     name: "Settings",
     menu: [
@@ -57,7 +57,7 @@ export default function CourseLayout() {
       </Box>
       <Box
         component="main"
-        sx={{ flexGrow: 1, overflow: "auto", height: "100vh", px: 5, py: 3 }}
+        sx={{ flexGrow: 1, overflow: "auto", height: "100vh" }}
       >
         <Outlet />
       </Box>
