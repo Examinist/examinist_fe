@@ -13,7 +13,8 @@ export interface ISelectBox {
 
 export default function SelectBox({ title, options }: ISelectBox) {
   const [option, setOption] = React.useState("");
-
+  //add use state to save filters options
+  
   const handleChange = (event: SelectChangeEvent) => {
     setOption(event.target.value);
   };
@@ -43,13 +44,15 @@ export default function SelectBox({ title, options }: ISelectBox) {
             },
             "&:hover": {
               "&& fieldset": {
-                border: `1px solid ${theme.palette.primary.main}`
-              }
-            }
+                border: `1px solid ${theme.palette.primary.main}`,
+              },
+            },
           }}
         >
           {options.map((e) => (
-            <MenuItem value={e.value}>{e.name}</MenuItem>
+            <MenuItem key={e.name} value={e.value}>
+              {e.name}
+            </MenuItem>
           ))}
         </Select>
       </FormControl>

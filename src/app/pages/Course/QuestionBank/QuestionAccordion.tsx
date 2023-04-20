@@ -5,8 +5,8 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
-
-
+import QuestionHeader from "./QuestionHeader";
+import QuestionBody from "./QuestionBody";
 
 export default function QuestionAccordion() {
   const [expanded, setExpanded] = React.useState<string | false>("panel1");
@@ -25,11 +25,12 @@ export default function QuestionAccordion() {
         sx={{ mr: 3 }}
       >
         <AccordionSummary
-         expandIcon={<ExpandMoreIcon />}
+          expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1d-content"
           id="panel1d-header"
-          sx={{ backgroundColor: theme.palette.background.paper ,
-        
+          sx={{
+            backgroundColor: theme.palette.background.paper,
+            position: "initial",
             flexDirection: "row-reverse",
             "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
               transform: "rotate(180deg)",
@@ -37,19 +38,14 @@ export default function QuestionAccordion() {
             "& .MuiAccordionSummary-content": {
               marginLeft: theme.spacing(1),
             },
-        }}
+          }}
         >
-          <Typography>Collapsible Group Item #1</Typography>
+          <QuestionHeader />
         </AccordionSummary>
         <AccordionDetails
-          sx={{mr:3, backgroundColor: theme.palette.background.paper }}
+          sx={{ mr: 3, backgroundColor: theme.palette.background.paper }}
         >
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum
-            dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada
-            lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
+         <QuestionBody/>
         </AccordionDetails>
       </Accordion>
     </div>
