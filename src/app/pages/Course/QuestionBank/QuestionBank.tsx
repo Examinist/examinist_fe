@@ -80,7 +80,7 @@ export default function QuestionBank() {
 
   return (
     <div>
-      <Stack spacing={2}>
+      <Stack spacing={2} sx={{padding:3}}>
       <Box>
         <Grid container direction="column">
           <Grid item xs>
@@ -126,7 +126,7 @@ export default function QuestionBank() {
             direction="column"
             justifyContent="center"
             alignItems="center"
-            spacing={12}
+            spacing={4}
             paddingTop={2}
           >
             <Grid item xs>
@@ -146,7 +146,8 @@ export default function QuestionBank() {
             </Grid>
           </Grid>
         </Grid>
-      </Box>      <Pagination count={10} page={page} onChange={handleChange} />
+      </Box> 
+     <Pagination count={10} page={page} onChange={handleChange} />
     </Stack>
      
     </div>
