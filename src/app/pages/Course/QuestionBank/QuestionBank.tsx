@@ -5,13 +5,17 @@ import {
   IconButton,
   InputBase,
   Paper,
+  Stack,
+  Pagination
 } from "@mui/material";
+
 import { Box } from "@mui/system";
 import SearchIcon from "@mui/icons-material/Search";
 import theme from "../../../../assets/theme";
 import SearchBar from "./SearchBar";
 import SelectBox, { ISelectBox } from "./SelectBox";
 import QuestionAccordion from "./QuestionAccordion";
+import React from "react";
 const selectBoxes: ISelectBox[] = [
   {
     title: "Group 1",
@@ -31,7 +35,7 @@ const selectBoxes: ISelectBox[] = [
     ],
   },
   {
-    title: "Group 1",
+    title: "Group 2",
     options: [
       {
         name: "name",
@@ -48,7 +52,7 @@ const selectBoxes: ISelectBox[] = [
     ],
   },
   {
-    title: "Group 1",
+    title: "Group 3",
     options: [
       {
         name: "name",
@@ -68,8 +72,15 @@ const selectBoxes: ISelectBox[] = [
 
 export default function QuestionBank() {
   const addNewQuestion = () => {};
+  const [page, setPage] = React.useState(1);
+  
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+  };
+
   return (
     <div>
+      <Stack spacing={2}>
       <Box>
         <Grid container direction="column">
           <Grid item xs>
@@ -103,8 +114,8 @@ export default function QuestionBank() {
           <Grid direction="row" container columns={{ xs: 4, sm: 4, md: 16 }}>
             {selectBoxes.map((box) => {
               return (
-                <Grid item xs={4}>
-                  <SelectBox title={box.title} options={box.options} />
+                <Grid key={box.title} item xs={4}>
+                  <SelectBox key={box.title} title={box.title} options={box.options} />
                 </Grid>
               );
             })}
@@ -121,9 +132,23 @@ export default function QuestionBank() {
             <Grid item xs>
               <QuestionAccordion />
             </Grid>
+            <Grid item xs>
+              <QuestionAccordion />
+            </Grid>
+            <Grid item xs>
+              <QuestionAccordion />
+            </Grid>
+            <Grid item xs>
+              <QuestionAccordion />
+            </Grid>
+            <Grid item xs>
+              <QuestionAccordion />
+            </Grid>
           </Grid>
         </Grid>
-      </Box>
+      </Box>      <Pagination count={10} page={page} onChange={handleChange} />
+    </Stack>
+     
     </div>
   );
 }
