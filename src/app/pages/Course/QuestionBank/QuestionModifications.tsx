@@ -9,10 +9,12 @@ export default function QuestionModifications() {
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
+    event.stopPropagation();
   };
-  const handleClose = (type: String) => {
+  const handleClose = (event: React.MouseEvent<HTMLButtonElement>,type: String) => {
     console.log(type);
     setAnchorEl(null);
+    event.stopPropagation();
   };
 
   return (
@@ -36,8 +38,8 @@ export default function QuestionModifications() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={() => handleClose("edit")}>Edit</MenuItem>
-        <MenuItem onClick={() => handleClose("delete")}>Delete</MenuItem>
+        <MenuItem onClick={(event:any) => handleClose(event,"edit")}>Edit</MenuItem>
+        <MenuItem onClick={(event:any) => handleClose(event,"delete")}>Delete</MenuItem>
       </Menu>
     </div>
   );
