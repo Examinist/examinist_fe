@@ -36,6 +36,15 @@ const theme = createTheme({
     white: {
       main:"#FFFFFF",
     },
+    yellow: {
+      main:"#F9C74F",
+    },
+    green: {
+      main:"#90BE6D",
+    },
+    red: {
+      main:"#F94144",
+    },
   },
   typography: {
     fontFamily: ["Montserrat", "sans-serif"].join(","),

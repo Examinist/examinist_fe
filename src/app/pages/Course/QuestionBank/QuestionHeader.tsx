@@ -1,18 +1,34 @@
 import * as React from "react";
 import theme from "../../../../assets/theme";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, styled } from "@mui/material";
 import QuestionModifications from "./QuestionModifications";
+import { DefaultQuestionTypesEnum, IQuestion } from "../../../types/Question";
 
-export default function QuestionHeader() {
+const Rectangle = styled("div")(({ theme, color }) => ({
+  position: "relative",
+  display: "flex",
+  width: "20px",
+  height: "20px",
+  backgroundColor: color,
+  justifyContent: "center",
+  alignItems: "center",
+  borderRadius: 5,
+}));
+export default function QuestionHeader(question: IQuestion) {
   const [spacing, setSpacing] = React.useState(2);
-
+  const getColor = (questionDifficulty: string) => {
+    if (questionDifficulty === "easy") return theme.palette.green.main;
+    return questionDifficulty === "medium"
+      ? theme.palette.yellow.main
+      : theme.palette.red.main;
+  };
   return (
-    <Grid container >
+    <Grid container>
       <Grid item xs={12}>
         <Grid container justifyContent="space-between">
           <Grid item>
             <Typography variant="subtitle2" color={theme.palette.gray.dark}>
-              topic
+              {question.topic}
             </Typography>
           </Grid>
           <Grid item>
@@ -25,33 +41,26 @@ export default function QuestionHeader() {
             >
               <Grid item>
                 <Typography variant="subtitle2" color={theme.palette.gray.dark}>
-                  essay
+                  {question.questionType == DefaultQuestionTypesEnum.MCQ
+                    ? `${question.questionType} ( ${question.answerType} )`
+                    : question.questionType}
                 </Typography>
               </Grid>
               <Grid item>
-                <div
-                  style={{
-                    display: "flex",
-                    width: "20px",
-                    height: "20px",
-                    backgroundColor: theme.palette.primary.dark,
-                    borderRadius: 5,
-                  }}
-                ></div>
+                <Rectangle color={getColor(question.difficulty)} />
               </Grid>
               <Grid item>
-                <QuestionModifications/>
+                <QuestionModifications />
               </Grid>
             </Grid>
-
           </Grid>
         </Grid>
       </Grid>
       <Grid item>
-            <Typography variant="subtitle2" color={theme.palette.gray.dark}>
-            Q. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor Q. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.incididunt ut labore et dolore magna aliqua.
-            </Typography>
-          </Grid>
+        <Typography variant="subtitle2" color={theme.palette.gray.dark}>
+          {question.header}
+        </Typography>
+      </Grid>
     </Grid>
   );
 }
