@@ -45,7 +45,7 @@ const InstructorRoutes = () => {
             </Route>
           </Route>
         </Route>
-        <Route path="exams" element={<Test />} />
+        <Route path="exams" element={<Exams />} />
         <Route path="dashboard" element={<Test />} />
         <Route path="calendar" element={<Test />} />
         <Route path="exam-sessions" element={<Test />} />
