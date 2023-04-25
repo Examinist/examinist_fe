@@ -32,12 +32,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       case UserRoleEnum.INSTRUCTOR:
         navigate("/instructor", { replace: true });
         break;
+      case UserRoleEnum.FACULTY_ADMIN:
+        navigate("/faculty_admin", { replace: true });
+        break;
     }
   };
 
   const login = (user?: IUser) => {
     console.log(user);
     setIsAuthenticated(true);
+    // user!.role = UserRoleEnum.FACULTY_ADMIN;
     setUser(user);
     GoToHomePage(user!);
   };
@@ -48,6 +52,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     getUserProfileAPI()
       .then(({ data }: IGetUserProfileResponse) => {
         const user = data.staff! || data.student!;
+        // user.role = UserRoleEnum.FACULTY_ADMIN;
         setIsAuthenticated(true);
         setUser(user);
         if (location.pathname == "/login" || location.pathname == "/")

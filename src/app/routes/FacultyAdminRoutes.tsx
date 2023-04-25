@@ -1,7 +1,6 @@
 import { Navigate, Route } from "react-router-dom";
 import RoleGuard from "../components/RoleGuard/RoleGuard";
 import CourseLayout from "../layouts/CourseLayout/CourseLayout";
-import InstructorLayout from "../layouts/instructorLayout/InstructorLayout";
 import CourseGroups from "../pages/Course/CourseInfo/CourseGroups/CourseGroups";
 import GeneralInfo from "../pages/Course/CourseInfo/GeneralInfo/GeneralInfo";
 import QuestionTypes from "../pages/Course/CourseSettings/QuestionTypes/QuestionTypes";
@@ -14,13 +13,13 @@ import Courses from "../pages/ListCourses/ListCourses";
 import Test from "../pages/Test";
 import { UserRoleEnum } from "../types/User";
 import AddQuestion from "../pages/Course/AddQuestion/AddQuestion";
+import FacultyAdminLayout from "../layouts/FacultyAdminLayout/FacultyAdminLayout";
 
-const InstructorRoutes = () => {
+const FacultyAdminRoutes = () => {
   return (
-    <Route element={<RoleGuard allowedRole={UserRoleEnum.INSTRUCTOR} />}>
-      <Route path="instructor" element={<InstructorLayout />}>
+    <Route element={<RoleGuard allowedRole={UserRoleEnum.FACULTY_ADMIN} />}>
+      <Route path="faculty_admin" element={<FacultyAdminLayout />}>
         <Route path="" element={<Navigate to="courses" />} />
-        <Route path="test" element={<Test />} />
         <Route path="courses">
           <Route index element={<Courses />} />
           <Route path=":courseId" element={<CourseLayout />}>
@@ -49,9 +48,11 @@ const InstructorRoutes = () => {
         <Route path="calendar" element={<Test />} />
         <Route path="exam-sessions" element={<Test />} />
         <Route path="pending-reports" element={<Test />} />
+        <Route path="scheduling" element={<Test />} />
+        <Route path="users" element={<Test />} />
       </Route>
     </Route>
   );
 };
 
-export default InstructorRoutes;
+export default FacultyAdminRoutes;

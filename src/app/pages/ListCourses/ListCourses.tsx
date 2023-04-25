@@ -50,7 +50,7 @@ export default function Courses() {
               return (
                 <Grid item xs={4} sm={4} md={4}>
                   <NavLink
-                    to={`/instructor/courses/${course.id}`}
+                    to={`./${course.id}`}
                     style={({ isActive }) => {
                       return {
                         textDecoration: "none",

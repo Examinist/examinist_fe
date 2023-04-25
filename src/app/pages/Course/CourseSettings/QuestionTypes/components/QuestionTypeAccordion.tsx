@@ -5,12 +5,13 @@ import {
   AccordionDetails,
   IconButton,
 } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import DifficultyLevelsTable from "./DifficultyLevelsTable";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import { IQuestionType } from "../../../../../types/Question";
+import { IsAssignedContext } from "../../../../../layouts/CourseLayout/CourseLayout";
 
 
 interface IQuestionTypeAccordion {
@@ -36,6 +37,7 @@ export default function QuestionTypeAccordion({
   onChange,
   onDelete,
 }: IQuestionTypeAccordion) {
+  const isAssigned = useContext(IsAssignedContext);
   const handleEdit = (e: any) => {
     e.stopPropagation();
     onEdit(id);
@@ -69,7 +71,7 @@ export default function QuestionTypeAccordion({
                   {name}
                 </Box>
 
-              {expandedId === id && (
+              {expandedId === id && isAssigned && (
                 <Box sx={{ mr: 2, ml: "auto" }}>
                   { (
                     <IconButton

@@ -7,8 +7,8 @@ import theme from "../../../assets/theme";
 
 export default function test() {
   return (
-    <PersonIcon sx={{color: theme.palette.primary.main}}>
-  
-    </PersonIcon>
+    <>
+    test
+    </>
   );
 }
