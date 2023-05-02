@@ -19,6 +19,7 @@ import {
 } from "../../../../services/APIs/CourseSettingsAPIs";
 import { useParams } from "react-router-dom";
 import { IErrorResponse } from "../../../../services/Response";
+import theme from "../../../../../assets/theme";
 
 export default function QuestionTypes() {
   const course_id = useParams<{ courseId: string }>();
@@ -153,23 +154,25 @@ export default function QuestionTypes() {
               Question Types
             </Box>
 
-           {<Button
-              variant="outlined"
-              sx={{
-                color: "#1B84BF",
-                backgroundColor: "white",
-                marginLeft: "auto",
-                border: 1,
-                fontSize: "14px",
-                fontWeight: "bold",
-                px: 4,
-                textTransform: "none",
-                borderRadius: "15px",
-              }}
-              onClick={handleDialogOpen}
-            >
-              Add New Question Type
-            </Button>}
+            {
+              <Button
+                variant="outlined"
+                sx={{
+                  color: "#1B84BF",
+                  backgroundColor: theme.palette.white.main,
+                  marginLeft: "auto",
+                  border: 1,
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  px: 4,
+                  textTransform: "none",
+                  borderRadius: "15px",
+                }}
+                onClick={handleDialogOpen}
+              >
+                Add New Question Type
+              </Button>
+            }
           </Box>
           <Box sx={{ mt: 4, display: "flex", flexDirection: "column", gap: 3 }}>
             {questionTypes.map((questionType, index) => (

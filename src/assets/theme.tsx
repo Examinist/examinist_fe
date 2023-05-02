@@ -3,10 +3,18 @@ import { createTheme } from "@mui/material";
 declare module "@mui/material/styles" {
   interface Palette {
     gray: Palette["primary"];
+    white: Palette["primary"];
+    yellow: Palette["primary"];
+    green: Palette["primary"];
+    red: Palette["primary"];
   }
 
   interface PaletteOptions {
     gray: PaletteOptions["primary"];
+    white: PaletteOptions["primary"];
+    yellow: PaletteOptions["primary"];
+    green: PaletteOptions["primary"];
+    red: PaletteOptions["primary"];
   }
 }
 
@@ -57,7 +65,7 @@ const theme = createTheme({
         },
       },
     },
-    MuiAccordion: {
+  MuiAccordion: {
       styleOverrides: {
         root: {
           "&:before": {

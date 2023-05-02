@@ -22,6 +22,7 @@ import {
 } from "../../../../services/APIs/CourseSettingsAPIs";
 import { useParams } from "react-router-dom";
 import { IErrorResponse } from "../../../../services/Response";
+import theme from "../../../../../assets/theme";
 
 const topic: ITopic[] = [
   { name: "Chapter 1", id: 1 },
@@ -167,7 +168,7 @@ export default function Topics() {
                 onClick={() => handleAddTopicButton(1)}
                 sx={{
                   color: "#1B84BF",
-                  backgroundColor: "white",
+                  backgroundColor: theme.palette.white.main,
                   width: "100%",
                   height: "69%",
                   marginTop: "7px",

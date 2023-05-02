@@ -7,6 +7,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box, Grid } from "@mui/material";
 import UsersTable from "./UsersTable";
 import IUser from "../../../types/User";
+import theme from "../../../../assets/theme";
 
 
 interface IUsersAccordian {
@@ -15,7 +16,14 @@ interface IUsersAccordian {
 }
 export default function UsersAccordion({ title, users }: IUsersAccordian) {
   return (
-    <Box sx={{ backgroundColor: "white", py: 1, pl: 3, borderRadius: 5 }}>
+    <Box
+      sx={{
+        backgroundColor: theme.palette.white.main,
+        py: 1,
+        px: 3,
+        borderRadius: 5,
+      }}
+    >
       <Accordion elevation={0}>
         <AccordionSummary
           sx={{ mr: 3 }}

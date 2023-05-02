@@ -35,7 +35,7 @@ export default function GeneralInfo() {
           <CircularProgress />
         </Box>
       )}
-      {courseInfo && !isLoading && (
+    {courseInfo && !isLoading && (
         <>
           <Box
             sx={{
