@@ -46,7 +46,7 @@ const getUserProfileAPI = async () => {
 
   try {
     const response = await axiosInstance.post(`/${portal}/sessions`, {
-      username: "gerard",
+      username: "rana",
       password: "password",
     });
     return response as IGetUserProfileResponse;

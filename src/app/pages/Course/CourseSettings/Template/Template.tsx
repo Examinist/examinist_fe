@@ -55,24 +55,26 @@ export default function Template() {
   };
 
   return (
-    <Box>
+    <Box sx={{ px: 15, py: 5 }}>
       <Typography
         sx={{
           fontSize: "2rem",
           fontWeight: "medium",
+          mb: 4
         }}
       >
-        Exam Templete
+        Exam Template
       </Typography>
       <TemplateCard
         title={"Question Types"}
         listMap={questionType}
         colors={[]}
-        ></TemplateCard>
+      ></TemplateCard>
       <TemplateCard
-      title={"Difficulty Levels"}
-      listMap={difficulty}
-      colors={colors}></TemplateCard>
+        title={"Difficulty Levels"}
+        listMap={difficulty}
+        colors={colors}
+      ></TemplateCard>
     </Box>
   );
 }

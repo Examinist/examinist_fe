@@ -1,51 +1,64 @@
-export interface IQuestionType{
-    id: number;
-    name: string;
-    easy_weight: number;
-    medium_weight: number;
-    hard_weight: number;
-    is_deletable: boolean;
+export interface IQuestionType {
+  id: number;
+  name: string;
+  easy_weight: number;
+  medium_weight: number;
+  hard_weight: number;
+  is_deletable: boolean;
 }
 
 export interface IQuestion {
-    id?: number;
-  questionType: string;
-  topic: string;
-  difficulty: string;
+  id?: number;
   header: string;
-  answerType: AnswerTypeEnum;
+  difficulty: string;
+  question_type: IQuestionType;
+  topic: ITopic;
+  answer_type: AnswerTypeEnum;
   choices?: IChoice[];
-  correctAnswer?: string;
+  correct_answers?: ICorrectAnswer[];
 }
 
-export interface ITopic{
+export interface ITopic {
   id: number;
   name: string;
 }
 
-
-export enum AnswerTypeEnum{
-    SINGLE = "single",
-    MULTIPLE = "multiple",
-    TEXT = "text",
-    PDF = "pdf",
+export enum AnswerTypeEnum {
+  SINGLE = "single_answer",
+  MULTIPLE = "multiple_answers",
+  TEXT = "text_answer",
+  PDF = "pdf_answer",
 }
 
-export enum DifficultyLevelEnum{
-    EASY = "Easy",
-    MEDIUM = "Medium",
-    HARD = "Hard",
+export enum DifficultyLevelEnum {
+  EASY = "easy",
+  MEDIUM = "medium",
+  HARD = "hard",
 }
 
-export enum DefaultQuestionTypesEnum{
-    MCQ = "MCQ",
-    T_F = "T/F",
-    ESSAY = "Essay",
-    SHORT_ANSWER = "Short_Answer",
+export enum DefaultQuestionTypesEnum {
+  MCQ = "MCQ",
+  T_F = "T/F",
+  ESSAY = "Essay",
+  SHORT_ANSWER = "Short_Answer",
 }
 
-export interface IChoice{
-    id?: number;
-    choice: string;
-    isCorrect: boolean;
+export interface IChoice {
+  id?: number;
+  choice: string;
+  is_answer: boolean;
+}
+
+export interface ICorrectAnswer {
+  id: number;
+  answer: string;
+  choice_id?: number;
+}
+
+export interface IFilterQuestionsParams{
+  filter_by_header?: string;
+  filter_by_topic_id?: string;
+  filter_by_question_type_id?: string;
+  filter_by_difficulty?: string;
+  page: number;
 }

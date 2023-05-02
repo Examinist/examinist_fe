@@ -55,11 +55,11 @@ export default function TemplateCard({ title, listMap, colors }: ITemplateCardPr
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Box
                     sx={{
-                        marginTop: "10px",
-                        marginLeft: "20px",
+                        mb: 4,
+                        px :2,
                         bgcolor: "White",
                         borderRadius: "15px",
-                        paddingBottom: "8px",
+                        py: 1,
                     }}
                 >
                     <ListItem

@@ -5,24 +5,42 @@ import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import theme from "../../../../assets/theme";
+import { set } from "react-hook-form";
 
+export interface IOption {
+  name: string;
+  value: any;
+}
 export interface ISelectBox {
   title: string;
-  options: { name: string; value: string }[];
+  options: IOption[];
+  onChange: (value: any) => void;
+  onCancel: () => void;
 }
 
-export default function SelectBox({ title, options }: ISelectBox) {
+export default function SelectBox({
+  title,
+  options,
+  onChange,
+  onCancel,
+}: ISelectBox) {
   const [option, setOption] = React.useState("");
   //add use state to save filters options
-  
+
   const handleChange = (event: SelectChangeEvent) => {
-    setOption(event.target.value);
+    if (event.target.value === "All") {
+      setOption(event.target.value);
+      onCancel();
+    } else {
+      setOption(event.target.value);
+      onChange(event.target.value);
+    }
   };
 
   return (
     <div>
       <FormControl
-        sx={{ m: 1, minWidth: 220, color: theme.palette.primary.main }}
+        sx={{ mb: 2, width: '100%', color: theme.palette.primary.main,  }}
       >
         <InputLabel
           sx={{ color: theme.palette.primary.main, position: "absolute" }}
@@ -31,12 +49,14 @@ export default function SelectBox({ title, options }: ISelectBox) {
           {title}
         </InputLabel>
         <Select
+       
           labelId="select"
           id="select"
           value={option}
           onChange={handleChange}
           label={title}
           sx={{
+            borderRadius: 3,
             backgroundColor: theme.palette.background.paper,
             color: theme.palette.text.primary,
             ".MuiSvgIcon-root ": {
@@ -49,6 +69,8 @@ export default function SelectBox({ title, options }: ISelectBox) {
             },
           }}
         >
+          <MenuItem value="All">All</MenuItem>
+
           {options.map((e) => (
             <MenuItem key={e.name} value={e.value}>
               {e.name}

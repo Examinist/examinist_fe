@@ -24,16 +24,10 @@ import { useParams } from "react-router-dom";
 import { IErrorResponse } from "../../../../services/Response";
 import theme from "../../../../../assets/theme";
 
-const topic: ITopic[] = [
-  { name: "Chapter 1", id: 1 },
-  { name: "Chapter 2", id: 2 },
-  { name: "Chapter 3", id: 3 },
-];
-
 export default function Topics() {
   const { courseId } = useParams<{ courseId: string }>();
   const [addTopic, setAddTopic] = useState(-1);
-  const [topics, setTopics] = useState(topic);
+  const [topics, setTopics] = useState<ITopic[]>([]);
   const [renameId, setRenameId] = useState(-1);
   const [isLoading, setIsLoading] = useState(true);
   const [alertState, setAlertState] = React.useState<any>({

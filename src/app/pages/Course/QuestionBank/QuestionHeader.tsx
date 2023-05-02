@@ -1,8 +1,8 @@
 import * as React from "react";
 import theme from "../../../../assets/theme";
-import { Grid, Typography, styled } from "@mui/material";
+import { Box, Grid, Typography, styled } from "@mui/material";
 import QuestionModifications from "./QuestionModifications";
-import { DefaultQuestionTypesEnum, IQuestion } from "../../../types/Question";
+import { DefaultQuestionTypesEnum, DifficultyLevelEnum, IQuestion } from "../../../types/Question";
 
 const Rectangle = styled("div")(({ theme, color }) => ({
   position: "relative",
@@ -15,22 +15,58 @@ const Rectangle = styled("div")(({ theme, color }) => ({
   borderRadius: 5,
 }));
 export default function QuestionHeader(question: IQuestion) {
-  const [spacing, setSpacing] = React.useState(2);
   const getColor = (questionDifficulty: string) => {
-    if (questionDifficulty === "easy") return theme.palette.green.main;
-    return questionDifficulty === "medium"
+    if (questionDifficulty === DifficultyLevelEnum.EASY)
+      return theme.palette.green.main;
+    return questionDifficulty === DifficultyLevelEnum.MEDIUM
       ? theme.palette.yellow.main
       : theme.palette.red.main;
   };
   return (
-    <Grid container>
+    <Grid container sx={{ pl: 2 }}>
       <Grid item xs={12}>
         <Grid container justifyContent="space-between">
           <Grid item>
-            <Typography variant="subtitle2" color={theme.palette.gray.dark}>
-              {question.topic}
-            </Typography>
+            <Grid container direction="row" spacing={5}>
+              <Grid item>
+                <Box sx={{ display: "flex", gap: 1 }}>
+                  <Typography
+                    variant="subtitle2"
+                    color={theme.palette.gray.dark}
+                    sx={{ fontWeight: 700 }}
+                  >
+                    Topic:
+                  </Typography>
+                  <Typography
+                    variant="subtitle2"
+                    color={theme.palette.gray.dark}
+                  >
+                    {question.topic.name}
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item>
+                <Box sx={{ display: "flex", gap: 1 }}>
+                  <Typography
+                    variant="subtitle2"
+                    color={theme.palette.gray.dark}
+                    sx={{ fontWeight: 700 }}
+                  >
+                    Question Type:
+                  </Typography>
+                  <Typography
+                    variant="subtitle2"
+                    color={theme.palette.gray.dark}
+                  >
+                    {question.question_type.name == DefaultQuestionTypesEnum.MCQ
+                      ? `${question.question_type.name} ( ${question.answer_type} )`
+                      : question.question_type.name}
+                  </Typography>
+                </Box>
+              </Grid>
+            </Grid>
           </Grid>
+
           <Grid item>
             <Grid
               container
@@ -41,9 +77,7 @@ export default function QuestionHeader(question: IQuestion) {
             >
               <Grid item>
                 <Typography variant="subtitle2" color={theme.palette.gray.dark}>
-                  {question.questionType == DefaultQuestionTypesEnum.MCQ
-                    ? `${question.questionType} ( ${question.answerType} )`
-                    : question.questionType}
+                  {question.difficulty}
                 </Typography>
               </Grid>
               <Grid item>
@@ -57,7 +91,11 @@ export default function QuestionHeader(question: IQuestion) {
         </Grid>
       </Grid>
       <Grid item>
-        <Typography variant="subtitle2" color={theme.palette.gray.dark}>
+        <Typography
+          variant="subtitle2"
+          color={theme.palette.gray.dark}
+          sx={{ fontSize: 20 }}
+        >
           {question.header}
         </Typography>
       </Grid>

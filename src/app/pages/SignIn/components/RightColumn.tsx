@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
 import React from 'react'
 import OnlineExamsImage from '../../../../assets/images/OnlineExamsImage';
+import theme from '../../../../assets/theme';
 
 export default function RightColumn() {
   return (
@@ -25,7 +26,7 @@ export default function RightColumn() {
         <OnlineExamsImage />
         <Box
           sx={{
-            color: "white",
+            color: theme.palette.white.main,
             fontSize: "4rem",
             fontWeight: "bold",
           }}
@@ -34,7 +35,7 @@ export default function RightColumn() {
         </Box>
         <Box
           sx={{
-            color: "white",
+            color: theme.palette.white.main,
             fontSize: "2.5rem",
           }}
         >

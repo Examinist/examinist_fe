@@ -81,6 +81,7 @@ export default function SignInForm() {
         const user: IUser = data.staff! || data.student!;
         localStorage.setItem("auth_token", user.auth_token!);
         localStorage.setItem("portal", inputs.portal);
+        localStorage.setItem("username", user.username!);
         login(user);
       })
       .catch(({ response: { status, data, statusText } }: IErrorResponse) => {
