@@ -19,7 +19,6 @@ import {
 } from "../../../../services/APIs/CourseSettingsAPIs";
 import { useParams } from "react-router-dom";
 import { IErrorResponse } from "../../../../services/Response";
-import { IsAssignedContext } from "../../../../layouts/CourseLayout/CourseLayout";
 
 export default function QuestionTypes() {
   const course_id = useParams<{ courseId: string }>();
@@ -34,7 +33,6 @@ export default function QuestionTypes() {
   const [expandedId, setExpandedId] = React.useState<number>(-1);
   const [questionTypes, setQuestionTypes] = React.useState<IQuestionType[]>([]);
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
-  const isAssigned = useContext(IsAssignedContext);
 
   useEffect(() => {
     getQuestionTypesApi(course_id.courseId)
@@ -155,7 +153,7 @@ export default function QuestionTypes() {
               Question Types
             </Box>
 
-           {isAssigned && <Button
+           {<Button
               variant="outlined"
               sx={{
                 color: "#1B84BF",
@@ -200,7 +198,7 @@ export default function QuestionTypes() {
           <Snackbar
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             open={alertState.open}
-            autoHideDuration={6000}
+            autoHideDuration={3000}
             onClose={() => setAlertState((a: any) => ({ ...a, open: false }))}
           >
             <Alert

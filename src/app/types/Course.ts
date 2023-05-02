@@ -19,11 +19,6 @@ interface ICourseGroup{
     instructors: IUser[];
     students: IUser[];
 }
-export interface ITopic {
-  name: string;
-  id: number;
-}
-
 
 export type {ICourse, ICourseInfo, ICourseGroup};
 

@@ -18,11 +18,23 @@ export interface IQuestion {
   correctAnswer?: string;
 }
 
+export interface ITopic{
+  id: number;
+  name: string;
+}
+
+
 export enum AnswerTypeEnum{
     SINGLE = "single",
     MULTIPLE = "multiple",
     TEXT = "text",
     PDF = "pdf",
+}
+
+export enum DifficultyLevelEnum{
+    EASY = "Easy",
+    MEDIUM = "Medium",
+    HARD = "Hard",
 }
 
 export enum DefaultQuestionTypesEnum{

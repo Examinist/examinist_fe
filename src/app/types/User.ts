@@ -17,7 +17,7 @@ export enum UserRoleEnum {
   INSTRUCTOR = "instructor",
   STUDENT = "student",
   UNIVERSITY_ADMIN = "university_admin",
-  FACULTY_ADMIN = "faculty_admin",
+  FACULTY_ADMIN = "admin",
   PROCTOR = "proctor",
 }
 

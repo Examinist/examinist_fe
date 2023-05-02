@@ -7,7 +7,7 @@ import {
   TextField,
 } from "@mui/material";
 import { useState } from "react";
-import { ITopic } from "../../../../../types/Course";
+import { ITopic } from "../../../../../types/Question";
 import ConfirmIcons from "./ConfirmIcons";
 import UpdateIcons from "./UpdateIcons";
 
@@ -65,7 +65,7 @@ export default function TopicElement({
   };
 
   return (
-    <Box sx={{ px: 2, py: 0.5 }}>
+    <Box sx={{ px: 3, py: 1.5 }}>
       <ListItem
         secondaryAction={
           id == renamedId ? (
@@ -103,7 +103,13 @@ export default function TopicElement({
             helperText={errorMsg}
           />
         ) : (
-          <ListItemText primary={name} sx={{ color: "Black" }}></ListItemText>
+          <Box
+            sx={{
+              color: "Black",
+              fontSize: 18,
+              fontWeight: "medium",
+            }}
+          >{name}</Box>
         )}
       </ListItem>
       {!lastElement && <Divider sx={{ color: "#D9D9D9" }}></Divider>}
