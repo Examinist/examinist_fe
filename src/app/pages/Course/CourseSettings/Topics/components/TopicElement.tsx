@@ -1,9 +1,7 @@
 import {
   Box,
   Divider,
-  IconButton,
   ListItem,
-  ListItemText,
   TextField,
 } from "@mui/material";
 import { useState } from "react";
@@ -65,13 +63,15 @@ export default function TopicElement({
   };
 
   return (
-    <Box sx={{ px: 3, py: 1.5 }}>
+    <Box sx={{px: 2}}>
       <ListItem
+        sx={{ px: 2, py: 2 }}
+        
         secondaryAction={
           id == renamedId ? (
             <ConfirmIcons
-              onCancel={cancelHandler}
-              onSave={validateChange}
+              cancelHandler={cancelHandler}
+              confirmChange={validateChange}
             ></ConfirmIcons>
           ) : (
             <UpdateIcons
@@ -109,7 +109,9 @@ export default function TopicElement({
               fontSize: 18,
               fontWeight: "medium",
             }}
-          >{name}</Box>
+          >
+            {name}
+          </Box>
         )}
       </ListItem>
       {!lastElement && <Divider sx={{ color: "#D9D9D9" }}></Divider>}
