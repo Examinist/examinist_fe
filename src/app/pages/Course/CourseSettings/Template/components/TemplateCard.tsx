@@ -3,6 +3,10 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useState } from "react";
 import TemplateElement from "./TemplateElement";
 import ConfirmIcons from "../../Topics/components/ConfirmIcons";
+import { ITypeList } from "../Template";
+import { FormProvider, useFieldArray, useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 interface ITemplateCardProps {
     title: string;
@@ -10,61 +14,99 @@ interface ITemplateCardProps {
     colors: string[];
 }
 
+export interface IFormInput {
+    list: ITypeList[];
+}
+
+const schema = yup.object().shape({
+    list: yup.array().of(
+        yup.object().shape({
+            name: yup.string(),
+            percent: yup.number().required(),
+        })
+    )
+})
+
 export default function TemplateCard({ title, listMap, colors }: ITemplateCardProps) {
     const [edit, setEdit] = useState(false);
+
+    const methods = useForm<IFormInput>({
+        defaultValues: {
+            list: listMap
+        },
+        resolver: yupResolver(schema),
+    });
+
+    const { control, handleSubmit } = methods;
+
+    const { fields } = useFieldArray({
+        control,
+        name: "list",
+    });
+
+    const onSubmit = (data: IFormInput) => {
+        console.log(data);
+        setEdit(!edit);
+    };
+
+
     return (
-        <Box
-            sx={{
-                marginTop: "10px",
-                marginLeft: "20px",
-                bgcolor: "White",
-                borderRadius: "15px",
-                paddingBottom: "8px",
-            }}
-        >
-            <ListItem
-                secondaryAction={
-                    edit ? <ConfirmIcons
-                        cancelHandler={() => setEdit(!edit)}
-                        confirmChange={() => null}></ConfirmIcons> :
-                        <IconButton
-                            onClick={() => setEdit(!edit)
-                            }
-                        >
-                            <EditIcon />
-                        </IconButton>
-                }>
-                <Typography
+        <FormProvider {...methods}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <Box
                     sx={{
-                        //marginLeft: "10px",
-                        //paddingTop: "8px",
-                        fontSize: "23px",
+                        marginTop: "10px",
+                        marginLeft: "20px",
+                        bgcolor: "White",
+                        borderRadius: "15px",
+                        paddingBottom: "8px",
                     }}
                 >
-                    {title}
-                </Typography>
-            </ListItem>
-            <List disablePadding>
-                {listMap.map((value, index) => {
-                    if (title === "Question Types") {
-                        return (
-                            <TemplateElement
-                                showIcon={false}
-                                difficulty={value}
-                                editPercent={edit}
-                                difficultyColor={""}></TemplateElement>
-                        );
-                    } else {
-                        return (
-                            <TemplateElement
-                                showIcon={true}
-                                difficulty={value}
-                                editPercent={edit}
-                                difficultyColor={colors[index]}></TemplateElement>
-                        );
-                    }
-                })}
-            </List>
-        </Box>
+                    <ListItem
+                        secondaryAction={
+                            edit ? <ConfirmIcons
+                                isSubmit={true}
+                                cancelHandler={() => setEdit(!edit)}
+                                confirmChange={() => {}}/> :
+                                <IconButton
+                                    onClick={() => setEdit(!edit)
+                                    }
+                                >
+                                    <EditIcon />
+                                </IconButton>
+                        }>
+                        <Typography
+                            sx={{
+                                fontSize: "23px",
+                            }}
+                        >
+                            {title}
+                        </Typography>
+                    </ListItem>
+                    <List disablePadding>
+                        {fields.map((item, index) => (
+                            <div key={item.id}>
+                                {title === "Question Types" ?
+                                    <TemplateElement
+                                        showIcon={false}
+                                        //difficulty={item}
+                                        index={index}
+                                        editPercent={edit}
+                                        difficultyColor={""}></TemplateElement>
+                                    : <TemplateElement
+                                        showIcon={true}
+                                        //difficulty={item}
+                                        index={index}
+                                        editPercent={edit}
+                                        difficultyColor={colors[index]}></TemplateElement>
+
+                                }
+                            </div>
+                        )
+                        )}
+                    </List>
+                </Box>
+            </form>
+        </FormProvider>
     );
 }
