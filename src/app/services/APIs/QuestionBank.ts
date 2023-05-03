@@ -1,10 +1,12 @@
 import { IFilterQuestionsParams, IQuestion } from "../../types/Question";
 import axiosInstance from "../AxiosConfig";
 import { IResponse, IResponseData } from "../Response";
+import { mockQuestions } from "./mockData/MockData";
 
 interface IQuestionsListData extends IResponseData {
   questions: IQuestion[];
 }
+
 
 export interface IQuestionsListResponse extends IResponse<IQuestionsListData> {}
 
@@ -20,6 +22,6 @@ export const getQuestionsApi = async (
     console.log(response);
     return response as IQuestionsListResponse;
   } catch (error) {
-    return { data: { questions: [] }} as IQuestionsListResponse;
+    return { data: { questions: mockQuestions }} as IQuestionsListResponse;
   }
 };

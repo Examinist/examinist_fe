@@ -37,8 +37,6 @@ interface IFormInputs {
 
 export default function QuestionForm({
   questionType,
-  mode,
-  question,
 }: IQuestionFormProps) {
   const methods = useForm<IFormInputs>({
     defaultValues: {

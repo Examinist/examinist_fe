@@ -157,27 +157,6 @@ export default function QuestionBank() {
             >
               <Grid item xs={4} md={3}>
                 <SelectBox
-                  key={"Difficulty Level"}
-                  title={"Difficulty Level"}
-                  options={DifficultyLevelOptions}
-                  onChange={(value) =>
-                    setFilterParams({
-                      ...filterParams,
-                      filter_by_difficulty: value,
-                      page: 1,
-                    })
-                  }
-                  onCancel={() =>
-                    setFilterParams({
-                      ...filterParams,
-                      filter_by_difficulty: undefined,
-                      page: 1,
-                    })
-                  }
-                />
-              </Grid>
-              <Grid item xs={4} md={3}>
-                <SelectBox
                   key={"Topic"}
                   title={"Topic"}
                   options={topics}
@@ -197,7 +176,7 @@ export default function QuestionBank() {
                   }
                 />
               </Grid>
-              <Grid item xs={3} md={3}>
+              <Grid item xs={4} md={3}>
                 <SelectBox
                   key={"Question Type"}
                   title={"Question Type"}
@@ -213,6 +192,27 @@ export default function QuestionBank() {
                     setFilterParams({
                       ...filterParams,
                       filter_by_question_type_id: undefined,
+                      page: 1,
+                    })
+                  }
+                />
+              </Grid>
+              <Grid item xs={4} md={3}>
+                <SelectBox
+                  key={"Difficulty Level"}
+                  title={"Difficulty Level"}
+                  options={DifficultyLevelOptions}
+                  onChange={(value) =>
+                    setFilterParams({
+                      ...filterParams,
+                      filter_by_difficulty: value,
+                      page: 1,
+                    })
+                  }
+                  onCancel={() =>
+                    setFilterParams({
+                      ...filterParams,
+                      filter_by_difficulty: undefined,
                       page: 1,
                     })
                   }
@@ -236,7 +236,7 @@ export default function QuestionBank() {
           count={10}
           page={filterParams.page}
           onChange={(_event: React.ChangeEvent<unknown>, value: number) => {
-            setFilterParams({...filterParams,  page: value });
+            setFilterParams({ ...filterParams, page: value });
           }}
         />
       </Stack>

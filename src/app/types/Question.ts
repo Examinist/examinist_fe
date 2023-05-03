@@ -10,7 +10,7 @@ export interface IQuestionType {
 export interface IQuestion {
   id?: number;
   header: string;
-  difficulty: string;
+  difficulty: DifficultyLevelEnum;
   question_type: IQuestionType;
   topic: ITopic;
   answer_type: AnswerTypeEnum;

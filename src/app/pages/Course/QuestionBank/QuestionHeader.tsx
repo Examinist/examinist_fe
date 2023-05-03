@@ -14,6 +14,8 @@ const Rectangle = styled("div")(({ theme, color }) => ({
   alignItems: "center",
   borderRadius: 5,
 }));
+
+
 export default function QuestionHeader(question: IQuestion) {
   const getColor = (questionDifficulty: string) => {
     if (questionDifficulty === DifficultyLevelEnum.EASY)
@@ -22,6 +24,19 @@ export default function QuestionHeader(question: IQuestion) {
       ? theme.palette.yellow.main
       : theme.palette.red.main;
   };
+
+  const getWeight = () => {
+    const {question_type, difficulty} = question;
+    switch(difficulty){
+      case DifficultyLevelEnum.EASY:
+        return question_type.easy_weight;
+      case DifficultyLevelEnum.MEDIUM:
+        return question_type.medium_weight;
+      case DifficultyLevelEnum.HARD:
+        return question_type.hard_weight;
+    }
+  };
+
   return (
     <Grid container sx={{ pl: 2 }}>
       <Grid item xs={12}>
@@ -61,6 +76,24 @@ export default function QuestionHeader(question: IQuestion) {
                     {question.question_type.name == DefaultQuestionTypesEnum.MCQ
                       ? `${question.question_type.name} ( ${question.answer_type} )`
                       : question.question_type.name}
+                  </Typography>
+                </Box>
+              </Grid>
+
+              <Grid item>
+                <Box sx={{ display: "flex", gap: 1 }}>
+                  <Typography
+                    variant="subtitle2"
+                    color={theme.palette.gray.dark}
+                    sx={{ fontWeight: 700 }}
+                  >
+                    Weight:
+                  </Typography>
+                  <Typography
+                    variant="subtitle2"
+                    color={theme.palette.gray.dark}
+                  >
+                    {getWeight()}
                   </Typography>
                 </Box>
               </Grid>

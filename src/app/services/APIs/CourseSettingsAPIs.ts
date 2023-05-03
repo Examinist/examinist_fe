@@ -1,6 +1,7 @@
 import { IQuestionType, ITopic } from "../../types/Question";
 import axiosInstance from "../AxiosConfig";
 import { IResponse, IResponseData } from "../Response";
+import { mockQuestionTypes, mockTopics } from "./mockData/MockData";
 
 export interface IQuestionTypesListData extends IResponseData {
   question_types: IQuestionType[];
@@ -10,11 +11,11 @@ export interface IQuestionTypeData extends IResponseData {
   question_type: IQuestionType;
 }
 
-export interface ITopicsListData extends IResponseData{
+export interface ITopicsListData extends IResponseData {
   topics: ITopic[];
 }
 
-export interface ITopicData extends IResponseData{
+export interface ITopicData extends IResponseData {
   topic: ITopic;
 }
 export interface IQuestionTypesListResponse
@@ -22,53 +23,6 @@ export interface IQuestionTypesListResponse
 export interface IQuestionTypeResponse extends IResponse<IQuestionTypeData> {}
 export interface ITopicsListResponse extends IResponse<ITopicsListData> {}
 export interface ITopicResponse extends IResponse<ITopicData> {}
-
-const mockQuestionTypesResponse: IQuestionTypesListResponse = {
-  data: {
-    question_types: [
-      // {
-      //   id: 1,
-      //   name: "MCQ",
-      //   easy_weight: 1,
-      //   medium_weight: 2,
-      //   hard_weight: 3,
-      //   is_deletable: false,
-      // },
-      // {
-      //   id: 2,
-      //   name: "T/F",
-      //   easy_weight: 1,
-      //   medium_weight: 2,
-      //   hard_weight: 3,
-      //   is_deletable: false,
-      // },
-      // {
-      //   id: 3,
-      //   name: "Essay",
-      //   easy_weight: 1,
-      //   medium_weight: 2,
-      //   hard_weight: 3,
-      //   is_deletable: false,
-      // },
-      // {
-      //   id: 4,
-      //   name: "Short Answer",
-      //   easy_weight: 1,
-      //   medium_weight: 2,
-      //   hard_weight: 3,
-      //   is_deletable: false,
-      // },
-      // {
-      //   id: 5,
-      //   name: "Modelling",
-      //   easy_weight: 1,
-      //   medium_weight: 2,
-      //   hard_weight: 3,
-      //   is_deletable: true,
-      // },
-    ],
-  },
-};
 
 export const getQuestionTypesApi = async (course_id: any) => {
   try {
@@ -78,7 +32,9 @@ export const getQuestionTypesApi = async (course_id: any) => {
     );
     return response as IQuestionTypesListResponse;
   } catch (error) {
-    return mockQuestionTypesResponse;
+    return {
+      data: { question_types: mockQuestionTypes },
+    } as IQuestionTypesListResponse;
   }
 };
 
@@ -135,13 +91,13 @@ export const getTopicsApi = async (course_id: any) => {
     );
     return response as ITopicsListResponse;
   } catch (error) {
-    return { data: { topics: [] }} as ITopicsListResponse;
+    return { data: { topics: mockTopics } } as ITopicsListResponse;
   }
 };
 
 export const createTopiceApi = async (
   course_id: any,
-  data: {name: string}
+  data: { name: string }
 ) => {
   const portal = localStorage.getItem("portal");
   const response = await axiosInstance.post(
@@ -153,10 +109,7 @@ export const createTopiceApi = async (
   return response as ITopicResponse;
 };
 
-export const updateTopicApi = async (
-  course_id: any,
-  data: ITopic
-) => {
+export const updateTopicApi = async (course_id: any, data: ITopic) => {
   const portal = localStorage.getItem("portal");
   const response = await axiosInstance.patch(
     `${portal}/courses/${course_id}/topics/${data.id}`,
@@ -167,15 +120,10 @@ export const updateTopicApi = async (
   return response as ITopicResponse;
 };
 
-export const deleteTopicApi = async (
-  course_id: any,
-  topic_id: any
-) => {
+export const deleteTopicApi = async (course_id: any, topic_id: any) => {
   const portal = localStorage.getItem("portal");
   const response = await axiosInstance.delete(
     `${portal}/courses/${course_id}/topics/${topic_id}`
   );
   return response as ITopicResponse;
 };
-
-

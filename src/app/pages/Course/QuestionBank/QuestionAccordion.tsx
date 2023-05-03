@@ -6,11 +6,11 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import QuestionHeader from "./QuestionHeader";
-import QuestionBody from "./QuestionBody";
+import QuestionAnswer from "./QuestionAnswer";
 import { IQuestion } from "../../../types/Question";
 import { Box } from "@mui/material";
 
-export default function QuestionAccordion(question:IQuestion) {
+export default function QuestionAccordion(question: IQuestion) {
   const [expanded, setExpanded] = React.useState<string | false>("panel1");
 
   const handleChange =
@@ -19,12 +19,23 @@ export default function QuestionAccordion(question:IQuestion) {
     };
 
   return (
-    <Box sx={{ backgroundColor: theme.palette.white.main, py: 1, px: 3, borderRadius: 5 }}>
+    <Box
+      sx={{
+        backgroundColor: theme.palette.white.main,
+        py: 1,
+        px: 3,
+        borderRadius: 5,
+      }}
+    >
       <Accordion
         expanded={expanded === "panel1"}
         onChange={handleChange("panel1")}
         elevation={0}
-        sx={{backgroundColor: theme.palette.white.main, pb: 2, borderRadius: 5 }}
+        sx={{
+          backgroundColor: theme.palette.white.main,
+          pb: 2,
+          borderRadius: 5,
+        }}
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -45,9 +56,9 @@ export default function QuestionAccordion(question:IQuestion) {
           <QuestionHeader {...question} />
         </AccordionSummary>
         <AccordionDetails
-          sx={{  backgroundColor: theme.palette.background.paper }}
+          sx={{ backgroundColor: theme.palette.background.paper }}
         >
-         <QuestionBody {...question}/>
+          <QuestionAnswer {...question} />
         </AccordionDetails>
       </Accordion>
     </Box>

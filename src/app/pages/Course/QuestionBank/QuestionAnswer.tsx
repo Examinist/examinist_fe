@@ -23,8 +23,7 @@ const Circle = styled("div")(({ theme, color }) => ({
   borderWidth: "1px",
 }));
 
-export default function QuestionBody(question: IQuestion) {
-
+export default function QuestionAnswer(question: IQuestion) {
   return (
     <Grid container direction="column" marginLeft={20} spacing={1}>
       {question.question_type.name == DefaultQuestionTypesEnum.MCQ ||
@@ -66,7 +65,6 @@ export default function QuestionBody(question: IQuestion) {
         })
       ) : (
         <Grid container direction="column">
-        
           <Box
             sx={{
               width: "700px",
@@ -78,7 +76,7 @@ export default function QuestionBody(question: IQuestion) {
             <Box sx={{ color: theme.palette.gray.dark, px: 2, pt: 1 }}>
               Answer
             </Box>
-            <Box sx={{  px: 2, py: 2  ,width: "700px",}}>
+            <Box sx={{ px: 2, py: 2, width: "700px" }}>
               {question.correct_answers?.[0].answer}
             </Box>
           </Box>
