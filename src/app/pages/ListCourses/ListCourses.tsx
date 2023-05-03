@@ -48,7 +48,7 @@ export default function Courses() {
           >
             {courses.map((course) => {
               return (
-                <Grid item xs={4} sm={4} md={4}>
+                <Grid key={course.id} item xs={4} sm={4} md={4}>
                   <NavLink
                     to={`./${course.id}`}
                     style={({ isActive }) => {
