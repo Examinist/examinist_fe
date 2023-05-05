@@ -3,17 +3,7 @@ import theme from "../../../../assets/theme";
 import { Box, Grid, Typography, styled } from "@mui/material";
 import QuestionModifications from "./QuestionModifications";
 import { DefaultQuestionTypesEnum, DifficultyLevelEnum, IQuestion } from "../../../types/Question";
-
-const Rectangle = styled("div")(({ theme, color }) => ({
-  position: "relative",
-  display: "flex",
-  width: "20px",
-  height: "20px",
-  backgroundColor: color,
-  justifyContent: "center",
-  alignItems: "center",
-  borderRadius: 5,
-}));
+import { Rectangle } from "../../../components/Rectangle";
 
 
 export default function QuestionHeader(question: IQuestion) {
@@ -56,7 +46,7 @@ export default function QuestionHeader(question: IQuestion) {
                     variant="subtitle2"
                     color={theme.palette.gray.dark}
                   >
-                    {question.topic.name}
+                    {question.topic?.name || "Undefined"}
                   </Typography>
                 </Box>
               </Grid>
@@ -73,9 +63,9 @@ export default function QuestionHeader(question: IQuestion) {
                     variant="subtitle2"
                     color={theme.palette.gray.dark}
                   >
-                    {question.question_type.name == DefaultQuestionTypesEnum.MCQ
+                    {question.question_type ? (question.question_type.name == DefaultQuestionTypesEnum.MCQ
                       ? `${question.question_type.name} ( ${question.answer_type} )`
-                      : question.question_type.name}
+                      : question.question_type.name) : "Undefined"}
                   </Typography>
                 </Box>
               </Grid>

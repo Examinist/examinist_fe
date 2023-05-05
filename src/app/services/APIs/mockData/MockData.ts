@@ -1,4 +1,5 @@
 import { ICourse, ICourseGroup } from "../../../types/Course";
+import { IExamTemplate } from "../../../types/Exam";
 import { AnswerTypeEnum, DifficultyLevelEnum, IQuestion, IQuestionType, ITopic } from "../../../types/Question";
 
 export const mockCourses: ICourse[] = [
@@ -68,6 +69,7 @@ export const mockQuestionTypes: IQuestionType[] = [
     medium_weight: 2,
     hard_weight: 3,
     is_deletable: false,
+    ratio: 25,
   },
   {
     id: 2,
@@ -76,6 +78,7 @@ export const mockQuestionTypes: IQuestionType[] = [
     medium_weight: 2,
     hard_weight: 3,
     is_deletable: false,
+    ratio: 25,
   },
   {
     id: 3,
@@ -84,6 +87,7 @@ export const mockQuestionTypes: IQuestionType[] = [
     medium_weight: 2,
     hard_weight: 3,
     is_deletable: false,
+    ratio: 25,
   },
   {
     id: 4,
@@ -92,6 +96,7 @@ export const mockQuestionTypes: IQuestionType[] = [
     medium_weight: 2,
     hard_weight: 3,
     is_deletable: false,
+    ratio: 25,
   },
   {
     id: 5,
@@ -100,8 +105,18 @@ export const mockQuestionTypes: IQuestionType[] = [
     medium_weight: 2,
     hard_weight: 3,
     is_deletable: true,
+    ratio: 0,
   },
 ];
+
+export const mockExamTemplate: IExamTemplate = {
+  id: 1,
+  easy: 1,
+  medium: 2,
+  hard: 3,
+  question_types: mockQuestionTypes,
+};
+
 export const mockTopics: ITopic[] = [
   {
     id: 1,

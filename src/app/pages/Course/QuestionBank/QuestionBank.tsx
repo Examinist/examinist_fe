@@ -1,4 +1,4 @@
-import { Button, Divider, Grid, Stack, Pagination } from "@mui/material";
+import { Button, Divider, Grid, Stack, Pagination, CircularProgress } from "@mui/material";
 
 import { Box } from "@mui/system";
 import theme from "../../../../assets/theme";
@@ -25,6 +25,7 @@ import {
   IQuestionsListResponse,
   getQuestionsApi,
 } from "../../../services/APIs/QuestionBank";
+import { set } from "react-hook-form";
 
 const DifficultyLevelOptions = [
   {
@@ -48,8 +49,10 @@ export default function QuestionBank() {
   const [topics, setTopics] = useState<IOption[]>([]);
   const [questionTypes, setQuestionTypes] = React.useState<IOption[]>([]);
   const [filterParams, setFilterParams] = useState<IFilterQuestionsParams>({page: 1});
+  const [isLoading, setIsLoading] = useState(false);
 
   const loadQuestions = () => {
+    setIsLoading(true);
     getQuestionsApi(parseInt(courseId!), filterParams)
       .then(({ data }: IQuestionsListResponse) => {
         console.log(data.questions);
@@ -57,6 +60,8 @@ export default function QuestionBank() {
       })
       .catch(({ response: { status, statusText } }: IErrorResponse) => {
         console.log(status, statusText);
+    }).finally(() => {
+      setIsLoading(false);
     });
   };
 
@@ -148,6 +153,18 @@ export default function QuestionBank() {
                 </Grid>
               </Grid>
             </Grid>
+            {isLoading && (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100vh",
+                }}
+              >
+                <CircularProgress />
+              </Box>
+            )}
 
             <Grid
               direction="row"

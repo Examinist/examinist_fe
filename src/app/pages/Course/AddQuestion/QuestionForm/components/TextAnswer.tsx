@@ -7,6 +7,7 @@ export default function TextAnswer() {
     register,
     formState: { errors },
   } = useFormContext();
+  
   return (
     <>
       <Typography sx={{ fontSize: "18px", py: 1 }} color="#6B6767">

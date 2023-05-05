@@ -1,5 +1,11 @@
-import React from "react";
-import { IQuestion } from "../../../../types/Question";
+import React, { useEffect } from "react";
+import {
+  AnswerTypeEnum,
+  DifficultyLevelEnum,
+  IQuestion,
+  IQuestionType,
+  ITopic,
+} from "../../../../types/Question";
 import {
   Box,
   Button,
@@ -13,6 +19,13 @@ import SelectTopic from "./components/SelectTopic";
 import SelectDifficulty from "./components/SelectDifficulty";
 import QuestionCard from "./components/QuestionCard";
 import SelectQuestionType from "./components/SelectQuestionType";
+import {
+  IQuestionTypesListResponse,
+  ITopicsListResponse,
+  getQuestionTypesApi,
+  getTopicsApi,
+} from "../../../../services/APIs/CourseSettingsAPIs";
+import { useParams } from "react-router-dom";
 
 interface IQuestionFormProps {
   questionType: string;
@@ -20,34 +33,36 @@ interface IQuestionFormProps {
   question?: IQuestion;
 }
 
-interface IChoice{
+interface IChoice {
   choice: string;
-  checked: boolean;
+  is_answer: boolean;
+}
+
+interface ICorrectAnswer {
+  answer: string;
 }
 
 interface IFormInputs {
-  questionType: string;
-  topic: string;
-  difficulty: string;
   header: string;
-  answerType: string;
-  choices?: IChoice[];
-  correctAnswer: string[];
+  answer_type: AnswerTypeEnum;
+  difficulty: DifficultyLevelEnum;
+  question_type: string;
+  topic: string;
+  choices_attributes?: IChoice[];
+  correct_answers_attributes?: ICorrectAnswer[];
 }
 
-export default function QuestionForm({
-  questionType,
-}: IQuestionFormProps) {
+const initialValues: IFormInputs = {
+  difficulty: DifficultyLevelEnum.EASY,
+  header: "",
+  topic: "",
+  question_type: "",
+  answer_type: AnswerTypeEnum.SINGLE,
+};
+
+export default function QuestionForm({ questionType }: IQuestionFormProps) {
   const methods = useForm<IFormInputs>({
-    defaultValues: {
-      questionType: "",
-      topic: "",
-      difficulty: "easy",
-      header: "",
-      answerType:"single",
-      choices: [{choice: "", checked: false}, {choice: "", checked: false}],
-      correctAnswer: [],
-    },
+    defaultValues: initialValues,
   });
 
   const onSubmit = (data: IFormInputs) => {

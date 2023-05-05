@@ -1,6 +1,15 @@
-import { Box, Divider, Grid, IconButton, ListItem, ListItemIcon, ListItemText, TextField } from "@mui/material";
+import {
+  Box,
+  Divider,
+  Grid,
+  IconButton,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  TextField,
+} from "@mui/material";
 import { SquareRounded } from "@mui/icons-material";
-import { ITypeList } from "../Template";
+import { IItem } from "../Template";
 import { useFormContext } from "react-hook-form";
 import { IFormInput } from "./TemplateCard";
 
@@ -12,7 +21,12 @@ interface ITemplateElementProps {
   difficultyColor: string;
 }
 
-export default function TemplateElement({ index, editPercent, showIcon, difficultyColor }: ITemplateElementProps) {
+export default function TemplateElement({
+  index,
+  editPercent,
+  showIcon,
+  difficultyColor,
+}: ITemplateElementProps) {
   const {
     register,
     getValues,
@@ -28,14 +42,18 @@ export default function TemplateElement({ index, editPercent, showIcon, difficul
           paddingTop: "5px",
         }}
       >
-        {showIcon ? <ListItemIcon sx={{ minWidth: "30px", marginLeft: "2px" }}>
-          <SquareRounded
-            fontSize="medium"
-            sx={{
-              color: difficultyColor,
-            }}
-          ></SquareRounded>
-        </ListItemIcon> : <></>}
+        {showIcon ? (
+          <ListItemIcon sx={{ minWidth: "30px", marginLeft: "2px" }}>
+            <SquareRounded
+              fontSize="medium"
+              sx={{
+                color: difficultyColor,
+              }}
+            ></SquareRounded>
+          </ListItemIcon>
+        ) : (
+          <></>
+        )}
         <Grid container sx={{ marginLeft: "2px" }}>
           <Grid item xs={3}>
             <ListItemText
@@ -54,9 +72,8 @@ export default function TemplateElement({ index, editPercent, showIcon, difficul
                 type="number"
                 //onKeyDown={(event) => handleDiffChange(event, index)}
                 placeholder="%"
-                {...register(`list.${index}.percent`,
-                {
-                  valueAsNumber:true,
+                {...register(`list.${index}.percent`, {
+                  valueAsNumber: true,
                 })}
                 InputProps={{
                   sx: {

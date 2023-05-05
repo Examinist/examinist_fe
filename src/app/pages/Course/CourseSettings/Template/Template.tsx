@@ -1,58 +1,73 @@
-import {
-  Divider,
-  Grid,
-  IconButton,
-  InputAdornment,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TemplateCard from "./components/TemplateCard";
+import {
+  IExamTemplateResponse,
+  getExamTemplateApi,
+} from "../../../../services/APIs/CourseSettingsAPIs";
+import { IErrorResponse } from "../../../../services/Response";
+import { useParams } from "react-router-dom";
+import { IExamTemplate } from "../../../../types/Exam";
+import { DifficultyLevelEnum } from "../../../../types/Question";
+import theme from "../../../../../assets/theme";
 
-export interface ITypeList {
+export interface IItem {
+  id?: number;
   name: string;
   percent: number;
 }
+const colors = [
+  theme.palette.green.main,
+  theme.palette.yellow.main,
+  theme.palette.red.main,
+];
 
-const questionsTypes: ITypeList[] = [
-  { name: "MCQ", percent: 50 },
-  { name: "T/F", percent: 50 },
-]
+const getDifficultyLevels: (template: IExamTemplate) => IItem[] = (
+  template
+) => {
+  return [
+    { name: DifficultyLevelEnum.EASY, percent: template.easy },
+    { name: DifficultyLevelEnum.MEDIUM, percent: template.medium },
+    { name: DifficultyLevelEnum.HARD, percent: template.hard },
+  ];
+};
 
-const difficulties: ITypeList[] = [
-  { name: "Easy", percent: 50},
-  { name: "Medium", percent: 30},
-  { name: "Hard", percent: 20},
-]
+const getQuestionTypes: (template: IExamTemplate) => IItem[] = (template) => {
+  return template.question_types.map((type) => ({
+    id: type.id,
+    name: type.name,
+    percent: type.ratio,
+  }));
+};
 
-const colors = ["#3FC164","#FFAC4B","#FF4B4B"]
+const sortById: (items: IItem[]) => IItem[] = (items) => {
+  return items.sort((a, b) => a.id! - b.id!);
+};
 
 export default function Template() {
-  const [questionType, updateTypePerc] = useState(questionsTypes);
-  const [difficulty, updateDiffPerc] = useState(difficulties);
+  const { courseId } = useParams<{ courseId: string }>();
+  const [questionTypes, setQuestionTypes] = useState<IItem[]>([]);
+  const [difficultyLevels, setDifficultyLevels] = useState<IItem[]>([]);
 
-  const handleTypeChange = (event: any, index: number) => {
-    if (event.key == "Enter") {
-      let types = [...questionType];
-      types[index].percent = event.target.value;
-      updateTypePerc(types);
-      //openEditType(index);
-    }
+  const mapExamTemplate = (exam_template: IExamTemplate) => {
+    setQuestionTypes(sortById(getQuestionTypes(exam_template)));
+    setDifficultyLevels(getDifficultyLevels(exam_template));
   };
 
-  const handleDiffChange = (event: any, index: number) => {
-    if (event.key == "Enter") {
-      let diff = [...difficulty];
-      diff[index].percent = event.target.value;
-      updateDiffPerc(diff);
-      //openEditDiff(index);
-    }
+  const loadExamTemplate = () => {
+    getExamTemplateApi(courseId)
+      .then(({ data }: IExamTemplateResponse) => {
+        mapExamTemplate(data.exam_template);
+      })
+      .catch(({ response: { status, statusText } }: IErrorResponse) => {
+        console.log(status, statusText);
+      });
   };
+
+  useEffect(() => {
+    loadExamTemplate();
+  }, []);
 
   return (
     <Box sx={{ px: 15, py: 5 }}>
@@ -60,21 +75,28 @@ export default function Template() {
         sx={{
           fontSize: "2rem",
           fontWeight: "medium",
-          mb: 4
+          mb: 4,
         }}
       >
         Exam Template
       </Typography>
-      <TemplateCard
-        title={"Question Types"}
-        listMap={questionType}
-        colors={[]}
-      ></TemplateCard>
-      <TemplateCard
-        title={"Difficulty Levels"}
-        listMap={difficulty}
-        colors={colors}
-      ></TemplateCard>
+      {questionTypes.length > 0 && (
+        <TemplateCard
+          onSuccess={mapExamTemplate}
+          title={"Question Types"}
+          items={questionTypes}
+          colors={[]}
+        ></TemplateCard>
+      )}
+      {difficultyLevels.length > 0 && (
+        <TemplateCard
+        
+          onSuccess={mapExamTemplate}
+          title={"Difficulty Levels"}
+          items={difficultyLevels}
+          colors={colors}
+        ></TemplateCard>
+      )}
     </Box>
   );
 }

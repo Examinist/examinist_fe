@@ -5,6 +5,7 @@ export interface IQuestionType {
   medium_weight: number;
   hard_weight: number;
   is_deletable: boolean;
+  ratio: number;
 }
 
 export interface IQuestion {

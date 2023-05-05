@@ -27,7 +27,7 @@ export default function ChoicesMultipleAnswer() {
   } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "choices",
+    name: "choices_attributes",
   });
 
   const [checked, setChecked] = React.useState<string[]>([]);
@@ -62,15 +62,15 @@ export default function ChoicesMultipleAnswer() {
                 setChecked([...checked, item.id]);
               }
               setValue(
-                `choices.${index}.checked`,
-                !getValues(`choices.${index}.checked`)
+                `choices_attributes.${index}.is_answer`,
+                !getValues(`choices_attributes.${index}.is_answer`)
               );
             }}
           />
           <TextField
             multiline
             variant="standard"
-            {...register(`choices.${index}.choice`, {
+            {...register(`choices_attributes.${index}.is_answer`, {
               required: "Choice is required",
             })}
             placeholder="Write Choice"

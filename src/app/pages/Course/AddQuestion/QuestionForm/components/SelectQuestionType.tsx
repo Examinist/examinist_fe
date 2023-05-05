@@ -10,44 +10,32 @@ import {
   Typography,
 } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
-import { ITopic } from "../../../../../types/Course";
 import CustomDropDown from "../../../../../components/Forms/CustomDropDown/CustomDropDown";
+import { IQuestionTypesListResponse, getQuestionTypesApi } from "../../../../../services/APIs/CourseSettingsAPIs";
+import { IQuestionType } from "../../../../../types/Question";
 
-const mockQuestionTypes = [
-  {
-    id: 1,
-    name: "MCQ",
-  },
-  {
-    id: 2,
-    name: "T/F",
-  },
-  {
-    id: 3,
-    name: "Short Answer",
-  },
-  {
-    id: 4,
-    name: "Essay",
-  },
-];
 
-const mapQuestionTypes = (questionTypes: any[]) =>
+
+const mapQuestionTypes = (questionTypes: IQuestionType[]) =>
   questionTypes.map((q) => ({ value: q.name, label: q.name }));
 
 export default function SelectTopic() {
   const { courseId } = useParams<{ courseId: string }>();
-  const [questionTypes, setQuestionTypes] = React.useState<any>([]);
+  const [questionTypes, setQuestionTypes] = React.useState<IQuestionType[]>([]);
 
   React.useEffect(() => {
-    setQuestionTypes(mockQuestionTypes);
+    getQuestionTypesApi(courseId).then(
+      ({ data }: IQuestionTypesListResponse) => {
+        setQuestionTypes(data.question_types);
+      }
+    );
   }, []);
 
   return (
     <Box sx={{ px: 5 }}>
       <CustomDropDown
         title="Question Type"
-        name="questionType"
+        name="question_type"
         items={mapQuestionTypes(questionTypes)}
         firstOption="Select Question Type"
       />

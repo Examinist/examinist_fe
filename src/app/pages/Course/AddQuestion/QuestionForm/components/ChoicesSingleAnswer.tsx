@@ -24,7 +24,7 @@ export default function ChoicesSingleAnswer() {
   } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "choices",
+    name: "choices_attributes",
     rules: { minLength: 2 },
   });
   return (
@@ -61,7 +61,7 @@ export default function ChoicesSingleAnswer() {
                 <FormControlLabel value={index} control={<Radio />} label="" />
                 <TextField
                   variant="standard"
-                  {...register(`choices.${index}.choice`, {
+                  {...register(`choices_attributes.${index}.choice`, {
                     required: "Choice is required",
                   })}
                   placeholder="Write Choice"

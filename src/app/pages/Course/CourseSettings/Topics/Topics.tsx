@@ -23,6 +23,7 @@ import {
 import { useParams } from "react-router-dom";
 import { IErrorResponse } from "../../../../services/Response";
 import theme from "../../../../../assets/theme";
+import UpdateAlert, { IAlertState } from "../../../../components/UpdateAlert/UpdateAlert";
 
 export default function Topics() {
   const { courseId } = useParams<{ courseId: string }>();
@@ -30,7 +31,7 @@ export default function Topics() {
   const [topics, setTopics] = useState<ITopic[]>([]);
   const [renameId, setRenameId] = useState(-1);
   const [isLoading, setIsLoading] = useState(true);
-  const [alertState, setAlertState] = React.useState<any>({
+  const [alertState, setAlertState] = React.useState<IAlertState>({
     open: false,
     message: "",
   });
@@ -121,12 +122,6 @@ export default function Topics() {
         });
         console.log(data.message);
       });
-    // //api call
-    // //if success
-    //   setTopics(topics.concat({name:name, id:id}));
-    //   setAddTopic(-1);
-    // //if fail
-    // //popup error
   };
 
   return (
@@ -218,7 +213,8 @@ export default function Topics() {
               </Box>
             )}
           </List>
-          <Snackbar
+          {topics.length == 0 && addTopic === -1 && <Box>No topics found for this course.</Box>}
+          {/* <Snackbar
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             open={alertState.open}
             autoHideDuration={3000}
@@ -232,7 +228,8 @@ export default function Topics() {
             >
               {alertState.message}
             </Alert>
-          </Snackbar>
+          </Snackbar> */}
+          <UpdateAlert alertState={alertState} setAlertState={setAlertState}/>
         </Box>
       )}
     </>

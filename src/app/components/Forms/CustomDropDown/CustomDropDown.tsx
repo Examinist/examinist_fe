@@ -13,7 +13,7 @@ import { Controller, useFormContext } from "react-hook-form";
 
 export interface IItem{
     label: string;
-    value: string;
+    value: number | string;
 }
 interface ICustomDropDownProps {
     items: IItem[];
