@@ -39,7 +39,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const login = (user?: IUser) => {
-    console.log(user);
     setIsAuthenticated(true);
     // user!.role = UserRoleEnum.FACULTY_ADMIN;
     setUser(user);

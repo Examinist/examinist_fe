@@ -6,23 +6,25 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Divider } from "@mui/material";
 import { QuestionBankContext } from "./QuestionBank";
 import { useParams } from "react-router-dom";
-import { deleteQuestionApi } from "../../../services/APIs/Questions";
+import { deleteQuestionApi } from "../../../services/APIs/QuestionsAPIs";
 import { IErrorResponse } from "../../../services/Response";
 import useAlert from "../../../hooks/useAlert";
 
-export default function QuestionModifications({questionId}: {questionId: number}) {
-  const {courseId} = useParams<{courseId: string}>();
+export default function QuestionModifications({
+  questionId,
+}: {
+  questionId: number;
+}) {
+  const { courseId } = useParams<{ courseId: string }>();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const {reloadQuestions} = React.useContext(QuestionBankContext);
-  const {setAlertState} = useAlert();
+  const { reloadQuestions } = React.useContext(QuestionBankContext);
+  const { setAlertState } = useAlert();
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
     event.stopPropagation();
   };
-  const handleClose = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
+  const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(null);
     event.stopPropagation();
   };
@@ -45,12 +47,10 @@ export default function QuestionModifications({questionId}: {questionId: number}
         });
       })
       .finally(() => {
-       setAnchorEl(null);
-       event.stopPropagation();
+        setAnchorEl(null);
+        event.stopPropagation();
       });
   };
-
-  
 
   return (
     <div>
@@ -80,10 +80,7 @@ export default function QuestionModifications({questionId}: {questionId: number}
           Edit
         </MenuItem>
         <Divider />
-        <MenuItem
-          sx={{ minWidth: "150px" }}
-          onClick={handleDelete}
-        >
+        <MenuItem sx={{ minWidth: "150px" }} onClick={handleDelete}>
           Delete
         </MenuItem>
       </Menu>

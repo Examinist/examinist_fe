@@ -14,7 +14,6 @@ export default function Courses() {
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
   useEffect(() => {
     getCoursesListApi().then(({ data }: ICoursesListResponse) => {
-      console.log(data);
       setCourses(data.courses);
       setIsLoading(false);
     });

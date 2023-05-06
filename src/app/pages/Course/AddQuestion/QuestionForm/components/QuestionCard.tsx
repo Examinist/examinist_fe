@@ -6,7 +6,8 @@ import MCQAnswer from "./MCQAnswer";
 import TFAnswer from "./TFAnswer";
 import TextAnswer from "./TextAnswer";
 import EssayAnswer from "./EssayAnswer";
-import { AnswerTypeEnum, DefaultQuestionTypesEnum } from "../../../../../types/Question";
+import { AnswerTypeEnum } from "../../../../../types/Question";
+import { DefaultQuestionTypesEnum } from "../../../../../types/CourseSettings";
 
 export default function QuestionCard() {
   const {

@@ -1,4 +1,11 @@
-import { Button, Divider, Grid, Stack, Pagination, CircularProgress } from "@mui/material";
+import {
+  Button,
+  Divider,
+  Grid,
+  Stack,
+  Pagination,
+  CircularProgress,
+} from "@mui/material";
 
 import { Box } from "@mui/system";
 import theme from "../../../../assets/theme";
@@ -10,8 +17,6 @@ import {
   DifficultyLevelEnum,
   IFilterQuestionsParams,
   IQuestion,
-  IQuestionType,
-  ITopic,
 } from "../../../types/Question";
 import {
   IQuestionTypesListResponse,
@@ -24,9 +29,12 @@ import { IErrorResponse } from "../../../services/Response";
 import {
   IQuestionsListResponse,
   getQuestionsApi,
-} from "../../../services/APIs/Questions";
+} from "../../../services/APIs/QuestionsAPIs";
 import { set } from "react-hook-form";
-import UpdateAlert, { IAlertState } from "../../../components/UpdateAlert/UpdateAlert";
+import UpdateAlert, {
+  IAlertState,
+} from "../../../components/UpdateAlert/UpdateAlert";
+import { IQuestionType, ITopic } from "../../../types/CourseSettings";
 
 const DifficultyLevelOptions = [
   {
@@ -43,7 +51,7 @@ const DifficultyLevelOptions = [
   },
 ];
 
-interface IQuestionBankContext{
+interface IQuestionBankContext {
   reloadQuestions: () => void;
 }
 
@@ -57,10 +65,16 @@ export default function QuestionBank() {
   const [questions, setQuestions] = useState<IQuestion[]>([]);
   const [topics, setTopics] = useState<IOption[]>([]);
   const [questionTypes, setQuestionTypes] = React.useState<IOption[]>([]);
-  const [filterParams, setFilterParams] = useState<IFilterQuestionsParams>({page: 1});
+  const [filterParams, setFilterParams] = useState<IFilterQuestionsParams>({
+    page: 1,
+  });
   const [isLoading, setIsLoading] = useState(false);
-  const [alertState, setAlertState] = useState<IAlertState>({open: false, message: "", severity: "success"})
-  
+  const [alertState, setAlertState] = useState<IAlertState>({
+    open: false,
+    message: "",
+    severity: "success",
+  });
+
   const loadQuestions = () => {
     setIsLoading(true);
     getQuestionsApi(parseInt(courseId!), filterParams)
@@ -68,16 +82,15 @@ export default function QuestionBank() {
         setQuestions(data.questions);
       })
       .catch(({ response: { status, statusText } }: IErrorResponse) => {
-        console.log(status, statusText);
-    }).finally(() => {
-      setIsLoading(false);
-    });
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
-  const contextValue:IQuestionBankContext = {
+  const contextValue: IQuestionBankContext = {
     reloadQuestions: loadQuestions,
   };
-
 
   const loadTopics = () => {
     getTopicsApi(courseId)
@@ -90,7 +103,6 @@ export default function QuestionBank() {
         );
       })
       .catch(({ response: { status, statusText } }: IErrorResponse) => {
-        console.log(status, statusText);
       });
   };
 
@@ -105,7 +117,6 @@ export default function QuestionBank() {
         );
       })
       .catch(({ response: { status, statusText } }: IErrorResponse) => {
-        console.log(status, statusText);
       });
   };
 
@@ -268,7 +279,9 @@ export default function QuestionBank() {
                   })}
 
                   {questions.length === 0 && (
-                    <Box sx={{p: 3}}>No Questions to show for this Course.</Box>
+                    <Box sx={{ p: 3 }}>
+                      No Questions to show for this Course.
+                    </Box>
                   )}
                 </Grid>
               )}
@@ -287,4 +300,3 @@ export default function QuestionBank() {
     </div>
   );
 }
-

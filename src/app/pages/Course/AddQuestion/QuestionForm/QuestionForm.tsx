@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
 import {
   AnswerTypeEnum,
-  DefaultQuestionTypesEnum,
   DifficultyLevelEnum,
-  IEditQuestion,
   IQuestion,
-  IQuestionType,
-  ITopic,
 } from "../../../../types/Question";
 import {
   Box,
@@ -31,12 +27,20 @@ import {
   getTopicsApi,
 } from "../../../../services/APIs/CourseSettingsAPIs";
 import {
+  IQuestionPayload,
   IQuestionResponse,
   createQuestionApi,
-} from "../../../../services/APIs/Questions";
+} from "../../../../services/APIs/QuestionsAPIs";
 import { IErrorResponse } from "../../../../services/Response";
-import UpdateAlert, { IAlertState } from "../../../../components/UpdateAlert/UpdateAlert";
+import UpdateAlert, {
+  IAlertState,
+} from "../../../../components/UpdateAlert/UpdateAlert";
 import useAlert from "../../../../hooks/useAlert";
+import {
+  DefaultQuestionTypesEnum,
+  IQuestionType,
+  ITopic,
+} from "../../../../types/CourseSettings";
 
 interface IQuestionFormProps {
   onSuccess: (question?: IQuestion) => void;
@@ -72,10 +76,14 @@ export default function QuestionForm({ onSuccess }: IQuestionFormProps) {
   }, []);
 
   const onSubmit = (data: IFormInputs) => {
-
-    console.log(questionTypes);
-    const { question_type, topic, correct_answers_attributes, choices_attributes, ...q } = data;
-    let question: IEditQuestion = {
+    const {
+      question_type,
+      topic,
+      correct_answers_attributes,
+      choices_attributes,
+      ...q
+    } = data;
+    let question: IQuestionPayload = {
       question_type_id: questionTypes.find(
         (questionType) => questionType.name === question_type
       )?.id!,
@@ -94,19 +102,17 @@ export default function QuestionForm({ onSuccess }: IQuestionFormProps) {
         correct_answers_attributes: correct_answers_attributes,
       };
     }
-    console.log("s",data,question);
 
-    createQuestionApi(courseId, question).then(({ data }: IQuestionResponse) =>{
-      console.log(data);
-      setAlertState({
+    createQuestionApi(courseId, question)
+      .then(({ data }: IQuestionResponse) => {
+        setAlertState({
           open: true,
           message: "Question created successfully",
           severity: "success",
         });
         onSuccess(data.question);
-      }
-    ).catch(({ response: { status, statusText, data } }: IErrorResponse) => {
-        console.log(status, statusText, data);
+      })
+      .catch(({ response: { status, statusText, data } }: IErrorResponse) => {
         setAlertState({
           open: true,
           message: data.message,

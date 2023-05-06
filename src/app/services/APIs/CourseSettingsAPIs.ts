@@ -1,8 +1,12 @@
-import { IExamTemplate, IEditExamTemplate } from "./../../types/Exam";
+import { IExamTemplate, IEditExamTemplate } from "../../types/CourseSettings";
 import { IQuestionType, ITopic } from "../../types/Question";
 import axiosInstance from "../AxiosConfig";
 import { IResponse, IResponseData } from "../Response";
-import { mockExamTemplate, mockQuestionTypes, mockTopics } from "./mockData/MockData";
+import {
+  mockExamTemplate,
+  mockQuestionTypes,
+  mockTopics,
+} from "./mockData/MockData";
 
 export interface IExamTemplateData extends IResponseData {
   exam_template: IExamTemplate;

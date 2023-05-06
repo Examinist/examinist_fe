@@ -13,7 +13,6 @@ export default function CourseGroups() {
   React.useEffect(() => {
     getCourseGroupsAPI(courseId!)
     .then(({data}: ICourseGroupsResponse) => {
-      console.log(data);
       setGroups(data.course_groups);
       setLoading(false);
     });

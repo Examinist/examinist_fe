@@ -1,16 +1,44 @@
-import { IQuestionType } from "./Question";
+import { ICourse } from "./Course";
+import { IQuestion } from "./Question";
+import IUser from "./User";
 
-export interface IExamTemplate{
+export interface IExam{
     id: number;
-    easy: number;
-    medium: number;
-    hard: number;
-    question_types: IQuestionType[];
+    title: string;
+    status: ExamStatusEnum;
+    duration: number;
+    total_score: number;
+    created_at: Date;
+    scheduled_date: Date;
+    creation_mode: ExamCreationModeEnum;
+    creator: IUser;
+    course: ICourse;
 }
 
-export interface IEditExamTemplate{
-    easy?: number;
-    medium?: number;
-    hard?: number;
-    question_types_attributes?: {id: number, ratio: number}[];
+export interface IDetailedExam extends IExam{
+    exam_questions: IExamQuestionsGroup[];
+}
+
+
+export interface IExamQuestionsGroup{
+    [key: string]: IExamQuestion[]
+}
+
+export interface IExamQuestion{
+    id: number;
+    score: number;
+    question: IQuestion;
+}
+
+export enum ExamStatusEnum {
+    UNSCHEDULED = "unscheduled",
+    SCHEDULED = "scheduled",
+    ONGOING = "ongoing",
+    PENDINGGRADING = "pendinggrading",
+    GRADED = "graded",
+}
+
+export enum ExamCreationModeEnum {
+    MANUAL = "manual",
+    AUTOMATIC = "automatic",
 }

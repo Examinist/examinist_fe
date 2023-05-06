@@ -8,7 +8,7 @@ import {
 } from "../../../../services/APIs/CourseSettingsAPIs";
 import { IErrorResponse } from "../../../../services/Response";
 import { useParams } from "react-router-dom";
-import { IExamTemplate } from "../../../../types/Exam";
+import { IExamTemplate } from "../../../../types/CourseSettings";
 import { DifficultyLevelEnum } from "../../../../types/Question";
 import theme from "../../../../../assets/theme";
 
@@ -61,7 +61,6 @@ export default function Template() {
         mapExamTemplate(data.exam_template);
       })
       .catch(({ response: { status, statusText } }: IErrorResponse) => {
-        console.log(status, statusText);
       });
   };
 
@@ -90,7 +89,6 @@ export default function Template() {
       )}
       {difficultyLevels.length > 0 && (
         <TemplateCard
-        
           onSuccess={mapExamTemplate}
           title={"Difficulty Levels"}
           items={difficultyLevels}

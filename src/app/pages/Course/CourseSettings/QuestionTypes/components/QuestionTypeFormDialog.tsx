@@ -5,7 +5,7 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
 import DifficultyLevelsTable from './DifficultyLevelsTable';
-import { IQuestionType } from '../../../../../types/Question';
+import { IQuestionType } from '../../../../../types/CourseSettings';
 
 interface IQuestionTypeFormDialogProps {
     open: boolean;
@@ -31,21 +31,19 @@ const schema = yup.object({
 });
 
 export default function QuestionTypeFormDialog({open, onClose, initialValues, onUpdate, errorMessage}: IQuestionTypeFormDialogProps) {
-  console.log(initialValues);
   const isNew = initialValues === null;
     const onSubmit: SubmitHandler<IQuestionTypeForm> = (
       inputs: IQuestionTypeForm
     ) => {
-     console.log(inputs);
-     console.log(initialValues);
       const questionType: IQuestionType = {
         id: initialValues?.id || 0,
         name: inputs.name,
         easy_weight: inputs.easy,
         medium_weight: inputs.medium,
         hard_weight: inputs.hard,
-        is_deletable: isNew? true : initialValues?.is_deletable,
-    };
+        is_deletable: isNew ? true : initialValues?.is_deletable,
+        ratio: 0
+      };
     onUpdate(questionType, isNew);
     // handleClose();
     };

@@ -2,8 +2,9 @@ import * as React from "react";
 import theme from "../../../../assets/theme";
 import { Box, Grid, Typography, styled } from "@mui/material";
 import QuestionModifications from "./QuestionModifications";
-import { DefaultQuestionTypesEnum, DifficultyLevelEnum, IQuestion } from "../../../types/Question";
+import { DifficultyLevelEnum, IQuestion } from "../../../types/Question";
 import { Rectangle } from "../../../components/Rectangle";
+import { DefaultQuestionTypesEnum } from "../../../types/CourseSettings";
 
 
 export default function QuestionHeader(question: IQuestion) {

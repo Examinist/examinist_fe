@@ -1,6 +1,6 @@
+import { DefaultQuestionTypesEnum } from "../../../../types/CourseSettings";
 import {
   AnswerTypeEnum,
-  DefaultQuestionTypesEnum,
   DifficultyLevelEnum,
   IChoice,
   ICorrectAnswer,

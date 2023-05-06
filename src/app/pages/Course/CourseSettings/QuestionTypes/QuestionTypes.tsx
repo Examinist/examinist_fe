@@ -6,7 +6,7 @@ import {
 } from "@mui/material";
 import React, { useContext, useEffect } from "react";
 import QuestionTypeAccordion from "./components/QuestionTypeAccordion";
-import { IQuestionType } from "../../../../types/Question";
+import { IQuestionType } from "../../../../types/CourseSettings";
 import QuestionTypeFormDialog from "./components/QuestionTypeFormDialog";
 import {
   IQuestionTypeResponse,
@@ -35,18 +35,15 @@ export default function QuestionTypes() {
   useEffect(() => {
     getQuestionTypesApi(course_id.courseId)
       .then(({ data }: IQuestionTypesListResponse) => {
-        console.log(data);
         setQuestionTypes(data.question_types);
         setIsLoading(false);
       })
       .catch(({ response: { status, statusText } }: IErrorResponse) => {
-        console.log(status, statusText);
       });
   }, []);
 
   const handleDialogOpen = () => {
     setModifiedQuestionType(null);
-    console.log("handleDialogOpen");
     setDialogOpen(true);
   };
 
@@ -79,9 +76,7 @@ export default function QuestionTypes() {
           handleDialogClose();
         })
         .catch(({ response: { status, statusText, data } }: IErrorResponse) => {
-          console.log(status, statusText, data);
           setErrorMessage(data.message! || null);
-          console.log(data.message)
         });
     } else {
       updateQuestionTypeApi(course_id.courseId, data)
@@ -97,9 +92,7 @@ export default function QuestionTypes() {
           handleDialogClose();
         })
         .catch(({ response: { status, statusText, data } }: IErrorResponse) => {
-          console.log(status, statusText, data);
           setErrorMessage(data.message! || null);
-          console.log(data.message);
         });
       
     }
@@ -116,7 +109,6 @@ export default function QuestionTypes() {
         });
       })
       .catch(({ response: { status, statusText, data } }: IErrorResponse) => {
-        console.log(status, statusText, data);
         setAlertState({
           open: true,
           message: data.message,

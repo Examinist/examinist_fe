@@ -7,7 +7,10 @@ import { IItem } from "../Template";
 import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { IEditExamTemplate, IExamTemplate } from "../../../../../types/Exam";
+import {
+  IEditExamTemplate,
+  IExamTemplate,
+} from "../../../../../types/CourseSettings";
 import {
   IExamTemplateResponse,
   updateExamTemplateApi,
@@ -62,7 +65,7 @@ export default function TemplateCard({
 }: ITemplateCardProps) {
   const { courseId } = useParams<{ courseId: string }>();
   const [edit, setEdit] = useState(false);
-  const {setAlertState} = useAlert();
+  const { setAlertState } = useAlert();
 
   const methods = useForm<IFormInput>({
     defaultValues: {
@@ -79,7 +82,6 @@ export default function TemplateCard({
   });
 
   const onSubmit = (data: IFormInput) => {
-    console.log(data);
     let edited_exam_template: IEditExamTemplate = {};
     if (title === "Question Types") {
       edited_exam_template = mapQuestionTypes(data.list);
@@ -88,7 +90,6 @@ export default function TemplateCard({
     }
     updateExamTemplateApi(courseId, edited_exam_template)
       .then(({ data: { exam_template } }: IExamTemplateResponse) => {
-        console.log(exam_template);
         onSuccess(exam_template);
         setAlertState({
           open: true,
@@ -98,7 +99,6 @@ export default function TemplateCard({
         setEdit(!edit);
       })
       .catch(({ response: { status, statusText, data } }: IErrorResponse) => {
-        console.log(status, statusText);
         setAlertState({
           open: true,
           message: data.message,
@@ -124,7 +124,10 @@ export default function TemplateCard({
               edit ? (
                 <ConfirmIcons
                   isSubmit={true}
-                  cancelHandler={() =>{reset(); setEdit(!edit);}}
+                  cancelHandler={() => {
+                    reset();
+                    setEdit(!edit);
+                  }}
                   confirmChange={() => {}}
                 />
               ) : (

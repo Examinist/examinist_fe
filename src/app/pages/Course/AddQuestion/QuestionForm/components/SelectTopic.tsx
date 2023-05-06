@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 import CustomDropDown from "./Forms/CustomDropDown/CustomDropDown";
-import { ITopic } from "../../../../../types/Question";
+import { ITopic } from "../../../../../types/CourseSettings";
 import { getTopicsApi } from "../../../../../services/APIs/CourseSettingsAPIs";
 
 const mapTopics = (topics: ITopic[]) =>

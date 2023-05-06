@@ -62,7 +62,6 @@ export default function ChoicesSingleAnswer() {
           <Radio
             value={item.id}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              console.log(e.target.value);
               if (checked !== e.target.value) {
                 setValue(
                   `choices_attributes`,

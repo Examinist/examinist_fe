@@ -50,7 +50,6 @@ const getUserProfileAPI = async () => {
 
   try {
     const response = await axiosInstance.get(`/${portal}/staffs/user_info`);
-    console.log(response);
     return response as IGetUserProfileResponse;
   } catch {
     return mockResponse as IGetUserProfileResponse;

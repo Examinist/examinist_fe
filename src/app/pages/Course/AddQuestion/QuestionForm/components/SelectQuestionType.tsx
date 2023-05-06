@@ -10,7 +10,7 @@ import {
   IQuestionTypesListResponse,
   getQuestionTypesApi,
 } from "../../../../../services/APIs/CourseSettingsAPIs";
-import { IQuestionType } from "../../../../../types/Question";
+import { IQuestionType } from "../../../../../types/CourseSettings";
 
 const mapQuestionTypes = (questionTypes: IQuestionType[]) =>
   questionTypes.map((q) => ({ value: q.name, label: q.name }));

@@ -6,8 +6,9 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import { Box, Grid, TextField, styled } from "@mui/material";
-import { DefaultQuestionTypesEnum, IQuestion } from "../../../types/Question";
+import { IQuestion } from "../../../types/Question";
 import { useState } from "react";
+import { DefaultQuestionTypesEnum } from "../../../types/CourseSettings";
 
 const Circle = styled("div")(({ theme, color }) => ({
   position: "relative",

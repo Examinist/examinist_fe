@@ -10,7 +10,7 @@ import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
 import React from "react";
 import TopicElement from "./components/TopicElement";
-import { ITopic } from "../../../../types/Question";
+import { ITopic } from "../../../../types/CourseSettings";
 import {
   ITopicResponse,
   ITopicsListResponse,
@@ -36,12 +36,10 @@ export default function Topics() {
   useEffect(() => {
     getTopicsApi(courseId)
       .then(({ data }: ITopicsListResponse) => {
-        console.log(data);
         setTopics(data.topics);
         setIsLoading(false);
       })
       .catch(({ response: { status, statusText } }: IErrorResponse) => {
-        console.log(status, statusText);
       });
   }, []);
 
@@ -69,13 +67,11 @@ export default function Topics() {
          setRenameId(-1);
       })
       .catch(({ response: { status, statusText, data } }: IErrorResponse) => {
-        console.log(status, statusText, data);
         setAlertState({
           open: true,
           message: data.message,
           severity: "error",
         });
-        console.log(data.message);
       });
   };
 
@@ -90,7 +86,6 @@ export default function Topics() {
         });
       })
       .catch(({ response: { status, statusText, data } }: IErrorResponse) => {
-        console.log(status, statusText, data);
         setAlertState({
           open: true,
           message: data.message,
@@ -111,13 +106,11 @@ export default function Topics() {
         setAddTopic(-1);
       })
       .catch(({ response: { status, statusText, data } }: IErrorResponse) => {
-        console.log(status, statusText, data);
         setAlertState({
           open: true,
           message: data.message,
           severity: "success",
         });
-        console.log(data.message);
       });
   };
 
