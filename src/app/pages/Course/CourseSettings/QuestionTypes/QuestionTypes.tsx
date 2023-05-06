@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   CircularProgress,
-  Snackbar,
 } from "@mui/material";
 import React, { useContext, useEffect } from "react";
 import QuestionTypeAccordion from "./components/QuestionTypeAccordion";
@@ -20,15 +19,13 @@ import {
 import { useParams } from "react-router-dom";
 import { IErrorResponse } from "../../../../services/Response";
 import theme from "../../../../../assets/theme";
+import useAlert from "../../../../hooks/useAlert";
 
 export default function QuestionTypes() {
   const course_id = useParams<{ courseId: string }>();
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
   const [dialogOpen, setDialogOpen] = React.useState<boolean>(false);
-  const [alertState, setAlertState] = React.useState<any>({
-    open: false,
-    message: "",
-  });
+  const {setAlertState} = useAlert();
   const [modifiedQuestionType, setModifiedQuestionType] =
     React.useState<IQuestionType | null>(null);
   const [expandedId, setExpandedId] = React.useState<number>(-1);
@@ -197,22 +194,6 @@ export default function QuestionTypes() {
               errorMessage={errorMessage!}
             ></QuestionTypeFormDialog>
           )}
-
-          <Snackbar
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            open={alertState.open}
-            autoHideDuration={3000}
-            onClose={() => setAlertState((a: any) => ({ ...a, open: false }))}
-          >
-            <Alert
-              onClose={() => setAlertState((a: any) => ({ ...a, open: false }))}
-              variant="filled"
-              severity={alertState.severity || "info"}
-              sx={{ width: "100%" }}
-            >
-              {alertState.message}
-            </Alert>
-          </Snackbar>
         </Box>
       )}
     </>

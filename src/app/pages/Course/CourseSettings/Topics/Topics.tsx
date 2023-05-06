@@ -5,7 +5,6 @@ import {
   Divider,
   Grid,
   List,
-  Snackbar,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
@@ -24,6 +23,7 @@ import { useParams } from "react-router-dom";
 import { IErrorResponse } from "../../../../services/Response";
 import theme from "../../../../../assets/theme";
 import UpdateAlert, { IAlertState } from "../../../../components/UpdateAlert/UpdateAlert";
+import useAlert from "../../../../hooks/useAlert";
 
 export default function Topics() {
   const { courseId } = useParams<{ courseId: string }>();
@@ -31,10 +31,7 @@ export default function Topics() {
   const [topics, setTopics] = useState<ITopic[]>([]);
   const [renameId, setRenameId] = useState(-1);
   const [isLoading, setIsLoading] = useState(true);
-  const [alertState, setAlertState] = React.useState<IAlertState>({
-    open: false,
-    message: "",
-  });
+  const {setAlertState} = useAlert();
 
   useEffect(() => {
     getTopicsApi(courseId)
@@ -214,22 +211,6 @@ export default function Topics() {
             )}
           </List>
           {topics.length == 0 && addTopic === -1 && <Box>No topics found for this course.</Box>}
-          {/* <Snackbar
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            open={alertState.open}
-            autoHideDuration={3000}
-            onClose={() => setAlertState((a: any) => ({ ...a, open: false }))}
-          >
-            <Alert
-              onClose={() => setAlertState((a: any) => ({ ...a, open: false }))}
-              variant="filled"
-              severity={alertState.severity || "info"}
-              sx={{ width: "100%" }}
-            >
-              {alertState.message}
-            </Alert>
-          </Snackbar> */}
-          <UpdateAlert alertState={alertState} setAlertState={setAlertState}/>
         </Box>
       )}
     </>

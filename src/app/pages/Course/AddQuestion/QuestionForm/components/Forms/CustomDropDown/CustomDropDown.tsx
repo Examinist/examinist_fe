@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
+import { IFormInputs } from "../../../Fields";
 
 export interface IItem{
     label: string;
@@ -18,12 +19,12 @@ export interface IItem{
 interface ICustomDropDownProps {
     items: IItem[];
     title?: string;
-    name: string;
+    name: "topic" | "difficulty" | "question_type";
     firstOption?: string;
 }
 export default function CustomDropDown({items, name, title, firstOption}: ICustomDropDownProps) {
   
-  const { control } = useFormContext();
+  const { control, formState: {errors} } = useFormContext<IFormInputs>();
   return (
     <>
       {title && <Typography
@@ -43,6 +44,7 @@ export default function CustomDropDown({items, name, title, firstOption}: ICusto
               value={value}
               onChange={onChange}
               displayEmpty
+              error={errors[name] ? true : false}
             >
               <MenuItem value="" disabled color="white">
                 <em>{firstOption}</em>

@@ -8,10 +8,7 @@ import TextAnswer from "./TextAnswer";
 import EssayAnswer from "./EssayAnswer";
 import { AnswerTypeEnum, DefaultQuestionTypesEnum } from "../../../../../types/Question";
 
-interface IQuestionCardProps {
-  questionType: string;
-}
-export default function QuestionCard({ questionType }: IQuestionCardProps) {
+export default function QuestionCard() {
   const {
     register,
     formState: { errors },

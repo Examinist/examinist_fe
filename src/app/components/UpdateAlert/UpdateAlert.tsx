@@ -15,14 +15,14 @@ export default function UpdateAlert({ alertState, setAlertState }: IUpdateAlertP
     <Snackbar
       anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       open={alertState.open}
-      autoHideDuration={3000}
+      autoHideDuration={4000}
       onClose={() => setAlertState((a: any) => ({ ...a, open: false }))}
     >
       <Alert
         onClose={() => setAlertState((a: any) => ({ ...a, open: false }))}
         variant="filled"
         severity={alertState.severity || "info"}
-        sx={{ width: "100%" }}
+        sx={{ minWidth: "600px", width: "100%", py: 1, mt: 6}}
       >
         {alertState.message}
       </Alert>

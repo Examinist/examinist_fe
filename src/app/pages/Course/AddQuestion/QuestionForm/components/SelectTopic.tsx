@@ -10,22 +10,16 @@ import {
   Typography,
 } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
-import CustomDropDown from "../../../../../components/Forms/CustomDropDown/CustomDropDown";
+import CustomDropDown from "./Forms/CustomDropDown/CustomDropDown";
 import { ITopic } from "../../../../../types/Question";
 import { getTopicsApi } from "../../../../../services/APIs/CourseSettingsAPIs";
 
 const mapTopics = (topics: ITopic[]) =>
   topics.map((topic) => ({ value: topic.name, label: topic.name }));
 
-export default function SelectTopic() {
+export default function SelectTopic({ topics }: { topics: ITopic[]}) {
   const { courseId } = useParams<{ courseId: string }>();
-  const [topics, setTopics] = React.useState<ITopic[]>([]);
 
-  React.useEffect(() => {
-    getTopicsApi(courseId).then(({ data }) => {
-      setTopics(data.topics);
-    });
-  }, []);
 
   return (
     <Box sx={{ px: 5 }}>

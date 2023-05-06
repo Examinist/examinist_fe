@@ -16,6 +16,7 @@ import { useParams } from "react-router-dom";
 import { IErrorResponse } from "../../../../../services/Response";
 import { IAlertState } from "../../../../../components/UpdateAlert/UpdateAlert";
 import UpdateAlert from "../../../../../components/UpdateAlert/UpdateAlert";
+import useAlert from "../../../../../hooks/useAlert";
 
 interface ITemplateCardProps {
   title: string;
@@ -61,10 +62,7 @@ export default function TemplateCard({
 }: ITemplateCardProps) {
   const { courseId } = useParams<{ courseId: string }>();
   const [edit, setEdit] = useState(false);
-  const [alertState, setAlertState] = useState<IAlertState>({
-    open: false,
-    message: "",
-  });
+  const {setAlertState} = useAlert();
 
   const methods = useForm<IFormInput>({
     defaultValues: {
@@ -166,7 +164,6 @@ export default function TemplateCard({
             ))}
           </List>
         </Box>
-        <UpdateAlert alertState={alertState} setAlertState={setAlertState} />
       </form>
     </FormProvider>
   );

@@ -1,12 +1,18 @@
 import { TextField, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
+import { IFormInputs } from "../Fields";
+import { AnswerTypeEnum } from "../../../../../types/Question";
 
 export default function TextAnswer() {
   const {
     register,
     formState: { errors },
-  } = useFormContext();
+    setValue
+  } = useFormContext<IFormInputs>();
+  useEffect(() => {
+      setValue("answer_type", AnswerTypeEnum.TEXT);
+  }, []);
   
   return (
     <>
@@ -19,10 +25,10 @@ export default function TextAnswer() {
         fullWidth
         sx={{ my: 1 }}
         placeholder="Enter Correct Answer here..."
-        {...register("correctAnswer.0", { required: "Answer is required" })}
+        {...register("correct_answers_attributes.0.answer")}
         multiline
-        error={!!errors?.correctAnswer}
-        helperText={errors?.correctAnswer?.message?.toString()}
+        error={errors?.correct_answers_attributes?.[0]?.answer? true : false}
+        helperText={errors?.correct_answers_attributes?.[0]?.answer?.message}
       />
     </>
   );

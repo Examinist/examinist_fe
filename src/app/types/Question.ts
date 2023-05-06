@@ -19,6 +19,17 @@ export interface IQuestion {
   correct_answers?: ICorrectAnswer[];
 }
 
+
+export interface IEditQuestion {
+  header: string;
+  answer_type: AnswerTypeEnum;
+  difficulty: DifficultyLevelEnum;
+  question_type_id: number;
+  topic_id: number;
+  choices_attributes?: IChoice[];
+  correct_answers_attributes?: ICorrectAnswer[];
+}
+
 export interface ITopic {
   id: number;
   name: string;
@@ -51,9 +62,8 @@ export interface IChoice {
 }
 
 export interface ICorrectAnswer {
-  id: number;
+  id?: number;
   answer: string;
-  choice_id?: number;
 }
 
 export interface IFilterQuestionsParams{

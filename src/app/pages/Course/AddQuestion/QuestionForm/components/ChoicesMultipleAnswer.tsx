@@ -12,10 +12,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import AddIcon from "@mui/icons-material/Add";
 import { useFieldArray, useFormContext } from "react-hook-form";
+import { IFormInputs } from "../Fields";
 
 export default function ChoicesMultipleAnswer() {
   const {
@@ -24,7 +25,7 @@ export default function ChoicesMultipleAnswer() {
     setValue,
     getValues,
     formState: { errors },
-  } = useFormContext();
+  } = useFormContext<IFormInputs>();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "choices_attributes",
@@ -38,7 +39,7 @@ export default function ChoicesMultipleAnswer() {
           Choices:
         </Typography>
         <Button
-          onClick={() => append({ choice: "", checked: false })}
+          onClick={() => append({ choice: "", is_answer: false })}
           variant="outlined"
           sx={{ ml: "auto", mr: 3, height: 1, borderRadius: 4 }}
           endIcon={<AddIcon />}
@@ -54,7 +55,7 @@ export default function ChoicesMultipleAnswer() {
         >
           <Checkbox
             sx={{ mr: 2 }}
-            checked={checked.includes(item.id)}
+            checked={getValues(`choices_attributes.${index}.is_answer`)}
             onChange={() => {
               if (checked.includes(item.id)) {
                 setChecked(checked.filter((num) => num !== item.id));
@@ -70,17 +71,20 @@ export default function ChoicesMultipleAnswer() {
           <TextField
             multiline
             variant="standard"
-            {...register(`choices_attributes.${index}.is_answer`, {
+            {...register(`choices_attributes.${index}.choice`, {
               required: "Choice is required",
             })}
             placeholder="Write Choice"
             sx={{ mr: 2, width: "50%" }}
-            error={errors.choices?.message ? true : false}
+            error={errors.choices_attributes?.[index] ? true : false}
+            helperText={errors.choices_attributes?.[index]?.choice?.message}
           />
 
-          <IconButton onClick={() => remove(index)}>
-            <DeleteOutlineIcon />
-          </IconButton>
+          {fields.length > 2 && (
+            <IconButton onClick={() => remove(index)}>
+              <DeleteOutlineIcon />
+            </IconButton>
+          )}
         </div>
       ))}
     </Box>
