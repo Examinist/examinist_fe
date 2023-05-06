@@ -1,6 +1,16 @@
 import { ICourse, ICourseGroup } from "../../../types/Course";
-import { IExamTemplate, IQuestionType, ITopic } from "../../../types/CourseSettings";
-import { ExamCreationModeEnum, ExamStatusEnum, IDetailedExam, IExam, IExamQuestionsGroup } from "../../../types/Exam";
+import {
+  IExamTemplate,
+  IQuestionType,
+  ITopic,
+} from "../../../types/CourseSettings";
+import {
+  ExamCreationModeEnum,
+  ExamStatusEnum,
+  IDetailedExam,
+  IExam,
+  IExamQuestionsGroup,
+} from "../../../types/Exam";
 import {
   AnswerTypeEnum,
   DifficultyLevelEnum,
@@ -8,14 +18,15 @@ import {
 } from "../../../types/Question";
 import IUser from "../../../types/User";
 import { UserRoleEnum } from "../../../types/User";
+import { IExamPayload } from "../ExamAPIs";
 
 const mockInstructor: IUser = {
   id: 1,
   first_name: "Mock",
   last_name: "Instructor",
-  role:  UserRoleEnum.INSTRUCTOR,
+  role: UserRoleEnum.INSTRUCTOR,
   username: "mock_instructor",
-}
+};
 
 export const mockCourses: ICourse[] = [
   {
@@ -215,7 +226,6 @@ export const mockQuestions: IQuestion[] = [
   },
 ];
 
-
 export const mockExam: IExam = {
   id: 1,
   title: "Mock Exam",
@@ -226,8 +236,8 @@ export const mockExam: IExam = {
   creation_mode: ExamCreationModeEnum.MANUAL,
   creator: mockInstructor,
   course: mockCourses[0],
-  total_score: 0
-}
+  total_score: 0,
+};
 
 export const mockExamsList: IExam[] = [
   {
@@ -255,8 +265,6 @@ export const mockExamsList: IExam[] = [
   },
 ];
 
- 
-
 export const mockExamQuestions: IExamQuestionsGroup[] = [
   {
     MCQ: [
@@ -265,16 +273,22 @@ export const mockExamQuestions: IExamQuestionsGroup[] = [
     ],
   },
   {
-    "T/F": [
-      { id: 3, score: 2, question: mockQuestions[3] },
-    ],
+    "T/F": [{ id: 3, score: 2, question: mockQuestions[3] }],
   },
 ];
 
 export const mockDetailedExam: IDetailedExam = {
   ...mockExam,
   exam_questions: mockExamQuestions,
-}
+};
 
-
-
+export const mockExamPayload: IExamPayload = {
+  title: "Mock Exam",
+  duration: 60,
+  is_auto: false,
+  course_id: 1,
+  exam_questions_attributes: [
+    { question_id: 1, score: 2 },
+    { question_id: 2, score: 3 },
+  ],
+};
