@@ -70,7 +70,6 @@ export default function SignInForm() {
   };
 
   const onSubmit: SubmitHandler<ISignInInputs> = (inputs: ISignInInputs) => {
-    console.log(inputs);
     const requestData: ISignInRequest = {
       username: inputs.username,
       password: inputs.password,
@@ -85,7 +84,6 @@ export default function SignInForm() {
         login(user);
       })
       .catch(({ response: { status, data, statusText } }: IErrorResponse) => {
-        console.log(status, data, statusText);
         setErrorMessage(data.message! || statusText!);
       });
   };

@@ -10,38 +10,16 @@ import {
   Typography,
 } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
-import { ITopic } from "../../../../../types/Course";
-import CustomDropDown from "../../../../../components/Forms/CustomDropDown/CustomDropDown";
-
-const mockTopics: ITopic[] = [
-  {
-    id: 1,
-    name: "Topic 1",
-  },
-  {
-    id: 2,
-    name: "Topic 2",
-  },
-  {
-    id: 3,
-    name: "Topic 3",
-  },
-  {
-    id: 4,
-    name: "Topic 4",
-  },
-];
+import CustomDropDown from "./Forms/CustomDropDown/CustomDropDown";
+import { ITopic } from "../../../../../types/CourseSettings";
+import { getTopicsApi } from "../../../../../services/APIs/CourseSettingsAPIs";
 
 const mapTopics = (topics: ITopic[]) =>
   topics.map((topic) => ({ value: topic.name, label: topic.name }));
 
-export default function SelectTopic() {
+export default function SelectTopic({ topics }: { topics: ITopic[]}) {
   const { courseId } = useParams<{ courseId: string }>();
-  const [topics, setTopics] = React.useState<ITopic[]>([]);
 
-  React.useEffect(() => {
-    setTopics(mockTopics);
-  }, []);
 
   return (
     <Box sx={{ px: 5 }}>

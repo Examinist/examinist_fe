@@ -1,13 +1,14 @@
 import { Box, Typography, FormControl, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 import React from 'react'
 import { Controller, useFormContext } from 'react-hook-form';
+import { IFormInputs } from '../Fields';
 
 interface AnswerTypeProps{
   answerTypes: string[];
 }
 
 export default function SelectAnswerType({answerTypes}: AnswerTypeProps) {
-  const {control} = useFormContext();
+  const {control} = useFormContext<IFormInputs>();
   return (
     <Box sx={{ display: "flex", py: 2 }}>
       <Typography sx={{ fontSize: "18px", py: 1 }} color="#6B6767">
@@ -15,7 +16,7 @@ export default function SelectAnswerType({answerTypes}: AnswerTypeProps) {
       </Typography>
       <FormControl sx={{ ml: 5 }}>
         <Controller
-          name="answerType"
+          name="answer_type"
           control={control}
           rules={{ required: true }}
           render={({ field }) => (
@@ -24,7 +25,7 @@ export default function SelectAnswerType({answerTypes}: AnswerTypeProps) {
                 {answerTypes.map((answerType) => (
                   <div key={answerType}>
                     <FormControlLabel
-                      value={answerType.toLowerCase()}
+                      value={answerType}
                       control={<Radio />}
                       label={answerType}
                     />

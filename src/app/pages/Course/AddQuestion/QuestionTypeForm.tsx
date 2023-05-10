@@ -45,7 +45,6 @@ export default function QuestionTypeForm({onNext}: IQuestionFormProps) {
   });
 
   const onSubmit: SubmitHandler<IFormInputs> = (data: IFormInputs) => {
-    console.log(data);
     onNext(data.questionType);
   };
 

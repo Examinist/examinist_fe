@@ -39,7 +39,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const login = (user?: IUser) => {
-    console.log(user);
     setIsAuthenticated(true);
     // user!.role = UserRoleEnum.FACULTY_ADMIN;
     setUser(user);
@@ -51,7 +50,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     getUserProfileAPI()
       .then(({ data }: IGetUserProfileResponse) => {
-        const user = data.staff! || data.student!;
+        const user = data.user_info;
         // user.role = UserRoleEnum.FACULTY_ADMIN;
         setIsAuthenticated(true);
         setUser(user);

@@ -8,14 +8,18 @@ export interface ISignInRequest {
   password: string;
 }
 
-interface IUserResponseData extends IResponseData {
+interface ISignInResponseData extends IResponseData {
   staff?: IUser;
   student?: IUser;
 }
 
-export interface ISignInResponse extends IResponse<IUserResponseData> {}
+export interface IUserInfoData extends IResponseData {
+  user_info: IUser;
+}
 
-export interface IGetUserProfileResponse extends IResponse<IUserResponseData> {}
+export interface ISignInResponse extends IResponse<ISignInResponseData> {}
+
+export interface IGetUserProfileResponse extends IResponse<IUserInfoData> {}
 
 const mockResponse: ISignInResponse = {
   data: {
@@ -45,13 +49,10 @@ const getUserProfileAPI = async () => {
   const portal = localStorage.getItem("portal");
 
   try {
-    const response = await axiosInstance.post(`/${portal}/sessions`, {
-      username: localStorage.getItem('username'),
-      password: "password",
-    });
+    const response = await axiosInstance.get(`/${portal}/staffs/user_info`);
     return response as IGetUserProfileResponse;
   } catch {
-    return mockResponse;
+    return mockResponse as IGetUserProfileResponse;
   }
 };
 

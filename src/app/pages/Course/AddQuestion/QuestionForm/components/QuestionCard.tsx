@@ -1,35 +1,35 @@
 import { Box, Typography, TextField, Divider } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import ChoicesSingleAnswer from "./ChoicesSingleAnswer";
 import MCQAnswer from "./MCQAnswer";
 import TFAnswer from "./TFAnswer";
 import TextAnswer from "./TextAnswer";
 import EssayAnswer from "./EssayAnswer";
+import { AnswerTypeEnum } from "../../../../../types/Question";
+import { DefaultQuestionTypesEnum } from "../../../../../types/CourseSettings";
 
-interface IQuestionCardProps {
-  questionType: string;
-}
-export default function QuestionCard({ questionType }: IQuestionCardProps) {
+export default function QuestionCard() {
   const {
     register,
     formState: { errors },
     setValue,
   } = useFormContext();
    const { watch } = useFormContext();
-   const watchQuestionType = watch("questionType");
+   const watchQuestionType = watch("question_type");
 
    const renderAnswer = () => {
-     if (watchQuestionType === "MCQ") {
+     if (watchQuestionType === DefaultQuestionTypesEnum.MCQ) {
        return <MCQAnswer />;
-     } else if (watchQuestionType === "T/F") {
+     } else if (watchQuestionType === DefaultQuestionTypesEnum.T_F) {
        return <TFAnswer />;
-     } else if (watchQuestionType === "Short Answer") {
+     } else if (watchQuestionType === DefaultQuestionTypesEnum.SHORT_ANSWER) {
        return <TextAnswer />;
      } else {
        return <EssayAnswer />;
      }
    };
+
 
   return (
     <Box
@@ -63,7 +63,7 @@ export default function QuestionCard({ questionType }: IQuestionCardProps) {
           error={errors.header?.message ? true : false}
           helperText={errors.header?.message?.toString()}
         />
-        {renderAnswer()}
+        {watchQuestionType && renderAnswer()}
       </Box>
     </Box>
   );

@@ -5,13 +5,12 @@ import {
   Divider,
   Grid,
   List,
-  Snackbar,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
 import React from "react";
 import TopicElement from "./components/TopicElement";
-import { ITopic } from "../../../../types/Question";
+import { ITopic } from "../../../../types/CourseSettings";
 import {
   ITopicResponse,
   ITopicsListResponse,
@@ -23,6 +22,8 @@ import {
 import { useParams } from "react-router-dom";
 import { IErrorResponse } from "../../../../services/Response";
 import theme from "../../../../../assets/theme";
+import UpdateAlert, { IAlertState } from "../../../../components/UpdateAlert/UpdateAlert";
+import useAlert from "../../../../hooks/useAlert";
 
 export default function Topics() {
   const { courseId } = useParams<{ courseId: string }>();
@@ -30,20 +31,15 @@ export default function Topics() {
   const [topics, setTopics] = useState<ITopic[]>([]);
   const [renameId, setRenameId] = useState(-1);
   const [isLoading, setIsLoading] = useState(true);
-  const [alertState, setAlertState] = React.useState<any>({
-    open: false,
-    message: "",
-  });
+  const {setAlertState} = useAlert();
 
   useEffect(() => {
     getTopicsApi(courseId)
       .then(({ data }: ITopicsListResponse) => {
-        console.log(data);
         setTopics(data.topics);
         setIsLoading(false);
       })
       .catch(({ response: { status, statusText } }: IErrorResponse) => {
-        console.log(status, statusText);
       });
   }, []);
 
@@ -71,13 +67,11 @@ export default function Topics() {
          setRenameId(-1);
       })
       .catch(({ response: { status, statusText, data } }: IErrorResponse) => {
-        console.log(status, statusText, data);
         setAlertState({
           open: true,
           message: data.message,
           severity: "error",
         });
-        console.log(data.message);
       });
   };
 
@@ -92,7 +86,6 @@ export default function Topics() {
         });
       })
       .catch(({ response: { status, statusText, data } }: IErrorResponse) => {
-        console.log(status, statusText, data);
         setAlertState({
           open: true,
           message: data.message,
@@ -113,20 +106,12 @@ export default function Topics() {
         setAddTopic(-1);
       })
       .catch(({ response: { status, statusText, data } }: IErrorResponse) => {
-        console.log(status, statusText, data);
         setAlertState({
           open: true,
           message: data.message,
           severity: "success",
         });
-        console.log(data.message);
       });
-    // //api call
-    // //if success
-    //   setTopics(topics.concat({name:name, id:id}));
-    //   setAddTopic(-1);
-    // //if fail
-    // //popup error
   };
 
   return (
@@ -218,21 +203,7 @@ export default function Topics() {
               </Box>
             )}
           </List>
-          <Snackbar
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            open={alertState.open}
-            autoHideDuration={3000}
-            onClose={() => setAlertState((a: any) => ({ ...a, open: false }))}
-          >
-            <Alert
-              onClose={() => setAlertState((a: any) => ({ ...a, open: false }))}
-              variant="filled"
-              severity={alertState.severity || "info"}
-              sx={{ width: "100%" }}
-            >
-              {alertState.message}
-            </Alert>
-          </Snackbar>
+          {topics.length == 0 && addTopic === -1 && <Box>No topics found for this course.</Box>}
         </Box>
       )}
     </>

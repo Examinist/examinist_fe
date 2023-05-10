@@ -1,7 +1,16 @@
+import { IExamTemplate, IEditExamTemplate } from "../../types/CourseSettings";
 import { IQuestionType, ITopic } from "../../types/Question";
 import axiosInstance from "../AxiosConfig";
 import { IResponse, IResponseData } from "../Response";
-import { mockQuestionTypes, mockTopics } from "./mockData/MockData";
+import {
+  mockExamTemplate,
+  mockQuestionTypes,
+  mockTopics,
+} from "./mockData/MockData";
+
+export interface IExamTemplateData extends IResponseData {
+  exam_template: IExamTemplate;
+}
 
 export interface IQuestionTypesListData extends IResponseData {
   question_types: IQuestionType[];
@@ -23,6 +32,7 @@ export interface IQuestionTypesListResponse
 export interface IQuestionTypeResponse extends IResponse<IQuestionTypeData> {}
 export interface ITopicsListResponse extends IResponse<ITopicsListData> {}
 export interface ITopicResponse extends IResponse<ITopicData> {}
+export interface IExamTemplateResponse extends IResponse<IExamTemplateData> {}
 
 export const getQuestionTypesApi = async (course_id: any) => {
   try {
@@ -126,4 +136,30 @@ export const deleteTopicApi = async (course_id: any, topic_id: any) => {
     `${portal}/courses/${course_id}/topics/${topic_id}`
   );
   return response as ITopicResponse;
+};
+
+export const getExamTemplateApi = async (course_id: any) => {
+  try {
+    const portal = localStorage.getItem("portal");
+    const response = await axiosInstance.get(
+      `${portal}/courses/${course_id}/exam_template`
+    );
+    return response as IExamTemplateResponse;
+  } catch (error) {
+    return {
+      data: { exam_template: mockExamTemplate },
+    } as IExamTemplateResponse;
+  }
+};
+
+export const updateExamTemplateApi = async (
+  course_id: any,
+  data: IEditExamTemplate
+) => {
+  const portal = localStorage.getItem("portal");
+  const response = await axiosInstance.patch(
+    `${portal}/courses/${course_id}/update_exam_template`,
+    data
+  );
+  return response as IExamTemplateResponse;
 };

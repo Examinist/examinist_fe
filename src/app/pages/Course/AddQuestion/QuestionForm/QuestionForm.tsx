@@ -1,5 +1,9 @@
-import React from "react";
-import { IQuestion } from "../../../../types/Question";
+import React, { useEffect, useState } from "react";
+import {
+  AnswerTypeEnum,
+  DifficultyLevelEnum,
+  IQuestion,
+} from "../../../../types/Question";
 import {
   Box,
   Button,
@@ -13,45 +17,108 @@ import SelectTopic from "./components/SelectTopic";
 import SelectDifficulty from "./components/SelectDifficulty";
 import QuestionCard from "./components/QuestionCard";
 import SelectQuestionType from "./components/SelectQuestionType";
+import { useParams } from "react-router-dom";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { IFormInputs, initialValues, schema } from "./Fields";
+import {
+  IQuestionTypesListResponse,
+  ITopicsListResponse,
+  getQuestionTypesApi,
+  getTopicsApi,
+} from "../../../../services/APIs/CourseSettingsAPIs";
+import {
+  IQuestionPayload,
+  IQuestionResponse,
+  createQuestionApi,
+} from "../../../../services/APIs/QuestionsAPIs";
+import { IErrorResponse } from "../../../../services/Response";
+import UpdateAlert, {
+  IAlertState,
+} from "../../../../components/UpdateAlert/UpdateAlert";
+import useAlert from "../../../../hooks/useAlert";
+import {
+  DefaultQuestionTypesEnum,
+  IQuestionType,
+  ITopic,
+} from "../../../../types/CourseSettings";
 
 interface IQuestionFormProps {
-  questionType: string;
-  mode: "new" | "edit";
-  question?: IQuestion;
+  onSuccess: (question?: IQuestion) => void;
 }
 
-interface IChoice{
-  choice: string;
-  checked: boolean;
-}
+export default function QuestionForm({ onSuccess }: IQuestionFormProps) {
+  const { setAlertState } = useAlert();
+  const { courseId } = useParams<{ courseId: string }>();
+  const [topics, setTopics] = useState<ITopic[]>([]);
+  const [questionTypes, setQuestionTypes] = React.useState<IQuestionType[]>([]);
 
-interface IFormInputs {
-  questionType: string;
-  topic: string;
-  difficulty: string;
-  header: string;
-  answerType: string;
-  choices?: IChoice[];
-  correctAnswer: string[];
-}
+  const loadTopics = () => {
+    getTopicsApi(courseId).then(({ data }: ITopicsListResponse) => {
+      return setTopics(data.topics);
+    });
+  };
 
-export default function QuestionForm({
-  questionType,
-}: IQuestionFormProps) {
+  const loadQuestionTypes = () => {
+    getQuestionTypesApi(courseId).then(
+      ({ data }: IQuestionTypesListResponse) => {
+        setQuestionTypes(data.question_types);
+      }
+    );
+  };
   const methods = useForm<IFormInputs>({
-    defaultValues: {
-      questionType: "",
-      topic: "",
-      difficulty: "easy",
-      header: "",
-      answerType:"single",
-      choices: [{choice: "", checked: false}, {choice: "", checked: false}],
-      correctAnswer: [],
-    },
+    defaultValues: initialValues,
+    resolver: yupResolver(schema),
   });
 
+  useEffect(() => {
+    loadQuestionTypes();
+    loadTopics();
+  }, []);
+
   const onSubmit = (data: IFormInputs) => {
-    console.log(data);
+    const {
+      question_type,
+      topic,
+      correct_answers_attributes,
+      choices_attributes,
+      ...q
+    } = data;
+    let question: IQuestionPayload = {
+      question_type_id: questionTypes.find(
+        (questionType) => questionType.name === question_type
+      )?.id!,
+      topic_id: topics.find((t) => t.name === topic)?.id!,
+      ...q,
+    };
+
+    if (
+      question_type === DefaultQuestionTypesEnum.MCQ ||
+      question_type === DefaultQuestionTypesEnum.T_F
+    ) {
+      question = { ...question, choices_attributes: choices_attributes };
+    } else {
+      question = {
+        ...question,
+        correct_answers_attributes: correct_answers_attributes,
+      };
+    }
+
+    createQuestionApi(courseId, question)
+      .then(({ data }: IQuestionResponse) => {
+        setAlertState({
+          open: true,
+          message: "Question created successfully",
+          severity: "success",
+        });
+        onSuccess(data.question);
+      })
+      .catch(({ response: { status, statusText, data } }: IErrorResponse) => {
+        setAlertState({
+          open: true,
+          message: data.message,
+          severity: "error",
+        });
+      });
   };
 
   const { handleSubmit } = methods;
@@ -79,12 +146,12 @@ export default function QuestionForm({
                 Add New Question
               </Typography>
               <Divider />
-              <SelectQuestionType />
-              <SelectTopic />
+              <SelectQuestionType questionTypes={questionTypes} />
+              <SelectTopic topics={topics} />
               <SelectDifficulty />
             </Grid>
             <Grid item xs={7} md={9} sx={{ px: 6, py: 4, height: "100%" }}>
-              <QuestionCard questionType={questionType} />
+              <QuestionCard />
               <Button
                 variant="contained"
                 sx={{ ml: "auto", mt: "auto", px: 4, borderRadius: 3 }}

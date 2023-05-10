@@ -1,4 +1,11 @@
-import { Button, Divider, Grid, Stack, Pagination } from "@mui/material";
+import {
+  Button,
+  Divider,
+  Grid,
+  Stack,
+  Pagination,
+  CircularProgress,
+} from "@mui/material";
 
 import { Box } from "@mui/system";
 import theme from "../../../../assets/theme";
@@ -10,8 +17,6 @@ import {
   DifficultyLevelEnum,
   IFilterQuestionsParams,
   IQuestion,
-  IQuestionType,
-  ITopic,
 } from "../../../types/Question";
 import {
   IQuestionTypesListResponse,
@@ -24,7 +29,12 @@ import { IErrorResponse } from "../../../services/Response";
 import {
   IQuestionsListResponse,
   getQuestionsApi,
-} from "../../../services/APIs/QuestionBank";
+} from "../../../services/APIs/QuestionsAPIs";
+import { set } from "react-hook-form";
+import UpdateAlert, {
+  IAlertState,
+} from "../../../components/UpdateAlert/UpdateAlert";
+import { IQuestionType, ITopic } from "../../../types/CourseSettings";
 
 const DifficultyLevelOptions = [
   {
@@ -41,23 +51,45 @@ const DifficultyLevelOptions = [
   },
 ];
 
+interface IQuestionBankContext {
+  reloadQuestions: () => void;
+}
+
+export const QuestionBankContext = React.createContext<IQuestionBankContext>({
+  reloadQuestions: () => {},
+});
+
 export default function QuestionBank() {
   const { courseId } = useParams<{ courseId: string }>();
   const navigate = useNavigate();
   const [questions, setQuestions] = useState<IQuestion[]>([]);
   const [topics, setTopics] = useState<IOption[]>([]);
   const [questionTypes, setQuestionTypes] = React.useState<IOption[]>([]);
-  const [filterParams, setFilterParams] = useState<IFilterQuestionsParams>({page: 1});
+  const [filterParams, setFilterParams] = useState<IFilterQuestionsParams>({
+    page: 1,
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [alertState, setAlertState] = useState<IAlertState>({
+    open: false,
+    message: "",
+    severity: "success",
+  });
 
   const loadQuestions = () => {
+    setIsLoading(true);
     getQuestionsApi(parseInt(courseId!), filterParams)
       .then(({ data }: IQuestionsListResponse) => {
-        console.log(data.questions);
         setQuestions(data.questions);
       })
       .catch(({ response: { status, statusText } }: IErrorResponse) => {
-        console.log(status, statusText);
-    });
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  const contextValue: IQuestionBankContext = {
+    reloadQuestions: loadQuestions,
   };
 
   const loadTopics = () => {
@@ -71,7 +103,6 @@ export default function QuestionBank() {
         );
       })
       .catch(({ response: { status, statusText } }: IErrorResponse) => {
-        console.log(status, statusText);
       });
   };
 
@@ -86,7 +117,6 @@ export default function QuestionBank() {
         );
       })
       .catch(({ response: { status, statusText } }: IErrorResponse) => {
-        console.log(status, statusText);
       });
   };
 
@@ -103,142 +133,169 @@ export default function QuestionBank() {
   return (
     <div>
       <Stack sx={{ py: 6, justifyContent: "center", alignItems: "center" }}>
-        <Box sx={{ width: "100%", px: 5 }}>
-          <Grid container direction="column">
-            <Grid item xs>
-              <Grid container direction="row" sx={{ mb: 2 }} columnSpacing={2}>
-                <Grid item xs={8} md={9}>
-                  <SearchBar
-                    onSearch={(search: string) =>
+        <QuestionBankContext.Provider value={contextValue}>
+          <Box sx={{ width: "100%", px: 20 }}>
+            <Grid container direction="column">
+              <Grid item xs>
+                <Grid
+                  container
+                  direction="row"
+                  sx={{ mb: 2 }}
+                  columnSpacing={2}
+                >
+                  <Grid item xs={8} md={9}>
+                    <SearchBar
+                      onSearch={(search: string) =>
+                        setFilterParams({
+                          ...filterParams,
+                          filter_by_header: search,
+                          page: 1,
+                        })
+                      }
+                      onCancel={() => {
+                        setFilterParams({
+                          ...filterParams,
+                          filter_by_header: undefined,
+                          page: 1,
+                        });
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={4} md={3}>
+                    <Button
+                      variant="outlined"
+                      onClick={() => navigate("./add")}
+                      sx={{
+                        color: theme.palette.primary.main,
+                        backgroundColor: theme.palette.white.main,
+                        width: "90%",
+                        height: "90%",
+                        mt: "3px",
+                        textTransform: "none",
+                        border: 1,
+                        ml: 5,
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                        borderRadius: "15px",
+                      }}
+                    >
+                      Add New Question
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Grid>
+              {isLoading && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                  }}
+                >
+                  <CircularProgress />
+                </Box>
+              )}
+
+              <Grid
+                direction="row"
+                columnSpacing={4}
+                container
+                columns={{ xs: 4, sm: 4, md: 12 }}
+              >
+                <Grid item xs={4} md={3}>
+                  <SelectBox
+                    key={"Topic"}
+                    title={"Topic"}
+                    options={topics}
+                    onChange={(value) =>
                       setFilterParams({
                         ...filterParams,
-                        filter_by_header: search,
+                        filter_by_topic_id: value,
                         page: 1,
                       })
                     }
-                    onCancel={() => {
+                    onCancel={() =>
                       setFilterParams({
                         ...filterParams,
-                        filter_by_header: undefined,
+                        filter_by_topic_id: undefined,
                         page: 1,
-                      });
-                    }}
+                      })
+                    }
                   />
                 </Grid>
                 <Grid item xs={4} md={3}>
-                  <Button
-                    variant="outlined"
-                    onClick={() => navigate("./add")}
-                    sx={{
-                      color: theme.palette.primary.main,
-                      backgroundColor: theme.palette.white.main,
-                      width: "90%",
-                      height: "90%",
-                      mt: "3px",
-                      textTransform: "none",
-                      border: 1,
-                      ml: 5,
-                      fontSize: "14px",
-                      fontWeight: "bold",
-                      borderRadius: "15px",
-                    }}
-                  >
-                    Add New Question
-                  </Button>
+                  <SelectBox
+                    key={"Question Type"}
+                    title={"Question Type"}
+                    options={questionTypes}
+                    onChange={(value) =>
+                      setFilterParams({
+                        ...filterParams,
+                        filter_by_question_type_id: value,
+                        page: 1,
+                      })
+                    }
+                    onCancel={() =>
+                      setFilterParams({
+                        ...filterParams,
+                        filter_by_question_type_id: undefined,
+                        page: 1,
+                      })
+                    }
+                  />
+                </Grid>
+                <Grid item xs={4} md={3}>
+                  <SelectBox
+                    key={"Difficulty Level"}
+                    title={"Difficulty Level"}
+                    options={DifficultyLevelOptions}
+                    onChange={(value) =>
+                      setFilterParams({
+                        ...filterParams,
+                        filter_by_difficulty: value,
+                        page: 1,
+                      })
+                    }
+                    onCancel={() =>
+                      setFilterParams({
+                        ...filterParams,
+                        filter_by_difficulty: undefined,
+                        page: 1,
+                      })
+                    }
+                  />
                 </Grid>
               </Grid>
-            </Grid>
 
-            <Grid
-              direction="row"
-              columnSpacing={4}
-              container
-              columns={{ xs: 4, sm: 4, md: 12 }}
-            >
-              <Grid item xs={4} md={3}>
-                <SelectBox
-                  key={"Topic"}
-                  title={"Topic"}
-                  options={topics}
-                  onChange={(value) =>
-                    setFilterParams({
-                      ...filterParams,
-                      filter_by_topic_id: value,
-                      page: 1,
-                    })
-                  }
-                  onCancel={() =>
-                    setFilterParams({
-                      ...filterParams,
-                      filter_by_topic_id: undefined,
-                      page: 1,
-                    })
-                  }
-                />
-              </Grid>
-              <Grid item xs={4} md={3}>
-                <SelectBox
-                  key={"Question Type"}
-                  title={"Question Type"}
-                  options={questionTypes}
-                  onChange={(value) =>
-                    setFilterParams({
-                      ...filterParams,
-                      filter_by_question_type_id: value,
-                      page: 1,
-                    })
-                  }
-                  onCancel={() =>
-                    setFilterParams({
-                      ...filterParams,
-                      filter_by_question_type_id: undefined,
-                      page: 1,
-                    })
-                  }
-                />
-              </Grid>
-              <Grid item xs={4} md={3}>
-                <SelectBox
-                  key={"Difficulty Level"}
-                  title={"Difficulty Level"}
-                  options={DifficultyLevelOptions}
-                  onChange={(value) =>
-                    setFilterParams({
-                      ...filterParams,
-                      filter_by_difficulty: value,
-                      page: 1,
-                    })
-                  }
-                  onCancel={() =>
-                    setFilterParams({
-                      ...filterParams,
-                      filter_by_difficulty: undefined,
-                      page: 1,
-                    })
-                  }
-                />
-              </Grid>
-            </Grid>
+              {!isLoading && (
+                <Grid container direction="column" spacing={4} paddingTop={2}>
+                  {questions.map((question) => {
+                    return (
+                      <Grid key={question.id} item xs>
+                        <QuestionAccordion key={question.id} {...question} />
+                      </Grid>
+                    );
+                  })}
 
-            <Grid container direction="column" spacing={4} paddingTop={2}>
-              {questions.map((question) => {
-                return (
-                  <Grid key={question.id} item xs>
-                    <QuestionAccordion key={question.id} {...question} />
-                  </Grid>
-                );
-              })}
+                  {questions.length === 0 && (
+                    <Box sx={{ p: 3 }}>
+                      No Questions to show for this Course.
+                    </Box>
+                  )}
+                </Grid>
+              )}
             </Grid>
-          </Grid>
-        </Box>
-        <Pagination
-          sx={{ mt: 4 }}
-          count={10}
-          page={filterParams.page}
-          onChange={(_event: React.ChangeEvent<unknown>, value: number) => {
-            setFilterParams({ ...filterParams, page: value });
-          }}
-        />
+          </Box>
+          <Pagination
+            sx={{ mt: 4 }}
+            count={10}
+            page={filterParams.page}
+            onChange={(_event: React.ChangeEvent<unknown>, value: number) => {
+              setFilterParams({ ...filterParams, page: value });
+            }}
+          />
+        </QuestionBankContext.Provider>
       </Stack>
     </div>
   );
