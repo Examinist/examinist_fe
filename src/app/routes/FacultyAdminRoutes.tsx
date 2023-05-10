@@ -20,6 +20,8 @@ import SchedulingLayout from "../layouts/SchedulingLayout/SchedulingLayout";
 import SchedulingExams from "../pages/Scheduling/SchedulingExams/SchedulingExams";
 import TimeTables from "../pages/Scheduling/TimeTables/TimeTables";
 import EditQuestion from "../pages/Course/QuestionForms/EditQuestion/EditQuestion";
+import ManualExam from "../pages/Course/ExamCreation/ManualExam";
+import AutomaticExam from "../pages/Course/ExamCreation/AutomaticExam";
 
 const FacultyAdminRoutes = () => {
   return (
@@ -51,6 +53,11 @@ const FacultyAdminRoutes = () => {
             </Route>
             <Route path="general-info" element={<GeneralInfo />} />
             <Route path="course-groups" element={<CourseGroups />} />
+            <Route
+              path="create-exam/manual-creation"
+              element={<ManualExam />}
+            />
+            <Route path="create-exam/automatic-creation" element={<AutomaticExam />} />
           </Route>
         </Route>
 

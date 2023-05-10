@@ -18,6 +18,7 @@ import {
 } from "../../services/APIs/CoursesAPIs";
 import { ICourseInfo } from "../../types/Course";
 import useAuth from "../../hooks/useAuth";
+import CreateExamButton from "./CreateExam";
 
 const tabs: ITab[] = [
   {
@@ -93,6 +94,7 @@ export default function CourseLayout() {
         <Box sx={{ alignSelf: "flex-end", flexGrow: 1 }}>
          {isLoaded && <CustomTabs tabs={isAssigned? tabs : unAssignedAdminTabs} />}
         </Box>
+        <CreateExamButton />
       </Box>
       <Box
         component="main"
@@ -102,6 +104,6 @@ export default function CourseLayout() {
           <Outlet />
         </IsAssignedContext.Provider>
       </Box>
-  </Box>
+    </Box>
   );
 }
