@@ -14,6 +14,8 @@ import Courses from "../pages/ListCourses/ListCourses";
 import Test from "../pages/Test";
 import { UserRoleEnum } from "../types/User";
 import AddQuestion from "../pages/Course/AddQuestion/AddQuestion";
+import ManualExam from "../pages/Course/ExamCreation/ManualExam";
+import AutomaticExam from "../pages/Course/ExamCreation/AutomaticExam";
 
 const InstructorRoutes = () => {
   return (
@@ -28,6 +30,11 @@ const InstructorRoutes = () => {
             <Route path="question-bank">
               <Route path="" element={<QuestionBank />} />
               <Route path="add" element={<AddQuestion />}></Route>
+            </Route>
+            <Route path="create-exam">
+              <Route path="" element={<QuestionBank />} />
+              <Route path="manual-creation" element={<ManualExam />}></Route>
+              <Route path="automatic-creation" element={<AutomaticExam />} />
             </Route>
             <Route path="exams" element={<Exams />} />
             <Route path="course-info">

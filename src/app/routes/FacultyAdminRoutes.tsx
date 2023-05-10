@@ -14,6 +14,8 @@ import Test from "../pages/Test";
 import { UserRoleEnum } from "../types/User";
 import AddQuestion from "../pages/Course/AddQuestion/AddQuestion";
 import FacultyAdminLayout from "../layouts/FacultyAdminLayout/FacultyAdminLayout";
+import ManualExam from "../pages/Course/ExamCreation/ManualExam";
+import AutomaticExam from "../pages/Course/ExamCreation/AutomaticExam";
 
 const FacultyAdminRoutes = () => {
   return (
@@ -41,6 +43,11 @@ const FacultyAdminRoutes = () => {
               <Route path="topics" element={<Topics />} />
               <Route path="exam-template" element={<Template />} />
             </Route>
+            <Route
+              path="create-exam/manual-creation"
+              element={<ManualExam />}
+            />
+            <Route path="create-exam/automatic-creation" element={<AutomaticExam />} />
           </Route>
         </Route>
         <Route path="exams" element={<Exams />} />

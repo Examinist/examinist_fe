@@ -41,10 +41,15 @@ const DifficultyLevelOptions = [
   },
 ];
 
-export default function QuestionBank() {
+type Props = {
+    childComponent: React.FunctionComponent;
+    questions: IQuestion[];
+    setQuestions: React.Dispatch<React.SetStateAction<IQuestion[]>>;
+  };
+
+export default function QuestionBankBody({ childComponent: ChildComponent,questions:questions,setQuestions:setQuestions }: Props) {
   const { courseId } = useParams<{ courseId: string }>();
   const navigate = useNavigate();
-  const [questions, setQuestions] = useState<IQuestion[]>([]);
   const [topics, setTopics] = useState<IOption[]>([]);
   const [questionTypes, setQuestionTypes] = React.useState<IOption[]>([]);
   const [filterParams, setFilterParams] = useState<IFilterQuestionsParams>({page: 1});
@@ -221,13 +226,7 @@ export default function QuestionBank() {
             </Grid>
 
             <Grid container direction="column" spacing={4} paddingTop={2}>
-              {questions.map((question) => {
-                return (
-                  <Grid key={question.id} item xs>
-                    <QuestionAccordion key={question.id} {...question} />
-                  </Grid>
-                );
-              })}
+              <ChildComponent/>
             </Grid>
           </Grid>
         </Box>

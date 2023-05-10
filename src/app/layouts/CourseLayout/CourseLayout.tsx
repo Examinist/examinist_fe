@@ -18,6 +18,7 @@ import {
 } from "../../services/APIs/CoursesAPIs";
 import { ICourseInfo } from "../../types/Course";
 import useAuth from "../../hooks/useAuth";
+import CreateExamButton from "./CreateExam";
 
 const tabs: ITab[] = [
   {
@@ -41,8 +42,8 @@ const tabs: ITab[] = [
 ];
 
 const checkIfAssigned = (instructors: any[], username: string) => {
-  return instructors.some((instructor) => instructor.username === username); 
-}
+  return instructors.some((instructor) => instructor.username === username);
+};
 
 export const IsAssignedContext = React.createContext<boolean>(false);
 
@@ -55,7 +56,9 @@ export default function CourseLayout() {
   React.useEffect(() => {
     getCourseGeneralInfoAPI(courseId!).then(({ data }: ICourseInfoResponse) => {
       setCourseInfo(data.course_info);
-      setIsAssigned(checkIfAssigned(data.course_info.instructors, user!.username));
+      setIsAssigned(
+        checkIfAssigned(data.course_info.instructors, user!.username)
+      );
     });
   }, []);
 
@@ -81,9 +84,10 @@ export default function CourseLayout() {
         >
           {courseInfo?.code}
         </Typography>
-        <Box sx={{ alignSelf: "flex-end", flexGrow: 1 }}>
+        <Box sx={{ alignSelf: "flex-center", flexGrow: 1 }}>
           <CustomTabs tabs={tabs} />
         </Box>
+        <CreateExamButton />
       </Box>
       <Box
         component="main"
@@ -93,6 +97,6 @@ export default function CourseLayout() {
           <Outlet />
         </IsAssignedContext.Provider>
       </Box>
-  </Box>
+    </Box>
   );
 }
