@@ -5,7 +5,7 @@ import HorizontalStepper from './Stepper'
 export default function ManualExam() {
   return (
     <Box sx={{ width: "100%", px: 5,py:5 }}>
-        <HorizontalStepper/>
+        <HorizontalStepper isAutomatic={false}/>
     </Box>
     )
 }

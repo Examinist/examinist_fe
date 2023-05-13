@@ -1,16 +1,33 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+import ListItemText from "@mui/material/ListItemText";
+import ListItem from "@mui/material/ListItem";
+import List from "@mui/material/List";
+import Divider from "@mui/material/Divider";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import CloseIcon from "@mui/icons-material/Close";
+import Slide from "@mui/material/Slide";
+import { TransitionProps } from "@mui/material/transitions";
+import QuestionBank from "../QuestionBank/QuestionBank";
 import theme from "../../../../assets/theme";
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement;
+  },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export default function QuestionBankDialog() {
   const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => () => {
+  const handleClickOpen = () => {
     setOpen(true);
   };
 
@@ -18,65 +35,36 @@ export default function QuestionBankDialog() {
     setOpen(false);
   };
 
-  const descriptionElementRef = React.useRef<HTMLElement>(null);
-  React.useEffect(() => {
-    if (open) {
-      const { current: descriptionElement } = descriptionElementRef;
-      if (descriptionElement !== null) {
-        descriptionElement.focus();
-      }
-    }
-  }, [open]);
-
   return (
     <div>
-      <Button
-        variant="outlined"
-        onClick={handleClickOpen()}
-        sx={{
-          color: theme.palette.primary.main,
-          backgroundColor: theme.palette.white.main,
-          width: "90%",
-          height: "90%",
-          mt: "3px",
-          textTransform: "none",
-          border: 1,
-          ml: 5,
-          fontSize: "14px",
-          fontWeight: "bold",
-          borderRadius: "15px",
-        }}
-      >
-        Import Question
+      <Button variant="outlined" onClick={handleClickOpen}>
+        Import Question{" "}
       </Button>
       <Dialog
+        fullScreen
         open={open}
         onClose={handleClose}
-        scroll="paper"
-        aria-labelledby="scroll-dialog-title"
-        aria-describedby="scroll-dialog-description"
+        TransitionComponent={Transition}
       >
-        <DialogTitle id="scroll-dialog-title">Subscribe</DialogTitle>
-        <DialogContent dividers={true}>
-          <DialogContentText
-            id="scroll-dialog-description"
-            ref={descriptionElementRef}
-            tabIndex={-1}
-          >
-            {[...new Array(50)]
-              .map(
-                () => `Cras mattis consectetur purus sit amet fermentum.
-Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
-              )
-              .join("\n")}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Subscribe</Button>
-        </DialogActions>
+        <AppBar sx={{ position: "relative" }}>
+          <Toolbar>
+            <IconButton
+              edge="start"
+              color="inherit"
+              onClick={handleClose}
+              aria-label="close"
+            >
+              <CloseIcon />
+            </IconButton>
+            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+              Select Question(s) from Question Bank :
+            </Typography>
+            <Button autoFocus color="inherit" onClick={handleClose}>
+              Done
+            </Button>
+          </Toolbar>
+        </AppBar>
+       <QuestionBank creation={true}/>
       </Dialog>
     </div>
   );

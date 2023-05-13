@@ -59,7 +59,15 @@ export const QuestionBankContext = React.createContext<IQuestionBankContext>({
   reloadQuestions: () => {},
 });
 
-export default function QuestionBank() {
+export default function QuestionBank({
+  creation,
+  questionsSelected,
+  setQuestionsSelected,
+}: {
+  creation?: boolean;
+  questionsSelected?: { questionsSelected: string }[];
+  setQuestionsSelected?: React.Dispatch<React.SetStateAction<String>>;
+}) {
   const { courseId } = useParams<{ courseId: string }>();
   const navigate = useNavigate();
   const [questions, setQuestions] = useState<IQuestion[]>([]);
@@ -79,8 +87,7 @@ export default function QuestionBank() {
         setQuestions(data.questions);
         setPagesCount(data.number_of_pages);
       })
-      .catch(({ response: { status, statusText } }: IErrorResponse) => {
-      })
+      .catch(({ response: { status, statusText } }: IErrorResponse) => {})
       .finally(() => {
         setIsLoading(false);
       });
@@ -100,8 +107,7 @@ export default function QuestionBank() {
           }))
         );
       })
-      .catch(({ response: { status, statusText } }: IErrorResponse) => {
-      });
+      .catch(({ response: { status, statusText } }: IErrorResponse) => {});
   };
 
   const loadQuestionTypes = () => {
@@ -114,8 +120,7 @@ export default function QuestionBank() {
           }))
         );
       })
-      .catch(({ response: { status, statusText } }: IErrorResponse) => {
-      });
+      .catch(({ response: { status, statusText } }: IErrorResponse) => {});
   };
 
   useEffect(() => {
@@ -130,9 +135,16 @@ export default function QuestionBank() {
 
   return (
     <div>
-      <Stack sx={{ py: 6, justifyContent: "center", alignItems: "center" }}>
+      <Stack
+        sx={{
+          py: 6,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: theme.palette.background.default,
+        }}
+      >
         <QuestionBankContext.Provider value={contextValue}>
-          <Box sx={{ width: "100%", px: 20 }}>
+          <Box sx={{ width: "100%", px: 5 }}>
             <Grid container direction="column">
               <Grid item xs>
                 <Grid
@@ -159,27 +171,31 @@ export default function QuestionBank() {
                       }}
                     />
                   </Grid>
-                  <Grid item xs={4} md={3}>
-                    <Button
-                      variant="outlined"
-                      onClick={() => navigate("./add")}
-                      sx={{
-                        color: theme.palette.primary.main,
-                        backgroundColor: theme.palette.white.main,
-                        width: "90%",
-                        height: "90%",
-                        mt: "3px",
-                        textTransform: "none",
-                        border: 1,
-                        ml: 5,
-                        fontSize: "14px",
-                        fontWeight: "bold",
-                        borderRadius: "15px",
-                      }}
-                    >
-                      Add New Question
-                    </Button>
-                  </Grid>
+                  {creation ? (
+                    <Grid item xs={4} md={3} />
+                  ) : (
+                    <Grid item xs={4} md={3}>
+                      <Button
+                        variant="outlined"
+                        onClick={() => navigate("./add")}
+                        sx={{
+                          color: theme.palette.primary.main,
+                          backgroundColor: theme.palette.white.main,
+                          width: "90%",
+                          height: "90%",
+                          mt: "3px",
+                          textTransform: "none",
+                          border: 1,
+                          ml: 5,
+                          fontSize: "14px",
+                          fontWeight: "bold",
+                          borderRadius: "15px",
+                        }}
+                      >
+                        Add New Question
+                      </Button>
+                    </Grid>
+                  )}
                 </Grid>
               </Grid>
               {isLoading && (

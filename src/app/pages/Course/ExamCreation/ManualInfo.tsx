@@ -1,6 +1,7 @@
 import { Box, Grid, Stack, TextField, Typography } from "@mui/material";
 import React from "react";
 import theme from "../../../../assets/theme";
+import RadioButtonOptions from "./RadioButtonOptions";
 
 export default function ManualInfo() {
   return (
@@ -36,6 +37,12 @@ export default function ManualInfo() {
         </Grid>
         <Grid item xs={9}>
           <TextField id="outlined-basic" sx={{width:'60%'}}/>
+        </Grid>
+        <Grid item xs={3}>
+          <Typography variant="h6">Exam Models :</Typography>
+        </Grid>
+        <Grid item xs={9}>
+        <RadioButtonOptions/>
         </Grid>
       </Grid>
     </Box>

@@ -21,7 +21,7 @@ export default function QuestionAccordion(question: IQuestion) {
   return (
     <Box
       sx={{
-        backgroundColor: theme.palette.white.main,
+        backgroundColor: theme.palette.background.paper,
         py: 1,
         px: 3,
         borderRadius: 5,
