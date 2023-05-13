@@ -19,12 +19,25 @@ export interface IUserInfoData extends IResponseData {
 
 export interface ISignInResponse extends IResponse<ISignInResponseData> {}
 
-export interface IGetUserProfileResponse extends IResponse<IUserInfoData> {}
+export interface IGetUserInfoResponse extends IResponse<IUserInfoData> {}
 
-const mockResponse: ISignInResponse = {
+const signInMockResponse: ISignInResponse = {
   data: {
     status: "success",
     staff: {
+      username: "mockuser",
+      first_name: "Mock",
+      last_name: "User",
+      role: UserRoleEnum.INSTRUCTOR,
+      auth_token: "123456789",
+    },
+  },
+};
+
+const userInfoMockResponse: IGetUserInfoResponse = {
+  data: {
+    status: "success",
+    user_info: {
       username: "mockuser",
       first_name: "Mock",
       last_name: "User",
@@ -39,20 +52,20 @@ const SignInAPI = async (data: ISignInRequest, portal: UserPortalEnum) => {
     const response = await axiosInstance.post(`/${portal}/sessions`, data);
     return response as ISignInResponse;
   } catch (error) {
-    return mockResponse;
+    return signInMockResponse;
   }
 };
 
 const getUserProfileAPI = async () => {
   const token = localStorage.getItem("auth_token");
-  if (token == null) throw new Error();
+  // if (token == null) throw new Error();
   const portal = localStorage.getItem("portal");
 
   try {
     const response = await axiosInstance.get(`/${portal}/staffs/user_info`);
-    return response as IGetUserProfileResponse;
+    return response as IGetUserInfoResponse;
   } catch {
-    return mockResponse as IGetUserProfileResponse;
+    return userInfoMockResponse as IGetUserInfoResponse;
   }
 };
 

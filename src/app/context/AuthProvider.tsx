@@ -2,7 +2,7 @@ import { createContext, useState, ReactNode, useEffect } from "react";
 import IUser, { UserRoleEnum } from "../types/User";
 import {
   getUserProfileAPI,
-  IGetUserProfileResponse,
+  IGetUserInfoResponse,
 } from "../services/APIs/AuthAPIs";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Box, CircularProgress } from "@mui/material";
@@ -49,7 +49,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     getUserProfileAPI()
-      .then(({ data }: IGetUserProfileResponse) => {
+      .then(({ data }: IGetUserInfoResponse) => {
         const user = data.user_info;
         // user.role = UserRoleEnum.FACULTY_ADMIN;
         setIsAuthenticated(true);
