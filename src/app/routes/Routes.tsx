@@ -4,6 +4,8 @@ import Test from "../pages/Test";
 import UnAuthorized from "../pages/UnAuthorized/UnAuthorized";
 import FacultyAdminRoutes from "./FacultyAdminRoutes";
 import InstructorRoutes from "./InstructorRoutes";
+import UniversityAdminRoutes from "./UniversityAdminRoutes";
+
 
 const AppRoutes = () => {
   return (
@@ -13,6 +15,7 @@ const AppRoutes = () => {
 
       {InstructorRoutes()}
       {FacultyAdminRoutes()}
+      {UniversityAdminRoutes()}
 
       <Route path="/unauthorized" element={<UnAuthorized />} />
     </Routes>
