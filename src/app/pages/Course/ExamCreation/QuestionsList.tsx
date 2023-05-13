@@ -3,7 +3,7 @@ import React from "react";
 import { IQuestion } from "../../../types/Question";
 import QuestionAccordion from "../QuestionBank/QuestionAccordion";
 
-export default function ExamBody(questions: IQuestion[]) {
+export default function QuestionsList(questions: IQuestion[]) {
   return (
     <div>
       <Grid container direction="column" spacing={4} paddingTop={2}>

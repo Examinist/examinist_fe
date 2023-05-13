@@ -9,6 +9,7 @@ import {
 import React from "react";
 import theme from "../../../../assets/theme";
 import TopicsSelector from "./TopicsSelector";
+import RadioButtonOptions from "./RadioButtonOptions";
 
 export default function AutomaticInfo() {
   return (
@@ -57,19 +58,24 @@ export default function AutomaticInfo() {
         justifyContent="center"
         alignItems="center"
       >
-         <Grid item xs={3}>
+        <Grid item xs={3}>
           <Typography variant="subtitle1">Questions Types</Typography>
         </Grid>
         <Grid item xs={9}>
-        <Typography variant="subtitle1">Topics</Typography>
+          <Typography variant="subtitle1">Topics</Typography>
         </Grid>
         <Grid item xs={3}>
           <Typography variant="subtitle1">type :</Typography>
         </Grid>
         <Grid item xs={9}>
-        <TopicsSelector/>
+          <TopicsSelector />
         </Grid>
-  
+        <Grid item xs={3}>
+          <Typography variant="subtitle1">Exam Models :</Typography>
+        </Grid>
+        <Grid item xs={9}>
+          <RadioButtonOptions />
+        </Grid>
       </Grid>
     </Box>
   );

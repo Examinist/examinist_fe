@@ -32,7 +32,6 @@ const InstructorRoutes = () => {
               <Route path="add" element={<AddQuestion />}></Route>
             </Route>
             <Route path="create-exam">
-              <Route path="" element={<QuestionBank />} />
               <Route path="manual-creation" element={<ManualExam />}></Route>
               <Route path="automatic-creation" element={<AutomaticExam />} />
             </Route>
