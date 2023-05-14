@@ -267,7 +267,7 @@ export const mockExamsList: IExam[] = [
 
 export const mockExamQuestions: IExamQuestionsGroup[] = [
   {
-    MCQ: [
+    "MCQ": [
       { id: 1, score: 2, question: mockQuestions[0] },
       { id: 2, score: 3, question: mockQuestions[1] },
     ],
