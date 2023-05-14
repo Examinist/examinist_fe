@@ -78,17 +78,15 @@ export default function QuestionBank({
     page: 1,
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [alertState, setAlertState] = useState<IAlertState>({
-    open: false,
-    message: "",
-    severity: "success",
-  });
+  const [pagesCount, setPagesCount] = useState<number>(0);
+
 
   const loadQuestions = () => {
     setIsLoading(true);
     getQuestionsApi(parseInt(courseId!), filterParams)
       .then(({ data }: IQuestionsListResponse) => {
         setQuestions(data.questions);
+        setPagesCount(data.number_of_pages);
       })
       .catch(({ response: { status, statusText } }: IErrorResponse) => {})
       .finally(() => {
@@ -333,7 +331,7 @@ export default function QuestionBank({
           </Box>
           <Pagination
             sx={{ mt: 4 }}
-            count={10}
+            count={pagesCount}
             page={filterParams.page}
             onChange={(_event: React.ChangeEvent<unknown>, value: number) => {
               setFilterParams({ ...filterParams, page: value });

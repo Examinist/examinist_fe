@@ -15,6 +15,7 @@ export interface IQuestionPayload {
 }
 
 interface IQuestionsListData extends IResponseData {
+  number_of_pages: number;
   questions: IQuestion[];
 }
 
@@ -39,7 +40,7 @@ export const getQuestionsApi = async (
     );
     return response as IQuestionsListResponse;
   } catch (error) {
-    return { data: { questions: mockQuestions } } as IQuestionsListResponse;
+    return { data: { questions: mockQuestions, number_of_pages: 1 } } as IQuestionsListResponse;
   }
 };
 
