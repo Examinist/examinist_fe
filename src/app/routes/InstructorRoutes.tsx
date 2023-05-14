@@ -14,6 +14,7 @@ import Courses from "../pages/ListCourses/ListCourses";
 import Test from "../pages/Test";
 import { UserRoleEnum } from "../types/User";
 import AddQuestion from "../pages/Course/AddQuestion/AddQuestion";
+import AllExams from "../pages/AllExams/AllExams";
 
 const InstructorRoutes = () => {
   return (
@@ -44,7 +45,7 @@ const InstructorRoutes = () => {
             </Route>
           </Route>
         </Route>
-        <Route path="exams" element={<Exams />} />
+        <Route path="exams" element={<AllExams />} />
         <Route path="dashboard" element={<Test />} />
         <Route path="calendar" element={<Test />} />
         <Route path="exam-sessions" element={<Test />} />
