@@ -22,6 +22,11 @@ import TimeTables from "../pages/Scheduling/TimeTables/TimeTables";
 import EditQuestion from "../pages/Course/QuestionForms/EditQuestion/EditQuestion";
 import ManualExam from "../pages/Course/ExamCreation/ManualExam";
 import AutomaticExam from "../pages/Course/ExamCreation/AutomaticExam";
+import AllExams from "../pages/AllExams/AllExams";
+import Scheduling from "../pages/Scheduling/Scheduling";
+import SchedulingLayout from "../layouts/SchedulingLayout/SchedulingLayout";
+import SchedulingExams from "../pages/Scheduling/SchedulingExams/SchedulingExams";
+import TimeTables from "../pages/Scheduling/TimeTables/TimeTables";
 
 const FacultyAdminRoutes = () => {
   return (
@@ -51,13 +56,12 @@ const FacultyAdminRoutes = () => {
               <Route path="topics" element={<Topics />} />
               <Route path="exam-template" element={<Template />} />
             </Route>
+            <Route path="create-exam">
+              <Route path="manual-creation" element={<ManualExam />}></Route>
+              <Route path="automatic-creation" element={<AutomaticExam />} />
+            </Route>
             <Route path="general-info" element={<GeneralInfo />} />
             <Route path="course-groups" element={<CourseGroups />} />
-            <Route
-              path="create-exam/manual-creation"
-              element={<ManualExam />}
-            />
-            <Route path="create-exam/automatic-creation" element={<AutomaticExam />} />
           </Route>
         </Route>
 
@@ -71,11 +75,11 @@ const FacultyAdminRoutes = () => {
 
         <Route path="pending-reports" element={<Test />} />
 
-        <Route path="scheduling" element={<SchedulingLayout />}>
+        <Route path="scheduling" element={<SchedulingLayout/>}>
           <Route path="" element={<Navigate to="exams" />} />
           <Route path="exams" element={<SchedulingExams />} />
           <Route path="time-tables" element={<TimeTables />} />
-        </Route>
+          </Route>
 
         <Route path="users" element={<Test />} />
       </Route>
