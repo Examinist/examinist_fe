@@ -41,6 +41,12 @@ const tabs: ITab[] = [
   },
 ];
 
+const unAssignedAdminTabs: ITab[] = [
+  { name: "General Info" },
+  { name: "Course Groups" },
+  { name: "Exams" },
+];
+
 const checkIfAssigned = (instructors: any[], username: string) => {
   return instructors.some((instructor) => instructor.username === username);
 };
@@ -52,13 +58,13 @@ export default function CourseLayout() {
   const [courseInfo, setCourseInfo] = React.useState<ICourseInfo | null>(null);
   const [isAssigned, setIsAssigned] = React.useState<boolean>(false);
   const { user } = useAuth();
+  const [isLoaded, setIsLoaded] = React.useState<boolean>(false);
 
   React.useEffect(() => {
+    setIsLoaded(false);
     getCourseGeneralInfoAPI(courseId!).then(({ data }: ICourseInfoResponse) => {
       setCourseInfo(data.course_info);
-      setIsAssigned(
-        checkIfAssigned(data.course_info.instructors, user!.username)
-      );
+      setIsAssigned(checkIfAssigned(data.course_info.instructors, user!.username));
     });
   }, []);
 
@@ -84,7 +90,7 @@ export default function CourseLayout() {
         >
           {courseInfo?.code}
         </Typography>
-        <Box sx={{ alignSelf: "flex-center", flexGrow: 1 }}>
+        <Box sx={{ alignSelf: "flex-end", flexGrow: 1 }}>
           <CustomTabs tabs={tabs} />
         </Box>
         <CreateExamButton />

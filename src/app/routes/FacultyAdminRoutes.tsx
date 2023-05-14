@@ -16,12 +16,18 @@ import AddQuestion from "../pages/Course/AddQuestion/AddQuestion";
 import FacultyAdminLayout from "../layouts/FacultyAdminLayout/FacultyAdminLayout";
 import ManualExam from "../pages/Course/ExamCreation/ManualExam";
 import AutomaticExam from "../pages/Course/ExamCreation/AutomaticExam";
+import AllExams from "../pages/AllExams/AllExams";
+import Scheduling from "../pages/Scheduling/Scheduling";
+import SchedulingLayout from "../layouts/SchedulingLayout/SchedulingLayout";
+import SchedulingExams from "../pages/Scheduling/SchedulingExams/SchedulingExams";
+import TimeTables from "../pages/Scheduling/TimeTables/TimeTables";
 
 const FacultyAdminRoutes = () => {
   return (
-    <Route element={<RoleGuard allowedRole={UserRoleEnum.FACULTY_ADMIN} />}>
+    <Route>
       <Route path="faculty_admin" element={<FacultyAdminLayout />}>
         <Route path="" element={<Navigate to="courses" />} />
+
         <Route path="courses">
           <Route index element={<Courses />} />
           <Route path=":courseId" element={<CourseLayout />}>
@@ -47,14 +53,27 @@ const FacultyAdminRoutes = () => {
               <Route path="manual-creation" element={<ManualExam />}></Route>
               <Route path="automatic-creation" element={<AutomaticExam />} />
             </Route>
+            <Route path="general-info" element={<GeneralInfo />} />
+            <Route path="course-groups" element={<CourseGroups />} />
           </Route>
         </Route>
-        <Route path="exams" element={<Exams />} />
+
+        <Route path="exams" element={<AllExams />} />
+
         <Route path="dashboard" element={<Test />} />
+
         <Route path="calendar" element={<Test />} />
+
         <Route path="exam-sessions" element={<Test />} />
+
         <Route path="pending-reports" element={<Test />} />
-        <Route path="scheduling" element={<Test />} />
+
+        <Route path="scheduling" element={<SchedulingLayout/>}>
+          <Route path="" element={<Navigate to="exams" />} />
+          <Route path="exams" element={<SchedulingExams />} />
+          <Route path="time-tables" element={<TimeTables />} />
+          </Route>
+
         <Route path="users" element={<Test />} />
       </Route>
     </Route>

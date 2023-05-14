@@ -54,6 +54,7 @@ export default function CustomTabs({tabs}: {tabs: ITab[]}) {
       <Tabs value={currTab} onChange={handleChangeTab} centered>
         {tabs.map(({ name }, index) => (
           <Tab
+          sx={{ fontSize: "1rem"}}
             key={name}
             label={name}
             component={Link}
