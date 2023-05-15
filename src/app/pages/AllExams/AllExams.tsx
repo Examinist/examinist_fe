@@ -2,6 +2,7 @@ import { Box } from '@mui/material'
 import ExamCard from '../../components/ExamsComponents/ExamCard'
 import { IExam } from '../../types/Exam'
 import { mockExamsList } from '../../services/APIs/mockData/MockData'
+import { getFilterType } from '../Course/Exams/Exams'
 
 function getAllExamsAttributesList(exam: IExam){
   var attrList: string[] = []
@@ -22,6 +23,7 @@ export default function AllExams() {
           fontSize: "2rem",
           fontWeight: "medium",
           fontFamily: "montserrat",
+          paddingBottom: "10px"
         }}
       >
         Exams
@@ -33,6 +35,7 @@ export default function AllExams() {
       attributesFunction={getAllExamsAttributesList}
       actionButton={true}
       allExams={true}
+      filter={getFilterType}
       ></ExamCard>
     </Box>
   )

@@ -34,12 +34,12 @@ export default function ExamTableRow({ attributes, status, actionButton, allExam
         <TableRow>
             {attributes.map((value) => {
                 if (Object.values(ExamStatusEnum).includes(value)) {
-                    return (<TableCell sx={{ color: getStatusColor(value) }}>{ExamStatusString(value)}</TableCell>)
+                    return (<TableCell sx={{ color: getStatusColor(value), fontWeight:"medium" }}>{ExamStatusString(value)}</TableCell>)
                 }
-                return (<TableCell>{value}</TableCell>)
+                return (<TableCell sx={{color:"#6B6767",fontWeight:"medium"}}>{value}</TableCell>)
             })}
             {actionButton && 
-            <TableCell>
+            <TableCell align="right">
                 <ExamActions status={status}
                 allExams={allExams}></ExamActions>
             </TableCell>
