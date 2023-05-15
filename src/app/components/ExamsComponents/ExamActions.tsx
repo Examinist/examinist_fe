@@ -1,5 +1,5 @@
 import IconButton from "@mui/material/IconButton";
-import { ExamStatusEnum } from "../../../types/Exam";
+import { ExamStatusEnum } from "../../types/Exam";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Divider, Menu, MenuItem } from "@mui/material";
 import React from "react";
@@ -14,12 +14,18 @@ function getStatusActions(status: ExamStatusEnum) {
     }
 }
 
-interface IExamActionsProps{
-    status: ExamStatusEnum;
+export interface IExamStatusProps{
+    status?: ExamStatusEnum,
+    allExams: boolean,
 }
 
-export default function ExamActions({status}: IExamActionsProps) {
-    const actions = getStatusActions(status);
+export default function ExamActions({status, allExams}: IExamStatusProps) {
+    var actions: string[] = [];
+    if(allExams){
+        actions = ["View Course Exams"]
+    }else if(status!=undefined){
+        actions = getStatusActions(status)
+    }
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
