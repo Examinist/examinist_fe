@@ -292,3 +292,4 @@ export const mockExamPayload: IExamPayload = {
     { question_id: 2, score: 3 },
   ],
 };
+

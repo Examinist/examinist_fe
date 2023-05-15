@@ -56,7 +56,7 @@ export default function HorizontalStepper({ isAutomatic = false }) {
             <Box sx={{ display: "flex", flexDirection: "row", p: 2 }}>
               <Box sx={{ flex: "1 1 auto" }} />
               {/* <Button onClick={handleReset}>Reset</Button> */}
-              <QuestionBankDialog/>
+              <QuestionBankDialog />
             </Box>
           </React.Fragment>
         ) : (
@@ -85,13 +85,7 @@ export default function HorizontalStepper({ isAutomatic = false }) {
           <ManualInfo />
         )
       ) : activeStep === 1 ? (
-        isAutomatic ? (
-          <AutomaticInfo />
-        ) : (
-          <ManualInfo />
-        )
-      ) : isAutomatic ? (
-        <AutomaticInfo />
+        <ManualInfo />
       ) : (
         <ManualInfo />
       )}

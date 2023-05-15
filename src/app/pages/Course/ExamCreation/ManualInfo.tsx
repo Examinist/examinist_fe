@@ -1,9 +1,12 @@
 import { Box, Grid, Stack, TextField, Typography } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 import theme from "../../../../assets/theme";
 import RadioButtonOptions from "./RadioButtonOptions";
+import { ManualExamContext } from "./ManualExam";
 
 export default function ManualInfo() {
+  const { examState, setExamState } = useContext(ManualExamContext);
+
   return (
     <Box
       sx={{
@@ -30,19 +33,34 @@ export default function ManualInfo() {
           <Typography variant="h6">Exam Title :</Typography>
         </Grid>
         <Grid item xs={9}>
-          <TextField id="outlined-basic" sx={{width:'60%'}}/>
+          <TextField
+            value={examState.title}
+            id="outlined-basic"
+            sx={{ width: "60%" }}
+            onChange={(e) =>
+              setExamState({ ...examState, title: e.target.value })
+            }
+          />
         </Grid>
         <Grid item xs={3}>
           <Typography variant="h6">Exam Duration :</Typography>
         </Grid>
         <Grid item xs={9}>
-          <TextField id="outlined-basic" sx={{width:'60%'}}/>
+          <TextField
+            type="number"
+            value={examState.duration}
+            id="outlined-basic"
+            sx={{ width: "60%" }}
+            onChange={(e) =>
+              setExamState({ ...examState, duration: parseInt(e.target.value) })
+            }
+          />
         </Grid>
         <Grid item xs={3}>
           <Typography variant="h6">Exam Models :</Typography>
         </Grid>
         <Grid item xs={9}>
-        <RadioButtonOptions/>
+          <RadioButtonOptions />
         </Grid>
       </Grid>
     </Box>

@@ -43,11 +43,10 @@ const FacultyAdminRoutes = () => {
               <Route path="topics" element={<Topics />} />
               <Route path="exam-template" element={<Template />} />
             </Route>
-            <Route
-              path="create-exam/manual-creation"
-              element={<ManualExam />}
-            />
-            <Route path="create-exam/automatic-creation" element={<AutomaticExam />} />
+            <Route path="create-exam">
+              <Route path="manual-creation" element={<ManualExam />}></Route>
+              <Route path="automatic-creation" element={<AutomaticExam />} />
+            </Route>
           </Route>
         </Route>
         <Route path="exams" element={<Exams />} />
