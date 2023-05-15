@@ -13,6 +13,17 @@ function getCourseExamAttributesList(exam: IExam){
   return attrList;
 }
 
+export function getFilterType(tabName: string, exams: IExam[]){
+    switch(tabName){
+      case "Unscheduled": return exams.filter(value => value.status==ExamStatusEnum.UNSCHEDULED)
+      case "Scheduled": return exams.filter(value => value.status==ExamStatusEnum.SCHEDULED)
+      case "On Going": return exams.filter(value => value.status==ExamStatusEnum.ONGOING)
+      case "Pending Grading": return exams.filter(value => value.status==ExamStatusEnum.PENDINGGRADING)
+      case "Graded": return exams.filter(value => value.status==ExamStatusEnum.GRADED)
+      default: return exams
+    }
+}
+
 export default function Exams() {
   const { courseId } = useParams<{ courseId: string }>();
   useEffect(() => {
@@ -33,6 +44,7 @@ export default function Exams() {
           fontSize: "2rem",
           fontWeight: "medium",
           fontFamily: "montserrat",
+          paddingBottom: "10px"
         }}
       >
         Exams
@@ -44,6 +56,7 @@ export default function Exams() {
       attributesFunction={getCourseExamAttributesList}
       actionButton={true}
       allExams={false}
+      filter={getFilterType}
       ></ExamCard>
     </Box>
   )

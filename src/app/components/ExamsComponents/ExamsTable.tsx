@@ -13,12 +13,14 @@ interface IExamTableProp{
 export default function ExamsTable({tableHeader, rows, attributesFunction, actionButton, allExams}: IExamTableProp){
     
     return(
-        <TableContainer>
+        <TableContainer sx={{maxHeight: 450}}>
           <Table>
             <TableHead>
               <TableRow>
                 {tableHeader.map((value, index) => (
-                  <TableCell>{value}</TableCell>
+                  <TableCell
+                  sx={{fontWeight:"bold",
+                color: "#6B6767"}}>{value}</TableCell>
                 ))
                 }
               </TableRow>
