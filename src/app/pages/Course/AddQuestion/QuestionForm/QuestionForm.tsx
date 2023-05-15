@@ -17,7 +17,7 @@ import SelectTopic from "./components/SelectTopic";
 import SelectDifficulty from "./components/SelectDifficulty";
 import QuestionCard from "./components/QuestionCard";
 import SelectQuestionType from "./components/SelectQuestionType";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { IFormInputs, initialValues, schema } from "./Fields";
 import {
@@ -41,6 +41,7 @@ import {
   IQuestionType,
   ITopic,
 } from "../../../../types/CourseSettings";
+import theme from "../../../../../assets/theme";
 
 interface IQuestionFormProps {
   onSuccess: (question?: IQuestion) => void;
@@ -51,6 +52,7 @@ export default function QuestionForm({ onSuccess }: IQuestionFormProps) {
   const { courseId } = useParams<{ courseId: string }>();
   const [topics, setTopics] = useState<ITopic[]>([]);
   const [questionTypes, setQuestionTypes] = React.useState<IQuestionType[]>([]);
+  const navigate = useNavigate();
 
   const loadTopics = () => {
     getTopicsApi(courseId).then(({ data }: ITopicsListResponse) => {
@@ -146,19 +148,37 @@ export default function QuestionForm({ onSuccess }: IQuestionFormProps) {
                 Add New Question
               </Typography>
               <Divider />
-              <SelectQuestionType questionTypes={questionTypes} />
-              <SelectTopic topics={topics} />
-              <SelectDifficulty />
+              <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+                <SelectQuestionType questionTypes={questionTypes} />
+                <SelectTopic topics={topics} />
+                <SelectDifficulty />
+              </Box>
             </Grid>
-            <Grid item xs={7} md={9} sx={{ px: 6, py: 4, height: "100%" }}>
+            <Grid item xs={7} md={9} sx={{ px: 6, py: 4 }}>
               <QuestionCard />
-              <Button
-                variant="contained"
-                sx={{ ml: "auto", mt: "auto", px: 4, borderRadius: 3 }}
-                type="submit"
-              >
-                Submit
-              </Button>
+              <Box sx={{ display: "flex", gap: 2 }}>
+                <Button
+                  variant="outlined"
+                  sx={{
+                    ml: "auto",
+                    mt: "auto",
+                    px: 4,
+                    borderRadius: 3,
+                    backgroundColor: theme.palette.white.main,
+                  }}
+                  onClick={() => navigate(-1)}
+                >
+                  cancel
+                </Button>
+
+                <Button
+                  variant="contained"
+                  sx={{ mt: "auto", px: 4, borderRadius: 3 }}
+                  type="submit"
+                >
+                  Submit
+                </Button>
+              </Box>
             </Grid>
           </Grid>
         </form>

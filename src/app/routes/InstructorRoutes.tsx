@@ -15,6 +15,7 @@ import Test from "../pages/Test";
 import { UserRoleEnum } from "../types/User";
 import AddQuestion from "../pages/Course/AddQuestion/AddQuestion";
 import AllExams from "../pages/AllExams/AllExams";
+import EditQuestion from "../pages/Course/EditQuestion/EditQuestion";
 
 const InstructorRoutes = () => {
   return (
@@ -28,7 +29,8 @@ const InstructorRoutes = () => {
             <Route path="" element={<Navigate to="course-info" />} />
             <Route path="question-bank">
               <Route path="" element={<QuestionBank />} />
-              <Route path="add" element={<AddQuestion />}></Route>
+              <Route path="add" element={<AddQuestion />} />
+              <Route path=":questionId/edit" element={<EditQuestion />} />
             </Route>
             <Route path="exams" element={<Exams />} />
             <Route path="course-info">
