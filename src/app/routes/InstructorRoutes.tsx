@@ -13,9 +13,9 @@ import QuestionBank from "../pages/Course/QuestionBank/QuestionBank";
 import Courses from "../pages/ListCourses/ListCourses";
 import Test from "../pages/Test";
 import { UserRoleEnum } from "../types/User";
-import AddQuestion from "../pages/Course/AddQuestion/AddQuestion";
+import AddQuestion from "../pages/Course/QuestionForms/AddQuestion/AddQuestion";
 import AllExams from "../pages/AllExams/AllExams";
-import EditQuestion from "../pages/Course/EditQuestion/EditQuestion";
+import EditQuestion from "../pages/Course/QuestionForms/EditQuestion/EditQuestion";
 
 const InstructorRoutes = () => {
   return (
