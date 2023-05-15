@@ -108,7 +108,7 @@ export default function QuestionHeader(question: IQuestion) {
                 <Rectangle color={getColor(question.difficulty)} />
               </Grid>
               <Grid item>
-                <QuestionModifications questionId={question.id!} />
+                <QuestionModifications question={question} />
               </Grid>
             </Grid>
           </Grid>

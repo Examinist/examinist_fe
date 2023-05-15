@@ -32,7 +32,7 @@ export default function QuestionAnswer(question: IQuestion) {
         question.choices?.map((choice, index) => {
           return (
             <Grid
-              key={choice.choice}
+              key={choice.id!}
               item
               container
               direction="row"
