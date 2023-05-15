@@ -1,13 +1,12 @@
 import { Box, Typography, TextField, Divider } from "@mui/material";
 import React, { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
-import ChoicesSingleAnswer from "./ChoicesSingleAnswer";
-import MCQAnswer from "./MCQAnswer";
-import TFAnswer from "./TFAnswer";
-import TextAnswer from "./TextAnswer";
-import EssayAnswer from "./EssayAnswer";
-import { AnswerTypeEnum } from "../../../../../types/Question";
 import { DefaultQuestionTypesEnum } from "../../../../../types/CourseSettings";
+import EssayAnswer from "../../components/answer/EssayAnswer";
+import MCQAnswer from "../../components/answer/MCQAnswer";
+import TFAnswer from "../../components/answer/TFAnswer";
+import TextAnswer from "../../components/answer/TextAnswer";
+
 
 export default function QuestionCard() {
   const {
@@ -15,21 +14,20 @@ export default function QuestionCard() {
     formState: { errors },
     setValue,
   } = useFormContext();
-   const { watch } = useFormContext();
-   const watchQuestionType = watch("question_type");
+  const { watch } = useFormContext();
+  const watchQuestionType = watch("question_type");
 
-   const renderAnswer = () => {
-     if (watchQuestionType === DefaultQuestionTypesEnum.MCQ) {
-       return <MCQAnswer />;
-     } else if (watchQuestionType === DefaultQuestionTypesEnum.T_F) {
-       return <TFAnswer />;
-     } else if (watchQuestionType === DefaultQuestionTypesEnum.SHORT_ANSWER) {
-       return <TextAnswer />;
-     } else {
-       return <EssayAnswer />;
-     }
-   };
-
+  const renderAnswer = () => {
+    if (watchQuestionType === DefaultQuestionTypesEnum.MCQ) {
+      return <MCQAnswer />;
+    } else if (watchQuestionType === DefaultQuestionTypesEnum.T_F) {
+      return <TFAnswer />;
+    } else if (watchQuestionType === DefaultQuestionTypesEnum.SHORT_ANSWER) {
+      return <TextAnswer />;
+    } else {
+      return <EssayAnswer />;
+    }
+  };
 
   return (
     <Box

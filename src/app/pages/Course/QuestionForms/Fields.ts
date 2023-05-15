@@ -1,12 +1,11 @@
-import { DefaultQuestionTypesEnum } from "../../../../types/CourseSettings";
+import { DefaultQuestionTypesEnum } from "../../../types/CourseSettings";
 import {
   AnswerTypeEnum,
   DifficultyLevelEnum,
   IChoice,
   ICorrectAnswer,
-} from "../../../../types/Question";
+} from "../../../types/Question";
 import * as yup from "yup";
-
 
 export interface IFormInputs {
   header: string;
@@ -16,6 +15,7 @@ export interface IFormInputs {
   topic: string;
   choices_attributes?: IChoice[];
   correct_answers_attributes?: ICorrectAnswer[];
+  deleted_choices_attributes?: IChoice[];
 }
 
 export const initialValues: IFormInputs = {
@@ -47,11 +47,14 @@ export const schema = yup.object().shape({
       question_type === DefaultQuestionTypesEnum.MCQ ||
       question_type === DefaultQuestionTypesEnum.T_F,
     then: (schema) => schema.notRequired(),
-    otherwise: (schema) => schema.of(
+    otherwise: (schema) =>
+      schema
+        .of(
           yup.object().shape({
             answer: yup.string().required("Correct Answer is required"),
           })
-        ).length(1, "Only 1 correct answer is required")
+        )
+        .length(1, "Only 1 correct answer is required"),
   }),
   choices_attributes: yup.array().when("question_type", {
     is: (question_type: string) =>
@@ -69,5 +72,3 @@ export const schema = yup.object().shape({
     otherwise: (schema) => schema.notRequired(),
   }),
 });
-
-

@@ -1,9 +1,16 @@
-import { FormControl, RadioGroup, FormControlLabel, Radio, Box, Typography } from '@mui/material';
-import React from 'react'
-import { Controller, useFormContext } from 'react-hook-form';
-import { DifficultyLevelEnum } from '../../../../../types/Question';
-import theme from '../../../../../../assets/theme';
-import { Rectangle } from '../../../../../components/Rectangle';
+import {
+  FormControl,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  Box,
+  Typography,
+} from "@mui/material";
+import React from "react";
+import { Controller, useFormContext } from "react-hook-form";
+import { DifficultyLevelEnum } from "../../../../types/Question";
+import theme from "../../../../../assets/theme";
+import { Rectangle } from "../../../../components/Rectangle";
 
 
 const getColor = (questionDifficulty: string) => {
@@ -27,9 +34,8 @@ const renderDifficultyLevel = (difficultyLevel: DifficultyLevelEnum) => (
   />
 );
 
-
 export default function SelectDifficulty() {
-  const {control} = useFormContext();
+  const { control } = useFormContext();
   return (
     <Box sx={{ px: 5, pt: 3 }}>
       <Typography

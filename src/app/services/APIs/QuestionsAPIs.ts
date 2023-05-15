@@ -5,11 +5,11 @@ import { mockQuestions } from "./mockData/MockData";
 
 
 export interface IQuestionPayload {
-  header: string;
-  answer_type: AnswerTypeEnum;
-  difficulty: DifficultyLevelEnum;
-  question_type_id: number;
-  topic_id: number;
+  header?: string;
+  answer_type?: AnswerTypeEnum;
+  difficulty?: DifficultyLevelEnum;
+  question_type_id?: number;
+  topic_id?: number;
   choices_attributes?: IChoice[];
   correct_answers_attributes?: ICorrectAnswer[];
 }
@@ -58,11 +58,24 @@ export const createQuestionApi = async (
 
 export const deleteQuestionApi = async (
   course_id: any,
-  question_type_id: any
+  question_id: any
 ) => {
   const portal = localStorage.getItem("portal");
   const response = await axiosInstance.delete(
-    `${portal}/courses/${course_id}/questions/${question_type_id}`
+    `${portal}/courses/${course_id}/questions/${question_id}`
+  );
+  return response as IQuestionResponse;
+};
+
+export const updateQuestionApi = async (
+  course_id: any,
+  question_id: any,
+  data: IQuestionPayload
+) => {
+  const portal = localStorage.getItem("portal");
+  const response = await axiosInstance.patch(
+    `${portal}/courses/${course_id}/questions/${question_id}`,
+    data
   );
   return response as IQuestionResponse;
 };
