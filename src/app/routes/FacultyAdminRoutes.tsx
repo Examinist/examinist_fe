@@ -22,12 +22,7 @@ import TimeTables from "../pages/Scheduling/TimeTables/TimeTables";
 import EditQuestion from "../pages/Course/QuestionForms/EditQuestion/EditQuestion";
 import ManualExam from "../pages/Course/ExamCreation/ManualExam";
 import AutomaticExam from "../pages/Course/ExamCreation/AutomaticExam";
-import AllExams from "../pages/AllExams/AllExams";
-import Scheduling from "../pages/Scheduling/Scheduling";
-import SchedulingLayout from "../layouts/SchedulingLayout/SchedulingLayout";
-import SchedulingExams from "../pages/Scheduling/SchedulingExams/SchedulingExams";
-import TimeTables from "../pages/Scheduling/TimeTables/TimeTables";
-import EditQuestion from "../pages/Course/QuestionForms/EditQuestion/EditQuestion";
+
 
 const FacultyAdminRoutes = () => {
   return (
