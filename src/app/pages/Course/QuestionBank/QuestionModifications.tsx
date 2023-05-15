@@ -5,21 +5,23 @@ import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Divider } from "@mui/material";
 import { QuestionBankContext } from "./QuestionBank";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { deleteQuestionApi } from "../../../services/APIs/QuestionsAPIs";
 import { IErrorResponse } from "../../../services/Response";
 import useAlert from "../../../hooks/useAlert";
+import { IQuestion } from "../../../types/Question";
 
 export default function QuestionModifications({
-  questionId,
+  question,
 }: {
-  questionId: number;
+  question: IQuestion;
 }) {
   const { courseId } = useParams<{ courseId: string }>();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const { reloadQuestions } = React.useContext(QuestionBankContext);
   const { setAlertState } = useAlert();
+  const navigate = useNavigate();
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
     event.stopPropagation();
@@ -30,7 +32,7 @@ export default function QuestionModifications({
   };
 
   const handleDelete = (event: any) => {
-    deleteQuestionApi(courseId, questionId)
+    deleteQuestionApi(courseId, question.id)
       .then(() => {
         reloadQuestions();
         setAlertState({
@@ -47,9 +49,12 @@ export default function QuestionModifications({
         });
       })
       .finally(() => {
-        setAnchorEl(null);
-        event.stopPropagation();
+        handleClose(event);
       });
+  };
+
+  const handleEdit = (event: any) => {
+    navigate(`./${question.id}/edit`, {state: {question}});
   };
 
   return (
@@ -75,7 +80,7 @@ export default function QuestionModifications({
       >
         <MenuItem
           sx={{ minWidth: "150px" }}
-          onClick={(event: any) => handleClose(event)}
+          onClick={handleEdit}
         >
           Edit
         </MenuItem>

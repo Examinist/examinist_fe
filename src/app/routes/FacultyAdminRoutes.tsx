@@ -19,6 +19,7 @@ import Scheduling from "../pages/Scheduling/Scheduling";
 import SchedulingLayout from "../layouts/SchedulingLayout/SchedulingLayout";
 import SchedulingExams from "../pages/Scheduling/SchedulingExams/SchedulingExams";
 import TimeTables from "../pages/Scheduling/TimeTables/TimeTables";
+import EditQuestion from "../pages/Course/EditQuestion/EditQuestion";
 
 const FacultyAdminRoutes = () => {
   return (
@@ -33,6 +34,7 @@ const FacultyAdminRoutes = () => {
             <Route path="question-bank">
               <Route path="" element={<QuestionBank />} />
               <Route path="add" element={<AddQuestion />}></Route>
+              <Route path=":questionId/edit" element={<EditQuestion />} />
             </Route>
             <Route path="exams" element={<Exams />} />
             <Route path="course-info">
@@ -62,11 +64,11 @@ const FacultyAdminRoutes = () => {
 
         <Route path="pending-reports" element={<Test />} />
 
-        <Route path="scheduling" element={<SchedulingLayout/>}>
+        <Route path="scheduling" element={<SchedulingLayout />}>
           <Route path="" element={<Navigate to="exams" />} />
           <Route path="exams" element={<SchedulingExams />} />
           <Route path="time-tables" element={<TimeTables />} />
-          </Route>
+        </Route>
 
         <Route path="users" element={<Test />} />
       </Route>
