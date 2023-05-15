@@ -19,6 +19,7 @@ import EditQuestion from "../pages/Course/QuestionForms/EditQuestion/EditQuestio
 import ManualExam from "../pages/Course/ExamCreation/ManualExam";
 import AutomaticExam from "../pages/Course/ExamCreation/AutomaticExam";
 import AllExams from "../pages/AllExams/AllExams";
+import EditQuestion from "../pages/Course/EditQuestion/EditQuestion";
 
 const InstructorRoutes = () => {
   return (
