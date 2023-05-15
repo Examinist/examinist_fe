@@ -38,7 +38,7 @@ export default function QuestionBankDialog() {
   return (
     <div>
       <Button variant="outlined" onClick={handleClickOpen}>
-        Import Question{" "}
+        Import Question(s)
       </Button>
       <Dialog
         fullScreen

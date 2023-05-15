@@ -11,6 +11,7 @@ export interface IExamPayload {
   duration?: number;
   course_id?: number;
   is_auto?: boolean;
+  is_multiple_models?: boolean;
   exam_questions_attributes?: IExamQuestionPayload[];
 }
 
@@ -91,3 +92,4 @@ const deleteExamApi = async (exam_id: number) => {
     return { data: { exam: {} } } as IExamResponse;
   }
 }
+

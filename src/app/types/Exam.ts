@@ -25,7 +25,7 @@ export interface IExamQuestionsGroup{
 }
 
 export interface IExamQuestion{
-    id: number;
+    id?: number;
     score: number;
     question: IQuestion;
 }

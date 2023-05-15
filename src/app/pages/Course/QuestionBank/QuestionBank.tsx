@@ -5,6 +5,7 @@ import {
   Stack,
   Pagination,
   CircularProgress,
+  Checkbox,
 } from "@mui/material";
 
 import { Box } from "@mui/system";
@@ -282,23 +283,50 @@ export default function QuestionBank({
                 </Grid>
               </Grid>
 
-              {!isLoading && (
-                <Grid container direction="column" spacing={4} paddingTop={2}>
-                  {questions.map((question) => {
-                    return (
-                      <Grid key={question.id} item xs>
-                        <QuestionAccordion key={question.id} {...question} />
-                      </Grid>
-                    );
-                  })}
+              {!isLoading &&
+                (creation ? (
+                  <Grid container direction="column" spacing={4} paddingTop={2}>
+                    {questions.map((question) => {
+                      return (
+                        <Grid key={question.id} item xs>
+                          <Stack direction="row" spacing={2}>
+                            <Checkbox
+                              // checked={checked}
+                              // onChange={handleChange}
+                              inputProps={{ "aria-label": "primary checkbox" }}
+                            />
+                            <QuestionAccordion
+                              key={question.id}
+                              {...question}
+                            />
+                          </Stack>
+                        </Grid>
+                      );
+                    })}
 
-                  {questions.length === 0 && (
-                    <Box sx={{ p: 3 }}>
-                      No Questions to show for this Course.
-                    </Box>
-                  )}
-                </Grid>
-              )}
+                    {questions.length === 0 && (
+                      <Box sx={{ p: 3 }}>
+                        No Questions to show for this Course.
+                      </Box>
+                    )}
+                  </Grid>
+                ) : (
+                  <Grid container direction="column" spacing={4} paddingTop={2}>
+                    {questions.map((question) => {
+                      return (
+                        <Grid key={question.id} item xs>
+                          <QuestionAccordion key={question.id} {...question} />
+                        </Grid>
+                      );
+                    })}
+
+                    {questions.length === 0 && (
+                      <Box sx={{ p: 3 }}>
+                        No Questions to show for this Course.
+                      </Box>
+                    )}
+                  </Grid>
+                ))}
             </Grid>
           </Box>
           <Pagination
