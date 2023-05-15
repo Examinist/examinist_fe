@@ -13,13 +13,11 @@ import QuestionBank from "../pages/Course/QuestionBank/QuestionBank";
 import Courses from "../pages/ListCourses/ListCourses";
 import Test from "../pages/Test";
 import { UserRoleEnum } from "../types/User";
+import ManualExam from "../pages/Course/ExamCreation/ManualExam";
+import AutomaticExam from "../pages/Course/ExamCreation/AutomaticExam";
 import AddQuestion from "../pages/Course/QuestionForms/AddQuestion/AddQuestion";
 import AllExams from "../pages/AllExams/AllExams";
 import EditQuestion from "../pages/Course/QuestionForms/EditQuestion/EditQuestion";
-import ManualExam from "../pages/Course/ExamCreation/ManualExam";
-import AutomaticExam from "../pages/Course/ExamCreation/AutomaticExam";
-import AllExams from "../pages/AllExams/AllExams";
-import EditQuestion from "../pages/Course/EditQuestion/EditQuestion";
 
 const InstructorRoutes = () => {
   return (

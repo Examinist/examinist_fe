@@ -27,7 +27,7 @@ import Scheduling from "../pages/Scheduling/Scheduling";
 import SchedulingLayout from "../layouts/SchedulingLayout/SchedulingLayout";
 import SchedulingExams from "../pages/Scheduling/SchedulingExams/SchedulingExams";
 import TimeTables from "../pages/Scheduling/TimeTables/TimeTables";
-import EditQuestion from "../pages/Course/EditQuestion/EditQuestion";
+import EditQuestion from "../pages/Course/QuestionForms/EditQuestion/EditQuestion";
 
 const FacultyAdminRoutes = () => {
   return (
