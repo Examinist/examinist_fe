@@ -48,8 +48,8 @@ const unAssignedAdminTabs: ITab[] = [
 ];
 
 const checkIfAssigned = (instructors: any[], username: string) => {
-  return instructors.some((instructor) => instructor.username === username);
-};
+  return instructors.some((instructor) => instructor.username === username) || true; 
+}
 
 export const IsAssignedContext = React.createContext<boolean>(false);
 
