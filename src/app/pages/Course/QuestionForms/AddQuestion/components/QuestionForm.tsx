@@ -3,45 +3,41 @@ import {
   AnswerTypeEnum,
   DifficultyLevelEnum,
   IQuestion,
-} from "../../../../types/Question";
+} from "../../../../../types/Question";
 import {
   Box,
   Button,
   Divider,
   Grid,
-  TextField,
   Typography,
 } from "@mui/material";
 import { FormProvider, useForm } from "react-hook-form";
-import SelectTopic from "./components/SelectTopic";
-import SelectDifficulty from "./components/SelectDifficulty";
-import QuestionCard from "./components/QuestionCard";
-import SelectQuestionType from "./components/SelectQuestionType";
 import { useNavigate, useParams } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { IFormInputs, initialValues, schema } from "./Fields";
+import { IFormInputs, initialValues, schema } from "../../Fields";
 import {
   IQuestionTypesListResponse,
   ITopicsListResponse,
   getQuestionTypesApi,
   getTopicsApi,
-} from "../../../../services/APIs/CourseSettingsAPIs";
+} from "../../../../../services/APIs/CourseSettingsAPIs";
 import {
   IQuestionPayload,
   IQuestionResponse,
   createQuestionApi,
-} from "../../../../services/APIs/QuestionsAPIs";
-import { IErrorResponse } from "../../../../services/Response";
-import UpdateAlert, {
-  IAlertState,
-} from "../../../../components/UpdateAlert/UpdateAlert";
-import useAlert from "../../../../hooks/useAlert";
+} from "../../../../../services/APIs/QuestionsAPIs";
+import { IErrorResponse } from "../../../../../services/Response";
+import useAlert from "../../../../../hooks/useAlert";
 import {
   DefaultQuestionTypesEnum,
   IQuestionType,
   ITopic,
-} from "../../../../types/CourseSettings";
-import theme from "../../../../../assets/theme";
+} from "../../../../../types/CourseSettings";
+import theme from "../../../../../../assets/theme";
+import SelectQuestionType from "../../components/SelectQuestionType";
+import SelectTopic from "../../components/SelectTopic";
+import SelectDifficulty from "../../components/SelectDifficulty";
+import QuestionCard from "./QuestionCard";
 
 interface IQuestionFormProps {
   onSuccess: (question?: IQuestion) => void;

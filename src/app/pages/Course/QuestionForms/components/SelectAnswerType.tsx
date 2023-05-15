@@ -1,14 +1,21 @@
-import { Box, Typography, FormControl, RadioGroup, FormControlLabel, Radio } from '@mui/material';
-import React from 'react'
-import { Controller, useFormContext } from 'react-hook-form';
-import { IFormInputs } from '../Fields';
+import {
+  Box,
+  Typography,
+  FormControl,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+} from "@mui/material";
+import React from "react";
+import { Controller, useFormContext } from "react-hook-form";
+import { IFormInputs } from "../Fields";
 
-interface AnswerTypeProps{
+interface AnswerTypeProps {
   answerTypes: string[];
 }
 
-export default function SelectAnswerType({answerTypes}: AnswerTypeProps) {
-  const {control} = useFormContext<IFormInputs>();
+export default function SelectAnswerType({ answerTypes }: AnswerTypeProps) {
+  const { control } = useFormContext<IFormInputs>();
   return (
     <Box sx={{ display: "flex", py: 2 }}>
       <Typography sx={{ fontSize: "18px", py: 1 }} color="#6B6767">

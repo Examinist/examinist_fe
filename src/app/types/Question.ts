@@ -28,8 +28,9 @@ export enum DifficultyLevelEnum {
 
 export interface IChoice {
   id?: number;
-  choice: string;
-  is_answer: boolean;
+  choice?: string;
+  is_answer?: boolean;
+  _destroy?: boolean;
 }
 
 export interface ICorrectAnswer {

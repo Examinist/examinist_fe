@@ -16,7 +16,7 @@ import React, { useEffect } from "react";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import AddIcon from "@mui/icons-material/Add";
 import { useFieldArray, useFormContext } from "react-hook-form";
-import { IFormInputs } from "../Fields";
+import { IFormInputs } from "../../Fields";
 
 export default function ChoicesMultipleAnswer() {
   const {
@@ -30,6 +30,22 @@ export default function ChoicesMultipleAnswer() {
     control,
     name: "choices_attributes",
   });
+
+   const { append: appendDeleted } = useFieldArray({
+     control,
+     name: "deleted_choices_attributes",
+   });
+
+   const handleDelete = (index: number) => {
+     if (getValues(`choices_attributes.${index}`).id) {
+       appendDeleted({
+         id: getValues(`choices_attributes.${index}`).id!,
+         _destroy: true,
+       });
+     }
+     remove(index);
+   };
+
 
   const [checked, setChecked] = React.useState<string[]>([]);
   return (
@@ -81,7 +97,7 @@ export default function ChoicesMultipleAnswer() {
           />
 
           {fields.length > 2 && (
-            <IconButton onClick={() => remove(index)}>
+            <IconButton onClick={() => handleDelete(index)}>
               <DeleteOutlineIcon />
             </IconButton>
           )}

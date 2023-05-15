@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import QuestionForm from "./QuestionForm/QuestionForm";
+import QuestionForm from "./components/QuestionForm";
 import { useNavigate } from "react-router-dom";
 
 export default function AddQuestion() {
