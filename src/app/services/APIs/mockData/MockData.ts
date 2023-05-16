@@ -20,7 +20,7 @@ import IUser from "../../../types/User";
 import { UserRoleEnum } from "../../../types/User";
 import { IExamPayload } from "../ExamAPIs";
 
-const mockInstructor: IUser = {
+export const mockInstructor: IUser = {
   id: 1,
   first_name: "Mock",
   last_name: "Instructor",
