@@ -23,6 +23,8 @@ import SchedulingExams from "../pages/Scheduling/SchedulingExams/SchedulingExams
 import TimeTables from "../pages/Scheduling/TimeTables/TimeTables";
 import EditQuestion from "../pages/Course/QuestionForms/EditQuestion/EditQuestion";
 
+
+
 const FacultyAdminRoutes = () => {
   return (
     <Route>

@@ -123,6 +123,7 @@ export default function Topics() {
             justifyContent: "center",
             alignItems: "center",
             height: "100vh",
+            px: 15, py: 5 
           }}
         >
           <CircularProgress />

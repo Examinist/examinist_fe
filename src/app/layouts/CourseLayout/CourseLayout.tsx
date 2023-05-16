@@ -65,7 +65,8 @@ export default function CourseLayout() {
     getCourseGeneralInfoAPI(courseId!).then(({ data }: ICourseInfoResponse) => {
       setCourseInfo(data.course_info);
       setIsAssigned(checkIfAssigned(data.course_info.instructors, user!.username));
-    });
+    })
+    .finally(() => setIsLoaded(true));
   }, []);
 
   return (
@@ -91,7 +92,7 @@ export default function CourseLayout() {
           {courseInfo?.code}
         </Typography>
         <Box sx={{ alignSelf: "flex-end", flexGrow: 1 }}>
-          <CustomTabs tabs={tabs} />
+         {isLoaded && <CustomTabs tabs={isAssigned? tabs : unAssignedAdminTabs} />}
         </Box>
         <CreateExamButton />
       </Box>
