@@ -14,8 +14,19 @@ import { DefaultQuestionTypesEnum } from "../../../types/CourseSettings";
 import QuestionModifications from "../QuestionBank/QuestionModifications";
 import { IExamQuestion } from "../../../types/Exam";
 import QuestionAnswer from "../QuestionBank/QuestionAnswer";
+import { AutomaticExamContext } from "./AutomaticExam";
+import { ManualExamContext } from "./ManualExam";
 
-export default function Question(examQuestion: IExamQuestion) {
+export default function Question({
+  examQuestion,
+  isAutomatic,
+}: {
+  examQuestion: IExamQuestion;
+  isAutomatic: boolean;
+}) {
+  const { examState, setExamState } = React.useContext(ManualExamContext);
+  const { automaticExamState, setAutomaticExamState } =
+    React.useContext(AutomaticExamContext);
   const getColor = (questionDifficulty: string) => {
     if (questionDifficulty === DifficultyLevelEnum.EASY)
       return theme.palette.green.main;
@@ -24,17 +35,41 @@ export default function Question(examQuestion: IExamQuestion) {
       : theme.palette.red.main;
   };
 
-  const getWeight = () => {
-    const { question_type, difficulty } = examQuestion.question;
-    switch (difficulty) {
-      case DifficultyLevelEnum.EASY:
-        return question_type.easy_weight;
-      case DifficultyLevelEnum.MEDIUM:
-        return question_type.medium_weight;
-      case DifficultyLevelEnum.HARD:
-        return question_type.hard_weight;
+  function getValue(): number {
+    return (
+      (isAutomatic ? automaticExamState : examState).questions
+        ?.get(examQuestion.question.question_type.name)
+        ?.find((question) => question.id == examQuestion.question.id)?.score ??
+      0
+    );
+  }
+
+  function handleChange(value: string): void {
+    var stateQuestions = isAutomatic
+      ? automaticExamState.questions
+      : examState.questions;
+    if (stateQuestions?.has(examQuestion.question.question_type.name)) {
+      const questions = stateQuestions.get(
+        examQuestion.question.question_type.name
+      );
+      if (questions) {
+        const question = questions.find(
+          (q) => q.question.id === examQuestion.question.id
+        );
+        if (question) {
+          question.score = parseInt(value);
+        }
+      }
     }
-  };
+    if (isAutomatic) {
+      setAutomaticExamState({
+        ...automaticExamState,
+        questions: stateQuestions,
+      });
+    } else {
+      setExamState({ ...examState, questions: stateQuestions });
+    }
+  }
 
   return (
     <Grid
@@ -98,24 +133,6 @@ export default function Question(examQuestion: IExamQuestion) {
                   </Typography>
                 </Box>
               </Grid>
-
-              <Grid item>
-                <Box sx={{ display: "flex", gap: 1 }}>
-                  <Typography
-                    variant="subtitle2"
-                    color={theme.palette.gray.dark}
-                    sx={{ fontWeight: 700 }}
-                  >
-                    Weight:
-                  </Typography>
-                  <Typography
-                    variant="subtitle2"
-                    color={theme.palette.gray.dark}
-                  >
-                    {getWeight()}
-                  </Typography>
-                </Box>
-              </Grid>
             </Grid>
           </Grid>
 
@@ -146,14 +163,22 @@ export default function Question(examQuestion: IExamQuestion) {
         </Typography>
       </Grid>
       {examQuestion.question.question_type.name ==
-        DefaultQuestionTypesEnum.MCQ || examQuestion.question.question_type.name ==
-        DefaultQuestionTypesEnum.T_F && (
-        <QuestionAnswer {...examQuestion.question} />
-      )}
+        DefaultQuestionTypesEnum.MCQ ||
+        (examQuestion.question.question_type.name ==
+          DefaultQuestionTypesEnum.T_F && (
+          <QuestionAnswer {...examQuestion.question} />
+        ))}
       <Divider orientation="horizontal" flexItem sx={{ pt: 2 }}></Divider>
 
       <Grid item>
-        <TextField id="standard-basic" label="Score" variant="standard" />
+        <TextField
+          type="number"
+          id="standard-basic"
+          label="Score"
+          variant="standard"
+          value={getValue()}
+          onChange={(e) => handleChange(e.target.value)}
+        />
       </Grid>
     </Grid>
   );

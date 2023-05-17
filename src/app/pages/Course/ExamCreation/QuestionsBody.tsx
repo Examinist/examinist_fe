@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import QuestionsList from "./QuestionsList";
 import { ManualExamContext } from "./ManualExam";
 import { IQuestionsContext, QuestionsContext } from "./Models";
+import AddQuestionDialog from "./AddQuestionDialog";
 
 export default function QuestionsBody({ isAutomatic = false }) {
   const [questionsList, setQuestionsList] = React.useState<IQuestion[]>([]);
@@ -58,7 +59,7 @@ export default function QuestionsBody({ isAutomatic = false }) {
                     <QuestionBankDialog isAutomatic={isAutomatic} />
                   </Grid>
                   <Grid item>
-                    <QuestionBankDialog isAutomatic={isAutomatic} />
+                    <AddQuestionDialog isAutomatic={isAutomatic} />
                   </Grid>
                 </Grid>
               </Grid>

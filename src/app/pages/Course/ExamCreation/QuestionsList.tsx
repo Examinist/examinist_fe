@@ -28,7 +28,7 @@ export default function QuestionsList({ isAutomatic = false }) {
               {key}
             </Typography>
             {value.map((question) => (
-              <Question key={question.id} {...question} />
+              <Question key={question.id} examQuestion={question} isAutomatic={isAutomatic}/>
             ))}
           </Stack>
         ))}

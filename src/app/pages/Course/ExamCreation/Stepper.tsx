@@ -22,15 +22,16 @@ export default function HorizontalStepper({ isAutomatic = false }) {
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    if(activeStep === steps.length - 1){
+      alert("Exam Created Successfully");
+    }
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleReset = () => {
-    setActiveStep(0);
-  };
+
 
   return (
     <Stack sx={{ justifyContent: "center", alignItems: "center" }} spacing={2}>
@@ -55,32 +56,22 @@ export default function HorizontalStepper({ isAutomatic = false }) {
             );
           })}
         </Stepper>
-        {activeStep === steps.length ? (
-          <React.Fragment>
-            <Box sx={{ display: "flex", flexDirection: "row", p: 2 }}>
-              <Box sx={{ flex: "1 1 auto" }} />
-              {/* <Button onClick={handleReset}>Reset</Button> */}
-              <QuestionBankDialog isAutomatic={isAutomatic} />
-            </Box>
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-            <Box sx={{ display: "flex", flexDirection: "row", p: 2 }}>
-              <Button
-                color="inherit"
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                sx={{ mr: 1 }}
-              >
-                Back
-              </Button>
-              <Box sx={{ flex: "1 1" }} />
-              <Button onClick={handleNext}>
-                {activeStep === steps.length - 1 ? "Sumbit" : "Next"}
-              </Button>
-            </Box>
-          </React.Fragment>
-        )}
+        <React.Fragment>
+          <Box sx={{ display: "flex", flexDirection: "row", p: 2 }}>
+            <Button
+              color="inherit"
+              disabled={activeStep === 0}
+              onClick={handleBack}
+              sx={{ mr: 1 }}
+            >
+              Back
+            </Button>
+            <Box sx={{ flex: "1 1" }} />
+            <Button onClick={handleNext}>
+              {activeStep === steps.length - 1 ? "Sumbit" : "Next"}
+            </Button>
+          </Box>
+        </React.Fragment>
       </Box>
       {activeStep === 0 ? (
         isAutomatic ? (
