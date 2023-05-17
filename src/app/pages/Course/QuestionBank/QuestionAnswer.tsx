@@ -26,7 +26,7 @@ const Circle = styled("div")(({ theme, color }) => ({
 
 export default function QuestionAnswer(question: IQuestion) {
   return (
-    <Grid container direction="column" marginLeft={20} spacing={1}>
+    <Grid container direction="column" marginLeft={5} spacing={1}>
       {question.question_type.name == DefaultQuestionTypesEnum.MCQ ||
       question.question_type.name == DefaultQuestionTypesEnum.T_F ? (
         question.choices?.map((choice, index) => {

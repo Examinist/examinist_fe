@@ -1,11 +1,19 @@
 import * as React from "react";
 import theme from "../../../../assets/theme";
-import { Box, Divider, Grid, TextField, Typography, styled } from "@mui/material";
+import {
+  Box,
+  Divider,
+  Grid,
+  TextField,
+  Typography,
+  styled,
+} from "@mui/material";
 import { DifficultyLevelEnum, IQuestion } from "../../../types/Question";
 import { Rectangle } from "../../../components/Rectangle";
 import { DefaultQuestionTypesEnum } from "../../../types/CourseSettings";
 import QuestionModifications from "../QuestionBank/QuestionModifications";
 import { IExamQuestion } from "../../../types/Exam";
+import QuestionAnswer from "../QuestionBank/QuestionAnswer";
 
 export default function Question(examQuestion: IExamQuestion) {
   const getColor = (questionDifficulty: string) => {
@@ -29,11 +37,28 @@ export default function Question(examQuestion: IExamQuestion) {
   };
 
   return (
-    <Grid container sx={{ pl: 2 }}>
+    <Grid
+      container
+      sx={{
+        backgroundColor: theme.palette.white.main,
+        pt: 2,
+        pb: 3,
+        pr: 6,
+        pl: 2,
+        borderRadius: 5,
+      }}
+      spacing={2}
+      direction="column"
+    >
       <Grid item xs={12}>
-        <Grid container justifyContent="space-between">
+        <Grid
+          container
+          justifyContent="space-between"
+          alignItems="center"
+          direction="row"
+        >
           <Grid item>
-            <Grid container direction="row" spacing={5}>
+            <Grid container direction="row" spacing={4}>
               <Grid item>
                 <Box sx={{ display: "flex", gap: 1 }}>
                   <Typography
@@ -95,13 +120,7 @@ export default function Question(examQuestion: IExamQuestion) {
           </Grid>
 
           <Grid item>
-            <Grid
-              container
-              direction="row"
-              justifyContent="flex-end"
-              alignItems="center"
-              spacing={1}
-            >
+            <Grid container direction="row" alignItems="center" spacing={1}>
               <Grid item>
                 <Typography variant="subtitle2" color={theme.palette.gray.dark}>
                   {examQuestion.question.difficulty}
@@ -111,7 +130,7 @@ export default function Question(examQuestion: IExamQuestion) {
                 <Rectangle color={getColor(examQuestion.question.difficulty)} />
               </Grid>
               <Grid item>
-                <QuestionModifications questionId={examQuestion.question.id!} />
+                <QuestionModifications question={examQuestion.question} />
               </Grid>
             </Grid>
           </Grid>
@@ -121,25 +140,20 @@ export default function Question(examQuestion: IExamQuestion) {
         <Typography
           variant="subtitle2"
           color={theme.palette.gray.dark}
-          sx={{ fontSize: 20 }}
+          sx={{ fontSize: 20, pb: 2 }}
         >
           {examQuestion.question.header}
         </Typography>
       </Grid>
+      {examQuestion.question.question_type.name ==
+        DefaultQuestionTypesEnum.MCQ || examQuestion.question.question_type.name ==
+        DefaultQuestionTypesEnum.T_F && (
+        <QuestionAnswer {...examQuestion.question} />
+      )}
+      <Divider orientation="horizontal" flexItem sx={{ pt: 2 }}></Divider>
+
       <Grid item>
-        <Typography
-          variant="subtitle2"
-          color={theme.palette.gray.dark}
-          sx={{ fontSize: 20 }}
-        >
-          {examQuestion.question.header}
-        </Typography>
-      </Grid>
-      <Grid item>
-        <Divider orientation="vertical" flexItem />
-      </Grid>
-      <Grid item>
-        <TextField id="standard-basic" label="Standard" variant="standard" />
+        <TextField id="standard-basic" label="Score" variant="standard" />
       </Grid>
     </Grid>
   );

@@ -6,12 +6,16 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 import theme from "../../../../assets/theme";
 import TopicsSelector from "./TopicsSelector";
 import RadioButtonOptions from "./RadioButtonOptions";
+import { AutomaticExamContext } from "./AutomaticExam";
 
 export default function AutomaticInfo() {
+  const { automaticExamState, setAutomaticExamState } =
+    useContext(AutomaticExamContext);
+
   return (
     <Box
       sx={{
@@ -33,18 +37,40 @@ export default function AutomaticInfo() {
         sx={{ pl: "50px" }}
         justifyContent="center"
         alignItems="center"
+        
       >
         <Grid item xs={3}>
           <Typography variant="subtitle1">Exam Title :</Typography>
         </Grid>
         <Grid item xs={9}>
-          <TextField id="outlined-basic" sx={{ width: "60%" }} />
+          <TextField
+            id="outlined-basic"
+            sx={{ width: "60%" }}
+            value={automaticExamState.title}
+            onChange={(e) =>
+              setAutomaticExamState({
+                ...automaticExamState,
+                title: e.target.value,
+              })
+            }
+          />
         </Grid>
         <Grid item xs={3}>
           <Typography variant="subtitle1">Exam Duration :</Typography>
         </Grid>
         <Grid item xs={9}>
-          <TextField id="outlined-basic" sx={{ width: "60%" }} />
+          <TextField
+            id="outlined-basic"
+            sx={{ width: "60%" }}
+            type="number"
+            value={automaticExamState.duration}
+            onChange={(e) =>
+              setAutomaticExamState({
+                ...automaticExamState,
+                duration: parseInt(e.target.value),
+              })
+            }
+          />
         </Grid>
       </Grid>
       <Divider sx={{ p: "20px", borderBottomWidth: "2px" }} />

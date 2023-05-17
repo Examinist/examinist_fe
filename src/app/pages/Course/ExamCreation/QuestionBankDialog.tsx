@@ -14,6 +14,9 @@ import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 import QuestionBank from "../QuestionBank/QuestionBank";
 import theme from "../../../../assets/theme";
+import { ManualExamContext } from "./ManualExam";
+import { AutomaticExamContext } from "./AutomaticExam";
+import { QuestionsContext } from "./Models";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -24,15 +27,75 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function QuestionBankDialog() {
+export default function QuestionBankDialog({ isAutomatic = false }) {
+  const { questionsList, setQuestionsList } =
+    React.useContext(QuestionsContext);
+
   const [open, setOpen] = React.useState(false);
+
+  const { examState, setExamState } = React.useContext(ManualExamContext);
+  const { automaticExamState, setAutomaticExamState } =
+    React.useContext(AutomaticExamContext);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
+  const getList = () => {
+    var stateQuestions = isAutomatic
+      ? automaticExamState.questions
+      : examState.questions;
+    questionsList.map((question) => {
+      if (stateQuestions?.has(question.question_type.name)) {
+        const questions = stateQuestions.get(question.question_type.name);
+        if (
+          questions &&
+          questions.find((q) => q.question.id === question.id) == undefined
+        ) {
+          questions.push({
+            id: question.id,
+            score: 0,
+            question: question,
+          });
+          (isAutomatic ? automaticExamState : examState).questions?.set(
+            question.question_type.name,
+            questions
+          );
+          isAutomatic
+            ? setAutomaticExamState({
+                ...automaticExamState,
+                questions: automaticExamState.questions,
+              })
+            : setExamState({ ...examState, questions: examState.questions });
+        }
+      } else {
+        (isAutomatic ? automaticExamState : examState).questions?.set(
+          question.question_type.name,
+          [
+            {
+              id: question.id,
+              score: 0,
+              question: question,
+            },
+          ]
+        );
+        setAutomaticExamState({
+          ...automaticExamState,
+          questions: automaticExamState.questions,
+        });
 
+        isAutomatic
+          ? setAutomaticExamState({
+              ...automaticExamState,
+              questions: automaticExamState.questions,
+            })
+          : setExamState({ ...examState, questions: examState.questions });
+      }
+    });
+  };
   const handleClose = () => {
     setOpen(false);
+    getList();
+    setQuestionsList([]);
   };
 
   return (
@@ -64,7 +127,7 @@ export default function QuestionBankDialog() {
             </Button>
           </Toolbar>
         </AppBar>
-       <QuestionBank creation={true}/>
+        <QuestionBank creation={true} isAutomatic={isAutomatic} />
       </Dialog>
     </div>
   );

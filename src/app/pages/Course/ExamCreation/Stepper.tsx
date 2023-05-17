@@ -10,6 +10,9 @@ import { Stack } from "@mui/material";
 import ManualInfo from "./ManualInfo";
 import AutomaticInfo from "./AutomaticInfo";
 import QuestionBankDialog from "./QuestionBankDialog";
+import QuestionsList from "./QuestionsList";
+import QuestionBank from "../QuestionBank/QuestionBank";
+import QuestionsBody from "./QuestionsBody";
 
 const steps = ["Exam General Info", "Exam Questions", "Submit Exam"];
 
@@ -56,7 +59,7 @@ export default function HorizontalStepper({ isAutomatic = false }) {
             <Box sx={{ display: "flex", flexDirection: "row", p: 2 }}>
               <Box sx={{ flex: "1 1 auto" }} />
               {/* <Button onClick={handleReset}>Reset</Button> */}
-              <QuestionBankDialog />
+              <QuestionBankDialog isAutomatic={isAutomatic} />
             </Box>
           </React.Fragment>
         ) : (
@@ -85,7 +88,7 @@ export default function HorizontalStepper({ isAutomatic = false }) {
           <ManualInfo />
         )
       ) : activeStep === 1 ? (
-        <ManualInfo />
+        <QuestionsBody isAutomatic={isAutomatic} />
       ) : (
         <ManualInfo />
       )}

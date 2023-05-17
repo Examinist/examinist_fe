@@ -27,6 +27,7 @@ export default function ManualExam() {
     examState: examState,
     setExamState: setExamState,
   };
+
   return (
     <Box sx={{ width: "100%", px: 5, py: 5 }}>
       <ManualExamContext.Provider value={contextValue}>
