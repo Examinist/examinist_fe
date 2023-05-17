@@ -13,6 +13,7 @@ import QuestionBankDialog from "./QuestionBankDialog";
 import QuestionsList from "./QuestionsList";
 import QuestionBank from "../QuestionBank/QuestionBank";
 import QuestionsBody from "./QuestionsBody";
+import Summary from "./Summary";
 
 const steps = ["Exam General Info", "Exam Questions", "Submit Exam"];
 
@@ -32,7 +33,7 @@ export default function HorizontalStepper({ isAutomatic = false }) {
   };
 
   return (
-    <Stack sx={{ justifyContent: "center", alignItems: "center" }}>
+    <Stack sx={{ justifyContent: "center", alignItems: "center" }} spacing={2}>
       <Box
         sx={{
           width: "100%",
@@ -90,7 +91,7 @@ export default function HorizontalStepper({ isAutomatic = false }) {
       ) : activeStep === 1 ? (
         <QuestionsBody isAutomatic={isAutomatic} />
       ) : (
-        <ManualInfo />
+        <Summary isAutomatic={isAutomatic} />
       )}
     </Stack>
   );
