@@ -4,6 +4,7 @@ import { Box } from "@mui/material";
 import { IAutomaticExamDetails } from "./Models";
 import { IQuestion } from "../../../types/Question";
 import { IExamQuestion } from "../../../types/Exam";
+import { ITopic } from "../../../types/CourseSettings";
 
 
 interface IAutomaticExamContext {
@@ -25,6 +26,7 @@ export default function AutomaticExam() {
     is_auto: false,
     is_multiple_models: false,
     questions: new Map<string, IExamQuestion[]>(),
+    topics: new Map<string, number[]>(),
   });
 
   const contextValue: IAutomaticExamContext = {

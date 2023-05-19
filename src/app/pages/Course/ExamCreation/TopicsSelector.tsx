@@ -1,16 +1,16 @@
-import * as React from 'react';
-import { Theme, useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import Chip from '@mui/material/Chip';
-import { Checkbox, ListItemText } from '@mui/material';
-import { IQuestionType, ITopic } from '../../../types/CourseSettings';
-import { AutomaticExamContext } from './AutomaticExam';
-import { useContext } from 'react';
+import * as React from "react";
+import { Theme, useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Chip from "@mui/material/Chip";
+import { Checkbox, ListItemText } from "@mui/material";
+import { AutomaticExamContext } from "./AutomaticExam";
+import { useContext } from "react";
+import { IQuestionType, ITopic } from "../../../types/CourseSettings";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -23,64 +23,89 @@ const MenuProps = {
   },
 };
 
-
-
-export default function TopicsSelector({list,type}:{list: ITopic[],type:IQuestionType}) {
-  const theme = useTheme();
-  const [typeTopics, setTypeTopics  ] = React.useState<string[]>([]);
+export default function TopicsSelector({
+  list,
+  type,
+  setDisabled,
+  typeList,
+}: {
+  list: ITopic[];
+  type: IQuestionType;
+  setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
+  typeList: number;
+}) {
   const { automaticExamState, setAutomaticExamState } =
-  useContext(AutomaticExamContext);
+    useContext(AutomaticExamContext);
 
-  const handleChange = (event: SelectChangeEvent<typeof typeTopics>) => {
+  const handleChange = (event: SelectChangeEvent<number[]>) => {
     const {
       target: { value },
     } = event;
-    setTypeTopics(
-      typeof value === 'string' ? value.split(',') : value,
+    if(value.length===0){
+      console.log("remove");
+      automaticExamState.topics?.delete(type.name);
+      setAutomaticExamState({
+        ...automaticExamState,
+        topics: automaticExamState.topics,
+      })
+    }
+    else{
+    automaticExamState.topics?.set(
+      type.name,
+      value as number[]
     );
+    setAutomaticExamState({
+      ...automaticExamState,
+      topics: automaticExamState.topics,
+    })
+  }
 
+  if (automaticExamState.topics!.size < typeList) {
+    setDisabled(true);
+  } else {
+    setDisabled(automaticExamState.title?.trim()=="" || automaticExamState.duration==null);
+  }
+  
   };
 
-  // const handleAddTopic=()=>{
-  //   const getList = () => {
-  //     var stateTopics =automaticExamState.topics;
-      
-  //     if (stateTopics?.has(type.name)) {
-  //       const topics = stateTopics.get(
-  //         type.name
-  //       );
-  //       if (topics) {
-  //         topics.push(...typeTopics);
-  //         return topics;
-  //       }
-  //     }else
-      
-  //   };
-  // }
-  
+
+   const getlabel=(val: number) =>{
+    const topic = list.find((topic) => topic.id === val);
+    if (topic) {
+      return topic.name;
+      }
+    return "";
+  }
+
   return (
     <div>
-      <FormControl sx={{ m: 1, width: '60%' }}>
+      <FormControl sx={{ m: 1, width: "60%" }}>
         <InputLabel id="demo-multiple-chip-label">Select</InputLabel>
         <Select
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
           multiple
-          value={typeTopics}
+          value={automaticExamState.topics?.get(type.name)??[]}
           onChange={handleChange}
           input={<OutlinedInput id="select-multiple-chip" label="Select" />}
           renderValue={(selected) => (
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
               {selected.map((value) => (
-                <Chip key={value} label={value} />
+                <Chip key={value} label={getlabel(value)} />
               ))}
             </Box>
           )}
           MenuProps={MenuProps}
         >
-           {list.map((topic) => (
-            <MenuItem key={topic.id} value={topic.name}>
-              <Checkbox checked={typeTopics.indexOf(topic.name) > -1} />
+          {list.map((topic) => (
+            <MenuItem key={topic.id} value={topic.id}>
+              
+              <Checkbox
+               key={topic.id}
+                checked={automaticExamState.topics
+                  ?.get(type.name)
+                  ?.includes(topic.id)??false}
+              />
               <ListItemText primary={topic.name} />
             </MenuItem>
           ))}

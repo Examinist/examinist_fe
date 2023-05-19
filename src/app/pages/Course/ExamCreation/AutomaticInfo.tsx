@@ -40,7 +40,7 @@ export default function AutomaticInfo({
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAutomaticExamState({ ...automaticExamState, title: e.target.value });
     setIsTitleEmpty(e.target.value.toString().trim() === "");
-    setDisabled(!e.target.value || isDurationEmpty);
+    setDisabled(!e.target.value || isDurationEmpty || ((automaticExamState.topics?.size??0) < questionTypes.length));
   };
 
   const handleDurationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,7 +50,7 @@ export default function AutomaticInfo({
     });
 
     setIsDurationEmpty(!e.target.value);
-    setDisabled(!e.target.value || isTitleEmpty);
+    setDisabled(!e.target.value || isTitleEmpty ||((automaticExamState.topics?.size??0) < questionTypes.length));
   };
   useEffect(() => {
     getQuestionTypesApi(courseId)
@@ -167,9 +167,8 @@ export default function AutomaticInfo({
                     {questionType.name}
                   </Typography>
                 </Grid>
-
                 <Grid item xs={9}>
-                  <TopicsSelector list={topics} type={questionType}/>
+                  <TopicsSelector key={questionType.id} list={topics} type={questionType} setDisabled={setDisabled} typeList={questionTypes.length}/>
                 </Grid>
               </>
             ))}

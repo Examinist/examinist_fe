@@ -13,7 +13,7 @@ export interface IManualExamDetails {
   questions?: Map<string, IExamQuestion[]>;
 }
 export interface IAutomaticExamDetails extends IManualExamDetails {
-  topics?: Map<string, ITopic[]>;
+  topics?: Map<string, number[]>;
 }
 
 export interface IQuestionsContext {
