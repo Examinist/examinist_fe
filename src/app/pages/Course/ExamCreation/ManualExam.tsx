@@ -17,7 +17,7 @@ export const ManualExamContext = React.createContext<IManualExamContext>({
 export default function ManualExam() {
   const [examState, setExamState] = React.useState<IManualExamDetails>({
     title: "",
-    duration: 0,
+    duration: 30,
     is_auto: false,
     is_multiple_models: false,
     questions: new Map<string, IExamQuestion[]>(),

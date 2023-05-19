@@ -19,19 +19,19 @@ const steps = ["Exam General Info", "Exam Questions", "Submit Exam"];
 
 export default function HorizontalStepper({ isAutomatic = false }) {
   const [activeStep, setActiveStep] = React.useState(0);
+  const [disabled, setDisabled] = React.useState(true);
 
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    if(activeStep === steps.length - 1){
+    if (activeStep === steps.length - 1) {
       alert("Exam Created Successfully");
+    } else {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-
-
 
   return (
     <Stack sx={{ justifyContent: "center", alignItems: "center" }} spacing={2}>
@@ -67,7 +67,7 @@ export default function HorizontalStepper({ isAutomatic = false }) {
               Back
             </Button>
             <Box sx={{ flex: "1 1" }} />
-            <Button onClick={handleNext}>
+            <Button onClick={handleNext} disabled={disabled}>
               {activeStep === steps.length - 1 ? "Sumbit" : "Next"}
             </Button>
           </Box>
@@ -75,9 +75,9 @@ export default function HorizontalStepper({ isAutomatic = false }) {
       </Box>
       {activeStep === 0 ? (
         isAutomatic ? (
-          <AutomaticInfo />
+          <AutomaticInfo setDisabled={setDisabled} />
         ) : (
-          <ManualInfo />
+          <ManualInfo setDisabled={setDisabled} />
         )
       ) : activeStep === 1 ? (
         <QuestionsBody isAutomatic={isAutomatic} />

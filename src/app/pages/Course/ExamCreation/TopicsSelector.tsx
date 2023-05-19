@@ -7,6 +7,10 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
+import { Checkbox, ListItemText } from '@mui/material';
+import { IQuestionType, ITopic } from '../../../types/CourseSettings';
+import { AutomaticExamContext } from './AutomaticExam';
+import { useContext } from 'react';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -19,53 +23,52 @@ const MenuProps = {
   },
 };
 
-const names = [
-  'Oliver Hansen',
-  'Van Henry',
-  'April Tucker',
-  'Ralph Hubbard',
-  'Omar Alexander',
-  'Carlos Abbott',
-  'Miriam Wagner',
-  'Bradley Wilkerson',
-  'Virginia Andrews',
-  'Kelly Snyder',
-];
 
-function getStyles(name: string, personName: readonly string[], theme: Theme) {
-  return {
-    fontWeight:
-      personName.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
 
-export default function TopicsSelector() {
+export default function TopicsSelector({list,type}:{list: ITopic[],type:IQuestionType}) {
   const theme = useTheme();
-  const [personName, setPersonName] = React.useState<string[]>([]);
+  const [typeTopics, setTypeTopics  ] = React.useState<string[]>([]);
+  const { automaticExamState, setAutomaticExamState } =
+  useContext(AutomaticExamContext);
 
-  const handleChange = (event: SelectChangeEvent<typeof personName>) => {
+  const handleChange = (event: SelectChangeEvent<typeof typeTopics>) => {
     const {
       target: { value },
     } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
+    setTypeTopics(
       typeof value === 'string' ? value.split(',') : value,
     );
+
   };
 
+  // const handleAddTopic=()=>{
+  //   const getList = () => {
+  //     var stateTopics =automaticExamState.topics;
+      
+  //     if (stateTopics?.has(type.name)) {
+  //       const topics = stateTopics.get(
+  //         type.name
+  //       );
+  //       if (topics) {
+  //         topics.push(...typeTopics);
+  //         return topics;
+  //       }
+  //     }else
+      
+  //   };
+  // }
+  
   return (
     <div>
       <FormControl sx={{ m: 1, width: '60%' }}>
-        <InputLabel id="demo-multiple-chip-label">Chip</InputLabel>
+        <InputLabel id="demo-multiple-chip-label">Select</InputLabel>
         <Select
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
           multiple
-          value={personName}
+          value={typeTopics}
           onChange={handleChange}
-          input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+          input={<OutlinedInput id="select-multiple-chip" label="Select" />}
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((value) => (
@@ -75,13 +78,10 @@ export default function TopicsSelector() {
           )}
           MenuProps={MenuProps}
         >
-          {names.map((name) => (
-            <MenuItem
-              key={name}
-              value={name}
-              style={getStyles(name, personName, theme)}
-            >
-              {name}
+           {list.map((topic) => (
+            <MenuItem key={topic.id} value={topic.name}>
+              <Checkbox checked={typeTopics.indexOf(topic.name) > -1} />
+              <ListItemText primary={topic.name} />
             </MenuItem>
           ))}
         </Select>
