@@ -4,17 +4,21 @@ import theme from "../../../../assets/theme";
 import { ManualExamContext } from "./ManualExam";
 import Question from "./Question";
 import { AutomaticExamContext } from "./AutomaticExam";
+import { IExamQuestion } from "../../../types/Exam";
 
-export default function QuestionsList({ isAutomatic = false }) {
+export default function QuestionsList({ isAutomatic,setDisabled }: { isAutomatic: boolean,setDisabled: React.Dispatch<React.SetStateAction<boolean>>}) {
   const { examState, setExamState } = useContext(ManualExamContext);
   const { automaticExamState, setAutomaticExamState } =
     useContext(AutomaticExamContext);
-  const mapEntries = Array.from(
+  const mapEntries:Array <[string, IExamQuestion[]]>=  Array.from(
     (isAutomatic
       ? automaticExamState.questions?.entries()
       : examState.questions?.entries()) ?? []
-  );
+  ); ;
+  useEffect(() => {
+   setDisabled(mapEntries.length === 0);
 
+  }, [automaticExamState, examState]);
   return (
     <Grid container direction="column" spacing={4} paddingTop={2}>
       <Grid item xs={12}>

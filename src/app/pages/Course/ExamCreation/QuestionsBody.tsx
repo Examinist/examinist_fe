@@ -18,7 +18,7 @@ import { ManualExamContext } from "./ManualExam";
 import { IQuestionsContext, QuestionsContext } from "./Models";
 import AddQuestionDialog from "./AddQuestionDialog";
 
-export default function QuestionsBody({ isAutomatic = false }) {
+export default function QuestionsBody({ isAutomatic,setDisabled }: { isAutomatic: boolean,setDisabled: React.Dispatch<React.SetStateAction<boolean>> }) {
   const [questionsList, setQuestionsList] = React.useState<IQuestion[]>([]);
 
   const questionsContextValue: IQuestionsContext = {
@@ -66,7 +66,7 @@ export default function QuestionsBody({ isAutomatic = false }) {
             </Grid>
           </Grid>
           <Grid item xs={12}>
-            <QuestionsList isAutomatic={isAutomatic} />
+            <QuestionsList isAutomatic={isAutomatic} setDisabled={setDisabled} />
           </Grid>
         </Grid>
       </Box>

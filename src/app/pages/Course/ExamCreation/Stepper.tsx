@@ -80,7 +80,7 @@ export default function HorizontalStepper({ isAutomatic = false }) {
           <ManualInfo setDisabled={setDisabled} />
         )
       ) : activeStep === 1 ? (
-        <QuestionsBody isAutomatic={isAutomatic} />
+        <QuestionsBody isAutomatic={isAutomatic} setDisabled={setDisabled} />
       ) : (
         <Summary isAutomatic={isAutomatic} />
       )}
