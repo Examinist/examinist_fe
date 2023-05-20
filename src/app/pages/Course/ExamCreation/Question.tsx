@@ -3,6 +3,7 @@ import theme from "../../../../assets/theme";
 import {
   Box,
   Divider,
+  FormHelperText,
   Grid,
   TextField,
   Typography,
@@ -34,7 +35,7 @@ export default function Question({
       ? theme.palette.yellow.main
       : theme.palette.red.main;
   };
-
+  const[isFieldEmpty,setIsFieldEmpty]=React.useState(false);
   function getValue(): number {
     return (
       (isAutomatic ? automaticExamState : examState).questions
@@ -45,6 +46,7 @@ export default function Question({
   }
 
   function handleChange(value: string): void {
+   
     var stateQuestions = isAutomatic
       ? automaticExamState.questions
       : examState.questions;
@@ -69,6 +71,8 @@ export default function Question({
     } else {
       setExamState({ ...examState, questions: stateQuestions });
     }
+    setIsFieldEmpty(value.toString().trim() === "" || parseInt(value) < 1);
+
   }
 
   return (
@@ -176,13 +180,20 @@ export default function Question({
 
       <Grid item>
         <TextField
+        required
           type="number"
           id="standard-basic"
           label="Score"
           variant="standard"
           value={getValue()}
+          inputProps={{ min: "1"}}
           onChange={(e) => handleChange(e.target.value)}
+          error={isFieldEmpty}
+
         />
+         {isFieldEmpty && (
+              <FormHelperText error>This field is required and must be at least 1</FormHelperText>
+            )}
       </Grid>
     </Grid>
   );

@@ -31,8 +31,8 @@ export default function ManualInfo({
 
   const handleDurationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setExamState({ ...examState, duration: parseInt(e.target.value) });
-    setIsDurationEmpty(!e.target.value);
-    setDisabled(!e.target.value || isTitleEmpty);
+    setIsDurationEmpty(!e.target.value || parseInt(e.target.value) < 30);
+    setDisabled(!e.target.value || parseInt(e.target.value) < 30 || isTitleEmpty);
 
   };
 
@@ -89,9 +89,10 @@ export default function ManualInfo({
               required
               error={isDurationEmpty}
               inputProps={{ min: "30" }}
+              
             />
             {isDurationEmpty && (
-              <FormHelperText error>This field is required.</FormHelperText>
+              <FormHelperText error>This field is required and must be at least 30</FormHelperText>
             )}
           </Grid>
           <Grid item xs={3}>

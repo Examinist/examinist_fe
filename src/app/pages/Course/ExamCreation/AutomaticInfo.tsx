@@ -49,8 +49,8 @@ export default function AutomaticInfo({
       duration: parseInt(e.target.value),
     });
 
-    setIsDurationEmpty(!e.target.value);
-    setDisabled(!e.target.value || isTitleEmpty ||((automaticExamState.topics?.size??0) < questionTypes.length));
+    setIsDurationEmpty(!e.target.value || parseInt(e.target.value) < 30);
+    setDisabled(!e.target.value || parseInt(e.target.value) < 30  || isTitleEmpty ||((automaticExamState.topics?.size??0) < questionTypes.length));
   };
   useEffect(() => {
     getQuestionTypesApi(courseId)
@@ -132,11 +132,11 @@ export default function AutomaticInfo({
                   onChange={handleDurationChange}
                   required
                   error={isDurationEmpty}
-                  inputProps={{ min: "0" }}
+                  inputProps={{ min: "30" }}
                 />
                 {isDurationEmpty && (
-                  <FormHelperText error>This field is required.</FormHelperText>
-                )}
+              <FormHelperText error>This field is required and must be at least 30</FormHelperText>
+              )}
               </Grid>
             </Grid>
           </form>
