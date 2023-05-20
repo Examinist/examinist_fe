@@ -37,7 +37,7 @@ const FacultyAdminRoutes = () => {
             <Route path="" element={<Navigate to="course-info" />} />
             <Route path="question-bank">
               <Route path="" element={<QuestionBank />} />
-              <Route path="add" element={<AddQuestion />}></Route>
+              <Route path="add" element={<AddQuestion onDone={()=>{}}/>}></Route>
               <Route path=":questionId/edit" element={<EditQuestion />} />
             </Route>
             <Route path="exams" element={<Exams />} />

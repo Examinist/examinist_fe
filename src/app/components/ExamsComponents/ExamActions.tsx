@@ -1,8 +1,9 @@
 import IconButton from "@mui/material/IconButton";
-import { ExamStatusEnum } from "../../types/Exam";
+import { ExamStatusEnum, IExam } from "../../types/Exam";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Divider, Menu, MenuItem } from "@mui/material";
 import React from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function getStatusActions(status: ExamStatusEnum) {
     switch (status) {
@@ -15,11 +16,14 @@ function getStatusActions(status: ExamStatusEnum) {
 }
 
 export interface IExamStatusProps{
+    exam:IExam,
     status?: ExamStatusEnum,
     allExams: boolean,
 }
 
-export default function ExamActions({status, allExams}: IExamStatusProps) {
+export default function ExamActions({exam,status, allExams}: IExamStatusProps) {
+    const navigate = useNavigate();
+
     var actions: string[] = [];
     if(allExams){
         actions = ["View Course Exams"]
@@ -36,6 +40,18 @@ export default function ExamActions({status, allExams}: IExamStatusProps) {
         setAnchorEl(null);
         event.stopPropagation();
     };
+    const handleAction = (event: React.MouseEvent<HTMLButtonElement>,action:String) => {
+        if(action=="View"){
+            console.log("View");
+            const examId = exam.id;
+            navigate("./view", { state: { examId } });
+
+        
+        }
+        setAnchorEl(null);
+        event.stopPropagation();
+    };
+
 
     return (
         <div>
@@ -62,7 +78,7 @@ export default function ExamActions({status, allExams}: IExamStatusProps) {
                     <div>
                         <MenuItem
                             sx={{ minWidth: "150px" }}
-                            onClick={(event: any) => handleClose(event)}
+                            onClick={(event: any) => handleAction(event,value)}
                         >{value}
                         </MenuItem>
                         {index!==(actions.length-1) ? <Divider /> : <></>}

@@ -4,10 +4,10 @@ import { useNavigate } from "react-router-dom";
 
 export default function AddQuestion({
   onDone,
-  creation,
+  creation=false,
 }: {
   onDone: () => void;
-  creation: boolean;
+  creation?: boolean;
 }) {
   const navigate = useNavigate();
   const onSuccess = () => {

@@ -162,12 +162,16 @@ export default function Question({
           {examQuestion.question.header}
         </Typography>
       </Grid>
-      {examQuestion.question.question_type.name ==
-        DefaultQuestionTypesEnum.MCQ ||
-        (examQuestion.question.question_type.name ==
-          DefaultQuestionTypesEnum.T_F && (
-          <QuestionAnswer {...examQuestion.question} />
-        ))}
+      <Grid item>
+      {examQuestion.question.question_type
+        ? ((examQuestion.question.question_type.name ==
+          DefaultQuestionTypesEnum.MCQ ||
+          examQuestion.question.question_type.name ==
+            DefaultQuestionTypesEnum.T_F) && (
+            <QuestionAnswer question={examQuestion.question} creation={true}/>
+          ))
+        : undefined}
+        </Grid>
       <Divider orientation="horizontal" flexItem sx={{ pt: 2 }}></Divider>
 
       <Grid item>

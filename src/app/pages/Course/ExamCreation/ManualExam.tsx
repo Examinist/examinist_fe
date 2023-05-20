@@ -1,8 +1,9 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React, { Dispatch, SetStateAction } from "react";
 import HorizontalStepper from "./Stepper";
 import { IManualExamDetails } from "./Models";
 import { IExamQuestion } from "../../../types/Exam";
+import theme from "../../../../assets/theme";
 
 interface IManualExamContext {
   examState: IManualExamDetails;
@@ -30,6 +31,13 @@ export default function ManualExam() {
 
   return (
     <Box sx={{ width: "100%", px: 5, py: 5 }}>
+      <Typography
+        variant="h5"
+        color={theme.palette.text.primary}
+        sx={{ fontWeight: 700 ,py:2}}
+      >
+        Manual Exam
+      </Typography>
       <ManualExamContext.Provider value={contextValue}>
         <HorizontalStepper isAutomatic={false} />
       </ManualExamContext.Provider>

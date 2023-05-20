@@ -10,11 +10,11 @@ export default function QuestionsList({ isAutomatic,setDisabled }: { isAutomatic
   const { examState, setExamState } = useContext(ManualExamContext);
   const { automaticExamState, setAutomaticExamState } =
     useContext(AutomaticExamContext);
-  const mapEntries:Array <[string, IExamQuestion[]]>=  Array.from(
+  const mapEntries=  Array.from(
     (isAutomatic
       ? automaticExamState.questions?.entries()
       : examState.questions?.entries()) ?? []
-  ); ;
+  ); 
   useEffect(() => {
    setDisabled(mapEntries.length === 0);
 
