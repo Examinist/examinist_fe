@@ -43,7 +43,7 @@ export default function TopicsSelector({
     } = event;
     if(value.length===0){
       console.log("remove");
-      automaticExamState.topics?.delete(type.name);
+      automaticExamState.topics?.delete(type.id);
       setAutomaticExamState({
         ...automaticExamState,
         topics: automaticExamState.topics,
@@ -51,7 +51,7 @@ export default function TopicsSelector({
     }
     else{
     automaticExamState.topics?.set(
-      type.name,
+      type.id,
       value as number[]
     );
     setAutomaticExamState({
@@ -85,7 +85,7 @@ export default function TopicsSelector({
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
           multiple
-          value={automaticExamState.topics?.get(type.name)??[]}
+          value={automaticExamState.topics?.get(type.id)??[]}
           onChange={handleChange}
           input={<OutlinedInput id="select-multiple-chip" label="Select" />}
           renderValue={(selected) => (
@@ -103,7 +103,7 @@ export default function TopicsSelector({
               <Checkbox
                key={topic.id}
                 checked={automaticExamState.topics
-                  ?.get(type.name)
+                  ?.get(type.id)
                   ?.includes(topic.id)??false}
               />
               <ListItemText primary={topic.name} />

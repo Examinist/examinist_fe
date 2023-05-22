@@ -36,12 +36,10 @@ import { QuestionsContext } from "../../../ExamCreation/Models";
 
 interface IQuestionFormProps {
   onSuccess: (question?: IQuestion) => void;
-  creation: boolean;
 }
 
 export default function QuestionForm({
   onSuccess,
-  creation,
 }: IQuestionFormProps) {
   const { setAlertState } = useAlert();
   const { courseId } = useParams<{ courseId: string }>();
@@ -105,13 +103,10 @@ export default function QuestionForm({
       .then(({ data }: IQuestionResponse) => {
         setAlertState({
           open: true,
-          message: "Question created successfully",
+          message: "Question added to course question bank successfully!",
           severity: "success",
         });
-        if (creation) {
-          setQuestionsList([...questionsList, data.question]);
-          onSuccess();
-        } else onSuccess(data.question);
+        onSuccess(data.question);
       })
       .catch(({ response: { status, statusText, data } }: IErrorResponse) => {
         setAlertState({
@@ -156,10 +151,7 @@ export default function QuestionForm({
             <Grid item xs={7} md={9} sx={{ px: 6, py: 4 }}>
               <QuestionCard />
               <Box sx={{ display: "flex", gap: 2 }}>
-                {creation ? (
-                  <Box></Box>
-                ) : (
-                  <Button
+                 <Button
                     variant="outlined"
                     sx={{
                       ml: "auto",
@@ -172,8 +164,6 @@ export default function QuestionForm({
                   >
                     cancel
                   </Button>
-                )}
-
                 <Button
                   variant="contained"
                   sx={{ mt: "auto", px: 4, borderRadius: 3 }}

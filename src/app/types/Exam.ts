@@ -15,13 +15,13 @@ export interface IExam{
     course: ICourse;
 }
 
-export interface IDetailedExam extends IExam{
-    exam_questions: IExamQuestionsGroup[];
+export interface IDetailedExam extends IExam {
+  exam_questions: Map<string, IExamQuestion[]>;
 }
 
 
 export interface IExamQuestionsGroup{
-    [key: string]: IExamQuestion[]
+    [key: string]: IExamQuestion[];
 }
 
 export interface IExamQuestion{

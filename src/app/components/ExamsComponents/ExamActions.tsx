@@ -75,7 +75,7 @@ export default function ExamActions({exam,status, allExams}: IExamStatusProps) {
                 }}
             >
                 {actions.map((value, index) => (
-                    <div>
+                    <div key={value}>
                         <MenuItem
                             sx={{ minWidth: "150px" }}
                             onClick={(event: any) => handleAction(event,value)}

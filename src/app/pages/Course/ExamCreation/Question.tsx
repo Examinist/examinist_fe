@@ -5,6 +5,7 @@ import {
   Divider,
   FormHelperText,
   Grid,
+  IconButton,
   TextField,
   Typography,
   styled,
@@ -17,6 +18,8 @@ import { IExamQuestion } from "../../../types/Exam";
 import QuestionAnswer from "../QuestionBank/QuestionAnswer";
 import { AutomaticExamContext } from "./AutomaticExam";
 import { ManualExamContext } from "./ManualExam";
+import DeleteIcon from "@mui/icons-material/Delete";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 
 export default function Question({
   examQuestion,
@@ -35,7 +38,7 @@ export default function Question({
       ? theme.palette.yellow.main
       : theme.palette.red.main;
   };
-  const[isFieldEmpty,setIsFieldEmpty]=React.useState(false);
+  const [isFieldEmpty, setIsFieldEmpty] = React.useState(false);
   function getValue(): number {
     return (
       (isAutomatic ? automaticExamState : examState).questions
@@ -45,8 +48,35 @@ export default function Question({
     );
   }
 
+  const handleRemove = (question: IQuestion) => {
+    var stateQuestions = isAutomatic
+      ? automaticExamState.questions
+      : examState.questions;
+    if (stateQuestions?.has(question.question_type.name)) {
+      const questions = stateQuestions.get(question.question_type.name);
+      if (questions) {
+        const questionIndex = questions.findIndex(
+          (q) => q.question.id === question.id
+        );
+        if (questionIndex !== -1) {
+          questions.splice(questionIndex, 1);
+          if (questions.length === 0) {
+            stateQuestions.delete(question.question_type.name);
+          } else {
+            stateQuestions.set(question.question_type.name, questions);
+          }
+          isAutomatic
+            ? setAutomaticExamState({
+                ...automaticExamState,
+                questions: stateQuestions,
+              })
+            : setExamState({ ...examState, questions: stateQuestions });
+        }
+      }
+    }
+  };
+
   function handleChange(value: string): void {
-   
     var stateQuestions = isAutomatic
       ? automaticExamState.questions
       : examState.questions;
@@ -72,7 +102,6 @@ export default function Question({
       setExamState({ ...examState, questions: stateQuestions });
     }
     setIsFieldEmpty(value.toString().trim() === "" || parseInt(value) < 1);
-
   }
 
   return (
@@ -151,7 +180,15 @@ export default function Question({
                 <Rectangle color={getColor(examQuestion.question.difficulty)} />
               </Grid>
               <Grid item>
-                <QuestionModifications question={examQuestion.question} />
+                <IconButton
+                  aria-label="back"
+                  size="large"
+                  onClick={() => {
+                    handleRemove(examQuestion.question);
+                  }}
+                >
+                  <DeleteOutlineOutlinedIcon fontSize="inherit" />
+                </IconButton>
               </Grid>
             </Grid>
           </Grid>
@@ -167,33 +204,37 @@ export default function Question({
         </Typography>
       </Grid>
       <Grid item>
-      {examQuestion.question.question_type
-        ? ((examQuestion.question.question_type.name ==
-          DefaultQuestionTypesEnum.MCQ ||
-          examQuestion.question.question_type.name ==
-            DefaultQuestionTypesEnum.T_F) && (
-            <QuestionAnswer question={examQuestion.question} creation={true}/>
-          ))
-        : undefined}
-        </Grid>
+        {examQuestion.question.question_type
+          ? (examQuestion.question.question_type.name ==
+              DefaultQuestionTypesEnum.MCQ ||
+              examQuestion.question.question_type.name ==
+                DefaultQuestionTypesEnum.T_F) && (
+              <QuestionAnswer
+                question={examQuestion.question}
+                creation={true}
+              />
+            )
+          : undefined}
+      </Grid>
       <Divider orientation="horizontal" flexItem sx={{ pt: 2 }}></Divider>
 
       <Grid item>
         <TextField
-        required
+          required
           type="number"
           id="standard-basic"
           label="Score"
           variant="standard"
           value={getValue()}
-          inputProps={{ min: "1"}}
+          inputProps={{ min: "1" }}
           onChange={(e) => handleChange(e.target.value)}
           error={isFieldEmpty}
-
         />
-         {isFieldEmpty && (
-              <FormHelperText error>This field is required and must be at least 1</FormHelperText>
-            )}
+        {isFieldEmpty && (
+          <FormHelperText error>
+            This field is required and must be at least 1
+          </FormHelperText>
+        )}
       </Grid>
     </Grid>
   );

@@ -18,18 +18,16 @@ export default function RadioButtonOptions({ isAutomatic = false }) {
         row
         aria-labelledby="demo-row-radio-buttons-group-label"
         name="row-radio-buttons-group"
-        value={
-          (isAutomatic ? automaticExamState : examState).is_multiple_models
-        }
+        value={(isAutomatic ? automaticExamState : examState).has_models}
         onChange={(e) => {
           isAutomatic
             ? setAutomaticExamState({
                 ...automaticExamState,
-                is_multiple_models: e.target.value === "true" ? true : false,
+                has_models: e.target.value === "true" ? true : false,
               })
             : setExamState({
                 ...examState,
-                is_multiple_models: e.target.value === "true" ? true : false,
+                has_models: e.target.value === "true" ? true : false,
               });
         }}
       >

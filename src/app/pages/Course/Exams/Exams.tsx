@@ -1,15 +1,19 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import {IExamsListResponse, getExamsApi } from '../../../services/APIs/ExamAPIs';
 import { ExamStatusEnum, IExam } from '../../../types/Exam';
-import { Box } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 import ExamCard from '../../../components/ExamsComponents/ExamCard';
 import { mockExamsList } from '../../../services/APIs/mockData/MockData';
+import { set } from 'react-hook-form';
+import { IErrorResponse } from '../../../services/Response';
+import useAlert from '../../../hooks/useAlert';
+import PageTitle from '../../../components/PageTitle';
 
 function getCourseExamAttributesList(exam: IExam){
   var attrList: string[] = []
   attrList = [exam.id.toString(),exam.title,exam.status,exam.creation_mode,exam.creator.first_name+" "+exam.creator.last_name,
-  exam.created_at.toLocaleString(),exam.scheduled_date.toLocaleString()]
+  exam.created_at.toLocaleString(),exam.scheduled_date?.toLocaleString() ?? "Not Scheduled"]
   return attrList;
 }
 
@@ -26,16 +30,32 @@ export function getFilterType(tabName: string, exams: IExam[]){
 
 export default function Exams() {
   const { courseId } = useParams<{ courseId: string }>();
+  const [exams, setExams] = useState<IExam[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const {setAlertState } = useAlert();
+
   useEffect(() => {
-    getExamsApi(parseInt(courseId!), ExamStatusEnum.UNSCHEDULED)
+    setIsLoading(true);
+    getExamsApi(parseInt(courseId!))
       .then(({ data }: IExamsListResponse) => {
-        console.log(data);
+        setExams(data.exams);
+        console.log(data.exams);
+      })
+     .catch(({ response: { status, statusText, data } }: IErrorResponse) => {
+        setAlertState({
+          open: true,
+          message: data?.message || statusText,
+          severity: "error",
+        })
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
-  }, []);
+}, []);
 
   const tabs = ["All", "Unscheduled", "Scheduled", "On Going", "Pending Grading", "Graded"]
   const tableHeader = ["ID", "Title", "Status", "Creation Mode", "Creator", "Creation Date", "Scheduled Date", "Actions"]
-  const rows: IExam[] = mockExamsList;
+  
 
   return (
     <Box sx={{ px: 15, py: 5 }}>
@@ -44,20 +64,33 @@ export default function Exams() {
           fontSize: "2rem",
           fontWeight: "medium",
           fontFamily: "montserrat",
-          paddingBottom: "10px"
+          pb: 4,
         }}
       >
         Exams
       </Box>
-      <ExamCard
-      tabs={tabs}
-      tableHeader={tableHeader}
-      rows={rows}
-      attributesFunction={getCourseExamAttributesList}
-      actionButton={true}
-      allExams={false}
-      filter={getFilterType}
-      ></ExamCard>
+      {isLoading ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      ) : (
+        <ExamCard
+          tabs={tabs}
+          tableHeader={tableHeader}
+          rows={exams}
+          attributesFunction={getCourseExamAttributesList}
+          actionButton={true}
+          allExams={false}
+          filter={getFilterType}
+        ></ExamCard>
+      )}
     </Box>
-  )
+  );
 }

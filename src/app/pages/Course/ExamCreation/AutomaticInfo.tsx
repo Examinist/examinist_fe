@@ -30,17 +30,29 @@ export default function AutomaticInfo({
 }) {
   const { automaticExamState, setAutomaticExamState } =
     useContext(AutomaticExamContext);
-  const [isTitleEmpty, setIsTitleEmpty] = useState(false);
-  const [isDurationEmpty, setIsDurationEmpty] = useState(false);
+  const [isTitleEmpty, setIsTitleEmpty] = useState(
+    automaticExamState.title?.trim() === ""
+  );
+  const [isDurationEmpty, setIsDurationEmpty] = useState(
+    (automaticExamState.duration ?? 0) < 30
+  );
   const { courseId } = useParams<{ courseId: string }>();
   const [questionTypes, setQuestionTypes] = React.useState<IQuestionType[]>([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
   const [topics, setTopics] = useState<ITopic[]>([]);
 
+  useEffect(() => {
+    setDisabled(isTitleEmpty || isDurationEmpty || automaticExamState.topics?.size == 0);
+  }, []);
+
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAutomaticExamState({ ...automaticExamState, title: e.target.value });
     setIsTitleEmpty(e.target.value.toString().trim() === "");
-    setDisabled(!e.target.value || isDurationEmpty || ((automaticExamState.topics?.size??0) < questionTypes.length));
+    setDisabled(
+      !e.target.value ||
+        isDurationEmpty ||
+        (automaticExamState.topics?.size ?? 0) < questionTypes.length
+    );
   };
 
   const handleDurationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,7 +62,12 @@ export default function AutomaticInfo({
     });
 
     setIsDurationEmpty(!e.target.value || parseInt(e.target.value) < 30);
-    setDisabled(!e.target.value || parseInt(e.target.value) < 30  || isTitleEmpty ||((automaticExamState.topics?.size??0) < questionTypes.length));
+    setDisabled(
+      !e.target.value ||
+        parseInt(e.target.value) < 30 ||
+        isTitleEmpty ||
+        (automaticExamState.topics?.size ?? 0) < questionTypes.length
+    );
   };
   useEffect(() => {
     getQuestionTypesApi(courseId)
@@ -63,7 +80,6 @@ export default function AutomaticInfo({
       .then(({ data }: ITopicsListResponse) => {
         setTopics(data.topics);
         setIsLoading(false);
-
       })
       .catch(({ response: { status, statusText } }: IErrorResponse) => {});
   }, []);
@@ -87,7 +103,7 @@ export default function AutomaticInfo({
             width: "100%",
             backgroundColor: theme.palette.background.paper,
             marginTop: "50px",
-            p: "20px",
+            p: 5,
             pl: "50px",
             borderRadius: "15px",
           }}
@@ -135,8 +151,10 @@ export default function AutomaticInfo({
                   inputProps={{ min: "30" }}
                 />
                 {isDurationEmpty && (
-              <FormHelperText error>This field is required and must be at least 30</FormHelperText>
-              )}
+                  <FormHelperText error>
+                    This field is required and must be at least 30
+                  </FormHelperText>
+                )}
               </Grid>
             </Grid>
           </form>
@@ -168,7 +186,13 @@ export default function AutomaticInfo({
                   </Typography>
                 </Grid>
                 <Grid item xs={9}>
-                  <TopicsSelector key={questionType.id} list={topics} type={questionType} setDisabled={setDisabled} typeList={questionTypes.length}/>
+                  <TopicsSelector
+                    key={questionType.id}
+                    list={topics}
+                    type={questionType}
+                    setDisabled={setDisabled}
+                    typeList={questionTypes.length}
+                  />
                 </Grid>
               </>
             ))}

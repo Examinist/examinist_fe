@@ -14,7 +14,8 @@ export default function QuestionsList({ isAutomatic,setDisabled }: { isAutomatic
     (isAutomatic
       ? automaticExamState.questions?.entries()
       : examState.questions?.entries()) ?? []
-  ); 
+); 
+console.log(mapEntries);
   useEffect(() => {
    setDisabled(mapEntries.length === 0);
 
@@ -23,7 +24,8 @@ export default function QuestionsList({ isAutomatic,setDisabled }: { isAutomatic
     <Grid container direction="column" spacing={4} paddingTop={2}>
       <Grid item xs={12}>
         {mapEntries.map(([key, value]) => (
-          <Stack direction="column" spacing={2} key="key" sx={{ pt: 2 }}>
+          <Stack direction="column" spacing={2} key={key} sx={{ pt: 2 }} >
+          
             <Typography
               variant="h6"
               color={theme.palette.gray.dark}

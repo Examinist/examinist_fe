@@ -23,9 +23,9 @@ export default function AutomaticExam() {
       title: "",
       duration: 30,
       is_auto: false,
-      is_multiple_models: false,
+      has_models: false,
       questions: new Map<string, IExamQuestion[]>(),
-      topics: new Map<string, number[]>(),
+      topics: new Map<number, number[]>(),
     });
 
   const contextValue: IAutomaticExamContext = {
@@ -36,13 +36,17 @@ export default function AutomaticExam() {
   return (
     <Box sx={{ width: "100%", px: 5, py: 5 }}>
       <AutomaticExamContext.Provider value={contextValue}>
-        <Typography
-          variant="h5"
-          color={theme.palette.text.primary}
-          sx={{ fontWeight: 700, py: 2 }}
+        <Box
+          sx={{
+            pl: 10,
+            fontSize: "2rem",
+            fontWeight: "medium",
+            fontFamily: "montserrat",
+            pb: 5,
+          }}
         >
           Automatic Exam
-        </Typography>
+        </Box>
         <HorizontalStepper isAutomatic={true} />
       </AutomaticExamContext.Provider>
     </Box>

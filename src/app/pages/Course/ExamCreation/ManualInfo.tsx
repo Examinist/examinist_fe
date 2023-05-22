@@ -7,7 +7,7 @@ import {
   Typography,
   FormHelperText,
 } from "@mui/material";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import theme from "../../../../assets/theme";
 import RadioButtonOptions from "./RadioButtonOptions";
 import { ManualExamContext } from "./ManualExam";
@@ -18,15 +18,16 @@ export default function ManualInfo({
   setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const { examState, setExamState } = useContext(ManualExamContext);
-  const [isTitleEmpty, setIsTitleEmpty] = useState(false);
-  const [isDurationEmpty, setIsDurationEmpty] = useState(false);
+  const [isTitleEmpty, setIsTitleEmpty] = useState(examState.title?.trim() === "");
+  const [isDurationEmpty, setIsDurationEmpty] = useState((examState.duration ?? 0) < 30);
+  useEffect(() => {
+    setDisabled(isTitleEmpty || isDurationEmpty)
+  },[]);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setExamState({ ...examState, title: e.target.value });
     setIsTitleEmpty(e.target.value.toString().trim() === "");
     setDisabled(!e.target.value || isDurationEmpty);
-
-
   };
 
   const handleDurationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,7 +43,7 @@ export default function ManualInfo({
         width: "100%",
         backgroundColor: theme.palette.background.paper,
         marginTop: "50px",
-        p: "20px",
+        p: 5,
         pl: "50px",
         borderRadius: "15px",
       }}

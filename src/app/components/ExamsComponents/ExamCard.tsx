@@ -1,6 +1,6 @@
 import { Box, Card, Tab, Tabs } from "@mui/material";
 import ExamsTable from "./ExamsTable";
-import { ExamStatusEnum, IExam } from "../../types/Exam";
+import {  IExam } from "../../types/Exam";
 import { useState } from "react";
 
 interface IExamCardProp {
@@ -34,12 +34,13 @@ export default function ExamCard({ tabs, tableHeader, rows, attributesFunction, 
                 >
                     {tabs.map((value, index) => (
                         <Tab
+                        key={index}
                             label={value}
                             sx={{
                                 fontWeight: index==currTab ? "bold": "medium" ,
                                 fontFamily: "montserrat",
                                 textTransform: "none",
-                                fontSize: "17px",
+                                fontSize: "18px" ,
                                 color: index==currTab ? "#1B84BF": "#969090" ,
                             }} />
                     ))}

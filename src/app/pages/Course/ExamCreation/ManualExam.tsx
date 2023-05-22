@@ -20,7 +20,7 @@ export default function ManualExam() {
     title: "",
     duration: 30,
     is_auto: false,
-    is_multiple_models: false,
+    has_models: false,
     questions: new Map<string, IExamQuestion[]>(),
   });
 
@@ -30,14 +30,18 @@ export default function ManualExam() {
   };
 
   return (
-    <Box sx={{ width: "100%", px: 5, py: 5 }}>
-      <Typography
-        variant="h5"
-        color={theme.palette.text.primary}
-        sx={{ fontWeight: 700 ,py:2}}
+    <Box sx={{ width: "100%", px: 5, py: 4 }}>
+      <Box
+        sx={{
+          pl: 10,
+          fontSize: "2rem",
+          fontWeight: "medium",
+          fontFamily: "montserrat",
+          pb: 5,
+        }}
       >
         Manual Exam
-      </Typography>
+      </Box>
       <ManualExamContext.Provider value={contextValue}>
         <HorizontalStepper isAutomatic={false} />
       </ManualExamContext.Provider>

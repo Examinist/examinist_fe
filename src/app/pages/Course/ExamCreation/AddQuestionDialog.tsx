@@ -56,11 +56,11 @@ export default function AddQuestionDialog({ isAutomatic = false }) {
     }
   };
 
-  const getList = () => {
+  const getList = (question: IQuestion) => {
     var stateQuestions = isAutomatic
       ? automaticExamState.questions
       : examState.questions;
-    questionsList.map((question) => {
+   
       if (stateQuestions?.has(question.question_type.name)) {
         const questions = stateQuestions.get(question.question_type.name);
         if (
@@ -106,14 +106,14 @@ export default function AddQuestionDialog({ isAutomatic = false }) {
             })
           : setExamState({ ...examState, questions: examState.questions });
       }
-    });
+  
   };
   const handleClose = () => {
     setOpenAlert(true);
   };
-  const handleDone = () => {
+  const handleDone = (question?: IQuestion) => {
     setOpen(false);
-    getList();
+    getList(question!);
     setQuestionsList([]);
   };
   const handleAlertClose = () => {
@@ -174,7 +174,7 @@ export default function AddQuestionDialog({ isAutomatic = false }) {
            
           </Toolbar>
         </AppBar>
-        <AddQuestion onDone={handleDone} creation={true} />
+        <AddQuestion onSuccess={handleDone} />
       </Dialog>
     </div>
   );

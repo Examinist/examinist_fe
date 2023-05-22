@@ -4,16 +4,15 @@ import { IExamQuestion } from "../../../types/Exam";
 import { IQuestion } from "../../../types/Question";
 import React from "react";
 
-
 export interface IManualExamDetails {
   title?: string;
   duration?: number;
   is_auto?: boolean;
-  is_multiple_models?: boolean;
+  has_models?: boolean;
   questions?: Map<string, IExamQuestion[]>;
 }
 export interface IAutomaticExamDetails extends IManualExamDetails {
-  topics?: Map<string, number[]>;
+  topics?: Map<number, number[]>;
 }
 
 export interface IQuestionsContext {

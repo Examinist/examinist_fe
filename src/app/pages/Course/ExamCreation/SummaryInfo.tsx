@@ -13,16 +13,16 @@ export default function SummaryInfo({ isAutomatic = false }) {
     <Grid
       container
       rowSpacing={2}
-      sx={{ py: 3 ,px:3}}
+      sx={{ py: 3, px: 3 }}
       justifyContent="center"
       alignItems="center"
     >
-      <Grid item xs={3}>
+      <Grid item xs={3} component={"span"}>
         <Typography variant="h6" color={theme.palette.gray.dark}>
           Exam Title :
         </Typography>
       </Grid>
-      <Grid item xs={9}>
+      <Grid item xs={9} component={"span"}>
         <Typography
           variant="h6"
           color={theme.palette.gray.dark}
@@ -31,12 +31,12 @@ export default function SummaryInfo({ isAutomatic = false }) {
           {(isAutomatic ? automaticExamState : examState).title}
         </Typography>
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={3} component={"span"}>
         <Typography variant="h6" color={theme.palette.gray.dark}>
           Exam Duration :
         </Typography>
       </Grid>
-      <Grid item xs={9}>
+      <Grid item xs={9} component={"span"}>
         <Typography
           variant="h6"
           color={theme.palette.gray.dark}
@@ -45,18 +45,18 @@ export default function SummaryInfo({ isAutomatic = false }) {
           {(isAutomatic ? automaticExamState : examState).duration}
         </Typography>
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={3} component={"span"}>
         <Typography variant="h6" color={theme.palette.gray.dark}>
           Exam Models :
         </Typography>
       </Grid>
-      <Grid item xs={9}>
+      <Grid item xs={9} component={"span"}>
         <Typography
           variant="h6"
           color={theme.palette.gray.dark}
           sx={{ fontWeight: 400 }}
         >
-          {(isAutomatic ? automaticExamState : examState).is_multiple_models
+          {(isAutomatic ? automaticExamState : examState).has_models
             ? "Multiple Models"
             : "Single Model"}
         </Typography>

@@ -53,14 +53,22 @@ export default function ExamTableRow({
         if (Object.values(ExamStatusEnum).includes(value)) {
           return (
             <TableCell
-              sx={{ color: getStatusColor(value), fontWeight: "medium" }}
+              key={value}
+              sx={{
+                color: getStatusColor(value),
+                fontWeight: "medium",
+                fontSize: "16px",
+              }}
             >
               {ExamStatusString(value)}
             </TableCell>
           );
         }
         return (
-          <TableCell sx={{ color: "#6B6767", fontWeight: "medium" }}>
+          <TableCell
+            key={value}
+            sx={{ color: "#6B6767", fontWeight: "regular", fontSize: "16px"  }}
+          >
             {value}
           </TableCell>
         );

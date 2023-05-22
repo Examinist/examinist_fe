@@ -125,6 +125,11 @@ export default function QuestionBank({
 
   };
 
+  const isQuestionChecked = (question: IQuestion) =>
+    (isAutomatic ? automaticExamState : examState).questions
+      ?.get(question?.question_type.name)
+      ?.find((q) => q.question.id === question.id) !== undefined ?? false;
+
   const loadTopics = () => {
     getTopicsApi(courseId)
       .then(({ data }: ITopicsListResponse) => {
@@ -137,6 +142,7 @@ export default function QuestionBank({
       })
       .catch(({ response: { status, statusText } }: IErrorResponse) => {});
   };
+
 
   const loadQuestionTypes = () => {
     getQuestionTypesApi(courseId)
@@ -165,13 +171,27 @@ export default function QuestionBank({
     <div>
       <Stack
         sx={{
-          px: 5,
-          py: 6,
+          px: 15,
+          py: 5,
           justifyContent: "center",
           alignItems: "center",
           backgroundColor: theme.palette.background.default,
         }}
       >
+        <Box sx={{ display: "flex", width: "100%" }}>
+          <Box
+            sx={{
+              fontSize: "2rem",
+              pl: 3,
+              fontWeight: "medium",
+              fontFamily: "montserrat",
+              pb: 4,
+            }}
+          >
+            Question Bank
+          </Box>
+        </Box>
+
         <QuestionBankContext.Provider value={contextValue}>
           <Box sx={{ width: "100%", px: 3 }}>
             <Grid container direction="column">
@@ -316,38 +336,37 @@ export default function QuestionBank({
                   <Grid container direction="column" spacing={4} paddingTop={2}>
                     {questions.map((question) => {
                       return (
-                        <Grid key={question.id} item xs>
-                          <Grid container direction="row" spacing={2}>
-                            <Grid item>
-                              <Checkbox
-                                disabled={
-                                  (isAutomatic
-                                    ? automaticExamState
-                                    : examState
-                                  ).questions
-                                    ?.get(question?.question_type.name)
-                                    ?.find(
-                                      (q) => q.question.id === question.id
-                                    ) !== undefined ?? false
-                                }
-                                checked={questionsList.includes(question)}
-                                onChange={(
-                                  event: React.ChangeEvent<HTMLInputElement>
-                                ) => handleCheckboxChange(event, question)}
-                                inputProps={{
-                                  "aria-label": "primary checkbox",
-                                }}
-                              />
-                            </Grid>
-
-                            <Grid item xs>
-                              <QuestionAccordion
+                        <>
+                          {!isQuestionChecked(question) && (
+                            <Grid key={question.id} item xs>
+                              <Grid
+                                container
+                                direction="row"
+                                spacing={2}
                                 key={question.id}
-                                {...question}
-                              />
+                              >
+                                <Grid item key={question.id}>
+                                  <Checkbox
+                                    checked={questionsList.includes(question)}
+                                    onChange={(
+                                      event: React.ChangeEvent<HTMLInputElement>
+                                    ) => handleCheckboxChange(event, question)}
+                                    inputProps={{
+                                      "aria-label": "primary checkbox",
+                                    }}
+                                  />
+                                </Grid>
+
+                                <Grid item xs key={question.id}>
+                                  <QuestionAccordion
+                                    key={question.id}
+                                    {...question}
+                                  />
+                                </Grid>
+                              </Grid>
                             </Grid>
-                          </Grid>
-                        </Grid>
+                          )}
+                        </>
                       );
                     })}
 

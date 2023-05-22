@@ -1,23 +1,21 @@
 import React, { useContext } from "react";
 import QuestionForm from "./components/QuestionForm";
 import { useNavigate } from "react-router-dom";
+import { IQuestion } from "../../../../types/Question";
 
 export default function AddQuestion({
-  onDone,
-  creation=false,
+  onSuccess
 }: {
-  onDone: () => void;
-  creation?: boolean;
+  onSuccess: (question?: IQuestion) => void;
 }) {
   const navigate = useNavigate();
-  const onSuccess = () => {
-    navigate(-1);
-  };
+  // const onSuccess = () => {
+  //   navigate(-1);
+  // };
 
   return (
     <QuestionForm
-      onSuccess={creation ? onDone : onSuccess}
-      creation={creation}
+      onSuccess={onSuccess}
     />
   );
 }
