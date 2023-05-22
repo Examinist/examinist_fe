@@ -11,19 +11,19 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { IErrorResponse } from "../../../services/Response";
 import { IExamResponse, getExamApi } from "../../../services/APIs/ExamAPIs";
 import { IDetailedExam } from "../../../types/Exam";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import ExamViewList from "./ExamViewList";
 
 export default function ExamView() {
   const location = useLocation();
-  const examId = location.state?.examId;
   const [isLoading, setIsLoading] = useState(true);
   const [detailedExam, setDetailedExam] = useState<IDetailedExam>(null!);
   const navigate = useNavigate();
+  const { examId } = useParams<{ examId: string }>();
 
   useEffect(() => {
-    getExamApi(examId)
+    getExamApi(parseInt(examId!))
       .then(({ data }: IExamResponse) => {
         setDetailedExam(data.exam);
         setIsLoading(false);
@@ -37,7 +37,7 @@ export default function ExamView() {
         width: "100%",
         backgroundColor: theme.palette.background.default,
         py: 5,
-        px: 5,
+        px: 15,
       }}
     >
       <>

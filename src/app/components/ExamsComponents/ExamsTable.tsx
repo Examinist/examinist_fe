@@ -13,7 +13,7 @@ interface IExamTableProp{
 export default function ExamsTable({tableHeader, rows, attributesFunction, actionButton, allExams}: IExamTableProp){
     
     return (
-      <TableContainer sx={{ maxHeight: 450 }}>
+      <TableContainer >
         <Table>
           <TableHead>
             <TableRow>

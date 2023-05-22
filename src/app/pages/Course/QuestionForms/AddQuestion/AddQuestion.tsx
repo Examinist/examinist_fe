@@ -8,11 +8,6 @@ export default function AddQuestion({
 }: {
   onSuccess: (question?: IQuestion) => void;
 }) {
-  const navigate = useNavigate();
-  // const onSuccess = () => {
-  //   navigate(-1);
-  // };
-
   return (
     <QuestionForm
       onSuccess={onSuccess}
