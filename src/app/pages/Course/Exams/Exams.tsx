@@ -1,61 +1,108 @@
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import {IExamsListResponse, getExamsApi } from '../../../services/APIs/ExamAPIs';
-import { ExamStatusEnum, IExam } from '../../../types/Exam';
-import { Box, CircularProgress } from '@mui/material';
-import ExamCard from '../../../components/ExamsComponents/ExamCard';
-import { mockExamsList } from '../../../services/APIs/mockData/MockData';
-import { set } from 'react-hook-form';
-import { IErrorResponse } from '../../../services/Response';
-import useAlert from '../../../hooks/useAlert';
-import PageTitle from '../../../components/PageTitle';
+import { createContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import {
+  IExamsListResponse,
+  getExamsApi,
+} from "../../../services/APIs/ExamAPIs";
+import { ExamStatusEnum, IExam } from "../../../types/Exam";
+import { Box, CircularProgress } from "@mui/material";
+import ExamCard from "../../../components/ExamsComponents/ExamCard";
+import { mockExamsList } from "../../../services/APIs/mockData/MockData";
+import { set } from "react-hook-form";
+import { IErrorResponse } from "../../../services/Response";
+import useAlert from "../../../hooks/useAlert";
+import PageTitle from "../../../components/PageTitle";
+import {
+  ExamsReloadContext,
+  IExamsReloadContext,
+} from "../../../context/ExamsReloadContext";
 
-function getCourseExamAttributesList(exam: IExam){
-  var attrList: string[] = []
-  attrList = [exam.id.toString(),exam.title,exam.status,exam.creation_mode,exam.creator.first_name+" "+exam.creator.last_name,
-  exam.created_at.toLocaleString(),exam.scheduled_date?.toLocaleString() ?? "Not Scheduled"]
+function getCourseExamAttributesList(exam: IExam) {
+  var attrList: string[] = [];
+  attrList = [
+    exam.id.toString(),
+    exam.title,
+    exam.status,
+    exam.creation_mode,
+    exam.creator.first_name + " " + exam.creator.last_name,
+    exam.created_at.toLocaleString(),
+    exam.scheduled_date?.toLocaleString() ?? "Not Scheduled",
+  ];
   return attrList;
 }
 
-export function getFilterType(tabName: string, exams: IExam[]){
-    switch(tabName){
-      case "Unscheduled": return exams.filter(value => value.status==ExamStatusEnum.UNSCHEDULED)
-      case "Scheduled": return exams.filter(value => value.status==ExamStatusEnum.SCHEDULED)
-      case "On Going": return exams.filter(value => value.status==ExamStatusEnum.ONGOING)
-      case "Pending Grading": return exams.filter(value => value.status==ExamStatusEnum.PENDINGGRADING)
-      case "Graded": return exams.filter(value => value.status==ExamStatusEnum.GRADED)
-      default: return exams
-    }
+export function getFilterType(tabName: string, exams: IExam[]) {
+  switch (tabName) {
+    case "Unscheduled":
+      return exams.filter(
+        (value) => value.status == ExamStatusEnum.UNSCHEDULED
+      );
+    case "Scheduled":
+      return exams.filter((value) => value.status == ExamStatusEnum.SCHEDULED);
+    case "On Going":
+      return exams.filter((value) => value.status == ExamStatusEnum.ONGOING);
+    case "Pending Grading":
+      return exams.filter(
+        (value) => value.status == ExamStatusEnum.PENDINGGRADING
+      );
+    case "Graded":
+      return exams.filter((value) => value.status == ExamStatusEnum.GRADED);
+    default:
+      return exams;
+  }
 }
 
 export default function Exams() {
   const { courseId } = useParams<{ courseId: string }>();
   const [exams, setExams] = useState<IExam[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const {setAlertState } = useAlert();
+  const { setAlertState } = useAlert();
 
-  useEffect(() => {
+  const loadExams = () => {
     setIsLoading(true);
     getExamsApi(parseInt(courseId!))
       .then(({ data }: IExamsListResponse) => {
         setExams(data.exams);
         console.log(data.exams);
       })
-     .catch(({ response: { status, statusText, data } }: IErrorResponse) => {
+      .catch(({ response: { status, statusText, data } }: IErrorResponse) => {
         setAlertState({
           open: true,
           message: data?.message || statusText,
           severity: "error",
-        })
+        });
       })
       .finally(() => {
         setIsLoading(false);
       });
-}, []);
+  };
 
-  const tabs = ["All", "Unscheduled", "Scheduled", "On Going", "Pending Grading", "Graded"]
-  const tableHeader = ["ID", "Title", "Status", "Creation Mode", "Creator", "Creation Date", "Scheduled Date", "Actions"]
-  
+  useEffect(() => {
+    loadExams();
+  }, []);
+
+  const contextValue: IExamsReloadContext = {
+    reloadExams: loadExams,
+  };
+
+  const tabs = [
+    "All",
+    "Unscheduled",
+    "Scheduled",
+    "On Going",
+    "Pending Grading",
+    "Graded",
+  ];
+  const tableHeader = [
+    "ID",
+    "Title",
+    "Status",
+    "Creation Mode",
+    "Creator",
+    "Creation Date",
+    "Scheduled Date",
+    "Actions",
+  ];
 
   return (
     <Box sx={{ px: 15, py: 5 }}>
@@ -81,15 +128,17 @@ export default function Exams() {
           <CircularProgress />
         </Box>
       ) : (
-        <ExamCard
-          tabs={tabs}
-          tableHeader={tableHeader}
-          rows={exams}
-          attributesFunction={getCourseExamAttributesList}
-          actionButton={true}
-          allExams={false}
-          filter={getFilterType}
-        ></ExamCard>
+        <ExamsReloadContext.Provider value={contextValue}>
+          <ExamCard
+            tabs={tabs}
+            tableHeader={tableHeader}
+            rows={exams}
+            attributesFunction={getCourseExamAttributesList}
+            actionButton={true}
+            allExams={false}
+            filter={getFilterType}
+          ></ExamCard>
+        </ExamsReloadContext.Provider>
       )}
     </Box>
   );

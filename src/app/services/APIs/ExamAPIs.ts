@@ -78,8 +78,8 @@ export const getExamApi = async (exam_id: number) => {
   try {
     const portal = localStorage.getItem("portal");
     const response = await axiosInstance.get(`${portal}/exams/${exam_id}`);
-    const exam = { ...response.data.exam, exam_questions: mapQuestions(response.data.exam.exam_questions) };
-    return {...response, data:{...response.data, exam: exam}} as IExamResponse;
+    console.log(response)
+    return response as IExamResponse;
   } catch (error) {
     return { data: { exam: mockDetailedExam } } as IExamResponse;
   }

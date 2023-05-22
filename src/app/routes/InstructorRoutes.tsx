@@ -1,4 +1,4 @@
-import { Navigate, Route } from "react-router-dom";
+import { Navigate, Route, useNavigate } from "react-router-dom";
 import RoleGuard from "../components/RoleGuard/RoleGuard";
 import CourseLayout from "../layouts/CourseLayout/CourseLayout";
 import InstructorLayout from "../layouts/instructorLayout/InstructorLayout";
@@ -21,6 +21,7 @@ import EditQuestion from "../pages/Course/QuestionForms/EditQuestion/EditQuestio
 import ExamView from "../pages/Course/Exams/ExamView";
 
 const InstructorRoutes = () => {
+  const navigate = useNavigate();
   return (
     <Route element={<RoleGuard allowedRole={UserRoleEnum.INSTRUCTOR} />}>
       <Route path="instructor" element={<InstructorLayout />}>
@@ -32,7 +33,7 @@ const InstructorRoutes = () => {
             <Route path="" element={<Navigate to="course-info" />} />
             <Route path="question-bank">
               <Route path="" element={<QuestionBank />} />
-              <Route path="add" element={<AddQuestion onDone={()=>{} } />} />
+              <Route path="add" element={<AddQuestion onSuccess={() => {navigate(-1)}}/>} />
               <Route path=":questionId/edit" element={<EditQuestion />} />
             </Route>
             <Route path="create-exam">
@@ -41,7 +42,7 @@ const InstructorRoutes = () => {
             </Route>
             <Route path="exams" >
               <Route path="" element={<Exams />} />
-              <Route path="view" element={<ExamView />} />
+              <Route path=":examId" element={<ExamView />} />
               </Route>
             <Route path="course-info">
               <Route path="" element={<Navigate to="general-info" />} />

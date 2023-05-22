@@ -3,7 +3,11 @@ import { ExamStatusEnum, IExam } from "../../types/Exam";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Divider, Menu, MenuItem } from "@mui/material";
 import React from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { deleteExamApi } from "../../services/APIs/ExamAPIs";
+import useAlert from "../../hooks/useAlert";
+import { IErrorResponse } from "../../services/Response";
+import { ExamsReloadContext } from "../../context/ExamsReloadContext";
 
 function getStatusActions(status: ExamStatusEnum) {
     switch (status) {
@@ -23,6 +27,12 @@ export interface IExamStatusProps{
 
 export default function ExamActions({exam,status, allExams}: IExamStatusProps) {
     const navigate = useNavigate();
+    const {setAlertState} = useAlert();
+    const {reloadExams} = React.useContext(ExamsReloadContext);
+
+    const handleViewCourseExams = () =>{
+        navigate(`../courses/${exam.course.id}/exams`);
+    }
 
     var actions: string[] = [];
     if(allExams){
@@ -40,13 +50,37 @@ export default function ExamActions({exam,status, allExams}: IExamStatusProps) {
         setAnchorEl(null);
         event.stopPropagation();
     };
-    const handleAction = (event: React.MouseEvent<HTMLButtonElement>,action:String) => {
-        if(action=="View"){
-            console.log("View");
-            const examId = exam.id;
-            navigate("./view", { state: { examId } });
 
-        
+    const handleDelete = () =>{
+        deleteExamApi(exam.id)
+          .then(() => {
+            setAlertState({
+              open: true,
+              message: "Exam Deleted Successfully",
+              severity: "success",
+            });
+            reloadExams();
+          })
+          .catch(({ response: { statusText, data } }: IErrorResponse) => {
+            setAlertState({
+              open: true,
+              message: data?.message || statusText,
+              severity: "error",
+            });
+          });
+    }
+    const handleAction = (event: React.MouseEvent<HTMLButtonElement>,action:String) => {
+        switch(action){
+            case "View Course Exams":
+                console.log("View Course Exams");
+                handleViewCourseExams();
+                break;
+            case "View":
+                navigate(`./${exam.id}`);
+                break;
+            case "Delete":
+                handleDelete();
+                break;
         }
         setAnchorEl(null);
         event.stopPropagation();
