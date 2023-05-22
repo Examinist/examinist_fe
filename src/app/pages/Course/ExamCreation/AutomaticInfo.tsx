@@ -51,7 +51,7 @@ export default function AutomaticInfo({
     setDisabled(
       !e.target.value ||
         isDurationEmpty ||
-        (automaticExamState.topics?.size ?? 0) < questionTypes.length
+        (automaticExamState.topics?.size ?? 0) ===0
     );
   };
 
@@ -66,7 +66,7 @@ export default function AutomaticInfo({
       !e.target.value ||
         parseInt(e.target.value) < 30 ||
         isTitleEmpty ||
-        (automaticExamState.topics?.size ?? 0) < questionTypes.length
+        (automaticExamState.topics?.size ?? 0) === 0
     );
   };
   useEffect(() => {

@@ -60,7 +60,7 @@ export default function TopicsSelector({
     })
   }
 
-  if (automaticExamState.topics!.size < typeList) {
+  if (automaticExamState.topics!.size ===0) {
     setDisabled(true);
   } else {
     setDisabled(automaticExamState.title?.trim()=="" || automaticExamState.duration==null);
