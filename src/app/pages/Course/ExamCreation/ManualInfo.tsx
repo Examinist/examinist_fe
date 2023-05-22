@@ -18,23 +18,32 @@ export default function ManualInfo({
   setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const { examState, setExamState } = useContext(ManualExamContext);
-  const [isTitleEmpty, setIsTitleEmpty] = useState(examState.title?.trim() === "");
-  const [isDurationEmpty, setIsDurationEmpty] = useState((examState.duration ?? 0) < 30);
+  const [isTitleEmpty, setIsTitleEmpty] = useState(
+    examState.title?.trim() === ""
+  );
+  const [isDurationEmpty, setIsDurationEmpty] = useState(
+    (examState.duration ?? 0) < 30
+  );
+  const [entered, setEntered] = useState(false);
+
   useEffect(() => {
-    setDisabled(isTitleEmpty || isDurationEmpty)
-  },[]);
+    setDisabled(isTitleEmpty || isDurationEmpty);
+  }, []);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEntered(true);
     setExamState({ ...examState, title: e.target.value });
     setIsTitleEmpty(e.target.value.toString().trim() === "");
     setDisabled(!e.target.value || isDurationEmpty);
   };
 
   const handleDurationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEntered(true);
     setExamState({ ...examState, duration: parseInt(e.target.value) });
     setIsDurationEmpty(!e.target.value || parseInt(e.target.value) < 30);
-    setDisabled(!e.target.value || parseInt(e.target.value) < 30 || isTitleEmpty);
-
+    setDisabled(
+      !e.target.value || parseInt(e.target.value) < 30 || isTitleEmpty
+    );
   };
 
   return (
@@ -71,9 +80,9 @@ export default function ManualInfo({
               sx={{ width: "60%" }}
               onChange={handleTitleChange}
               required
-              error={isTitleEmpty}
+              error={isTitleEmpty && entered}
             />
-            {isTitleEmpty && (
+            {isTitleEmpty && entered && (
               <FormHelperText error>This field is required.</FormHelperText>
             )}
           </Grid>
@@ -88,12 +97,13 @@ export default function ManualInfo({
               sx={{ width: "60%" }}
               onChange={handleDurationChange}
               required
-              error={isDurationEmpty}
+              error={isDurationEmpty && entered}
               inputProps={{ min: "30" }}
-              
             />
             {isDurationEmpty && (
-              <FormHelperText error>This field is required and must be at least 30</FormHelperText>
+              <FormHelperText error>
+                This field is required and must be at least 30
+              </FormHelperText>
             )}
           </Grid>
           <Grid item xs={3}>
