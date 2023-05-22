@@ -55,7 +55,7 @@ export default function AutomaticInfo({
     setDisabled(
       !e.target.value ||
         isDurationEmpty ||
-        (automaticExamState.topics?.size ?? 0) === 0
+        (automaticExamState.topics?.size ?? 0) ===0
     );
   };
 
