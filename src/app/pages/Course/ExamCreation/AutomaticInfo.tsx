@@ -40,22 +40,27 @@ export default function AutomaticInfo({
   const [questionTypes, setQuestionTypes] = React.useState<IQuestionType[]>([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
   const [topics, setTopics] = useState<ITopic[]>([]);
+  const [entered, setEntered] = useState(false);
 
   useEffect(() => {
-    setDisabled(isTitleEmpty || isDurationEmpty || automaticExamState.topics?.size == 0);
+    setDisabled(
+      isTitleEmpty || isDurationEmpty || automaticExamState.topics?.size == 0
+    );
   }, []);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEntered(true);
     setAutomaticExamState({ ...automaticExamState, title: e.target.value });
     setIsTitleEmpty(e.target.value.toString().trim() === "");
     setDisabled(
       !e.target.value ||
         isDurationEmpty ||
-        (automaticExamState.topics?.size ?? 0) ===0
+        (automaticExamState.topics?.size ?? 0) === 0
     );
   };
 
   const handleDurationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEntered(true);
     setAutomaticExamState({
       ...automaticExamState,
       duration: parseInt(e.target.value),
@@ -130,9 +135,9 @@ export default function AutomaticInfo({
                   value={automaticExamState.title}
                   onChange={handleTitleChange}
                   required
-                  error={isTitleEmpty}
+                  error={isTitleEmpty && entered}
                 />
-                {isTitleEmpty && (
+                {isTitleEmpty && entered && (
                   <FormHelperText error>This field is required.</FormHelperText>
                 )}
               </Grid>
@@ -147,7 +152,7 @@ export default function AutomaticInfo({
                   value={automaticExamState.duration}
                   onChange={handleDurationChange}
                   required
-                  error={isDurationEmpty}
+                  error={isDurationEmpty && entered}
                   inputProps={{ min: "30" }}
                 />
                 {isDurationEmpty && (
