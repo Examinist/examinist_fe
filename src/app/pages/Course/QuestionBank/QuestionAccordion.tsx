@@ -58,7 +58,7 @@ export default function QuestionAccordion(question: IQuestion) {
         <AccordionDetails
           sx={{ backgroundColor: theme.palette.background.paper }}
         >
-          <QuestionAnswer {...question} />
+          <QuestionAnswer question={question} />
         </AccordionDetails>
       </Accordion>
     </Box>

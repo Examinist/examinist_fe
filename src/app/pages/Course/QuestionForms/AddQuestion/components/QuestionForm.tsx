@@ -1,16 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   AnswerTypeEnum,
   DifficultyLevelEnum,
   IQuestion,
 } from "../../../../../types/Question";
-import {
-  Box,
-  Button,
-  Divider,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Divider, Grid, Typography } from "@mui/material";
 import { FormProvider, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -38,17 +32,23 @@ import SelectQuestionType from "../../components/SelectQuestionType";
 import SelectTopic from "../../components/SelectTopic";
 import SelectDifficulty from "../../components/SelectDifficulty";
 import QuestionCard from "./QuestionCard";
+import { QuestionsContext } from "../../../ExamCreation/Models";
 
 interface IQuestionFormProps {
   onSuccess: (question?: IQuestion) => void;
+  creation: boolean;
 }
 
-export default function QuestionForm({ onSuccess }: IQuestionFormProps) {
+export default function QuestionForm({
+  onSuccess,
+  creation,
+}: IQuestionFormProps) {
   const { setAlertState } = useAlert();
   const { courseId } = useParams<{ courseId: string }>();
   const [topics, setTopics] = useState<ITopic[]>([]);
   const [questionTypes, setQuestionTypes] = React.useState<IQuestionType[]>([]);
   const navigate = useNavigate();
+  const { questionsList, setQuestionsList } = useContext(QuestionsContext);
 
   const loadTopics = () => {
     getTopicsApi(courseId).then(({ data }: ITopicsListResponse) => {
@@ -108,7 +108,10 @@ export default function QuestionForm({ onSuccess }: IQuestionFormProps) {
           message: "Question created successfully",
           severity: "success",
         });
-        onSuccess(data.question);
+        if (creation) {
+          setQuestionsList([...questionsList, data.question]);
+          onSuccess();
+        } else onSuccess(data.question);
       })
       .catch(({ response: { status, statusText, data } }: IErrorResponse) => {
         setAlertState({
@@ -153,19 +156,23 @@ export default function QuestionForm({ onSuccess }: IQuestionFormProps) {
             <Grid item xs={7} md={9} sx={{ px: 6, py: 4 }}>
               <QuestionCard />
               <Box sx={{ display: "flex", gap: 2 }}>
-                <Button
-                  variant="outlined"
-                  sx={{
-                    ml: "auto",
-                    mt: "auto",
-                    px: 4,
-                    borderRadius: 3,
-                    backgroundColor: theme.palette.white.main,
-                  }}
-                  onClick={() => navigate(-1)}
-                >
-                  cancel
-                </Button>
+                {creation ? (
+                  <Box></Box>
+                ) : (
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      ml: "auto",
+                      mt: "auto",
+                      px: 4,
+                      borderRadius: 3,
+                      backgroundColor: theme.palette.white.main,
+                    }}
+                    onClick={() => navigate(-1)}
+                  >
+                    cancel
+                  </Button>
+                )}
 
                 <Button
                   variant="contained"

@@ -2,11 +2,22 @@ import React, { useContext } from "react";
 import QuestionForm from "./components/QuestionForm";
 import { useNavigate } from "react-router-dom";
 
-export default function AddQuestion() {
+export default function AddQuestion({
+  onDone,
+  creation=false,
+}: {
+  onDone: () => void;
+  creation?: boolean;
+}) {
   const navigate = useNavigate();
-  const onSuccess = () =>{
+  const onSuccess = () => {
     navigate(-1);
-  }
-  
-  return <QuestionForm onSuccess={onSuccess} />;
+  };
+
+  return (
+    <QuestionForm
+      onSuccess={creation ? onDone : onSuccess}
+      creation={creation}
+    />
+  );
 }

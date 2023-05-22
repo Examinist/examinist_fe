@@ -10,8 +10,7 @@ import {
   DifficultyLevelEnum,
   IFilterQuestionsParams,
   IQuestion,
-  IQuestionType,
-  ITopic,
+
 } from "../../../types/Question";
 import {
   IQuestionTypesListResponse,
@@ -21,10 +20,9 @@ import {
 } from "../../../services/APIs/CourseSettingsAPIs";
 import { useNavigate, useParams } from "react-router-dom";
 import { IErrorResponse } from "../../../services/Response";
-import {
-  IQuestionsListResponse,
-  getQuestionsApi,
-} from "../../../services/APIs/QuestionBank";
+import { getQuestionsApi, IQuestionsListResponse } from "../../../services/APIs/QuestionsAPIs";
+import { ITopic, IQuestionType } from "../../../types/CourseSettings";
+
 
 const DifficultyLevelOptions = [
   {
@@ -47,7 +45,7 @@ type Props = {
     setQuestions: React.Dispatch<React.SetStateAction<IQuestion[]>>;
   };
 
-export default function QuestionBankBody({ childComponent: ChildComponent,questions:questions,setQuestions:setQuestions }: Props) {
+export default function QuestionBankBody({ childComponent: ChildComponent,setQuestions:setQuestions }: Props) {
   const { courseId } = useParams<{ courseId: string }>();
   const navigate = useNavigate();
   const [topics, setTopics] = useState<IOption[]>([]);

@@ -5,9 +5,12 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { ManualExamContext } from "./ManualExam";
+import { AutomaticExamContext } from "./AutomaticExam";
 
-export default function RadioButtonOptions() {
+export default function RadioButtonOptions({ isAutomatic = false }) {
   const { examState, setExamState } = React.useContext(ManualExamContext);
+  const { automaticExamState, setAutomaticExamState } =
+    React.useContext(AutomaticExamContext);
 
   return (
     <FormControl sx={{ width: "60%" }}>
@@ -15,12 +18,19 @@ export default function RadioButtonOptions() {
         row
         aria-labelledby="demo-row-radio-buttons-group-label"
         name="row-radio-buttons-group"
-        value={examState.is_multiple_models}
+        value={
+          (isAutomatic ? automaticExamState : examState).is_multiple_models
+        }
         onChange={(e) => {
-          setExamState({
-            ...examState,
-            is_multiple_models: e.target.value === "true" ? true : false,
-          });
+          isAutomatic
+            ? setAutomaticExamState({
+                ...automaticExamState,
+                is_multiple_models: e.target.value === "true" ? true : false,
+              })
+            : setExamState({
+                ...examState,
+                is_multiple_models: e.target.value === "true" ? true : false,
+              });
         }}
       >
         <FormControlLabel value={false} control={<Radio />} label="Single" />

@@ -19,6 +19,7 @@ import { AutomaticExamContext } from "./AutomaticExam";
 import { QuestionsContext } from "./Models";
 import { Alert, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar } from "@mui/material";
 import { IQuestion, DifficultyLevelEnum } from "../../../types/Question";
+import AddQuestion from "../QuestionForms/AddQuestion/AddQuestion";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -29,7 +30,7 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function QuestionBankDialog({ isAutomatic = false }) {
+export default function AddQuestionDialog({ isAutomatic = false }) {
   const { questionsList, setQuestionsList } =
     React.useContext(QuestionsContext);
 
@@ -126,7 +127,7 @@ export default function QuestionBankDialog({ isAutomatic = false }) {
   return (
     <div>
       <Button variant="outlined" onClick={handleClickOpen}>
-        Import Question(s)
+        Add Question
       </Button>
       <Dialog
         fullScreen
@@ -168,14 +169,12 @@ export default function QuestionBankDialog({ isAutomatic = false }) {
               </Dialog>
             </>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Select Question(s) from Question Bank :
+              Create new question :
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleDone}>
-              Done
-            </Button>
+           
           </Toolbar>
         </AppBar>
-        <QuestionBank creation={true} isAutomatic={isAutomatic} />
+        <AddQuestion onDone={handleDone} creation={true} />
       </Dialog>
     </div>
   );

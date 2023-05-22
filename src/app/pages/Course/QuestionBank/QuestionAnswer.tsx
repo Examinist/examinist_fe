@@ -24,9 +24,9 @@ const Circle = styled("div")(({ theme, color }) => ({
   borderWidth: "1px",
 }));
 
-export default function QuestionAnswer(question: IQuestion) {
+export default function QuestionAnswer({question,creation=false}:{question: IQuestion, creation?:boolean}) {
   return (
-    <Grid container direction="column" marginLeft={20} spacing={1}>
+    <Grid container direction="column" marginLeft={5} spacing={1}>
       {question.question_type.name == DefaultQuestionTypesEnum.MCQ ||
       question.question_type.name == DefaultQuestionTypesEnum.T_F ? (
         question.choices?.map((choice, index) => {
@@ -41,7 +41,9 @@ export default function QuestionAnswer(question: IQuestion) {
               <Grid item>
                 <Circle
                   color={
-                    choice.is_answer
+                    creation? 
+                    theme.palette.white.main
+                    :choice.is_answer
                       ? theme.palette.green.main
                       : theme.palette.white.main
                   }

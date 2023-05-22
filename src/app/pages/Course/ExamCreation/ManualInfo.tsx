@@ -1,11 +1,40 @@
-import { Box, Grid, Stack, TextField, Typography } from "@mui/material";
-import React, { useContext } from "react";
+import {
+  Box,
+  Button,
+  Grid,
+  Stack,
+  TextField,
+  Typography,
+  FormHelperText,
+} from "@mui/material";
+import React, { useContext, useState } from "react";
 import theme from "../../../../assets/theme";
 import RadioButtonOptions from "./RadioButtonOptions";
 import { ManualExamContext } from "./ManualExam";
 
-export default function ManualInfo() {
+export default function ManualInfo({
+  setDisabled,
+}: {
+  setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const { examState, setExamState } = useContext(ManualExamContext);
+  const [isTitleEmpty, setIsTitleEmpty] = useState(false);
+  const [isDurationEmpty, setIsDurationEmpty] = useState(false);
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setExamState({ ...examState, title: e.target.value });
+    setIsTitleEmpty(e.target.value.toString().trim() === "");
+    setDisabled(!e.target.value || isDurationEmpty);
+
+
+  };
+
+  const handleDurationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setExamState({ ...examState, duration: parseInt(e.target.value) });
+    setIsDurationEmpty(!e.target.value || parseInt(e.target.value) < 30);
+    setDisabled(!e.target.value || parseInt(e.target.value) < 30 || isTitleEmpty);
+
+  };
 
   return (
     <Box
@@ -22,47 +51,58 @@ export default function ManualInfo() {
         General Info :
       </Typography>
 
-      <Grid
-        container
-        rowSpacing={2}
-        sx={{ pl: "50px" }}
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Grid item xs={3}>
-          <Typography variant="h6">Exam Title :</Typography>
+      <form>
+        <Grid
+          container
+          rowSpacing={2}
+          columnSpacing={1}
+          sx={{ pl: "50px" }}
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Grid item xs={3}>
+            <Typography variant="h6">Exam Title :</Typography>
+          </Grid>
+          <Grid item xs={9}>
+            <TextField
+              value={examState.title}
+              id="outlined-basic"
+              sx={{ width: "60%" }}
+              onChange={handleTitleChange}
+              required
+              error={isTitleEmpty}
+            />
+            {isTitleEmpty && (
+              <FormHelperText error>This field is required.</FormHelperText>
+            )}
+          </Grid>
+          <Grid item xs={3}>
+            <Typography variant="h6">Exam Duration (mins) :</Typography>
+          </Grid>
+          <Grid item xs={9}>
+            <TextField
+              type="number"
+              value={examState.duration}
+              id="outlined-basic"
+              sx={{ width: "60%" }}
+              onChange={handleDurationChange}
+              required
+              error={isDurationEmpty}
+              inputProps={{ min: "30" }}
+              
+            />
+            {isDurationEmpty && (
+              <FormHelperText error>This field is required and must be at least 30</FormHelperText>
+            )}
+          </Grid>
+          <Grid item xs={3}>
+            <Typography variant="h6">Exam Models :</Typography>
+          </Grid>
+          <Grid item xs={9}>
+            <RadioButtonOptions />
+          </Grid>
         </Grid>
-        <Grid item xs={9}>
-          <TextField
-            value={examState.title}
-            id="outlined-basic"
-            sx={{ width: "60%" }}
-            onChange={(e) =>
-              setExamState({ ...examState, title: e.target.value })
-            }
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <Typography variant="h6">Exam Duration :</Typography>
-        </Grid>
-        <Grid item xs={9}>
-          <TextField
-            type="number"
-            value={examState.duration}
-            id="outlined-basic"
-            sx={{ width: "60%" }}
-            onChange={(e) =>
-              setExamState({ ...examState, duration: parseInt(e.target.value) })
-            }
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <Typography variant="h6">Exam Models :</Typography>
-        </Grid>
-        <Grid item xs={9}>
-          <RadioButtonOptions />
-        </Grid>
-      </Grid>
+      </form>
     </Box>
   );
 }

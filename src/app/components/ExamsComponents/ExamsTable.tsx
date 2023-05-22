@@ -28,7 +28,9 @@ export default function ExamsTable({tableHeader, rows, attributesFunction, actio
             <TableBody>
               {rows.map((exam, index) => {
                 var attributes: string[] = attributesFunction(exam);
-                return(<ExamTableRow attributes={attributes}
+                return(<ExamTableRow
+                exam={exam}
+                attributes={attributes}
                 status={exam.status}
                 actionButton={actionButton}
                 allExams={allExams}

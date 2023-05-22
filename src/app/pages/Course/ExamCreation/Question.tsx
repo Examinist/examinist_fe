@@ -1,13 +1,33 @@
 import * as React from "react";
 import theme from "../../../../assets/theme";
-import { Box, Divider, Grid, TextField, Typography, styled } from "@mui/material";
+import {
+  Box,
+  Divider,
+  FormHelperText,
+  Grid,
+  TextField,
+  Typography,
+  styled,
+} from "@mui/material";
 import { DifficultyLevelEnum, IQuestion } from "../../../types/Question";
 import { Rectangle } from "../../../components/Rectangle";
 import { DefaultQuestionTypesEnum } from "../../../types/CourseSettings";
 import QuestionModifications from "../QuestionBank/QuestionModifications";
 import { IExamQuestion } from "../../../types/Exam";
+import QuestionAnswer from "../QuestionBank/QuestionAnswer";
+import { AutomaticExamContext } from "./AutomaticExam";
+import { ManualExamContext } from "./ManualExam";
 
-export default function Question(examQuestion: IExamQuestion) {
+export default function Question({
+  examQuestion,
+  isAutomatic,
+}: {
+  examQuestion: IExamQuestion;
+  isAutomatic: boolean;
+}) {
+  const { examState, setExamState } = React.useContext(ManualExamContext);
+  const { automaticExamState, setAutomaticExamState } =
+    React.useContext(AutomaticExamContext);
   const getColor = (questionDifficulty: string) => {
     if (questionDifficulty === DifficultyLevelEnum.EASY)
       return theme.palette.green.main;
@@ -15,25 +35,69 @@ export default function Question(examQuestion: IExamQuestion) {
       ? theme.palette.yellow.main
       : theme.palette.red.main;
   };
+  const[isFieldEmpty,setIsFieldEmpty]=React.useState(false);
+  function getValue(): number {
+    return (
+      (isAutomatic ? automaticExamState : examState).questions
+        ?.get(examQuestion.question.question_type.name)
+        ?.find((question) => question.id == examQuestion.question.id)?.score ??
+      0
+    );
+  }
 
-  const getWeight = () => {
-    const { question_type, difficulty } = examQuestion.question;
-    switch (difficulty) {
-      case DifficultyLevelEnum.EASY:
-        return question_type.easy_weight;
-      case DifficultyLevelEnum.MEDIUM:
-        return question_type.medium_weight;
-      case DifficultyLevelEnum.HARD:
-        return question_type.hard_weight;
+  function handleChange(value: string): void {
+   
+    var stateQuestions = isAutomatic
+      ? automaticExamState.questions
+      : examState.questions;
+    if (stateQuestions?.has(examQuestion.question.question_type.name)) {
+      const questions = stateQuestions.get(
+        examQuestion.question.question_type.name
+      );
+      if (questions) {
+        const question = questions.find(
+          (q) => q.question.id === examQuestion.question.id
+        );
+        if (question) {
+          question.score = parseInt(value);
+        }
+      }
     }
-  };
+    if (isAutomatic) {
+      setAutomaticExamState({
+        ...automaticExamState,
+        questions: stateQuestions,
+      });
+    } else {
+      setExamState({ ...examState, questions: stateQuestions });
+    }
+    setIsFieldEmpty(value.toString().trim() === "" || parseInt(value) < 1);
+
+  }
 
   return (
-    <Grid container sx={{ pl: 2 }}>
+    <Grid
+      container
+      sx={{
+        backgroundColor: theme.palette.white.main,
+        pt: 2,
+        pb: 3,
+        pr: 6,
+        pl: 2,
+        borderRadius: 5,
+      }}
+      spacing={2}
+      direction="column"
+    >
       <Grid item xs={12}>
-        <Grid container justifyContent="space-between">
+        <Grid
+          container
+          justifyContent="space-between"
+          alignItems="center"
+          direction="row"
+        >
           <Grid item>
-            <Grid container direction="row" spacing={5}>
+            <Grid container direction="row" spacing={4}>
               <Grid item>
                 <Box sx={{ display: "flex", gap: 1 }}>
                   <Typography
@@ -73,35 +137,11 @@ export default function Question(examQuestion: IExamQuestion) {
                   </Typography>
                 </Box>
               </Grid>
-
-              <Grid item>
-                <Box sx={{ display: "flex", gap: 1 }}>
-                  <Typography
-                    variant="subtitle2"
-                    color={theme.palette.gray.dark}
-                    sx={{ fontWeight: 700 }}
-                  >
-                    Weight:
-                  </Typography>
-                  <Typography
-                    variant="subtitle2"
-                    color={theme.palette.gray.dark}
-                  >
-                    {getWeight()}
-                  </Typography>
-                </Box>
-              </Grid>
             </Grid>
           </Grid>
 
           <Grid item>
-            <Grid
-              container
-              direction="row"
-              justifyContent="flex-end"
-              alignItems="center"
-              spacing={1}
-            >
+            <Grid container direction="row" alignItems="center" spacing={1}>
               <Grid item>
                 <Typography variant="subtitle2" color={theme.palette.gray.dark}>
                   {examQuestion.question.difficulty}
@@ -111,7 +151,7 @@ export default function Question(examQuestion: IExamQuestion) {
                 <Rectangle color={getColor(examQuestion.question.difficulty)} />
               </Grid>
               <Grid item>
-                <QuestionModifications questionId={examQuestion.question.id!} />
+                <QuestionModifications question={examQuestion.question} />
               </Grid>
             </Grid>
           </Grid>
@@ -121,25 +161,39 @@ export default function Question(examQuestion: IExamQuestion) {
         <Typography
           variant="subtitle2"
           color={theme.palette.gray.dark}
-          sx={{ fontSize: 20 }}
+          sx={{ fontSize: 20, pb: 2 }}
         >
           {examQuestion.question.header}
         </Typography>
       </Grid>
       <Grid item>
-        <Typography
-          variant="subtitle2"
-          color={theme.palette.gray.dark}
-          sx={{ fontSize: 20 }}
-        >
-          {examQuestion.question.header}
-        </Typography>
-      </Grid>
+      {examQuestion.question.question_type
+        ? ((examQuestion.question.question_type.name ==
+          DefaultQuestionTypesEnum.MCQ ||
+          examQuestion.question.question_type.name ==
+            DefaultQuestionTypesEnum.T_F) && (
+            <QuestionAnswer question={examQuestion.question} creation={true}/>
+          ))
+        : undefined}
+        </Grid>
+      <Divider orientation="horizontal" flexItem sx={{ pt: 2 }}></Divider>
+
       <Grid item>
-        <Divider orientation="vertical" flexItem />
-      </Grid>
-      <Grid item>
-        <TextField id="standard-basic" label="Standard" variant="standard" />
+        <TextField
+        required
+          type="number"
+          id="standard-basic"
+          label="Score"
+          variant="standard"
+          value={getValue()}
+          inputProps={{ min: "1"}}
+          onChange={(e) => handleChange(e.target.value)}
+          error={isFieldEmpty}
+
+        />
+         {isFieldEmpty && (
+              <FormHelperText error>This field is required and must be at least 1</FormHelperText>
+            )}
       </Grid>
     </Grid>
   );

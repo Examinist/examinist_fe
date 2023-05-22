@@ -14,14 +14,15 @@ import Test from "../pages/Test";
 import { UserRoleEnum } from "../types/User";
 import AddQuestion from "../pages/Course/QuestionForms/AddQuestion/AddQuestion";
 import FacultyAdminLayout from "../layouts/FacultyAdminLayout/FacultyAdminLayout";
+import ManualExam from "../pages/Course/ExamCreation/ManualExam";
+import AutomaticExam from "../pages/Course/ExamCreation/AutomaticExam";
 import AllExams from "../pages/AllExams/AllExams";
 import Scheduling from "../pages/Scheduling/Scheduling";
 import SchedulingLayout from "../layouts/SchedulingLayout/SchedulingLayout";
 import SchedulingExams from "../pages/Scheduling/SchedulingExams/SchedulingExams";
 import TimeTables from "../pages/Scheduling/TimeTables/TimeTables";
 import EditQuestion from "../pages/Course/QuestionForms/EditQuestion/EditQuestion";
-import ManualExam from "../pages/Course/ExamCreation/ManualExam";
-import AutomaticExam from "../pages/Course/ExamCreation/AutomaticExam";
+
 
 
 const FacultyAdminRoutes = () => {
@@ -36,7 +37,7 @@ const FacultyAdminRoutes = () => {
             <Route path="" element={<Navigate to="course-info" />} />
             <Route path="question-bank">
               <Route path="" element={<QuestionBank />} />
-              <Route path="add" element={<AddQuestion />}></Route>
+              <Route path="add" element={<AddQuestion onDone={()=>{}}/>}></Route>
               <Route path=":questionId/edit" element={<EditQuestion />} />
             </Route>
             <Route path="exams" element={<Exams />} />

@@ -10,26 +10,31 @@ import { Stack } from "@mui/material";
 import ManualInfo from "./ManualInfo";
 import AutomaticInfo from "./AutomaticInfo";
 import QuestionBankDialog from "./QuestionBankDialog";
+import QuestionsList from "./QuestionsList";
+import QuestionBank from "../QuestionBank/QuestionBank";
+import QuestionsBody from "./QuestionsBody";
+import Summary from "./Summary";
 
 const steps = ["Exam General Info", "Exam Questions", "Submit Exam"];
 
 export default function HorizontalStepper({ isAutomatic = false }) {
   const [activeStep, setActiveStep] = React.useState(0);
+  const [disabled, setDisabled] = React.useState(true);
 
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    if (activeStep === steps.length - 1) {
+      alert("Exam Created Successfully");
+    } else {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    }
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleReset = () => {
-    setActiveStep(0);
-  };
-
   return (
-    <Stack sx={{ justifyContent: "center", alignItems: "center" }}>
+    <Stack sx={{ justifyContent: "center", alignItems: "center" }} spacing={2}>
       <Box
         sx={{
           width: "100%",
@@ -51,43 +56,33 @@ export default function HorizontalStepper({ isAutomatic = false }) {
             );
           })}
         </Stepper>
-        {activeStep === steps.length ? (
-          <React.Fragment>
-            <Box sx={{ display: "flex", flexDirection: "row", p: 2 }}>
-              <Box sx={{ flex: "1 1 auto" }} />
-              {/* <Button onClick={handleReset}>Reset</Button> */}
-              <QuestionBankDialog />
-            </Box>
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-            <Box sx={{ display: "flex", flexDirection: "row", p: 2 }}>
-              <Button
-                color="inherit"
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                sx={{ mr: 1 }}
-              >
-                Back
-              </Button>
-              <Box sx={{ flex: "1 1" }} />
-              <Button onClick={handleNext}>
-                {activeStep === steps.length - 1 ? "Sumbit" : "Next"}
-              </Button>
-            </Box>
-          </React.Fragment>
-        )}
+        <React.Fragment>
+          <Box sx={{ display: "flex", flexDirection: "row", p: 2 }}>
+            <Button
+              color="inherit"
+              disabled={activeStep === 0}
+              onClick={handleBack}
+              sx={{ mr: 1 }}
+            >
+              Back
+            </Button>
+            <Box sx={{ flex: "1 1" }} />
+            <Button onClick={handleNext} disabled={disabled}>
+              {activeStep === steps.length - 1 ? "Sumbit" : "Next"}
+            </Button>
+          </Box>
+        </React.Fragment>
       </Box>
       {activeStep === 0 ? (
         isAutomatic ? (
-          <AutomaticInfo />
+          <AutomaticInfo setDisabled={setDisabled} />
         ) : (
-          <ManualInfo />
+          <ManualInfo setDisabled={setDisabled} />
         )
       ) : activeStep === 1 ? (
-        <ManualInfo />
+        <QuestionsBody isAutomatic={isAutomatic} setDisabled={setDisabled} />
       ) : (
-        <ManualInfo />
+        <Summary isAutomatic={isAutomatic} />
       )}
     </Stack>
   );

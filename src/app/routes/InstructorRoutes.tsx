@@ -18,6 +18,7 @@ import AutomaticExam from "../pages/Course/ExamCreation/AutomaticExam";
 import AddQuestion from "../pages/Course/QuestionForms/AddQuestion/AddQuestion";
 import AllExams from "../pages/AllExams/AllExams";
 import EditQuestion from "../pages/Course/QuestionForms/EditQuestion/EditQuestion";
+import ExamView from "../pages/Course/Exams/ExamView";
 
 const InstructorRoutes = () => {
   return (
@@ -31,14 +32,17 @@ const InstructorRoutes = () => {
             <Route path="" element={<Navigate to="course-info" />} />
             <Route path="question-bank">
               <Route path="" element={<QuestionBank />} />
-              <Route path="add" element={<AddQuestion />} />
+              <Route path="add" element={<AddQuestion onDone={()=>{} } />} />
               <Route path=":questionId/edit" element={<EditQuestion />} />
             </Route>
             <Route path="create-exam">
               <Route path="manual-creation" element={<ManualExam />}></Route>
               <Route path="automatic-creation" element={<AutomaticExam />} />
             </Route>
-            <Route path="exams" element={<Exams />} />
+            <Route path="exams" >
+              <Route path="" element={<Exams />} />
+              <Route path="view" element={<ExamView />} />
+              </Route>
             <Route path="course-info">
               <Route path="" element={<Navigate to="general-info" />} />
               <Route path="general-info" element={<GeneralInfo />} />

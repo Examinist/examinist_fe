@@ -1,25 +1,41 @@
 import {
-    Box,
-    Button,
-    Divider,
-    Grid,
-    Stack,
-    TextField,
-    Typography,
-  } from "@mui/material";
-  import React from "react";
-  import { IQuestion } from "../../../types/Question";
-  import QuestionAccordion from "../QuestionBank/QuestionAccordion";
-  import theme from "../../../../assets/theme";
-  import QuestionBankDialog from "./QuestionBankDialog";
-  import { useNavigate } from "react-router-dom";
-  
-  export default function QuestionsBody() {
-    return (
+  Box,
+  Button,
+  Divider,
+  Grid,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+import React, { useContext } from "react";
+import { IQuestion } from "../../../types/Question";
+import QuestionAccordion from "../QuestionBank/QuestionAccordion";
+import theme from "../../../../assets/theme";
+import QuestionBankDialog from "./QuestionBankDialog";
+import { useNavigate } from "react-router-dom";
+import QuestionsList from "./QuestionsList";
+import { ManualExamContext } from "./ManualExam";
+import { IQuestionsContext, QuestionsContext } from "./Models";
+import AddQuestionDialog from "./AddQuestionDialog";
+
+export default function QuestionsBody({ isAutomatic,setDisabled }: { isAutomatic: boolean,setDisabled: React.Dispatch<React.SetStateAction<boolean>> }) {
+  const [questionsList, setQuestionsList] = React.useState<IQuestion[]>([]);
+
+  const questionsContextValue: IQuestionsContext = {
+    questionsList: questionsList,
+    setQuestionsList: setQuestionsList,
+  };
+
+  return (
+    <QuestionsContext.Provider value={questionsContextValue}>
       <Box
-        sx={{ width: "100%", backgroundColor: theme.palette.background.default }}
+        sx={{
+          width: "100%",
+          backgroundColor: theme.palette.background.default,
+          py: 5,
+        }}
       >
-        <Grid container sx={{ pl: 2 }}>
+        <Grid container sx={{ pl: 2 }} spacing={2}>
           <Grid item xs={12}>
             <Grid container justifyContent="space-between">
               <Grid item>
@@ -40,17 +56,20 @@ import {
                   spacing={1}
                 >
                   <Grid item>
-                    <QuestionBankDialog />
+                    <QuestionBankDialog isAutomatic={isAutomatic} />
                   </Grid>
                   <Grid item>
-                    <QuestionBankDialog />
-                   </Grid>
+                    <AddQuestionDialog isAutomatic={isAutomatic} />
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
           </Grid>
+          <Grid item xs={12}>
+            <QuestionsList isAutomatic={isAutomatic} setDisabled={setDisabled} />
+          </Grid>
         </Grid>
       </Box>
-    );
-  }
-  
+    </QuestionsContext.Provider>
+  );
+}
