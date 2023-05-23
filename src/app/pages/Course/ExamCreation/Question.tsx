@@ -30,7 +30,8 @@ export default function Question({
 }) {
   const { examState, setExamState } = React.useContext(ManualExamContext);
   const { automaticExamState, setAutomaticExamState } =
-    React.useContext(AutomaticExamContext);
+  React.useContext(AutomaticExamContext);
+  const [score, setScore] = React.useState<number>(examQuestion.score);
   const getColor = (questionDifficulty: string) => {
     if (questionDifficulty === DifficultyLevelEnum.EASY)
       return theme.palette.green.main;
@@ -39,14 +40,7 @@ export default function Question({
       : theme.palette.red.main;
   };
   const [isFieldEmpty, setIsFieldEmpty] = React.useState(false);
-  function getValue(): number {
-    return (
-      (isAutomatic ? automaticExamState : examState).questions
-        ?.get(examQuestion.question.question_type.name)
-        ?.find((question) => question.id == examQuestion.question.id)?.score ??
-      0
-    );
-  }
+  
 
   const handleRemove = (question: IQuestion) => {
     var stateQuestions = isAutomatic
@@ -77,6 +71,7 @@ export default function Question({
   };
 
   function handleChange(value: string): void {
+    setScore(parseInt(value));
     var stateQuestions = isAutomatic
       ? automaticExamState.questions
       : examState.questions;
@@ -225,7 +220,7 @@ export default function Question({
           id="standard-basic"
           label="Score"
           variant="standard"
-          value={getValue()}
+          value={score}
           inputProps={{ min: "1" }}
           onChange={(e) => handleChange(e.target.value)}
           error={isFieldEmpty}

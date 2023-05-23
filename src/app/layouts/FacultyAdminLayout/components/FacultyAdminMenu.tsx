@@ -20,15 +20,16 @@ const menuItems: IListItem[] = [
     to: "courses",
   },
   {
-    text: "Calendar",
-    icon: <CalendarMonthOutlinedIcon />,
-    to: "calendar",
-  },
-  {
     text: "Exams",
     icon: <QuizOutlinedIcon />,
     to: "exams",
   },
+  {
+    text: "Calendar",
+    icon: <CalendarMonthOutlinedIcon />,
+    to: "calendar",
+  },
+
   {
     text: "Dashboard",
     icon: <TimelineOutlinedIcon />,

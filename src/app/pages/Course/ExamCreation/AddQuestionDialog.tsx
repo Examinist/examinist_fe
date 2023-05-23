@@ -126,7 +126,18 @@ export default function AddQuestionDialog({ isAutomatic = false }) {
   };
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button
+        variant="outlined"
+        onClick={handleClickOpen}
+        sx={{
+          color: theme.palette.primary.main,
+          backgroundColor: theme.palette.white.main,
+          border: 1,
+          fontSize: "14px",
+          fontWeight: "bold",
+          borderRadius: "10px",
+        }}
+      >
         Add Question
       </Button>
       <Dialog
@@ -171,10 +182,11 @@ export default function AddQuestionDialog({ isAutomatic = false }) {
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               Create new question :
             </Typography>
-           
           </Toolbar>
         </AppBar>
-        <AddQuestion onSuccess={handleDone} />
+        <AddQuestion
+          onSuccess={handleDone}
+        />
       </Dialog>
     </div>
   );

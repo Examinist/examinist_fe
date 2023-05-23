@@ -36,17 +36,18 @@ import { QuestionsContext } from "../../../ExamCreation/Models";
 
 interface IQuestionFormProps {
   onSuccess: (question?: IQuestion) => void;
+  onCancel?: () => void;
 }
 
 export default function QuestionForm({
   onSuccess,
+  onCancel,
 }: IQuestionFormProps) {
   const { setAlertState } = useAlert();
   const { courseId } = useParams<{ courseId: string }>();
   const [topics, setTopics] = useState<ITopic[]>([]);
   const [questionTypes, setQuestionTypes] = React.useState<IQuestionType[]>([]);
   const navigate = useNavigate();
-  const { questionsList, setQuestionsList } = useContext(QuestionsContext);
 
   const loadTopics = () => {
     getTopicsApi(courseId).then(({ data }: ITopicsListResponse) => {
@@ -150,8 +151,9 @@ export default function QuestionForm({
             </Grid>
             <Grid item xs={7} md={9} sx={{ px: 6, py: 4 }}>
               <QuestionCard />
-              <Box sx={{ display: "flex", gap: 2 }}>
-                 <Button
+              <Box sx={{ display: "flex", gap: 2, flexDirection: "row-reverse" }}>
+                {onCancel && (
+                  <Button
                     variant="outlined"
                     sx={{
                       ml: "auto",
@@ -160,10 +162,11 @@ export default function QuestionForm({
                       borderRadius: 3,
                       backgroundColor: theme.palette.white.main,
                     }}
-                    onClick={() => navigate(-1)}
+                    onClick={onCancel}
                   >
                     cancel
                   </Button>
+                )}
                 <Button
                   variant="contained"
                   sx={{ mt: "auto", px: 4, borderRadius: 3 }}

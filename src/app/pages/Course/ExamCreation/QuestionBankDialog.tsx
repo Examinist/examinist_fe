@@ -125,7 +125,19 @@ export default function QuestionBankDialog({ isAutomatic = false }) {
   };
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button
+        variant="outlined"
+        sx={{
+          color: theme.palette.primary.main,
+          backgroundColor: theme.palette.white.main,
+          border: 1,
+          fontSize: "14px",
+          fontWeight: "bold",
+          borderRadius: "10px",
+          mr: "10px",
+        }}
+        onClick={handleClickOpen}
+      >
         Import Question(s)
       </Button>
       <Dialog

@@ -22,7 +22,7 @@ export default function AutomaticExam() {
     React.useState<IAutomaticExamDetails>({
       title: "",
       duration: 30,
-      is_auto: false,
+      is_auto: true,
       has_models: false,
       questions: new Map<string, IExamQuestion[]>(),
       topics: new Map<number, number[]>(),
