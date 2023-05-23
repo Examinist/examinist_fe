@@ -25,11 +25,16 @@ export default function SummaryQuestions({ isAutomatic = false }) {
   );
   React.useEffect(() => {
     let newTotal = 0;
+    let newScore = 0;
     mapEntries.forEach(([key, value]) => {
       newTotal += value.length;
+      value.forEach((question) => {
+        newScore += question.score;
+      });
     });
+    setScore(newScore);
     setTotal(newTotal);
-  }, [mapEntries]);
+  }, []);
 
   return (
     <Grid
