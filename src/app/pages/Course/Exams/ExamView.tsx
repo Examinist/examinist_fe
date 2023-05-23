@@ -55,6 +55,9 @@ export default function ExamView() {
         ) : (
           <Box
             sx={{
+              borderRadius: "20px",
+              border: 1,
+              borderColor: theme.palette.gray.light,
               width: "100%",
               backgroundColor: theme.palette.white.main,
               py: 5,
@@ -75,7 +78,7 @@ export default function ExamView() {
                 {detailedExam?.title}
               </h1>
             </Box>
-            <Box style={{ display: "flex", justifyContent: "space-between" }}>
+            <Box sx={{ display: "flex", justifyContent: "space-between", my: 2 }}>
               <Typography
                 variant="subtitle1"
                 color={theme.palette.gray.dark}

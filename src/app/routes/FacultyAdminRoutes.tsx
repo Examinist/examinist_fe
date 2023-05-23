@@ -1,4 +1,4 @@
-import { Navigate, Route } from "react-router-dom";
+import { Navigate, Route, useNavigate } from "react-router-dom";
 import RoleGuard from "../components/RoleGuard/RoleGuard";
 import CourseLayout from "../layouts/CourseLayout/CourseLayout";
 import CourseGroups from "../pages/Course/CourseInfo/CourseGroups/CourseGroups";
@@ -22,10 +22,12 @@ import SchedulingLayout from "../layouts/SchedulingLayout/SchedulingLayout";
 import SchedulingExams from "../pages/Scheduling/SchedulingExams/SchedulingExams";
 import TimeTables from "../pages/Scheduling/TimeTables/TimeTables";
 import EditQuestion from "../pages/Course/QuestionForms/EditQuestion/EditQuestion";
+import ExamView from "../pages/Course/Exams/ExamView";
 
 
 
 const FacultyAdminRoutes = () => {
+  const navigate = useNavigate();
   return (
     <Route>
       <Route path="faculty_admin" element={<FacultyAdminLayout />}>
@@ -37,10 +39,25 @@ const FacultyAdminRoutes = () => {
             <Route path="" element={<Navigate to="course-info" />} />
             <Route path="question-bank">
               <Route path="" element={<QuestionBank />} />
-              <Route path="add" element={<AddQuestion onDone={()=>{}}/>}></Route>
+              <Route
+                path="add"
+                element={
+                  <AddQuestion
+                    onCancel={() => {
+                      navigate(-1);
+                    }}
+                    onSuccess={() => {
+                      navigate(-1);
+                    }}
+                  />
+                }
+              />
               <Route path=":questionId/edit" element={<EditQuestion />} />
             </Route>
-            <Route path="exams" element={<Exams />} />
+            <Route path="exams">
+              <Route path="" element={<Exams />} />
+              <Route path=":examId" element={<ExamView />} />
+            </Route>
             <Route path="course-info">
               <Route path="" element={<Navigate to="general-info" />} />
               <Route path="general-info" element={<GeneralInfo />} />

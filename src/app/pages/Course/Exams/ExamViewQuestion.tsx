@@ -89,16 +89,34 @@ export default function ExamViewQuestion({
         </Grid>
 
         <Grid item>
-          <Typography variant="subtitle2" color={theme.palette.gray.dark}>
-            Difficulty : {examQuestion.question.difficulty}
-          </Typography>
+          <Box sx={{ display: "flex", gap: 1 }}>
+            <Typography
+              variant="subtitle2"
+              color={theme.palette.gray.dark}
+              sx={{ fontWeight: 700 }}
+            >
+              Difficulty:
+            </Typography>
+            <Typography variant="subtitle2" color={theme.palette.gray.dark}>
+              {examQuestion.question.difficulty}
+            </Typography>
+          </Box>
         </Grid>
+
         <Grid item>
-          <Typography variant="subtitle2" color={theme.palette.gray.dark}>
-            Score : {examQuestion.score}
-          </Typography>
+          <Box sx={{ display: "flex", gap: 1 }}>
+            <Typography
+              variant="subtitle2"
+              color={theme.palette.gray.dark}
+              sx={{ fontWeight: 700 }}
+            >
+              Score : 
+            </Typography>
+            <Typography variant="subtitle2" color={theme.palette.gray.dark}>
+              {examQuestion.score}
+            </Typography>
+          </Box>
         </Grid>
-        <Grid item></Grid>
       </Grid>
     </Grid>
   );

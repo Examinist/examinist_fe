@@ -25,7 +25,6 @@ export default function SelectBox({
   onCancel,
 }: ISelectBox) {
   const [option, setOption] = React.useState("");
-  //add use state to save filters options
 
   const handleChange = (event: SelectChangeEvent) => {
     if (event.target.value === "All") {
@@ -43,19 +42,20 @@ export default function SelectBox({
         sx={{ mb: 2, width: '100%', color: theme.palette.primary.main,  }}
       >
         <InputLabel
-          sx={{ color: theme.palette.primary.main, position: "absolute" }}
+          sx={{ color: theme.palette.primary.main, position: "absolute", fontWeight: 550, }}
           id="select"
         >
           {title}
         </InputLabel>
         <Select
-       
+      
           labelId="select"
           id="select"
           value={option}
           onChange={handleChange}
           label={title}
           sx={{
+
             borderRadius: 3,
             backgroundColor: theme.palette.background.paper,
             color: theme.palette.text.primary,

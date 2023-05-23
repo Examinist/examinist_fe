@@ -33,17 +33,29 @@ const InstructorRoutes = () => {
             <Route path="" element={<Navigate to="course-info" />} />
             <Route path="question-bank">
               <Route path="" element={<QuestionBank />} />
-              <Route path="add" element={<AddQuestion onSuccess={() => {navigate(-1)}}/>} />
+              <Route
+                path="add"
+                element={
+                  <AddQuestion
+                    onCancel={() => {
+                      navigate(-1);
+                    }}
+                    onSuccess={() => {
+                      navigate(-1);
+                    }}
+                  />
+                }
+              />
               <Route path=":questionId/edit" element={<EditQuestion />} />
             </Route>
             <Route path="create-exam">
               <Route path="manual-creation" element={<ManualExam />}></Route>
               <Route path="automatic-creation" element={<AutomaticExam />} />
             </Route>
-            <Route path="exams" >
+            <Route path="exams">
               <Route path="" element={<Exams />} />
               <Route path=":examId" element={<ExamView />} />
-              </Route>
+            </Route>
             <Route path="course-info">
               <Route path="" element={<Navigate to="general-info" />} />
               <Route path="general-info" element={<GeneralInfo />} />

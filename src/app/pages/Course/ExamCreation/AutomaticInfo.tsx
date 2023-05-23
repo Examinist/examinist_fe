@@ -142,7 +142,9 @@ export default function AutomaticInfo({
                 )}
               </Grid>
               <Grid item xs={3}>
-                <Typography variant="subtitle1">Exam Duration :</Typography>
+                <Typography variant="subtitle1">
+                  Exam Duration (mins):
+                </Typography>
               </Grid>
               <Grid item xs={9}>
                 <TextField

@@ -87,7 +87,7 @@ export default function ManualInfo({
             )}
           </Grid>
           <Grid item xs={3}>
-            <Typography variant="h6">Exam Duration (mins) :</Typography>
+            <Typography variant="h6">Exam Duration (mins):</Typography>
           </Grid>
           <Grid item xs={9}>
             <TextField

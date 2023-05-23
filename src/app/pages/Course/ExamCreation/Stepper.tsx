@@ -52,12 +52,12 @@ export default function HorizontalStepper({ isAutomatic = false }) {
   };
 
   const flattenQuestionsMap = () => {
-    const questionsMap = examState.questions || automaticExamState.questions;
+    const questionsMap = isAutomatic ? automaticExamState.questions : examState.questions;
     let examQuestionsList: IExamQuestionPayload[] = [];
     Array.from(questionsMap?.entries() ?? []).map(([key, questionsList]) => {
       questionsList.map((question) => {
         examQuestionsList.push({
-          question_id: question.id,
+          question_id: question.question.id,
           score: question.score,
         });
       });
@@ -66,7 +66,7 @@ export default function HorizontalStepper({ isAutomatic = false }) {
   };
 
   const handleSubmit = () => {
-    const exam = examState || automaticExamState;
+    const exam = isAutomatic ? automaticExamState : examState;
     const examQuestionsList = flattenQuestionsMap();
     const examPayload: IExamPayload = {
       title: exam.title,
@@ -76,6 +76,8 @@ export default function HorizontalStepper({ isAutomatic = false }) {
       has_models: exam.has_models,
       exam_questions_attributes: examQuestionsList,
     };
+    console.log(automaticExamState);
+    console.log("exam",examPayload);
     createExamApi(examPayload)
       .then(({ data }: IExamResponse) => {
         setAlertState({
