@@ -27,8 +27,7 @@ import {
 } from "../../../services/APIs/ExamAPIs";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { IErrorResponse } from "../../../services/Response";
-import { AlertContext } from "../../../context/AlertProvider";
-import { IExamQuestion } from "../../../types/Exam";
+import useAlert from "../../../hooks/useAlert";
 
 const steps = ["Exam General Info", "Exam Questions", "Submit Exam"];
 
@@ -38,7 +37,7 @@ export default function HorizontalStepper({ isAutomatic = false }) {
   const { examState } = React.useContext(ManualExamContext);
   const { automaticExamState, setAutomaticExamState } = React.useContext(AutomaticExamContext);
   const { courseId } = useParams<{ courseId: string }>();
-  const { setAlertState } = React.useContext(AlertContext);
+  const { setAlertState } = useAlert()
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -119,6 +118,11 @@ export default function HorizontalStepper({ isAutomatic = false }) {
       setAutomaticExamState({
         ...automaticExamState,
         questions: data.exam.exam_questions,
+      });
+      setAlertState({
+        open: true,
+        message: "Questions are auto-generated successfully!",
+        severity: "success",
       });
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     })
