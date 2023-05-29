@@ -1,4 +1,4 @@
-import { Navigate, Route, useNavigate } from "react-router-dom";
+import { Navigate, Outlet, Route, useNavigate } from "react-router-dom";
 import RoleGuard from "../components/RoleGuard/RoleGuard";
 import CourseLayout from "../layouts/CourseLayout/CourseLayout";
 import InstructorLayout from "../layouts/instructorLayout/InstructorLayout";
@@ -76,6 +76,18 @@ const InstructorRoutes = () => {
         <Route path="exam-sessions" element={<Test />} />
         <Route path="pending-reports" element={<Test />} />
       </Route>
+
+      {/* <Route // Testing Grading Layout
+        path="instructor/courses/:courseId"
+        element={
+          <div>
+            <div>Grading Layout</div>
+            <Outlet />
+          </div>
+        }
+      >
+        <Route path="exams/:examId/grading" element={<>grading</>} />
+      </Route> */}
     </Route>
   );
 };
