@@ -20,13 +20,14 @@ import IUser from "../../../types/User";
 import { UserRoleEnum } from "../../../types/User";
 import { IExamPayload } from "../ExamAPIs";
 
-const mockInstructor: IUser = {
-  id: 1,
+export const mockInstructor: IUser = {
+  username: "mockuser",
   first_name: "Mock",
-  last_name: "Instructor",
+  last_name: "User",
   role: UserRoleEnum.INSTRUCTOR,
-  username: "mock_instructor",
+  auth_token: "123456789",
 };
+
 
 export const mockCourses: ICourse[] = [
   {
@@ -66,7 +67,7 @@ export const mockCourseGroups: ICourseGroup[] = [
     id: 1,
     name: "Mock Group 1",
     students: [],
-    instructors: [],
+    instructors: [mockInstructor],
     end_date: new Date("2021-12-31"),
   },
   {
@@ -83,7 +84,7 @@ export const mockCourseInfo = {
   title: "Mock Course",
   code: "MOCK 123",
   credit_hours: 3,
-  instructors: [],
+  instructors: [mockInstructor],
   students: [],
 };
 

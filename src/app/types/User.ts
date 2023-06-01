@@ -22,4 +22,12 @@ export enum UserRoleEnum {
   PROCTOR = "proctor",
 }
 
+export const userRoleToPathMap: Record<UserRoleEnum, string> = {
+  [UserRoleEnum.INSTRUCTOR]: "/instructor",
+  [UserRoleEnum.STUDENT]: "/student",
+  [UserRoleEnum.UNIVERSITY_ADMIN]: "/university_admin",
+  [UserRoleEnum.FACULTY_ADMIN]: "/faculty_admin",
+  [UserRoleEnum.PROCTOR]: "/proctor"
+}
+
 export default IUser;

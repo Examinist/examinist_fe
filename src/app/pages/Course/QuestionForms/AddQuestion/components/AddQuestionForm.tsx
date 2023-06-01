@@ -39,7 +39,7 @@ interface IQuestionFormProps {
   onCancel?: () => void;
 }
 
-export default function QuestionForm({
+export default function AddQuestionForm({
   onSuccess,
   onCancel,
 }: IQuestionFormProps) {

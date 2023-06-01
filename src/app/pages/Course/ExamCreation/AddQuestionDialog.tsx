@@ -20,6 +20,7 @@ import { QuestionsContext } from "./Models";
 import { Alert, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar } from "@mui/material";
 import { IQuestion, DifficultyLevelEnum } from "../../../types/Question";
 import AddQuestion from "../QuestionForms/AddQuestion/AddQuestion";
+import AddQuestionForm from "../QuestionForms/AddQuestion/components/AddQuestionForm";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -184,7 +185,7 @@ export default function AddQuestionDialog({ isAutomatic = false }) {
             </Typography>
           </Toolbar>
         </AppBar>
-        <AddQuestion
+        <AddQuestionForm
           onSuccess={handleDone}
         />
       </Dialog>

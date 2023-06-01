@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   IExamsListResponse,
@@ -7,15 +7,13 @@ import {
 import { ExamStatusEnum, IExam } from "../../../types/Exam";
 import { Box, CircularProgress } from "@mui/material";
 import ExamCard from "../../../components/ExamsComponents/ExamCard";
-import { mockExamsList } from "../../../services/APIs/mockData/MockData";
-import { set } from "react-hook-form";
 import { IErrorResponse } from "../../../services/Response";
 import useAlert from "../../../hooks/useAlert";
-import PageTitle from "../../../components/PageTitle";
 import {
   ExamsReloadContext,
   IExamsReloadContext,
 } from "../../../context/ExamsReloadContext";
+import { IsAssignedContext } from "../../../layouts/CourseLayout/CourseLayout";
 
 function getCourseExamAttributesList(exam: IExam) {
   var attrList: string[] = [];
@@ -52,11 +50,12 @@ export function getFilterType(tabName: string, exams: IExam[]) {
   }
 }
 
-export default function Exams() {
+export default function CourseExams() {
   const { courseId } = useParams<{ courseId: string }>();
   const [exams, setExams] = useState<IExam[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const { setAlertState } = useAlert();
+  const isAssigned = useContext<boolean>(IsAssignedContext);
 
   const loadExams = () => {
     setIsLoading(true);
@@ -134,7 +133,7 @@ export default function Exams() {
             tableHeader={tableHeader}
             rows={exams}
             attributesFunction={getCourseExamAttributesList}
-            actionButton={true}
+            actionButton={isAssigned}
             allExams={false}
             filter={getFilterType}
           ></ExamCard>

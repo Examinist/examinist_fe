@@ -2,7 +2,7 @@ import { Box, CircularProgress } from "@mui/material";
 import ExamCard from "../../components/ExamsComponents/ExamCard";
 import { IExam } from "../../types/Exam";
 import { mockExamsList } from "../../services/APIs/mockData/MockData";
-import { getFilterType } from "../Course/Exams/Exams";
+import { getFilterType } from "../Course/Exams/CourseExams";
 import { useEffect, useState } from "react";
 import useAlert from "../../hooks/useAlert";
 import { IExamsListResponse, getExamsApi } from "../../services/APIs/ExamAPIs";

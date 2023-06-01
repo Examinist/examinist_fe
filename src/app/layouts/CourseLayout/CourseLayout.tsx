@@ -100,7 +100,7 @@ export default function CourseLayout() {
         component="main"
         sx={{ flexGrow: 1, overflow: "auto", height: "100vh" }}
       >
-        <IsAssignedContext.Provider value={true}>
+        <IsAssignedContext.Provider value={isAssigned}>
           <Outlet />
         </IsAssignedContext.Provider>
       </Box>

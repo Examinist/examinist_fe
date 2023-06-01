@@ -1,5 +1,5 @@
 import { createContext, useState, ReactNode, useEffect } from "react";
-import IUser, { UserRoleEnum } from "../types/User";
+import IUser, { UserRoleEnum, userRoleToPathMap } from "../types/User";
 import {
   getUserProfileAPI,
   IGetUserInfoResponse,
@@ -28,14 +28,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const redirectToLogin = () => navigate("/login", { replace: true });
 
   const GoToHomePage = (user: IUser) => {
-    switch (user.role) {
-      case UserRoleEnum.INSTRUCTOR:
-        navigate("/instructor", { replace: true });
-        break;
-      case UserRoleEnum.FACULTY_ADMIN:
-        navigate("/faculty_admin", { replace: true });
-        break;
-    }
+    navigate(userRoleToPathMap[user.role], { replace: true });
   };
 
   const login = (user?: IUser) => {

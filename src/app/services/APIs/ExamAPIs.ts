@@ -75,18 +75,18 @@ export const getExamsApi = async (
 };
 
 export const getExamApi = async (exam_id: number) => {
-  const portal = localStorage.getItem("portal");
-  const response = await axiosInstance.get(`${portal}/exams/${exam_id}`);
-  console.log(response);
-  return response as IExamResponse;
-  // try {
-  //   const portal = localStorage.getItem("portal");
-  //   const response = await axiosInstance.get(`${portal}/exams/${exam_id}`);
-  //   console.log(response)
-  //   return response as IExamResponse;
-  // } catch (error) {
-  //   return { data: { exam: mockDetailedExam } } as IExamResponse;
-  // }
+  // const portal = localStorage.getItem("portal");
+  // const response = await axiosInstance.get(`${portal}/exams/${exam_id}`);
+  // console.log(response);
+  // return response as IExamResponse;
+  try {
+    const portal = localStorage.getItem("portal");
+    const response = await axiosInstance.get(`${portal}/exams/${exam_id}`);
+    console.log(response)
+    return response as IExamResponse;
+  } catch (error) {
+    return { data: { exam: mockDetailedExam } } as IExamResponse;
+  }
 };
 
 export const createExamApi = async (exam: IExamPayload) => {

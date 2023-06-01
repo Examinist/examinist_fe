@@ -78,6 +78,15 @@ export default function ExamActions({exam,status, allExams}: IExamStatusProps) {
             case "View":
                 navigate(`./${exam.id}`);
                 break;
+            case "Edit":
+                navigate(`./${exam.id}/edit`);
+                break;
+            case "Grade":
+                navigate(`./${exam.id}/grading`);
+                break;
+            case "Regrade":
+                navigate(`./${exam.id}/grading`);
+                break;
             case "Delete":
                 handleDelete();
                 break;
