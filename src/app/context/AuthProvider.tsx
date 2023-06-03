@@ -6,7 +6,6 @@ import {
 } from "../services/APIs/AuthAPIs";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Box, CircularProgress } from "@mui/material";
-import { ISignInInputs } from "../pages/SignIn/components/SignInForm";
 
 type AuthContextType = {
   isAuthenticated: boolean;
@@ -33,7 +32,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = (user?: IUser) => {
     setIsAuthenticated(true);
-    // user!.role = UserRoleEnum.FACULTY_ADMIN;
     setUser(user);
     GoToHomePage(user!);
   };
@@ -44,7 +42,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     getUserProfileAPI()
       .then(({ data }: IGetUserInfoResponse) => {
         const user = data.user_info;
-        // user.role = UserRoleEnum.FACULTY_ADMIN;
         setIsAuthenticated(true);
         setUser(user);
         if (location.pathname == "/login" || location.pathname == "/")

@@ -14,11 +14,19 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import theme from "../../../../assets/theme";
 import useAuth from "../../../hooks/useAuth";
-import IUser from "../../../types/User";
+import IUser, { UserRoleEnum } from "../../../types/User";
 
 const initials = (user: IUser) => {
-  return user.first_name[0] + user.last_name[0];
+  return user.first_name ? (user.first_name![0] + user.last_name![0]) : user.username[0];
 };
+
+const name = (user: IUser) => {
+  return user.role === UserRoleEnum.UNIVERSITY_ADMIN ? user.username : user.first_name + " " + user.last_name;
+}
+
+const subInfo = (user: IUser) => {
+  return user.role === UserRoleEnum.UNIVERSITY_ADMIN ? user.university?.name : user.username;
+}
 
 export default function UserInfo() {
   const { user} = useAuth();
@@ -35,11 +43,20 @@ export default function UserInfo() {
       <Box sx={{ ml: 1.5 }}>
         <Typography
           sx={{
-            fontSize: "1rem",
+            fontSize: "0.9rem",
             fontWeight: "400px",
           }}
         >
-          {user?.first_name + " " + user?.last_name}
+          {name(user!)}
+        </Typography>
+        <Typography
+          sx={{
+            color: "#6B6767",
+            fontSize: "0.8rem",
+            fontWeight: "800px",
+          }}
+        >
+          {subInfo(user!)}
         </Typography>
         <Typography
           sx={{
@@ -48,7 +65,7 @@ export default function UserInfo() {
             fontWeight: "400px",
           }}
         >
-          {user?.username}
+         {user?.role.replace("_", " ")}
         </Typography>
       </Box>
       <Tooltip title="Log out" sx={{ marginLeft: "auto" }}>

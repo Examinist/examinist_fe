@@ -11,6 +11,7 @@ import {
   IExam,
   IExamQuestionsGroup,
 } from "../../../types/Exam";
+import { ILab } from "../../../types/Lab";
 import {
   AnswerTypeEnum,
   DifficultyLevelEnum,
@@ -294,3 +295,20 @@ export const mockExamPayload: IExamPayload = {
   ],
 };
 
+export const mockLabs: ILab[] = [
+  {
+    id: 1,
+    name: "Lab 1",
+    capacity: 10,
+  },
+  {
+    id: 2,
+    name: "Lab 2",
+    capacity: 10,
+  },
+  {
+    id: 3,
+    name: "Lab 3",
+    capacity: 10,
+  },
+];
