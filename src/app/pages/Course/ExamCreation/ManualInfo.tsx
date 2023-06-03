@@ -64,7 +64,7 @@ export default function ManualInfo({
       <form>
         <Grid
           container
-          rowSpacing={2}
+          rowSpacing={4}
           columnSpacing={1}
           sx={{ pl: "50px" }}
           justifyContent="center"

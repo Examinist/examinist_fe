@@ -113,20 +113,20 @@ export default function AutomaticInfo({
             borderRadius: "15px",
           }}
         >
-          <Typography variant="h6" sx={{ pb: 5, fontWeight: "bold" }}>
-            Exam Info :
+          <Typography variant="h5" sx={{ pb: 5, fontWeight: "bold" }}>
+            General Info :
           </Typography>
 
           <form>
             <Grid
               container
-              rowSpacing={2}
+              rowSpacing={4}
               sx={{ pl: "50px" }}
               justifyContent="center"
               alignItems="center"
             >
               <Grid item xs={3}>
-                <Typography variant="subtitle1">Exam Title :</Typography>
+                <Typography variant="h6">Exam Title :</Typography>
               </Grid>
               <Grid item xs={9}>
                 <TextField
@@ -142,9 +142,7 @@ export default function AutomaticInfo({
                 )}
               </Grid>
               <Grid item xs={3}>
-                <Typography variant="subtitle1">
-                  Exam Duration (mins):
-                </Typography>
+                <Typography variant="h6">Exam Duration (mins):</Typography>
               </Grid>
               <Grid item xs={9}>
                 <TextField
@@ -163,12 +161,19 @@ export default function AutomaticInfo({
                   </FormHelperText>
                 )}
               </Grid>
+
+              <Grid item xs={3}>
+                <Typography variant="h6">Exam Models :</Typography>
+              </Grid>
+              <Grid item xs={9}>
+                <RadioButtonOptions isAutomatic={true} />
+              </Grid>
             </Grid>
           </form>
 
           <Divider sx={{ p: "20px", borderBottomWidth: "2px" }} />
 
-          <Typography variant="h6" sx={{ pt: 5, pb: 5, fontWeight: "bold" }}>
+          <Typography variant="h5" sx={{ fontWeight: "bold", py: 5 }}>
             Questions :
           </Typography>
 
@@ -179,18 +184,26 @@ export default function AutomaticInfo({
             justifyContent="center"
             alignItems="center"
           >
-            <Grid item xs={3}>
-              <Typography variant="subtitle1">Questions Types</Typography>
+            <Grid item xs={3} sx={{ pt: 3 }}>
+              <Typography variant="h6" sx={{ fontWeight: "600" }}>
+                Questions Types
+              </Typography>
             </Grid>
-            <Grid item xs={9}>
-              <Typography variant="subtitle1">Topics</Typography>
+            <Grid item xs={9} sx={{ pt: 3 }}>
+              <Typography variant="h6" sx={{ fontWeight: "600" }}>
+                Topics
+              </Typography>
             </Grid>
+            <Grid item xs={12} sx={{py: 1}}>
+              <Grid item xs={9}>
+                <Divider sx={{ borderBottomWidth: "2px"}} />
+              </Grid>
+            </Grid>
+
             {questionTypes.map((questionType) => (
               <>
                 <Grid item xs={3}>
-                  <Typography variant="subtitle1">
-                    {questionType.name}
-                  </Typography>
+                  <Typography variant="h6">{questionType.name}</Typography>
                 </Grid>
                 <Grid item xs={9}>
                   <TopicsSelector
@@ -203,13 +216,6 @@ export default function AutomaticInfo({
                 </Grid>
               </>
             ))}
-
-            <Grid item xs={3}>
-              <Typography variant="subtitle1">Exam Models :</Typography>
-            </Grid>
-            <Grid item xs={9}>
-              <RadioButtonOptions isAutomatic={true} />
-            </Grid>
           </Grid>
         </Box>
       )}

@@ -50,10 +50,29 @@ export function getFilterType(tabName: string, exams: IExam[]) {
   }
 }
 
+const tabs = [
+  "All",
+  "Unscheduled",
+  "Scheduled",
+  "On Going",
+  "Pending Grading",
+  "Graded",
+];
+let initialTableHeader = [
+  "ID",
+  "Title",
+  "Status",
+  "Creation Mode",
+  "Creator",
+  "Creation Date",
+  "Scheduled Date",
+];
+
 export default function CourseExams() {
   const { courseId } = useParams<{ courseId: string }>();
   const [exams, setExams] = useState<IExam[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [tableHeader, setTableHeader] = useState<string[]>(initialTableHeader);
   const { setAlertState } = useAlert();
   const isAssigned = useContext<boolean>(IsAssignedContext);
 
@@ -62,7 +81,6 @@ export default function CourseExams() {
     getExamsApi(parseInt(courseId!))
       .then(({ data }: IExamsListResponse) => {
         setExams(data.exams);
-        console.log(data.exams);
       })
       .catch(({ response: { status, statusText, data } }: IErrorResponse) => {
         setAlertState({
@@ -77,6 +95,9 @@ export default function CourseExams() {
   };
 
   useEffect(() => {
+    if(isAssigned){
+      setTableHeader([...tableHeader, "Action"])
+    }
     loadExams();
   }, []);
 
@@ -84,24 +105,7 @@ export default function CourseExams() {
     reloadExams: loadExams,
   };
 
-  const tabs = [
-    "All",
-    "Unscheduled",
-    "Scheduled",
-    "On Going",
-    "Pending Grading",
-    "Graded",
-  ];
-  const tableHeader = [
-    "ID",
-    "Title",
-    "Status",
-    "Creation Mode",
-    "Creator",
-    "Creation Date",
-    "Scheduled Date",
-    "Actions",
-  ];
+
 
   return (
     <Box sx={{ px: 15, py: 5 }}>
