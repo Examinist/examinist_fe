@@ -9,6 +9,7 @@ import {
   ExamStatusEnum,
   IDetailedExam,
   IExam,
+  IExamQuestion,
   IExamQuestionsGroup,
 } from "../../../types/Exam";
 import { ILab } from "../../../types/Lab";
@@ -267,17 +268,16 @@ export const mockExamsList: IExam[] = [
   },
 ];
 
-export const mockExamQuestions: IExamQuestionsGroup[] = [
-  {
-    "MCQ": [
+export let mockExamQuestions: Map<string, IExamQuestion[]> = new Map([
+  [
+    "MCQ",
+    [
       { id: 1, score: 2, question: mockQuestions[0] },
       { id: 2, score: 3, question: mockQuestions[1] },
     ],
-  },
-  {
-    "T/F": [{ id: 3, score: 2, question: mockQuestions[3] }],
-  },
-];
+  ],
+  ["T/F", [{ id: 3, score: 2, question: mockQuestions[3] }]],
+]);
 
 export const mockDetailedExam: IDetailedExam = {
   ...mockExam,

@@ -184,7 +184,7 @@ export default function SignInForm() {
                   <FormControlLabel
                     value={UserPortalEnum.STAFF}
                     control={<Radio />}
-                    label={"Faculty Staff"}
+                    label={"Staff"}
                   />
                   <FormControlLabel
                     value={UserPortalEnum.STUDENT}

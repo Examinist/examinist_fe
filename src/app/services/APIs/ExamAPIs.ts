@@ -90,17 +90,17 @@ export const getExamApi = async (exam_id: number) => {
 };
 
 export const createExamApi = async (exam: IExamPayload) => {
-   const portal = localStorage.getItem("portal");
-   const response = await axiosInstance.post(`${portal}/exams`, { ...exam });
-   console.log(response);
-   return response as IExamResponse;
-  // try {
-  //   const portal = localStorage.getItem("portal");
-  //   const response = await axiosInstance.post(`${portal}/exams`, { ...exam });
-  //   return response as IExamResponse;
-  // } catch (error) {
-  //   return { data: { exam: mockDetailedExam } } as IExamResponse;
-  // }
+  //  const portal = localStorage.getItem("portal");
+  //  const response = await axiosInstance.post(`${portal}/exams`, { ...exam });
+  //  console.log(response);
+  //  return response as IExamResponse;
+  try {
+    const portal = localStorage.getItem("portal");
+    const response = await axiosInstance.post(`${portal}/exams`, { ...exam });
+    return response as IExamResponse;
+  } catch (error) {
+    return { data: { exam: mockDetailedExam } } as IExamResponse;
+  }
 }
 
 export const autoGenerateExamApi = async (exam_parameters: IAutoGeneratePayload) => {
@@ -123,6 +123,30 @@ export const autoGenerateExamApi = async (exam_parameters: IAutoGeneratePayload)
   
 };
 
+// EXAM PAYLOAD EXAMPLE
+// {
+//  MODIFIED ATTRIBUTES (WE CAN SEND ALL OF THEM 3ADY)
+//   "title": "Final",
+//   "duration": 60,
+//   "has_models": false,
+//   "exam_questions_attributes": [
+  // EDIT QUESTION SCORE
+//     {
+//       "id": 5,
+//       "score": 5
+//     },
+//   ADD NEW QUESTION
+//     {
+//       "question_id": 10,
+//       "score": 10
+//     },
+//   DELETE QUESTION
+//     {
+//       "id": 7,
+//       "_destroy": true
+//     }
+//   ]
+// }
 export const updateExamApi = async (exam_id: number, exam: IExamPayload) => {
   try {
     const portal = localStorage.getItem("portal");
