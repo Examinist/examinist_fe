@@ -1,8 +1,13 @@
 import IconButton from "@mui/material/IconButton";
-import { ExamStatusEnum } from "../../types/Exam";
+import { ExamStatusEnum, IExam } from "../../types/Exam";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Divider, Menu, MenuItem } from "@mui/material";
 import React from "react";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { deleteExamApi } from "../../services/APIs/ExamAPIs";
+import useAlert from "../../hooks/useAlert";
+import { IErrorResponse } from "../../services/Response";
+import { ExamsReloadContext } from "../../context/ExamsReloadContext";
 
 function getStatusActions(status: ExamStatusEnum) {
     switch (status) {
@@ -15,11 +20,20 @@ function getStatusActions(status: ExamStatusEnum) {
 }
 
 export interface IExamStatusProps{
+    exam:IExam,
     status?: ExamStatusEnum,
     allExams: boolean,
 }
 
-export default function ExamActions({status, allExams}: IExamStatusProps) {
+export default function ExamActions({exam,status, allExams}: IExamStatusProps) {
+    const navigate = useNavigate();
+    const {setAlertState} = useAlert();
+    const {reloadExams} = React.useContext(ExamsReloadContext);
+
+    const handleViewCourseExams = () =>{
+        navigate(`../courses/${exam.course.id}/exams`);
+    }
+
     var actions: string[] = [];
     if(allExams){
         actions = ["View Course Exams"]
@@ -36,6 +50,51 @@ export default function ExamActions({status, allExams}: IExamStatusProps) {
         setAnchorEl(null);
         event.stopPropagation();
     };
+
+    const handleDelete = () =>{
+        deleteExamApi(exam.id)
+          .then(() => {
+            setAlertState({
+              open: true,
+              message: "Exam Deleted Successfully",
+              severity: "success",
+            });
+            reloadExams();
+          })
+          .catch(({ response: { statusText, data } }: IErrorResponse) => {
+            setAlertState({
+              open: true,
+              message: data?.message || statusText,
+              severity: "error",
+            });
+          });
+    }
+    const handleAction = (event: React.MouseEvent<HTMLButtonElement>,action:String) => {
+        switch(action){
+            case "View Course Exams":
+                console.log("View Course Exams");
+                handleViewCourseExams();
+                break;
+            case "View":
+                navigate(`./${exam.id}`);
+                break;
+            case "Edit":
+                navigate(`./${exam.id}/edit`);
+                break;
+            case "Grade":
+                navigate(`./${exam.id}/grading`);
+                break;
+            case "Regrade":
+                navigate(`./${exam.id}/grading`);
+                break;
+            case "Delete":
+                handleDelete();
+                break;
+        }
+        setAnchorEl(null);
+        event.stopPropagation();
+    };
+
 
     return (
         <div>
@@ -59,10 +118,10 @@ export default function ExamActions({status, allExams}: IExamStatusProps) {
                 }}
             >
                 {actions.map((value, index) => (
-                    <div>
+                    <div key={value}>
                         <MenuItem
                             sx={{ minWidth: "150px" }}
-                            onClick={(event: any) => handleClose(event)}
+                            onClick={(event: any) => handleAction(event,value)}
                         >{value}
                         </MenuItem>
                         {index!==(actions.length-1) ? <Divider /> : <></>}

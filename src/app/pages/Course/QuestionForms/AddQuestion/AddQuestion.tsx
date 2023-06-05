@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
-import QuestionForm from "./components/QuestionForm";
+import AddQuestionForm from "./components/AddQuestionForm";
 import { useNavigate } from "react-router-dom";
+import { IQuestion } from "../../../../types/Question";
 
 export default function AddQuestion() {
   const navigate = useNavigate();
-  const onSuccess = () =>{
+  const back = () => {
     navigate(-1);
-  }
-  
-  return <QuestionForm onSuccess={onSuccess} />;
+  };
+  return <AddQuestionForm onSuccess={back} onCancel={back} />;
 }

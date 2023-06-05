@@ -13,7 +13,13 @@ import theme from "../../../../assets/theme";
 import SearchBar from "./SearchBar";
 import SelectBox, { IOption, ISelectBox } from "./SelectBox";
 import QuestionAccordion from "./QuestionAccordion";
-import React, { useState, useEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+  useContext,
+} from "react";
 import {
   DifficultyLevelEnum,
   IFilterQuestionsParams,
@@ -36,6 +42,11 @@ import UpdateAlert, {
   IAlertState,
 } from "../../../components/UpdateAlert/UpdateAlert";
 import { IQuestionType, ITopic } from "../../../types/CourseSettings";
+import { IManualExamDetails, QuestionsContext } from "../ExamCreation/Models";
+import {
+  ManualExamContext,
+} from "../ExamCreation/ManualExam";
+import { AutomaticExamContext } from "../ExamCreation/AutomaticExam";
 
 const DifficultyLevelOptions = [
   {
@@ -62,13 +73,16 @@ export const QuestionBankContext = React.createContext<IQuestionBankContext>({
 
 export default function QuestionBank({
   creation,
-  questionsSelected,
-  setQuestionsSelected,
+  isAutomatic,
 }: {
   creation?: boolean;
-  questionsSelected?: { questionsSelected: string }[];
-  setQuestionsSelected?: React.Dispatch<React.SetStateAction<String>>;
+  isAutomatic?: boolean;
 }) {
+  const { questionsList, setQuestionsList } = useContext(QuestionsContext);
+  const { examState, setExamState } = useContext(ManualExamContext);
+  const { automaticExamState, setAutomaticExamState } =
+    useContext(AutomaticExamContext);
+
   const { courseId } = useParams<{ courseId: string }>();
   const navigate = useNavigate();
   const [questions, setQuestions] = useState<IQuestion[]>([]);
@@ -79,7 +93,6 @@ export default function QuestionBank({
   });
   const [isLoading, setIsLoading] = useState(false);
   const [pagesCount, setPagesCount] = useState<number>(0);
-
 
   const loadQuestions = () => {
     setIsLoading(true);
@@ -97,6 +110,25 @@ export default function QuestionBank({
   const contextValue: IQuestionBankContext = {
     reloadQuestions: loadQuestions,
   };
+  const handleCheckboxChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    questionChecked: IQuestion
+  ) => {
+    if (event.target.checked) {
+      setQuestionsList([...questionsList, questionChecked]);
+    } else {
+      var newItems = questionsList.filter(
+        (question) => question.id !== questionChecked.id
+      );
+      setQuestionsList(newItems);
+    }
+
+  };
+
+  const isQuestionChecked = (question: IQuestion) =>
+    (isAutomatic ? automaticExamState : examState).questions
+      ?.get(question?.question_type.name)
+      ?.find((q) => q.question.id === question.id) !== undefined ?? false;
 
   const loadTopics = () => {
     getTopicsApi(courseId)
@@ -110,6 +142,7 @@ export default function QuestionBank({
       })
       .catch(({ response: { status, statusText } }: IErrorResponse) => {});
   };
+
 
   const loadQuestionTypes = () => {
     getQuestionTypesApi(courseId)
@@ -138,15 +171,29 @@ export default function QuestionBank({
     <div>
       <Stack
         sx={{
-          px: 20,
-          py: 6,
+          px: 15,
+          py: 5,
           justifyContent: "center",
           alignItems: "center",
           backgroundColor: theme.palette.background.default,
         }}
       >
+        <Box sx={{ display: "flex", width: "100%" }}>
+          <Box
+            sx={{
+              fontSize: "2rem",
+              pl: 3,
+              fontWeight: "medium",
+              fontFamily: "montserrat",
+              pb: 4,
+            }}
+          >
+            Question Bank
+          </Box>
+        </Box>
+
         <QuestionBankContext.Provider value={contextValue}>
-          <Box sx={{ width: "100%", px: 5 }}>
+          <Box sx={{ width: "100%", px: 3 }}>
             <Grid container direction="column">
               <Grid item xs>
                 <Grid
@@ -289,19 +336,37 @@ export default function QuestionBank({
                   <Grid container direction="column" spacing={4} paddingTop={2}>
                     {questions.map((question) => {
                       return (
-                        <Grid key={question.id} item xs>
-                          <Stack direction="row" spacing={2}>
-                            <Checkbox
-                              // checked={checked}
-                              // onChange={handleChange}
-                              inputProps={{ "aria-label": "primary checkbox" }}
-                            />
-                            <QuestionAccordion
-                              key={question.id}
-                              {...question}
-                            />
-                          </Stack>
-                        </Grid>
+                        <>
+                          {!isQuestionChecked(question) && (
+                            <Grid key={question.id} item xs>
+                              <Grid
+                                container
+                                direction="row"
+                                spacing={2}
+                                key={question.id}
+                              >
+                                <Grid item key={question.id}>
+                                  <Checkbox
+                                    checked={questionsList.includes(question)}
+                                    onChange={(
+                                      event: React.ChangeEvent<HTMLInputElement>
+                                    ) => handleCheckboxChange(event, question)}
+                                    inputProps={{
+                                      "aria-label": "primary checkbox",
+                                    }}
+                                  />
+                                </Grid>
+
+                                <Grid item xs key={question.id}>
+                                  <QuestionAccordion
+                                    key={question.id}
+                                    {...question}
+                                  />
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                          )}
+                        </>
                       );
                     })}
 

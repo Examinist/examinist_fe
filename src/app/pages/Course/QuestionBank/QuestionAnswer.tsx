@@ -24,9 +24,15 @@ const Circle = styled("div")(({ theme, color }) => ({
   borderWidth: "1px",
 }));
 
-export default function QuestionAnswer(question: IQuestion) {
+export default function QuestionAnswer({
+  question,
+  creation = false,
+}: {
+  question: IQuestion;
+  creation?: boolean;
+}) {
   return (
-    <Grid container direction="column" marginLeft={20} spacing={1}>
+    <Grid container direction="column" marginLeft={5} spacing={1}>
       {question.question_type.name == DefaultQuestionTypesEnum.MCQ ||
       question.question_type.name == DefaultQuestionTypesEnum.T_F ? (
         question.choices?.map((choice, index) => {
@@ -41,7 +47,9 @@ export default function QuestionAnswer(question: IQuestion) {
               <Grid item>
                 <Circle
                   color={
-                    choice.is_answer
+                    creation
+                      ? theme.palette.white.main
+                      : choice.is_answer
                       ? theme.palette.green.main
                       : theme.palette.white.main
                   }
@@ -68,7 +76,7 @@ export default function QuestionAnswer(question: IQuestion) {
         <Grid container direction="column">
           <Box
             sx={{
-              width: "700px",
+              width: "1100px",
               border: 1,
               borderRadius: 3,
               borderColor: theme.palette.gray.main,
@@ -77,7 +85,7 @@ export default function QuestionAnswer(question: IQuestion) {
             <Box sx={{ color: theme.palette.gray.dark, px: 2, pt: 1 }}>
               Answer
             </Box>
-            <Box sx={{ px: 2, py: 2, width: "700px" }}>
+            <Box sx={{ px: 2, py: 2, width: "1100px" }}>
               {question.correct_answers?.[0].answer}
             </Box>
           </Box>

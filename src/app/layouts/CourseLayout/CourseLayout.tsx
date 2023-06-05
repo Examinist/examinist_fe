@@ -48,7 +48,7 @@ const unAssignedAdminTabs: ITab[] = [
 ];
 
 const checkIfAssigned = (instructors: any[], username: string) => {
-  return instructors.some((instructor) => instructor.username === username) || true; 
+  return instructors.some((instructor) => instructor.username === username); 
 }
 
 export const IsAssignedContext = React.createContext<boolean>(false);
@@ -94,14 +94,14 @@ export default function CourseLayout() {
         <Box sx={{ alignSelf: "flex-end", flexGrow: 1 }}>
          {isLoaded && <CustomTabs tabs={isAssigned? tabs : unAssignedAdminTabs} />}
         </Box>
-        <CreateExamButton />
+        {isLoaded && isAssigned && <CreateExamButton />}
       </Box>
       <Box
         component="main"
         sx={{ flexGrow: 1, overflow: "auto", height: "100vh" }}
       >
-        <IsAssignedContext.Provider value={true}>
-          <Outlet />
+        <IsAssignedContext.Provider value={isAssigned}>
+        { isLoaded && <Outlet />}
         </IsAssignedContext.Provider>
       </Box>
     </Box>

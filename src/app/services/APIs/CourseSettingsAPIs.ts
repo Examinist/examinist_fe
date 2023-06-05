@@ -1,5 +1,4 @@
-import { IExamTemplate, IEditExamTemplate } from "../../types/CourseSettings";
-import { IQuestionType, ITopic } from "../../types/Question";
+import { IExamTemplate, IEditExamTemplate, IQuestionType, ITopic } from "../../types/CourseSettings";
 import axiosInstance from "../AxiosConfig";
 import { IResponse, IResponseData } from "../Response";
 import {

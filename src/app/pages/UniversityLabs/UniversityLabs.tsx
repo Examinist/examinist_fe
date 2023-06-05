@@ -1,16 +1,23 @@
 import { Box, Card, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, styled, tableCellClasses } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react';
+import { ILab } from '../../types/Lab';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: "#F5F5F5",
     //color: theme.palette.common.white,
   },
-}));
+}));  
 
 export default function UniversityLabs() {
   const tableHeader = ["Lab Name", "Capacity", ""];
-
+  const lab: ILab = {id: 21, name: "Mock Lab11", capacity: 10};
+  useEffect(() => {
+    // getLabsListApi().then((res) => {
+    //   console.log(res);
+    // });
+    
+  }, []);
   return (
     <Box sx={{ px: 15, py: 5 }}>
       <Box

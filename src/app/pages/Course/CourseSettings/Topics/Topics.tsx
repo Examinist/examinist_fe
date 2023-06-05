@@ -153,9 +153,8 @@ export default function Topics() {
                   height: "69%",
                   marginTop: "7px",
                   border: 1,
-                  fontSize: "14px",
+                  fontSize: "15px",
                   fontWeight: "bold",
-                  textTransform: "none",
                   borderRadius: "15px",
                   py: 1.5,
                 }}

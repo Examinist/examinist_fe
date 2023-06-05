@@ -19,6 +19,8 @@ import { AutomaticExamContext } from "./AutomaticExam";
 import { QuestionsContext } from "./Models";
 import { Alert, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar } from "@mui/material";
 import { IQuestion, DifficultyLevelEnum } from "../../../types/Question";
+import AddQuestion from "../QuestionForms/AddQuestion/AddQuestion";
+import AddQuestionForm from "../QuestionForms/AddQuestion/components/AddQuestionForm";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -29,7 +31,7 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function QuestionBankDialog({ isAutomatic = false }) {
+export default function AddQuestionDialog({ isAutomatic = false }) {
   const { questionsList, setQuestionsList } =
     React.useContext(QuestionsContext);
 
@@ -55,11 +57,11 @@ export default function QuestionBankDialog({ isAutomatic = false }) {
     }
   };
 
-  const getList = () => {
+  const getList = (question: IQuestion) => {
     var stateQuestions = isAutomatic
       ? automaticExamState.questions
       : examState.questions;
-    questionsList.map((question) => {
+   
       if (stateQuestions?.has(question.question_type.name)) {
         const questions = stateQuestions.get(question.question_type.name);
         if (
@@ -105,14 +107,14 @@ export default function QuestionBankDialog({ isAutomatic = false }) {
             })
           : setExamState({ ...examState, questions: examState.questions });
       }
-    });
+  
   };
   const handleClose = () => {
     setOpenAlert(true);
   };
-  const handleDone = () => {
+  const handleDone = (question?: IQuestion) => {
     setOpen(false);
-    getList();
+    getList(question!);
     setQuestionsList([]);
   };
   const handleAlertClose = () => {
@@ -127,6 +129,7 @@ export default function QuestionBankDialog({ isAutomatic = false }) {
     <div>
       <Button
         variant="outlined"
+        onClick={handleClickOpen}
         sx={{
           color: theme.palette.primary.main,
           backgroundColor: theme.palette.white.main,
@@ -134,11 +137,9 @@ export default function QuestionBankDialog({ isAutomatic = false }) {
           fontSize: "14px",
           fontWeight: "bold",
           borderRadius: "10px",
-          mr: "10px",
         }}
-        onClick={handleClickOpen}
       >
-        Import Question(s)
+        Add Question
       </Button>
       <Dialog
         fullScreen
@@ -180,14 +181,13 @@ export default function QuestionBankDialog({ isAutomatic = false }) {
               </Dialog>
             </>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Select Question(s) from Question Bank :
+              Create new question :
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleDone}>
-              Done
-            </Button>
           </Toolbar>
         </AppBar>
-        <QuestionBank creation={true} isAutomatic={isAutomatic} />
+        <AddQuestionForm
+          onSuccess={handleDone}
+        />
       </Dialog>
     </div>
   );

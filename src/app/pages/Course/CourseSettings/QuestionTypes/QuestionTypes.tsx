@@ -151,11 +151,10 @@ export default function QuestionTypes() {
                   backgroundColor: theme.palette.white.main,
                   marginLeft: "auto",
                   border: 1,
-                  fontSize: "14px",
+                  fontSize: "15px",
                   fontWeight: "bold",
                   px: 4,
-                  textTransform: "none",
-                  borderRadius: "15px",
+                  borderRadius: "17px",
                 }}
                 onClick={handleDialogOpen}
               >

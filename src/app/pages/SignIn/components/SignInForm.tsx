@@ -77,14 +77,14 @@ export default function SignInForm() {
 
     SignInAPI(requestData, inputs.portal)
       .then(({ data }: ISignInResponse) => {
-        const user: IUser = data.staff! || data.student!;
+        const user: IUser = data.staff! || data.student! || data.coordinator!;
         localStorage.setItem("auth_token", user.auth_token!);
         localStorage.setItem("portal", inputs.portal);
         localStorage.setItem("username", user.username!);
         login(user);
       })
-      .catch(({ response: { status, data, statusText } }: IErrorResponse) => {
-        setErrorMessage(data.message! || statusText!);
+      .catch(({ response: { data, statusText } }: IErrorResponse) => {
+        setErrorMessage(data?.message || statusText!);
       });
   };
 
@@ -179,17 +179,22 @@ export default function SignInForm() {
                 <RadioGroup
                   {...field}
                   row
-                  sx={{ display: "flex", justifyContent: "center", gap: 4 }}
+                  sx={{ display: "flex", justifyContent: "center", gap: 2 }}
                 >
                   <FormControlLabel
                     value={UserPortalEnum.STAFF}
                     control={<Radio />}
-                    label={"University Staff"}
+                    label={"Faculty Staff"}
                   />
                   <FormControlLabel
                     value={UserPortalEnum.STUDENT}
                     control={<Radio />}
                     label={"Student"}
+                  />
+                  <FormControlLabel
+                    value={UserPortalEnum.UNIVERSITY_ADMIN}
+                    control={<Radio />}
+                    label={"University Admin"}
                   />
                 </RadioGroup>
               )}

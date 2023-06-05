@@ -1,16 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   AnswerTypeEnum,
   DifficultyLevelEnum,
   IQuestion,
 } from "../../../../../types/Question";
-import {
-  Box,
-  Button,
-  Divider,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Divider, Grid, Typography } from "@mui/material";
 import { FormProvider, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -38,12 +32,17 @@ import SelectQuestionType from "../../components/SelectQuestionType";
 import SelectTopic from "../../components/SelectTopic";
 import SelectDifficulty from "../../components/SelectDifficulty";
 import QuestionCard from "./QuestionCard";
+import { QuestionsContext } from "../../../ExamCreation/Models";
 
 interface IQuestionFormProps {
   onSuccess: (question?: IQuestion) => void;
+  onCancel?: () => void;
 }
 
-export default function QuestionForm({ onSuccess }: IQuestionFormProps) {
+export default function AddQuestionForm({
+  onSuccess,
+  onCancel,
+}: IQuestionFormProps) {
   const { setAlertState } = useAlert();
   const { courseId } = useParams<{ courseId: string }>();
   const [topics, setTopics] = useState<ITopic[]>([]);
@@ -105,7 +104,7 @@ export default function QuestionForm({ onSuccess }: IQuestionFormProps) {
       .then(({ data }: IQuestionResponse) => {
         setAlertState({
           open: true,
-          message: "Question created successfully",
+          message: "Question added to course question bank successfully!",
           severity: "success",
         });
         onSuccess(data.question);
@@ -152,21 +151,22 @@ export default function QuestionForm({ onSuccess }: IQuestionFormProps) {
             </Grid>
             <Grid item xs={7} md={9} sx={{ px: 6, py: 4 }}>
               <QuestionCard />
-              <Box sx={{ display: "flex", gap: 2 }}>
-                <Button
-                  variant="outlined"
-                  sx={{
-                    ml: "auto",
-                    mt: "auto",
-                    px: 4,
-                    borderRadius: 3,
-                    backgroundColor: theme.palette.white.main,
-                  }}
-                  onClick={() => navigate(-1)}
-                >
-                  cancel
-                </Button>
-
+              <Box sx={{ display: "flex", gap: 2, flexDirection: "row-reverse" }}>
+                {onCancel && (
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      ml: "auto",
+                      mt: "auto",
+                      px: 4,
+                      borderRadius: 3,
+                      backgroundColor: theme.palette.white.main,
+                    }}
+                    onClick={onCancel}
+                  >
+                    cancel
+                  </Button>
+                )}
                 <Button
                   variant="contained"
                   sx={{ mt: "auto", px: 4, borderRadius: 3 }}
