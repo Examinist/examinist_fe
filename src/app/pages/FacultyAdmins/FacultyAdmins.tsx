@@ -9,6 +9,7 @@ import AdminAccordion from './components/adminAccordion';
 export default function FacultyAdmins() {
   const admins: IUser[] = [{ ...mockInstructor, role: UserRoleEnum.FACULTY_ADMIN }, { ...mockInstructor, id: 2, role: UserRoleEnum.FACULTY_ADMIN }];
   const faculties: string[] = ["Engineering", "Science"];
+  const instructors: IUser[] = [{ ...mockInstructor, id:3 }, { ...mockInstructor, id: 4 }];
 
   return (
     <Box sx={{ px: 15, py: 5 }}>
@@ -26,6 +27,7 @@ export default function FacultyAdmins() {
         <AdminAccordion
           faculty={value}
           admins={admins}
+          instructors={instructors}
           ></AdminAccordion>
       )}
 

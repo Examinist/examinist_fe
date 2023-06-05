@@ -1,16 +1,27 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Divider, IconButton, List, ListItem, ListItemText } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, DialogContent, Divider, IconButton, List, ListItem, ListItemButton, ListItemText } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import IUser, { UserRoleEnum } from "../../../types/User";
 import { mockInstructor } from "../../../services/APIs/mockData/MockData";
 import { Delete } from "@mui/icons-material";
 import theme from "../../../../assets/theme";
+import { useState } from "react";
+import CustomDialog, { CustomDialogTitle } from "../../Course/CourseSettings/QuestionTypes/components/CustomDialog";
+import AddAdminDialog from "./addAdminDialog";
 
+
+//we can take only faculty name and api call when need to get faculty admin and faculty instructors
 interface IAdminAccordionProp {
   faculty: string,
   admins: IUser[],
+  instructors: IUser[],
 }
 
-export default function AdminAccordion({ faculty, admins }: IAdminAccordionProp) {
+export default function AdminAccordion({ faculty, admins, instructors }: IAdminAccordionProp) {
+  const [openDialog, setDialog] = useState(false);
+
+  const handleClose = () => {
+    setDialog(false);
+  }
 
   return (
     <Box
@@ -64,8 +75,7 @@ export default function AdminAccordion({ faculty, admins }: IAdminAccordionProp)
             >
               <Button
                 variant="outlined"
-                onClick={() => null //handleAddTopicButton(1)
-                }
+                onClick={() => setDialog(!openDialog)}
                 sx={{
                   color: "#1B84BF",
                   backgroundColor: theme.palette.white.main,
@@ -82,6 +92,8 @@ export default function AdminAccordion({ faculty, admins }: IAdminAccordionProp)
               >
                 Add User
               </Button>
+              {openDialog && <AddAdminDialog instructors={instructors} open={openDialog} handleOpenClose={handleClose}></AddAdminDialog>
+                }
             </Box>
           </Box>
         </AccordionDetails>
