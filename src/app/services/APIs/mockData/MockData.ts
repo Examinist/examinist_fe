@@ -22,7 +22,6 @@ import { UserRoleEnum } from "../../../types/User";
 import { IExamPayload } from "../ExamAPIs";
 
 export const mockInstructor: IUser = {
-  id: 1,
   username: "mockuser",
   first_name: "Mock",
   last_name: "User",

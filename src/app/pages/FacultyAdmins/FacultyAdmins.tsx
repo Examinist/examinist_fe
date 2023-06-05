@@ -7,9 +7,9 @@ import theme from '../../../assets/theme';
 import AdminAccordion from './components/adminAccordion';
 
 export default function FacultyAdmins() {
-  const admins: IUser[] = [{ ...mockInstructor, role: UserRoleEnum.FACULTY_ADMIN }, { ...mockInstructor, id: 2, role: UserRoleEnum.FACULTY_ADMIN }];
+  const admins: IUser[] = [{ ...mockInstructor, role: UserRoleEnum.FACULTY_ADMIN }, { ...mockInstructor,  role: UserRoleEnum.FACULTY_ADMIN }];
   const faculties: string[] = ["Engineering", "Science"];
-  const instructors: IUser[] = [{ ...mockInstructor, id:3 }, { ...mockInstructor, id: 4 }];
+  const instructors: IUser[] = [{ ...mockInstructor }, { ...mockInstructor }];
 
   return (
     <Box sx={{ px: 15, py: 5 }}>
