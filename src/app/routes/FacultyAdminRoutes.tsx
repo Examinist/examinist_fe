@@ -7,6 +7,7 @@ import AllExams from "../pages/AllExams/AllExams";
 import Schedules from "../pages/Scheduling/Schedules";
 import CourseRoutes from "./CourseRoutes";
 import StudentExam from "../pages/Course/ExamGrading/StudentExam";
+import CreateSchedule from "../pages/Scheduling/CreateSchedule/CreateSchedule";
 
 const FacultyAdminRoutes = () => {
   return (
@@ -28,11 +29,14 @@ const FacultyAdminRoutes = () => {
 
         <Route path="pending-reports" element={<Test />} />
 
-        <Route path="scheduling" element={<Schedules />}></Route>
+        <Route path="scheduling">
+          <Route index element={<Schedules />} />
+          <Route path="new" element={<CreateSchedule />} />
+        </Route>
 
         <Route path="users" element={<Test />} />
       </Route>
-      <Route 
+      <Route
         path={`${
           userRoleToPathMap[UserRoleEnum.FACULTY_ADMIN]
         }/courses/:courseId/exams/:examId/grading/:studentExamId`}

@@ -1,11 +1,12 @@
-import { get } from "react-hook-form";
-import { ExamStatusEnum, IDetailedExam, IExamQuestionsGroup } from "../../types/Exam";
+import {
+  ExamStatusEnum,
+  IDetailedExam,
+  IExamQuestionsGroup,
+} from "../../types/Exam";
 import { IExam } from "../../types/Exam";
 import axiosInstance from "../AxiosConfig";
 import { IResponse, IResponseData } from "../Response";
 import { mockDetailedExam, mockExamsList } from "./mockData/MockData";
-import { IQuestion } from "../../types/Question";
-
 
 export interface IExamPayload {
   title?: string;
@@ -45,14 +46,11 @@ interface IDetailedExamData extends IResponseData {
 export interface IExamsListResponse extends IResponse<ExamsListData> {}
 export interface IExamResponse extends IResponse<IDetailedExamData> {}
 
-const mapQuestions = (questions: any) =>{
- return new Map(
-    questions.map((obj:any) => [
-      Object.keys(obj)[0],
-      obj[Object.keys(obj)[0]],
-    ])
+const mapQuestions = (questions: any) => {
+  return new Map(
+    questions.map((obj: any) => [Object.keys(obj)[0], obj[Object.keys(obj)[0]]])
   );
-}
+};
 
 export const getExamsApi = async (
   course_id?: number,
@@ -68,6 +66,13 @@ export const getExamsApi = async (
         page: page,
       },
     });
+    let exams: IExam[] = response.data.exams;
+    exams.forEach((exam: IExam) => {
+      exam.created_at = new Date(exam.created_at);
+      if (exam.scheduled_date) {
+        exam.scheduled_date = new Date(exam.scheduled_date);
+      }
+    });
     return response as IExamsListResponse;
   } catch (error) {
     return { data: { exams: mockExamsList } } as IExamsListResponse;
@@ -82,7 +87,6 @@ export const getExamApi = async (exam_id: number) => {
   try {
     const portal = localStorage.getItem("portal");
     const response = await axiosInstance.get(`${portal}/exams/${exam_id}`);
-    console.log(response)
     return response as IExamResponse;
   } catch (error) {
     return { data: { exam: mockDetailedExam } } as IExamResponse;
@@ -101,9 +105,11 @@ export const createExamApi = async (exam: IExamPayload) => {
   } catch (error) {
     return { data: { exam: mockDetailedExam } } as IExamResponse;
   }
-}
+};
 
-export const autoGenerateExamApi = async (exam_parameters: IAutoGeneratePayload) => {
+export const autoGenerateExamApi = async (
+  exam_parameters: IAutoGeneratePayload
+) => {
   try {
     const portal = localStorage.getItem("portal");
     const response = await axiosInstance.post(`${portal}/exams/auto_generate`, {
@@ -120,7 +126,6 @@ export const autoGenerateExamApi = async (exam_parameters: IAutoGeneratePayload)
   } catch (error) {
     return { data: { exam: mockDetailedExam } } as IExamResponse;
   }
-  
 };
 
 // EXAM PAYLOAD EXAMPLE
@@ -130,7 +135,7 @@ export const autoGenerateExamApi = async (exam_parameters: IAutoGeneratePayload)
 //   "duration": 60,
 //   "has_models": false,
 //   "exam_questions_attributes": [
-  // EDIT QUESTION SCORE
+// EDIT QUESTION SCORE
 //     {
 //       "id": 5,
 //       "score": 5
@@ -150,12 +155,14 @@ export const autoGenerateExamApi = async (exam_parameters: IAutoGeneratePayload)
 export const updateExamApi = async (exam_id: number, exam: IExamPayload) => {
   try {
     const portal = localStorage.getItem("portal");
-    const response = await axiosInstance.put(`${portal}/exams/${exam_id}`, { exam });
+    const response = await axiosInstance.put(`${portal}/exams/${exam_id}`, {
+      exam,
+    });
     return response as IExamResponse;
   } catch (error) {
     return { data: { exam: mockDetailedExam } } as IExamResponse;
   }
-} 
+};
 
 export const deleteExamApi = async (exam_id: number) => {
   try {
@@ -165,5 +172,4 @@ export const deleteExamApi = async (exam_id: number) => {
   } catch (error) {
     return { data: { exam: {} } } as IExamResponse;
   }
-}
-
+};
