@@ -10,7 +10,8 @@ export default function ScheduleExams() {
           sx={{
             fontSize: "1.7rem",
             fontWeight: "medium",
-            p: 1,
+            px: 1,
+            py: 2,
             color: theme.palette.gray.dark,
           }}
         >
@@ -25,7 +26,7 @@ export default function ScheduleExams() {
             py: 1,
             px: 3,
             alignSelf: "center",
-            fontWeight: 700,
+            fontWeight: 650,
             backgroundColor: theme.palette.background.paper,
           }}
         >

@@ -89,7 +89,8 @@ export default function ScheduleInfo({
             sx={{
               fontSize: "1.7rem",
               fontWeight: "medium",
-              p:1,
+              px:1,
+              py:2,
               color: theme.palette.gray.dark,
             }}
           >

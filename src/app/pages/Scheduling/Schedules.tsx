@@ -25,8 +25,11 @@ export default function Schedules() {
             ml: "auto",
             border: 1,
             fontSize: "14px",
-            fontWeight: "bold",
+            fontWeight: "650",
+            height: "fit-content",
+            py:1,
             px: 4,
+            alignSelf: "center",
             borderRadius: "20px",
           }}
           onClick={() => {navigate("./new")}}
