@@ -24,7 +24,7 @@ export default function Schedules() {
             backgroundColor: theme.palette.white.main,
             ml: "auto",
             border: 1,
-            fontSize: "15px",
+            fontSize: "14px",
             fontWeight: "bold",
             px: 4,
             borderRadius: "20px",

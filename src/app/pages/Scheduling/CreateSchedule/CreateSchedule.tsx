@@ -1,86 +1,89 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import theme from "../../../../assets/theme";
-
-const steps = ["Set Schedule's Info", "Schedule Exams"];
+import { IconButton } from "@mui/material";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import { useNavigate } from "react-router-dom";
+import ScheduleInfo from "./StepOne/ScheduleInfo";
+import ScheduleExams from "./StepTwo/ScheduleExams";
+import CreateScheduleStepper from "./CreateScheduleStepper";
+import { IScheduleContext, ScheduleContext } from "./ScheduleContext";
+import { useRef, useState } from "react";
+import { IExam } from "../../../types/Exam";
+const steps = ["Set Schedule's Info", "Schedule Exams", "Submit"];
+// const components = [<ScheduleInfo />, <ScheduleExams />];
 
 export default function CreateSchedule() {
+  const navigate = useNavigate();
   const [activeStep, setActiveStep] = React.useState(0);
+  const [title, setTitle] = useState<string>("");
+  const [exams, setExams] = useState<IExam[]>([]);
+  const stepOneFormRef = useRef<any>();
+  const nextStep = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);}
+  const components = [
+    <ScheduleInfo reference={stepOneFormRef} onSuccess={nextStep}/>,
+    <ScheduleExams />,
+    <div></div>
+  ];
+  const stepsNextActions = [
+    () => {
+      stepOneFormRef.current?.submitForm();
+    },
+    () => {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    },
+    () =>{ setActiveStep((prevActiveStep) => prevActiveStep + 1)}
+  ];
 
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  const contextValue: IScheduleContext = {
+    title: title,
+    setTitle: setTitle,
+    exams: exams,
+    setExams: setExams,
   };
 
   return (
-    <Box sx={{ width: "100%", px: 5, py: 4 }}>
-      <Box
-        sx={{
-          fontSize: "1.9rem",
-          fontWeight: "medium",
-          fontFamily: "montserrat",
-          pb: 5,
-          pl: 1
-        }}
-      >
-        Create Schedule
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        rowGap: "1rem",
+        px: "5%",
+        py: 4,
+      }}
+    >
+      <Box display="flex" sx={{ gap: 2 }}>
+        <IconButton
+          aria-label="back"
+          size="large"
+          onClick={() => {
+            navigate(-1);
+          }}
+        >
+          <ArrowBackIosNewIcon
+            sx={{ color: theme.palette.text.primary }}
+            fontSize="inherit"
+          />
+        </IconButton>
+        <Box
+          sx={{
+            fontSize: "1.9rem",
+            fontWeight: "medium",
+          }}
+        >
+          Create Schedule
+        </Box>
       </Box>
-
-      <Box
-        sx={{
-          backgroundColor: theme.palette.background.paper,
-          borderRadius: "15px",
-          py: 3,
-          px: 5,
-        }}
-      >
-        <Stepper activeStep={activeStep} sx={{ py: 4, px: 20 }}>
-          {steps.map((label, index) => {
-            const stepProps: { completed?: boolean } = {};
-            return (
-              <Step key={label} {...stepProps}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            );
-          })}
-        </Stepper>
-
-        <React.Fragment>
-          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            <Button
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-            >
-              Back
-            </Button>
-            <Box sx={{ flex: "1 1 auto" }} />
-
-            {activeStep === steps.length - 1 ? (
-              <Button
-                variant="contained"
-                onClick={handleNext}
-                sx={{ ml: 1, borderRadius: 3, boxShadow: 0 }}
-              >
-                Submit
-              </Button>
-            ) : (
-              <Button onClick={handleNext} sx={{ ml: 1 }}>
-                Next
-              </Button>
-            )}
-          </Box>
-        </React.Fragment>
-      </Box>
+      <CreateScheduleStepper
+        activeStep={activeStep}
+        setActiveStep={setActiveStep}
+        steps={steps}
+        stepsNextActions={stepsNextActions}
+      />
+      <ScheduleContext.Provider value={contextValue}>
+        {components[activeStep]}
+      </ScheduleContext.Provider>
     </Box>
   );
 }

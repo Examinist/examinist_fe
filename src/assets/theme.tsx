@@ -51,6 +51,7 @@ const theme = createTheme({
       main:"#90BE6D",
     },
     red: {
+      dark: "#d32f2f",
       main:"#F94144",
     },
   },

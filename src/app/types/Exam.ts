@@ -13,6 +13,7 @@ export interface IExam{
     creation_mode: ExamCreationModeEnum;
     creator: IUser;
     course: ICourse;
+    number_of_students?: number;
 }
 
 export interface IDetailedExam extends IExam {
