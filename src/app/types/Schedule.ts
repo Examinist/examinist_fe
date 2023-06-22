@@ -10,12 +10,6 @@ export interface IBusyLab {
   name: string;
 }
 
-export interface IScheduledExam extends IExam{
-    number_of_students: number;
-    busy_labs: IBusyLab[];
-}
-
-
 export interface IDetailedSchedule extends ISchedule{
-    exams: IScheduledExam[];
+    exams: IExam[];
 }

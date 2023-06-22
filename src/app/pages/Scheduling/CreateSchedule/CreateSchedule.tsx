@@ -4,14 +4,13 @@ import theme from "../../../../assets/theme";
 import { IconButton } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useNavigate } from "react-router-dom";
-import ScheduleInfo from "./StepOne/ScheduleInfo";
-import ScheduleExams from "./StepTwo/ScheduleExams";
+import ScheduleInfoForm from "./StepOne/ScheduleInfoForm";
+import ScheduleExamsForm from "./StepTwo/ScheduleExamsForm";
 import CreateScheduleStepper from "./CreateScheduleStepper";
 import { IScheduleContext, ScheduleContext } from "./ScheduleContext";
 import { useRef, useState } from "react";
 import { IExam } from "../../../types/Exam";
 const steps = ["Set Schedule's Info", "Schedule Exams", "Submit"];
-// const components = [<ScheduleInfo />, <ScheduleExams />];
 
 export default function CreateSchedule() {
   const navigate = useNavigate();
@@ -19,13 +18,18 @@ export default function CreateSchedule() {
   const [title, setTitle] = useState<string>("");
   const [exams, setExams] = useState<IExam[]>([]);
   const stepOneFormRef = useRef<any>();
+  const stepTwoFormRef = useRef<any>();
+
   const nextStep = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);}
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
   const components = [
-    <ScheduleInfo reference={stepOneFormRef} onSuccess={nextStep}/>,
-    <ScheduleExams />,
-    <div></div>
+    <ScheduleInfoForm reference={stepOneFormRef} onSuccess={nextStep} />,
+    <ScheduleExamsForm reference={stepTwoFormRef} onSuccess={nextStep}/>,
+    <div></div>,
   ];
+
   const stepsNextActions = [
     () => {
       stepOneFormRef.current?.submitForm();
@@ -33,7 +37,9 @@ export default function CreateSchedule() {
     () => {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     },
-    () =>{ setActiveStep((prevActiveStep) => prevActiveStep + 1)}
+    () => {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    },
   ];
 
   const contextValue: IScheduleContext = {

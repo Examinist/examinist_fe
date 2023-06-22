@@ -20,14 +20,14 @@ import { IErrorResponse } from "../../../../services/Response";
 import { ExamStatusEnum, IExam } from "../../../../types/Exam";
 import useAlert from "../../../../hooks/useAlert";
 
-interface IScheduleInfoProps {
+interface IScheduleInfoFormProps {
   reference: React.Ref<any>;
   onSuccess: () => void;
 }
-export default function ScheduleInfo({
+export default function ScheduleInfoForm({
   reference,
   onSuccess,
-}: IScheduleInfoProps) {
+}: IScheduleInfoFormProps) {
   const [isLoading, setIsLoading] = React.useState(true);
   const [unScheduledExams, setUnScheduledExams] = React.useState<IExam[]>([]);
   const { setAlertState } = useAlert();
@@ -36,7 +36,6 @@ export default function ScheduleInfo({
 
   useImperativeHandle(reference, () => ({
     submitForm() {
-      console.log("form.submitform");
       handleSubmit(onSubmit)();
     },
   }));
@@ -89,12 +88,12 @@ export default function ScheduleInfo({
             sx={{
               fontSize: "1.7rem",
               fontWeight: "medium",
-              px:1,
-              py:2,
+              px: 1,
+              py: 2,
               color: theme.palette.gray.dark,
             }}
           >
-           Schedule's Info
+            Schedule's Info
           </Box>
           <Box
             sx={{
