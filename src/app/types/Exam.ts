@@ -19,7 +19,7 @@ export interface IExam {
 }
 
 export interface IDetailedExam extends IExam {
-  exam_questions: Map<string, IExamQuestion[]>;
+  exam_questions: IExamQuestionsGroup[];
 }
 
 

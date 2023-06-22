@@ -113,6 +113,7 @@ export default function HorizontalStepper({ isAutomatic = false }) {
 
       setAutomaticExamState({
         ...automaticExamState,
+        // FIXME: map this to this
         questions: data.exam.exam_questions,
       });
       setAlertState({

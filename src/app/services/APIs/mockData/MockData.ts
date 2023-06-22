@@ -30,7 +30,6 @@ export const mockInstructor: IUser = {
   auth_token: "123456789",
 };
 
-
 export const mockCourses: ICourse[] = [
   {
     id: 6,
@@ -268,20 +267,31 @@ export const mockExamsList: IExam[] = [
   },
 ];
 
-export let mockExamQuestions: Map<string, IExamQuestion[]> = new Map([
-  [
-    "MCQ",
-    [
-      { id: 1, score: 2, question: mockQuestions[0] },
-      { id: 2, score: 3, question: mockQuestions[1] },
-    ],
-  ],
-  ["T/F", [{ id: 3, score: 2, question: mockQuestions[3] }]],
-]);
+// export let mockExamQuestions: Map<string, IExamQuestion[]> = new Map([
+//   [
+//     "MCQ",
+//     [
+//       { id: 1, score: 2, question: mockQuestions[0] },
+//       { id: 2, score: 3, question: mockQuestions[1] },
+//     ],
+//   ],
+//   ["T/F", [{ id: 3, score: 2, question: mockQuestions[3] }]],
+// ]);
 
 export const mockDetailedExam: IDetailedExam = {
   ...mockExam,
-  exam_questions: mockExamQuestions,
+  exam_questions: [
+    {
+      "MCQ": [
+        { id: 1, score: 2, question: mockQuestions[0] },
+        { id: 2, score: 3, question: mockQuestions[1] },
+      ],
+      "T/F": [
+        { id: 3, score: 2, question: mockQuestions[0] },
+        { id: 4, score: 3, question: mockQuestions[1] },
+      ],
+    },
+  ],
 };
 
 export const mockExamPayload: IExamPayload = {

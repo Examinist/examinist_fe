@@ -171,7 +171,7 @@ export default function QuestionBank({
     <div>
       <Stack
         sx={{
-          px: 15,
+          px: 7,
           py: 5,
           justifyContent: "center",
           alignItems: "center",
