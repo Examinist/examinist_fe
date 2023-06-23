@@ -4,12 +4,13 @@ import theme from "../../../../assets/theme";
 import { IconButton } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useNavigate } from "react-router-dom";
-import ScheduleInfoForm from "./StepOne/ScheduleInfoForm";
-import ScheduleExamsForm from "./StepTwo/ScheduleExamsForm";
+import ScheduleInfoForm from "./Step1/ScheduleInfoForm";
+import ScheduleExamsForm from "./Step2/ScheduleExamsForm";
 import CreateScheduleStepper from "./CreateScheduleStepper";
 import { IScheduleContext, ScheduleContext } from "./ScheduleContext";
 import { useRef, useState } from "react";
 import { IExam } from "../../../types/Exam";
+import ReviewSchedule from "./Step3/ReviewSchedule";
 const steps = ["Set Schedule's Info", "Schedule Exams", "Submit"];
 
 export default function CreateSchedule() {
@@ -27,7 +28,7 @@ export default function CreateSchedule() {
   const components = [
     <ScheduleInfoForm reference={stepOneFormRef} onSuccess={nextStep} />,
     <ScheduleExamsForm reference={stepTwoFormRef} onSuccess={nextStep}/>,
-    <div></div>,
+    <ReviewSchedule />,
   ];
 
   const stepsNextActions = [
