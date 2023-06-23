@@ -27,7 +27,9 @@ export default function FacultyAdminLayout() {
           },
         }}
       >
-        <Logo />
+        <Box sx={{ ml: 3, mt: 1 }}>
+          <Logo />
+        </Box>
         <FacultyAdminMenu />
         <Box sx={{ mt: "auto" }}>
           <Divider />

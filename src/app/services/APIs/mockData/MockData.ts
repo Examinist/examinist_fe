@@ -234,7 +234,7 @@ export const mockExam: IExam = {
   status: ExamStatusEnum.UNSCHEDULED,
   duration: 60,
   created_at: new Date("2021-01-01"),
-  scheduled_date: new Date("2021-01-01"),
+  scheduled_date: new Date(),
   creation_mode: ExamCreationModeEnum.MANUAL,
   creator: mockInstructor,
   course: mockCourses[0],
