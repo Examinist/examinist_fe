@@ -8,7 +8,7 @@ const cols = ["Title", "Course", "Duration (mins)", "Scheduled Date", "Start Tim
 
 const row = (exam: IExam) => [
   exam.title,
-  exam.course.title + " - " + exam.course.code,
+  exam.course.title + " - " + exam.course.code.toUpperCase(),
   exam.duration,
   exam.scheduled_date.toLocaleDateString(undefined, dateOptions),
   exam.scheduled_date.toLocaleTimeString(undefined, timeOptions),
@@ -17,6 +17,15 @@ const row = (exam: IExam) => [
 ];
 const fontSize = "16px"
 export default function ExamsTable({exams}: {exams: IExam[]}) {
+    var d = new Date();
+    var n = d.getTimezoneOffset();
+    var today = new Date();
+    if (today.isDstObserved()) {
+      console.log("Daylight saving time!");
+    }
+    else{
+        console.log("No daylight saving time!");
+    }
   return (
     <TableContainer component={Paper} sx={{ px: 2, py: 1 }}>
       {exams.length === 0 && (
