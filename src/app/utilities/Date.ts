@@ -25,6 +25,10 @@ export const getTimeStr = (date: Date) => {
   return date.toLocaleTimeString(undefined, timeOptions);
 };
 
+export const getFullDateStr = (date: Date) => {
+  return date.toLocaleDateString(undefined, fullDateOptions);
+};
+
 export const getDateStr = (date: Date) => {
   return date.toLocaleDateString(undefined, dateOptions);
 };

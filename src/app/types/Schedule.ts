@@ -5,11 +5,6 @@ export interface ISchedule{
     title: string;
 }
 
-export interface IBusyLab {
-  id: number;
-  name: string;
-}
-
 export interface IDetailedSchedule extends ISchedule{
     exams: IExam[];
 }
