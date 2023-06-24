@@ -12,12 +12,13 @@ import {
   IExamQuestion,
   IExamQuestionsGroup,
 } from "../../../types/Exam";
-import { ILab } from "../../../types/Lab";
+import { IBusyLab, ILab } from "../../../types/Lab";
 import {
   AnswerTypeEnum,
   DifficultyLevelEnum,
   IQuestion,
 } from "../../../types/Question";
+import { IStudentExam, StudentExamStatusEnum } from "../../../types/StudentExam";
 import IUser from "../../../types/User";
 import { UserRoleEnum } from "../../../types/User";
 import { IExamPayload } from "../ExamAPIs";
@@ -322,3 +323,34 @@ export const mockLabs: ILab[] = [
     capacity: 10,
   },
 ];
+
+export const mockBusyLabs: IBusyLab[] = [
+  {
+    id: 1,
+    name: "Lab 1",
+  }, {
+    id: 2,
+    name: "Lab 2",
+  }, {
+    id: 3,
+    name: "Lab 3",
+  }
+
+]
+
+export const mockStudentExam: IStudentExam = {
+  id: 1,
+  status: StudentExamStatusEnum.UPCOMING,
+  title: "Mock Exam",
+  duration: 60,
+  total_score: 40,
+  scheduled_date: new Date(),
+  ends_at: new Date( Date.now() + 60 * 60 * 1000),
+  course: mockCourses[0],
+  busy_lab: mockBusyLabs[0],
+}
+
+export const mockStudentExams: IStudentExam[] = [
+  mockStudentExam,
+]
+  

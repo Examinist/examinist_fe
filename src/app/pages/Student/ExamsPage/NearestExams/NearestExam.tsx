@@ -6,16 +6,15 @@ import { addTime, getTimeStr } from "../../../../utilities/Date";
 import { Button, Stack } from "@mui/material";
 import Countdown from "react-countdown";
 import CustomCountDown from "./CountDown/CustomCountDown";
+import { IStudentExam } from "../../../../types/StudentExam";
 
-const Completionist = () => <span>You are good to go!</span>;
-
-const fromToDateStr = (exam: IExam) => {
+const fromToDateStr = (exam: IStudentExam) => {
   const from = getTimeStr(exam.scheduled_date);
-  const to = getTimeStr(addTime(exam.scheduled_date, exam.duration));
+  const to = getTimeStr(exam.ends_at);
   return from + " - " + to;
 };
 
-export default function NearestExam({ exam }: { exam: IExam }) {
+export default function NearestExam({ exam }: { exam: IStudentExam }) {
   const [started, setStarted] = useState<Boolean>(false);
 
   return (
@@ -23,7 +22,7 @@ export default function NearestExam({ exam }: { exam: IExam }) {
       sx={{
         backgroundColor: theme.palette.white.main,
         px: 4,
-        py: 2,
+        py: 3,
         borderRadius: 3,
         display: "flex",
         justifyContent: "space-between",
@@ -65,7 +64,7 @@ export default function NearestExam({ exam }: { exam: IExam }) {
           Starts in
         </Box>
         <CustomCountDown
-          toDate={addTime(exam.scheduled_date, 1)}
+          toDate={exam.ends_at}
           onComplete={() => setStarted(true)}
         />
       </Stack>
