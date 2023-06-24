@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, Table, TableCell, TableContainer, TableHead } from "@mui/material";
 import React, { useImperativeHandle } from "react";
 import theme from "../../../../../assets/theme";
 import { ScheduleContext } from "../ScheduleContext";
@@ -19,7 +19,7 @@ export default function ScheduleExamsForm({
     },
   }));
 
-  const {handleSubmit} = useForm();
+  const { handleSubmit } = useForm();
   const onSubmit = () => {
     onSuccess();
   };
@@ -36,7 +36,7 @@ export default function ScheduleExamsForm({
               color: theme.palette.gray.dark,
             }}
           >
-            Exams' Scheduling
+            Schedule Exams
           </Box>
           <Button
             variant="outlined"
@@ -53,6 +53,28 @@ export default function ScheduleExamsForm({
           >
             Generate Automatic Schedule
           </Button>
+        </Box>
+        <Box display="flex"
+          sx={{
+            fontSize: "1.5rem",
+            fontWeight: "medium",
+            backgroundColor: theme.palette.background.paper,
+          }}>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableCell>ID</TableCell>
+                <TableCell>Title</TableCell>
+                <TableCell>Course</TableCell>
+                <TableCell>Number of Students</TableCell>
+                <TableCell>Duration</TableCell>
+                <TableCell>Scheduled Date</TableCell>
+                <TableCell>Start Time</TableCell>
+                <TableCell>End Time</TableCell>
+                <TableCell>Labs</TableCell>
+              </TableHead>
+            </Table>
+          </TableContainer>
         </Box>
       </Box>
     </form>
