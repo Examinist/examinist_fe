@@ -21,6 +21,18 @@ export const timeOptions: Intl.DateTimeFormatOptions = {
   hour12: true,
 };
 
+export const getTimeStr = (date: Date) => {
+  return date.toLocaleTimeString(undefined, timeOptions);
+};
+
+export const getDateStr = (date: Date) => {
+  return date.toLocaleDateString(undefined, dateOptions);
+};
+
+export const addTime = (date: Date, offset: number) => {
+  return new Date(date.getTime() + offset * 60000);
+}
+
 declare global {
   interface Date {
     stdTimezoneOffset: () => number;
@@ -31,7 +43,7 @@ declare global {
 Date.prototype.stdTimezoneOffset = function () {
   var jan = new Date(this.getFullYear(), 0, 1);
   var jul = new Date(this.getFullYear(), 6, 1);
-  console.log(jan.getTimezoneOffset(), jul.getTimezoneOffset())
+  console.log(jan.getTimezoneOffset(), jul.getTimezoneOffset());
   return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
 };
 
