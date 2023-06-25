@@ -1,5 +1,7 @@
+import { mock } from "node:test";
 import { ICourse, ICourseGroup } from "../../../types/Course";
 import {
+  DefaultQuestionTypesEnum,
   IExamTemplate,
   IQuestionType,
   ITopic,
@@ -18,7 +20,14 @@ import {
   DifficultyLevelEnum,
   IQuestion,
 } from "../../../types/Question";
-import { IStudentExam, StudentExamStatusEnum } from "../../../types/StudentExam";
+import {
+  IStudentAnswer,
+  IStudentDetailedExam,
+  IStudentExam,
+  IStudentQuestion,
+  IStudentQuestionType,
+  StudentExamStatusEnum,
+} from "../../../types/StudentExam";
 import IUser from "../../../types/User";
 import { UserRoleEnum } from "../../../types/User";
 import { IExamPayload } from "../ExamAPIs";
@@ -284,7 +293,7 @@ export const mockDetailedExam: IDetailedExam = {
   ...mockExam,
   exam_questions: [
     {
-      "MCQ": [
+      MCQ: [
         { id: 1, score: 2, question: mockQuestions[0] },
         { id: 2, score: 3, question: mockQuestions[1] },
       ],
@@ -329,15 +338,16 @@ export const mockBusyLabs: IBusyLab[] = [
   {
     id: 1,
     name: "Lab 1",
-  }, {
+  },
+  {
     id: 2,
     name: "Lab 2",
-  }, {
+  },
+  {
     id: 3,
     name: "Lab 3",
-  }
-
-]
+  },
+];
 
 export const mockStudentExam: IStudentExam = {
   id: 1,
@@ -346,12 +356,113 @@ export const mockStudentExam: IStudentExam = {
   duration: 60,
   total_score: 40,
   scheduled_date: new Date(),
-  ends_at: new Date( Date.now() + 60 * 60 * 1000),
+  ends_at: new Date(Date.now() + 120 * 60000),
   course: mockCourses[0],
   busy_lab: mockBusyLabs[0],
-}
+};
 
-export const mockStudentExams: IStudentExam[] = [
-  mockStudentExam,
-]
-  
+export const mockStudentExams: IStudentExam[] = [mockStudentExam];
+
+export const mockStudentQuestionTypes: IStudentQuestionType[] = [
+  {
+    id: 1,
+    name: DefaultQuestionTypesEnum.MCQ,
+  },
+  {
+    id: 2,
+    name: DefaultQuestionTypesEnum.T_F,
+  },
+  {
+    id: 3,
+    name: DefaultQuestionTypesEnum.SHORT_ANSWER,
+  },
+  {
+    id: 4,
+    name: DefaultQuestionTypesEnum.ESSAY,
+  },
+];
+
+export const mockStudentQuestion: IStudentQuestion = {
+  id: 1,
+  header: "Lorem epsum dolor sit amet ? ",
+  difficulty: DifficultyLevelEnum.EASY,
+  answer_type: AnswerTypeEnum.SINGLE,
+  question_type: mockStudentQuestionTypes[0],
+  topic: mockTopics[0],
+  choices: [
+    { id: 1, choice: "Choice 1" },
+    { id: 2, choice: "Choice 2" },
+    { id: 3, choice: "Choice 3" },
+  ],
+};
+
+export const mockStudentQuestions: IStudentQuestion[] = [
+  mockStudentQuestion,
+  {
+    ...mockStudentQuestion,
+    id: 2,
+    answer_type: AnswerTypeEnum.MULTIPLE,
+  },
+  {
+    ...mockStudentQuestion,
+    id: 3,
+    question_type: mockStudentQuestionTypes[1],
+  },
+  {
+    ...mockStudentQuestion,
+    id: 4,
+    question_type: mockStudentQuestionTypes[2],
+    answer_type: AnswerTypeEnum.TEXT,
+  },
+  {
+    ...mockStudentQuestion,
+    id: 5,
+    question_type: mockStudentQuestionTypes[3],
+    answer_type: AnswerTypeEnum.TEXT,
+  },
+];
+
+export const mockStudentAnswer: IStudentAnswer = {
+  id: 1,
+  answers: ["Choice 1"],
+  marked: false,
+  solved: false,
+  question: mockStudentQuestions[0],
+};
+
+export const mockStudentAnswers: IStudentAnswer[] = [
+  mockStudentAnswer,
+  {
+    ...mockStudentAnswer,
+    id: 2,
+    marked: true,
+    solved: true,
+    answers: ["Choice 1", "Choice 2"],
+  },
+  {
+    ...mockStudentAnswer,
+    id: 3,
+    marked: true,
+    answers: ["True"],
+    question: mockStudentQuestions[2],
+  },
+  {
+    ...mockStudentAnswer,
+    id: 4,
+    solved: true,
+    answers: ["Lorem epsum dolor sit amet"],
+    question: mockStudentQuestions[3],
+  },
+  {
+    ...mockStudentAnswer,
+    id: 5,
+    answers: ["Lorem epsum dolor sit amet"],
+    question: mockStudentQuestions[4],
+  },
+];
+
+export const mockStudentDetailedExam: IStudentDetailedExam = {
+  ...mockStudentExam,
+  ends_at: new Date(Date.now() + 120*60000),
+  answers: mockStudentAnswers,
+};

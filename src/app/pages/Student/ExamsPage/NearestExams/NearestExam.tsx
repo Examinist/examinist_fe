@@ -5,8 +5,9 @@ import { IExam } from "../../../../types/Exam";
 import { addTime, getTimeStr } from "../../../../utilities/Date";
 import { Button, Stack } from "@mui/material";
 import Countdown from "react-countdown";
-import CustomCountDown from "./CountDown/CustomCountDown";
+import SixtyMinutesCustomCountDown from "./CountDown/SixtyMinutesCountDown";
 import { IStudentExam } from "../../../../types/StudentExam";
+import { useNavigate } from "react-router";
 
 const fromToDateStr = (exam: IStudentExam) => {
   const from = getTimeStr(exam.scheduled_date);
@@ -16,6 +17,7 @@ const fromToDateStr = (exam: IStudentExam) => {
 
 export default function NearestExam({ exam }: { exam: IStudentExam }) {
   const [started, setStarted] = useState<Boolean>(false);
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -63,7 +65,7 @@ export default function NearestExam({ exam }: { exam: IStudentExam }) {
         >
           Starts in
         </Box>
-        <CustomCountDown
+        <SixtyMinutesCustomCountDown
           toDate={exam.ends_at}
           onComplete={() => setStarted(true)}
         />
@@ -79,6 +81,7 @@ export default function NearestExam({ exam }: { exam: IStudentExam }) {
           fontWeight: 600,
         }}
         disabled={!started}
+        onClick={() => navigate(`./exam/${exam.id}`)}
       >
         Start Exam
       </Button>

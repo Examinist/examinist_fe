@@ -2,7 +2,7 @@ import { Stack } from "@mui/material";
 import React from "react";
 import NearestExam from "./NearestExams/NearestExam";
 import { Upcoming } from "@mui/icons-material";
-import StudentExams from "./UpcommingExams/StudentExams";
+import StudentExams from "./Exams/StudentExams";
 import { mockExam } from "../../../services/APIs/mockData/MockData";
 import NearestExams from "./NearestExams/NearestExams";
 
