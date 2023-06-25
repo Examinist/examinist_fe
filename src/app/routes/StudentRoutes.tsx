@@ -2,6 +2,7 @@ import React from 'react'
 import { Route } from 'react-router';
 import StudentLayout from '../layouts/StudentLayout/StudentLayout';
 import StudentExamsPage from '../pages/Student/ExamsPage/StudentExamsPage';
+import StudentExam from '../pages/Student/Exam/StudentExam';
 
 export default function StudentRoutes() {
   return (
@@ -9,6 +10,7 @@ export default function StudentRoutes() {
       <Route path="student" element={<StudentLayout />}>
         <Route path="" element={<StudentExamsPage/>} />
       </Route>
+      <Route path="student/exam/:examId" element={<StudentExam />} />
     </Route>
   );
 }

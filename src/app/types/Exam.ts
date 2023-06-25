@@ -1,6 +1,6 @@
 import { ICourse } from "./Course";
+import { IBusyLab } from "./Lab";
 import { IQuestion } from "./Question";
-import { IBusyLab } from "./IBusyLab";
 import IUser from "./User";
 
 export interface IExam {
