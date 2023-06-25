@@ -2,6 +2,7 @@ import { Button } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react'
 import theme from '../../../../../assets/theme';
+import ScheduleTable from '../components/ScheduleTable';
 
 export default function ReviewSchedule() {
   return (
@@ -34,6 +35,13 @@ export default function ReviewSchedule() {
           Submit
         </Button>
       </Box>
+      <Box display="flex"
+          sx={{
+            backgroundColor: theme.palette.background.paper,
+            borderRadius: "15px",
+          }}>
+          <ScheduleTable review={true}></ScheduleTable>
+        </Box>
     </Box>
   );
 }

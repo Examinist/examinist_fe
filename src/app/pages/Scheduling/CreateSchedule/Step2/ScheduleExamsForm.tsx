@@ -1,8 +1,22 @@
-import { Box, Button, Table, TableCell, TableContainer, TableHead } from "@mui/material";
+import { Box, Button, Checkbox, ListItemText, MenuItem, OutlinedInput, Select, SelectChangeEvent, Table, TableCell, TableContainer, TableHead, TableRow, styled, tableCellClasses } from "@mui/material";
 import React, { useImperativeHandle } from "react";
 import theme from "../../../../../assets/theme";
 import { ScheduleContext } from "../ScheduleContext";
 import { useForm } from "react-hook-form";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { TimePicker } from "@mui/x-date-pickers";
+import SchedulingTableRow from "../components/SchedulingTableRow";
+import ScheduleTable from "../components/ScheduleTable";
+//const StyledTableCell = styled(TableCell)(({ theme }) => ({
+//  [`&.${tableCellClasses.head}`]: {
+//    borderBottom: "none",
+//  },
+//  [`&.${tableCellClasses.body}`]: {
+//    borderBottom: "none",
+//  },
+//}));
 
 interface IScheduleExamsFormProps {
   reference: React.Ref<any>;
@@ -23,6 +37,7 @@ export default function ScheduleExamsForm({
   const onSubmit = () => {
     onSuccess();
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Box display="flex" sx={{ flexDirection: "column", gap: 3 }}>
@@ -56,25 +71,10 @@ export default function ScheduleExamsForm({
         </Box>
         <Box display="flex"
           sx={{
-            fontSize: "1.5rem",
-            fontWeight: "medium",
             backgroundColor: theme.palette.background.paper,
+            borderRadius: "15px",
           }}>
-          <TableContainer>
-            <Table>
-              <TableHead>
-                <TableCell>ID</TableCell>
-                <TableCell>Title</TableCell>
-                <TableCell>Course</TableCell>
-                <TableCell>Number of Students</TableCell>
-                <TableCell>Duration</TableCell>
-                <TableCell>Scheduled Date</TableCell>
-                <TableCell>Start Time</TableCell>
-                <TableCell>End Time</TableCell>
-                <TableCell>Labs</TableCell>
-              </TableHead>
-            </Table>
-          </TableContainer>
+          <ScheduleTable review={false}></ScheduleTable>
         </Box>
       </Box>
     </form>
