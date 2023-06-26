@@ -8,7 +8,10 @@ import {
   getStudentExamApi,
 } from "../../../services/APIs/StudentExamAPIs";
 import { useParams } from "react-router";
-import { IStudentAnswer, IStudentDetailedExam } from "../../../types/StudentExam";
+import {
+  IStudentAnswer,
+  IStudentDetailedExam,
+} from "../../../types/StudentPortalStudentExam";
 import { StudentExamContext } from "./StudentExamContext";
 import Questions from "./Questions/Questions";
 import { CircularProgress } from "@mui/material";
@@ -31,7 +34,7 @@ export default function StudentExam() {
 
   const saveChanges = () => {
     console.log("Saving changes...", changedAnswers);
-  }
+  };
 
   useEffect(() => {
     const interval = setInterval(saveChanges, saveUpdatesPeriodMins * 5000);

@@ -9,11 +9,11 @@ import {
   IStudentExamsListResponse,
   getStudentSixtyMinutesExamsApi,
 } from "../../../../services/APIs/StudentExamAPIs";
-import { IStudentExam } from "../../../../types/StudentExam";
+import { IStudentPortalStudentExam } from "../../../../types/StudentPortalStudentExam";
 
 const reloadPeriodMins = 1;
 export default function NearestExams() {
-  const [exams, setExams] = useState<IStudentExam[]>([]);
+  const [exams, setExams] = useState<IStudentPortalStudentExam[]>([]);
 
   const loadExams = () => {
     getStudentSixtyMinutesExamsApi().then(
@@ -27,8 +27,8 @@ export default function NearestExams() {
     loadExams();
     const interval = setInterval(() => {
       loadExams();
-      console.log("exam is loaded")
-    }, reloadPeriodMins*60000);
+      console.log("exam is loaded");
+    }, reloadPeriodMins * 60000);
 
     return () => {
       clearInterval(interval);

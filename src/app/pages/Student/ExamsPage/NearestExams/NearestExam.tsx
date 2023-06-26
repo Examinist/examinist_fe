@@ -6,16 +6,20 @@ import { addTime, getTimeStr } from "../../../../utilities/Date";
 import { Button, Stack } from "@mui/material";
 import Countdown from "react-countdown";
 import SixtyMinutesCustomCountDown from "./CountDown/SixtyMinutesCountDown";
-import { IStudentExam } from "../../../../types/StudentExam";
+import { IStudentPortalStudentExam } from "../../../../types/StudentPortalStudentExam";
 import { useNavigate } from "react-router";
 
-const fromToDateStr = (exam: IStudentExam) => {
+const fromToDateStr = (exam: IStudentPortalStudentExam) => {
   const from = getTimeStr(exam.scheduled_date);
   const to = getTimeStr(exam.ends_at);
   return from + " - " + to;
 };
 
-export default function NearestExam({ exam }: { exam: IStudentExam }) {
+export default function NearestExam({
+  exam,
+}: {
+  exam: IStudentPortalStudentExam;
+}) {
   const [started, setStarted] = useState<Boolean>(false);
   const navigate = useNavigate();
 

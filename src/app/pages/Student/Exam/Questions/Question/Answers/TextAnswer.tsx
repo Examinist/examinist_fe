@@ -6,7 +6,7 @@ import {
   IStudentExamContext,
   StudentExamContext,
 } from "../../../StudentExamContext";
-import { IStudentDetailedExam } from "../../../../../../types/StudentExam";
+import { IStudentDetailedExam } from "../../../../../../types/StudentPortalStudentExam";
 
 export default function TextAnswer({ answer, onUpdate }: IAnswerProbs) {
   const [value, setValue] = React.useState<string>(

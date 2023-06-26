@@ -23,11 +23,11 @@ import {
 import {
   IStudentAnswer,
   IStudentDetailedExam,
-  IStudentExam,
+  IStudentPortalStudentExam,
   IStudentQuestion,
   IStudentQuestionType,
   StudentExamStatusEnum,
-} from "../../../types/StudentExam";
+} from "../../../types/StudentPortalStudentExam";
 import IUser from "../../../types/User";
 import { UserRoleEnum } from "../../../types/User";
 import { IExamPayload } from "../ExamAPIs";
@@ -349,7 +349,7 @@ export const mockBusyLabs: IBusyLab[] = [
   },
 ];
 
-export const mockStudentExam: IStudentExam = {
+export const mockStudentExam: IStudentPortalStudentExam = {
   id: 1,
   status: StudentExamStatusEnum.UPCOMING,
   title: "Mock Exam",
@@ -361,7 +361,7 @@ export const mockStudentExam: IStudentExam = {
   busy_lab: mockBusyLabs[0],
 };
 
-export const mockStudentExams: IStudentExam[] = [mockStudentExam];
+export const mockStudentExams: IStudentPortalStudentExam[] = [mockStudentExam];
 
 export const mockStudentQuestionTypes: IStudentQuestionType[] = [
   {
@@ -484,6 +484,8 @@ export const mockStudentAnswers: IStudentAnswer[] = [
 
 export const mockStudentDetailedExam: IStudentDetailedExam = {
   ...mockStudentExam,
-  ends_at: new Date(Date.now() + 120*60000),
+  ends_at: new Date(Date.now() + 120 * 60000),
   answers: mockStudentAnswers,
 };
+
+

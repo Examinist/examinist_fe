@@ -1,10 +1,20 @@
 import { Box, Stack } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import ExamsTable from "./ExamsTable/ExamsTable";
-import { mockExamsList, mockStudentExam, mockStudentExams } from "../../../../services/APIs/mockData/MockData";
-import { IStudentExam, StudentExamStatusEnum } from "../../../../types/StudentExam";
+import {
+  mockExamsList,
+  mockStudentExam,
+  mockStudentExams,
+} from "../../../../services/APIs/mockData/MockData";
+import {
+  IStudentPortalStudentExam,
+  StudentExamStatusEnum,
+} from "../../../../types/StudentPortalStudentExam";
 import ExamsTabs from "./ExamsTabs";
-import { IStudentExamsListResponse, getStudentExamsApi } from "../../../../services/APIs/StudentExamAPIs";
+import {
+  IStudentExamsListResponse,
+  getStudentExamsApi,
+} from "../../../../services/APIs/StudentExamAPIs";
 import { set } from "react-hook-form";
 import { IErrorResponse } from "../../../../services/Response";
 import useAlert from "../../../../hooks/useAlert";
@@ -16,8 +26,6 @@ interface IExamsParams {
   isWithGrade: boolean;
 }
 
-
-
 export default function StudentExams() {
   const [examsParams, setExamsParams] = useState<IExamsParams>({
     page: 1,
@@ -25,11 +33,10 @@ export default function StudentExams() {
     isWithGrade: false,
   });
 
-  const [exams, setExams] = useState<IStudentExam[]>([]);
+  const [exams, setExams] = useState<IStudentPortalStudentExam[]>([]);
   const [pageCount, setPageCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
-  const {setAlertState} = useAlert();
-
+  const { setAlertState } = useAlert();
 
   useEffect(() => {
     setLoading(true);
@@ -65,31 +72,36 @@ export default function StudentExams() {
       <Box>
         <ExamsTabs
           onChange={(newValue) =>
-            setExamsParams({ ...examsParams, status: newValue, isWithGrade: newValue === StudentExamStatusEnum.GRADED || newValue === StudentExamStatusEnum.PENDING_GRADING })
+            setExamsParams({
+              ...examsParams,
+              status: newValue,
+              isWithGrade:
+                newValue === StudentExamStatusEnum.GRADED ||
+                newValue === StudentExamStatusEnum.PENDING_GRADING,
+            })
           }
         />
-         {loading ? (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100vh",
-          }}
-        >
-          <CircularProgress />
-        </Box>
-      ) : (
-
-        <ExamsTable
-          isWithGrade={examsParams.isWithGrade}
-          exams={exams}
-          pagesCount={pageCount}
-          onChangePage={(newPage) =>
-            setExamsParams({ ...examsParams, page: newPage })
-          }
-        />
-      )}
+        {loading ? (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100vh",
+            }}
+          >
+            <CircularProgress />
+          </Box>
+        ) : (
+          <ExamsTable
+            isWithGrade={examsParams.isWithGrade}
+            exams={exams}
+            pagesCount={pageCount}
+            onChangePage={(newPage) =>
+              setExamsParams({ ...examsParams, page: newPage })
+            }
+          />
+        )}
       </Box>
     </Stack>
   );

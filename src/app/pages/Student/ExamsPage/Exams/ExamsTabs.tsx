@@ -2,7 +2,7 @@ import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import { StudentExamStatusEnum } from "../../../../types/StudentExam";
+import { StudentExamStatusEnum } from "../../../../types/StudentPortalStudentExam";
 import theme from "../../../../../assets/theme";
 
 interface IExamsTabsProps {

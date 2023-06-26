@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import {
   IStudentAnswer,
   IStudentDetailedExam,
-} from "../../../../../types/StudentExam";
+} from "../../../../../types/StudentPortalStudentExam";
 import { Box, Stack } from "@mui/system";
 import theme from "../../../../../../assets/theme";
 import QuestionTypeTag from "./QuestionTypeTag";
