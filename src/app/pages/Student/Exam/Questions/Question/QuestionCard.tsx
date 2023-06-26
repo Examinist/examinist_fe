@@ -16,7 +16,6 @@ import {
   IStudentExamContext,
   StudentExamContext,
 } from "../../StudentExamContext";
-import { Switch } from "@mui/material";
 import { YellowSwitch } from "./YellowSwitch";
 import { yellow } from "@mui/material/colors";
 
@@ -26,7 +25,7 @@ interface IQuestionCardProps {
 }
 
 export default function QuestionCard({ answer, index }: IQuestionCardProps) {
-  const { exam, setExam, changedAnswers, setChangedAnswers } =
+  const { exam, setExam, changedAnswers, setChangedAnswers, setSolvedQuestionsCount } =
     useContext<IStudentExamContext>(StudentExamContext);
   const [marked, setMarked] = React.useState<boolean>(answer.marked);
 
@@ -39,10 +38,15 @@ export default function QuestionCard({ answer, index }: IQuestionCardProps) {
   const updateAnswer = (newAnswer: string[]) => {
     const newExam: IStudentDetailedExam = { ...exam! };
     newExam.answers[index].answers = newAnswer;
-    if (newAnswer.length === 0 || newAnswer[0] === "") {
+    if (
+      (newAnswer.length === 0 || newAnswer[0] === "") &&
+      newExam.answers[index].solved
+    ) {
       newExam.answers[index].solved = false;
-    } else {
+      setSolvedQuestionsCount((prev) => prev - 1);
+    } else if(newAnswer.length !== 0 && newAnswer[0] !== "" && !newExam.answers[index].solved) {
       newExam.answers[index].solved = true;
+      setSolvedQuestionsCount((prev) => prev + 1);
     }
     setExam(newExam);
     addToUpdatedAnswers();

@@ -22,12 +22,20 @@ export default function StudentExam() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [exam, setExam] = useState<IStudentDetailedExam | null>(null);
   const [changedAnswers, setChangedAnswers] = useState<Set<number>>(new Set());
+  const [questionsCount, setQuestionsCount] = useState<number>(0);
+  const [solvedQuestionsCount, setSolvedQuestionsCount] = useState<number>(0);
 
   useEffect(() => {
     setIsLoading(true);
     getStudentExamApi(parseInt(examId!))
       .then(({ data }: IStudentExamResponse) => {
         setExam(data.student_exam);
+        setQuestionsCount(data.student_exam.answers.length);
+        setSolvedQuestionsCount(
+          data.student_exam.answers.filter(
+            (answer: IStudentAnswer) => answer.solved )
+            .length
+        );
       })
       .finally(() => setIsLoading(false));
   }, []);
@@ -51,6 +59,9 @@ export default function StudentExam() {
           setExam: setExam,
           changedAnswers: changedAnswers,
           setChangedAnswers: setChangedAnswers,
+          questionsCount: questionsCount, 
+          solvedQuestionsCount: solvedQuestionsCount,
+          setSolvedQuestionsCount: setSolvedQuestionsCount,
         }}
       >
         <Box sx={{ width: "200px" }}>
