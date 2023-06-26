@@ -4,7 +4,7 @@ import {
   mockExam,
   mockStudentExam,
 } from "../../../../services/APIs/mockData/MockData";
-import NearestExam from "./NearestExam";
+import SixtyMinutesExam from "./SixtyMinuteExam";
 import {
   IStudentExamsListResponse,
   getStudentSixtyMinutesExamsApi,
@@ -12,7 +12,7 @@ import {
 import { IStudentPortalStudentExam } from "../../../../types/StudentPortalStudentExam";
 
 const reloadPeriodMins = 1;
-export default function NearestExams() {
+export default function SixtyMinutesExams() {
   const [exams, setExams] = useState<IStudentPortalStudentExam[]>([]);
 
   const loadExams = () => {
@@ -39,7 +39,7 @@ export default function NearestExams() {
     <Stack sx={{ gap: 2 }}>
       {exams.map((exam) => (
         <div key={exam.id}>
-          <NearestExam exam={exam} />
+          <SixtyMinutesExam exam={exam} />
         </div>
       ))}
     </Stack>

@@ -4,9 +4,13 @@ import theme from "../../../../../assets/theme";
 import { IStudentExamContext, StudentExamContext } from "../StudentExamContext";
 import HoursMinutesCountDown from "./CountDown/HoursMinutesCountDown";
 import { Button, LinearProgress } from "@mui/material";
+import SubmitExamDialog from "../SubmitExam/SubmitExamDialog";
 
 export default function UpperBar() {
-  const {exam, questionsCount, solvedQuestionsCount} = useContext<IStudentExamContext>(StudentExamContext);
+  const { exam, questionsCount, solvedQuestionsCount } =
+    useContext<IStudentExamContext>(StudentExamContext);
+  const [submitWindowOpen, setSubmitWindowOpen] =
+    React.useState<boolean>(false);
 
   return (
     <Box
@@ -58,13 +62,22 @@ export default function UpperBar() {
                 px: 3,
                 fontWeight: 600,
               }}
+              onClick={() => setSubmitWindowOpen(true)}
             >
               Submit
             </Button>
           </>
         )}
       </Box>
-      <LinearProgress variant="determinate" color="success" value={(solvedQuestionsCount/questionsCount)*100} />
+      <LinearProgress
+        variant="determinate"
+        color="success"
+        value={(solvedQuestionsCount / questionsCount) * 100}
+      />
+      <SubmitExamDialog
+        open={submitWindowOpen}
+        onClose={() => setSubmitWindowOpen(false)}
+      />
     </Box>
   );
 }
