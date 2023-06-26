@@ -6,7 +6,7 @@ import HoursMinutesCountDown from "./CountDown/HoursMinutesCountDown";
 import { Button, LinearProgress } from "@mui/material";
 
 export default function UpperBar() {
-  const {exam} = useContext<IStudentExamContext>(StudentExamContext);
+  const {exam, questionsCount, solvedQuestionsCount} = useContext<IStudentExamContext>(StudentExamContext);
 
   return (
     <Box
@@ -64,7 +64,7 @@ export default function UpperBar() {
           </>
         )}
       </Box>
-      <LinearProgress variant="determinate" color="success" value={50} />
+      <LinearProgress variant="determinate" color="success" value={(solvedQuestionsCount/questionsCount)*100} />
     </Box>
   );
 }

@@ -18,7 +18,7 @@ export default function TextAnswer({ answer, onUpdate }: IAnswerProbs) {
       if (answer.answers.length === 0 || value !== answer.answers[0]) {
         onUpdate([value]);
       }
-    }, 1000);
+    }, 500);
 
     return () => clearTimeout(delayDebounceFn);
   }, [value]);
