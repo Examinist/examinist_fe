@@ -4,8 +4,10 @@ import QuestionsOutline from "./QuestionsOutline/QuestionsOutline";
 import UpperBar from "./UpperBar/UpperBar";
 import theme from "../../../../assets/theme";
 import {
+  IStudentExamPayload,
   IStudentExamResponse,
   getStudentExamApi,
+  submitStudentExamApi,
 } from "../../../services/APIs/StudentExamAPIs";
 import { useParams } from "react-router";
 import {
@@ -25,23 +27,42 @@ export default function StudentExam() {
   const [questionsCount, setQuestionsCount] = useState<number>(0);
   const [solvedQuestionsCount, setSolvedQuestionsCount] = useState<number>(0);
 
+  const syncExamData = (exam: IStudentDetailedExam) => {
+    setExam(exam);
+    setQuestionsCount(exam.answers.length);
+    setSolvedQuestionsCount(
+      exam.answers.filter((answer: IStudentAnswer) => answer.solved).length
+    );
+  };
+
   useEffect(() => {
     setIsLoading(true);
     getStudentExamApi(parseInt(examId!))
       .then(({ data }: IStudentExamResponse) => {
-        setExam(data.student_exam);
-        setQuestionsCount(data.student_exam.answers.length);
-        setSolvedQuestionsCount(
-          data.student_exam.answers.filter(
-            (answer: IStudentAnswer) => answer.solved )
-            .length
-        );
+        syncExamData(data.student_exam);
       })
       .finally(() => setIsLoading(false));
   }, []);
 
   const saveChanges = () => {
-    console.log("Saving changes...", changedAnswers);
+    if (exam?.answers && changedAnswers.size > 0) {
+      let studentAnswers: IStudentAnswer[] = [];
+      changedAnswers.forEach((index: number) => {
+        const { question, ...payload } = exam.answers[index]!;
+        studentAnswers.push(payload);
+      });
+      console.log("studentAnswers: ", studentAnswers);
+      const payload: IStudentExamPayload = {
+        is_submitting: false,
+        student_answers_attributes: studentAnswers,
+      };
+      submitStudentExamApi(parseInt(examId!), payload).then(
+        ({ data }: IStudentExamResponse) => {
+          syncExamData(data.student_exam);
+          setChangedAnswers(new Set());
+        }
+      );
+    }
   };
 
   useEffect(() => {
@@ -59,7 +80,7 @@ export default function StudentExam() {
           setExam: setExam,
           changedAnswers: changedAnswers,
           setChangedAnswers: setChangedAnswers,
-          questionsCount: questionsCount, 
+          questionsCount: questionsCount,
           solvedQuestionsCount: solvedQuestionsCount,
           setSolvedQuestionsCount: setSolvedQuestionsCount,
         }}

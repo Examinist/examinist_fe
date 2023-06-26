@@ -407,6 +407,10 @@ export const mockStudentQuestions: IStudentQuestion[] = [
     ...mockStudentQuestion,
     id: 3,
     question_type: mockStudentQuestionTypes[1],
+    choices: [
+      { id: 1, choice: "True" },
+      { id: 2, choice: "False" },
+    ],
   },
   {
     ...mockStudentQuestion,
@@ -424,7 +428,7 @@ export const mockStudentQuestions: IStudentQuestion[] = [
 
 export const mockStudentAnswer: IStudentAnswer = {
   id: 1,
-  answers: ["Choice 1"],
+  answers: [],
   marked: false,
   solved: false,
   question: mockStudentQuestions[0],
@@ -435,49 +439,41 @@ export const mockStudentAnswers: IStudentAnswer[] = [
   {
     ...mockStudentAnswer,
     id: 2,
-    answers: ["Choice 1", "Choice 2"],
     question: mockStudentQuestions[1],
   },
   {
     ...mockStudentAnswer,
     id: 3,
-    answers: ["True"],
     question: mockStudentQuestions[2],
   },
   {
     ...mockStudentAnswer,
     id: 4,
-    answers: ["Lorem epsum dolor sit amet"],
     question: mockStudentQuestions[3],
   },
   {
     ...mockStudentAnswer,
     id: 5,
-    answers: ["Lorem epsum dolor sit amet"],
     question: mockStudentQuestions[4],
   },
   {
     ...mockStudentAnswer,
     id: 6,
-    answers: ["Choice 1", "Choice 2"],
     question: mockStudentQuestions[1],
   },
   {
     ...mockStudentAnswer,
     id: 7,
-    answers: ["True"],
     question: mockStudentQuestions[2],
   },
   {
     ...mockStudentAnswer,
     id: 8,
-    answers: ["Lorem epsum dolor sit amet"],
     question: mockStudentQuestions[3],
   },
   {
     ...mockStudentAnswer,
     id: 9,
-    answers: ["Lorem epsum dolor sit amet"],
     question: mockStudentQuestions[4],
   },
 ];

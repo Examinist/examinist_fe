@@ -15,7 +15,7 @@ const fromToDateStr = (exam: IStudentPortalStudentExam) => {
   return from + " - " + to;
 };
 
-export default function NearestExam({
+export default function SixtyMinutesExam({
   exam,
 }: {
   exam: IStudentPortalStudentExam;
@@ -85,7 +85,7 @@ export default function NearestExam({
           fontWeight: 600,
         }}
         disabled={!started}
-        onClick={() => navigate(`./exam/${exam.id}`)}
+        onClick={() => navigate(`./exams/${exam.id}`)}
       >
         Start Exam
       </Button>

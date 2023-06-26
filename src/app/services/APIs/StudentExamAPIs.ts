@@ -7,7 +7,7 @@ import axiosInstance from "../AxiosConfig";
 import { IResponse, IResponseData } from "../Response";
 import { mockStudentDetailedExam, mockStudentExams } from "./mockData/MockData";
 
-interface IStudentExamPayload {
+export interface IStudentExamPayload {
   is_submitting: boolean;
   student_answers_attributes: IStudentAnswer[];
 }

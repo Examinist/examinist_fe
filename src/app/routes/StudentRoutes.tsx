@@ -10,7 +10,7 @@ export default function StudentRoutes() {
       <Route path="student" element={<StudentLayout />}>
         <Route path="" element={<StudentExamsPage/>} />
       </Route>
-      <Route path="student/exam/:examId" element={<StudentExam />} />
+      <Route path="student/exams/:examId" element={<StudentExam />} />
     </Route>
   );
 }
