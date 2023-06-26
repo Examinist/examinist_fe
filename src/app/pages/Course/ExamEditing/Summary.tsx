@@ -4,8 +4,10 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import theme from "../../../../assets/theme";
+import { examContext } from "./EditExam";
+import { useContext } from "react";
 import SummaryInfo from "./SummaryInfo";
-import SummaryQuestions from "./SummaryQuestions";
+import SummaryQuestions from "./SummaryQuestion";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -40,7 +42,7 @@ function a11yProps(index: number) {
   };
 }
 
-export default function Summary({ isAutomatic = false }) {
+export default function Summary() {
   const [value, setValue] = React.useState(0);
  
 
@@ -89,10 +91,10 @@ export default function Summary({ isAutomatic = false }) {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <SummaryInfo isAutomatic={isAutomatic}/>
+        <SummaryInfo/>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <SummaryQuestions isAutomatic={isAutomatic}/>
+        <SummaryQuestions/>
       </TabPanel>
     </Box>
   );
