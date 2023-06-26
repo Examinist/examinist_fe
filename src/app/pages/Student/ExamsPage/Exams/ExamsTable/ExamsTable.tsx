@@ -21,7 +21,7 @@ import {
   getTimeStr,
   timeOptions,
 } from "../../../../../utilities/Date";
-import { IStudentExam } from "../../../../../types/StudentExam";
+import { IStudentPortalStudentExam } from "../../../../../types/StudentPortalStudentExam";
 
 const cols = [
   "Title",
@@ -33,7 +33,7 @@ const cols = [
   "Lab",
 ];
 
-const row = (exam: IStudentExam) => [
+const row = (exam: IStudentPortalStudentExam) => [
   exam.title,
   exam.course.title + " - " + exam.course.code.toUpperCase(),
   getDateStr(exam.scheduled_date),
@@ -52,7 +52,7 @@ const colsWithGrade = [
   "Grade",
 ];
 
-const rowWithGrade = (exam: IStudentExam) => [
+const rowWithGrade = (exam: IStudentPortalStudentExam) => [
   exam.title,
   exam.course.title + " - " + exam.course.code.toUpperCase(),
   getFullDateStr(exam.scheduled_date),
@@ -61,7 +61,7 @@ const rowWithGrade = (exam: IStudentExam) => [
 ];
 
 interface IExamsTableProps {
-  exams: IStudentExam[];
+  exams: IStudentPortalStudentExam[];
   onChangePage: (newPage: number) => void;
   pagesCount: number;
   isWithGrade: boolean;

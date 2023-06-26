@@ -2,7 +2,7 @@ import { Box, Stack } from "@mui/system";
 import React, { useContext, useState } from "react";
 import { IStudentExamContext, StudentExamContext } from "../StudentExamContext";
 import { Pagination } from "@mui/material";
-import { IStudentAnswer } from "../../../../types/StudentExam";
+import { IStudentAnswer } from "../../../../types/StudentPortalStudentExam";
 import QuestionCard from "./Question/QuestionCard";
 
 const questionsPerPage = 5;
@@ -12,7 +12,9 @@ export default function Questions() {
     exam?.answers.slice(0, questionsPerPage)!
   );
   const [page, setPage] = useState<number>(1);
-  const pagesCount: number = Math.ceil((exam?.answers.length || 0 )/ questionsPerPage);
+  const pagesCount: number = Math.ceil(
+    (exam?.answers.length || 0) / questionsPerPage
+  );
 
   return (
     <Stack sx={{ overflowY: "auto", flexGrow: 1 }}>

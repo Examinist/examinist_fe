@@ -8,6 +8,16 @@ interface IUser {
   university?: IUniversity;
 }
 
+export interface IStudent{
+  id: number;
+  first_name: string;
+  last_name: string;
+  username: string;
+  email: string;
+  academic_id: string;
+  role: string;
+}
+
 export interface IUniversity{
   id: number;
   name: string;

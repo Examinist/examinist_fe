@@ -1,15 +1,17 @@
-import React from 'react'
-import { IStudentAnswer } from '../../../../types/StudentExam'
-import { Box } from '@mui/system';
+import React from "react";
+import { IStudentAnswer } from "../../../../types/StudentPortalStudentExam";
+import { Box } from "@mui/system";
 import CircleIcon from "@mui/icons-material/Circle";
-import theme from '../../../../../assets/theme';
+import theme from "../../../../../assets/theme";
 
-
-interface IQuestionWithStatusProps{
-    question: IStudentAnswer;
-    number: number;
+interface IQuestionWithStatusProps {
+  question: IStudentAnswer;
+  number: number;
 }
-export default function QuestionWithStatus({question, number}:IQuestionWithStatusProps) {
+export default function QuestionWithStatus({
+  question,
+  number,
+}: IQuestionWithStatusProps) {
   return (
     <Box
       sx={{

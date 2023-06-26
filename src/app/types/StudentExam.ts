@@ -1,56 +1,18 @@
-import { ICourse } from "./Course";
-import { ITopic } from "./CourseSettings";
-import { IBusyLab } from "./Lab";
-import { AnswerTypeEnum, DifficultyLevelEnum } from "./Question";
+import { ExamStatusEnum } from "./Exam";
+import { IStudent } from "./User";
 
 export interface IStudentExam {
-  id: number;
-  grade?: number;
-  status: StudentExamStatusEnum;
-  title: string;
-  total_score: number;
-  scheduled_date: Date;
-  ends_at: Date;
-  duration: number;
-  course: ICourse;
-  busy_lab: IBusyLab;
+    id: number;
+    status: ExamStatusEnum.PENDINGGRADING | ExamStatusEnum.GRADED;
+    student_status: StudentStatusEnum;
+    total_score: number;
+    partial_score: number;
+    total_graded_questions: number;
+    partial_graded_questions: number;
+    student: IStudent;
 }
 
-export enum StudentExamStatusEnum {
-  UPCOMING = "upcoming",
-  ONGOING = "ongoing",
-  PENDING_GRADING = "pending_grading",
-  GRADED = "graded",
-}
-
-export interface IStudentQuestionType{
-  id: number;
-  name: string;
-}
-
-export interface IStudentChoice{
-  id: number;
-  choice: string;
-}
-
-export interface IStudentQuestion{
-  id: number;
-  header: string;
-  difficulty: DifficultyLevelEnum;
-  answer_type: AnswerTypeEnum;
-  question_type: IStudentQuestionType;
-  topic: ITopic;
-  choices: IStudentChoice[];
-}
-
-export interface IStudentAnswer{
-  id: number;
-  answers: string[];
-  question?: IStudentQuestion;
-  marked: boolean;
-  solved: boolean;
-};
-
-export interface IStudentDetailedExam extends IStudentExam{
-  answers: IStudentAnswer[];
+export enum StudentStatusEnum{
+    ATTENDED = "Attended",
+    ABSENT = "Absent",
 }
