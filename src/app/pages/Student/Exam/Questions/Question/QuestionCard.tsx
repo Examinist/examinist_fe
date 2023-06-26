@@ -16,6 +16,9 @@ import {
   IStudentExamContext,
   StudentExamContext,
 } from "../../StudentExamContext";
+import { Switch } from "@mui/material";
+import { YellowSwitch } from "./YellowSwitch";
+import { yellow } from "@mui/material/colors";
 
 interface IQuestionCardProps {
   answer: IStudentAnswer;
@@ -25,13 +28,24 @@ interface IQuestionCardProps {
 export default function QuestionCard({ answer, index }: IQuestionCardProps) {
   const { exam, setExam, changedAnswers, setChangedAnswers } =
     useContext<IStudentExamContext>(StudentExamContext);
-  const updateAnswer = (newAnswer: string[]) => {
-    const newExam: IStudentDetailedExam = { ...exam! };
-    newExam.answers[index].answers = newAnswer;
-    setExam(newExam);
+  const [marked, setMarked] = React.useState<boolean>(answer.marked);
+
+  const addToUpdatedAnswers = () => {
     const newSet: Set<number> = new Set(changedAnswers);
     newSet.add(index);
     setChangedAnswers(newSet);
+  };
+
+  const updateAnswer = (newAnswer: string[]) => {
+    const newExam: IStudentDetailedExam = { ...exam! };
+    newExam.answers[index].answers = newAnswer;
+    if (newAnswer.length === 0 || newAnswer[0] === "") {
+      newExam.answers[index].solved = false;
+    } else {
+      newExam.answers[index].solved = true;
+    }
+    setExam(newExam);
+    addToUpdatedAnswers();
   };
 
   const renderAnswer = () => {
@@ -62,16 +76,58 @@ export default function QuestionCard({ answer, index }: IQuestionCardProps) {
         borderRadius: 3,
       }}
     >
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
+      <Box sx={{ display: "flex", gap: 2, justifyContent: "space-between" }}>
+        {marked ? (
+          <Box
+            sx={{
+              width: "80px",
+              backgroundColor: yellow[600],
+              borderRadius: 4,
+              fontSize: "12px",
+              textAlign: "center",
+              py: 0.5,
+              ml: 0,
+            }}
+          >
+            Marked
+          </Box>
+        ) : (
+          <Box
+            sx={{
+              width: "80px",
+            }}
+          />
+        )}
         <QuestionTypeTag
           questionType={answer.question?.question_type.name!}
           answerType={answer.question?.answer_type!}
+        />
+        <Box
+          sx={{
+            width: "80px",
+          }}
         />
       </Box>
       <Box sx={{ fontWeight: 500 }}>
         Q{index + 1}. {answer.question?.header}
       </Box>
       <Box>{renderAnswer()}</Box>
+      <Box sx={{ display: "flex", flexDirection: "row-reverse" }}>
+        <Box>
+          Mark
+          <YellowSwitch
+            checked={marked}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              setMarked(event.target.checked);
+              const newExam: IStudentDetailedExam = { ...exam! };
+              newExam.answers[index].marked = event.target.checked;
+              setExam(newExam);
+              addToUpdatedAnswers();
+            }}
+            inputProps={{ "aria-label": "controlled" }}
+          />
+        </Box>
+      </Box>
     </Stack>
   );
 }

@@ -31,7 +31,6 @@ export default function StudentExam() {
 
   const saveChanges = () => {
     console.log("Saving changes...", changedAnswers);
-    console.log("Exam:", exam);
   }
 
   useEffect(() => {
@@ -43,7 +42,14 @@ export default function StudentExam() {
 
   return (
     <Box sx={{ display: "flex", height: "100vh" }}>
-      <StudentExamContext.Provider value={{ exam: exam, setExam: setExam, changedAnswers: changedAnswers, setChangedAnswers: setChangedAnswers }}>
+      <StudentExamContext.Provider
+        value={{
+          exam: exam,
+          setExam: setExam,
+          changedAnswers: changedAnswers,
+          setChangedAnswers: setChangedAnswers,
+        }}
+      >
         <Box sx={{ width: "200px" }}>
           <QuestionsOutline />
         </Box>
