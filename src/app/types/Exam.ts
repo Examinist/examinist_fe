@@ -16,6 +16,7 @@ export interface IExam {
   course: ICourse;
   number_of_students?: number;
   busy_labs?: IBusyLab[];
+  has_models: boolean;
 }
 
 export interface IDetailedExam extends IExam {

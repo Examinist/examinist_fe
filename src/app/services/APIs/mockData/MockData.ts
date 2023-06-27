@@ -249,6 +249,7 @@ export const mockExam: IExam = {
   creator: mockInstructor,
   course: mockCourses[0],
   total_score: 0,
+  has_models: false,
 };
 
 export const mockExamsList: IExam[] = [

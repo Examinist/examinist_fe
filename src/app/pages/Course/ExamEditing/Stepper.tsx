@@ -6,52 +6,42 @@ import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import theme from "../../../../assets/theme";
 import { Stack } from "@mui/material";
-import ManualInfo from "./ManualInfo";
-import AutomaticInfo from "./AutomaticInfo";
+import ExamInfo from "./ExamInfo";
 import QuestionsBody from "./QuestionsBody";
 import Summary from "./Summary";
-import { ManualExamContext } from "./ManualExam";
-import { AutomaticExamContext } from "./AutomaticExam";
+import { examContext, updateContext } from "./EditExam";
 import {
-  IAutoGeneratePayload,
   IExamPayload,
   IExamQuestionPayload,
-  IExamResponse,
-  IQuestionTypeTopics,
-  autoGenerateExamApi,
-  createExamApi,
+  updateExamApi,
 } from "../../../services/APIs/ExamAPIs";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { IErrorResponse } from "../../../services/Response";
 import useAlert from "../../../hooks/useAlert";
-import { IExamQuestion, IExamQuestionsGroup } from "../../../types/Exam";
 
 const steps = ["Exam General Info", "Exam Questions", "Submit Exam"];
 
-export default function HorizontalStepper({ isAutomatic = false }) {
+export default function HorizontalStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [disabled, setDisabled] = React.useState(true);
-  const { examState } = React.useContext(ManualExamContext);
-  const { automaticExamState, setAutomaticExamState } =
-    React.useContext(AutomaticExamContext);
+  const { examState } = React.useContext(examContext);
+  const { updateState } = React.useContext(updateContext);
+
   const { courseId } = useParams<{ courseId: string }>();
   const { setAlertState } = useAlert();
   const navigate = useNavigate();
   const location = useLocation();
+  const { examId } = useParams<{ examId: string }>();
 
   const navigateToExamsPage = () => {
     const pathname = location.pathname;
     const firstPart = pathname.split("/")[1];
     const path = `/${firstPart}/courses/${courseId}/exams`;
-    console.log("hi", path);
-
     navigate(`/${firstPart}/courses/${courseId}/exams`);
   };
 
   const flattenQuestionsMap = () => {
-    const questionsMap = isAutomatic
-      ? automaticExamState.questions
-      : examState.questions;
+    const questionsMap = examState.questions;
     let examQuestionsList: IExamQuestionPayload[] = [];
     Array.from(questionsMap?.entries() ?? []).map(([key, questionsList]) => {
       questionsList.map((question) => {
@@ -65,26 +55,22 @@ export default function HorizontalStepper({ isAutomatic = false }) {
   };
 
   const handleSubmit = () => {
-    const exam = isAutomatic ? automaticExamState : examState;
-    const examQuestionsList = flattenQuestionsMap();
+    const exam = examState;
     const examPayload: IExamPayload = {
       title: exam.title,
       duration: exam.duration,
       course_id: parseInt(courseId!),
       is_auto: exam.is_auto,
       has_models: exam.has_models,
-      exam_questions_attributes: examQuestionsList,
+      exam_questions_attributes: updateState.exam_questions_attributes,
     };
-    console.log(automaticExamState);
-    console.log("exam", examPayload);
-    createExamApi(examPayload)
-      .then(({ data }: IExamResponse) => {
+    updateExamApi(parseInt(examId!), examPayload)
+      .then(() => {
         setAlertState({
           open: true,
-          message: "Exam is created successfully!",
+          message: "Exam Updated Successfully",
           severity: "success",
         });
-        console.log("dd");
         navigateToExamsPage();
       })
       .catch(({ response: { statusText, data } }: IErrorResponse) => {
@@ -96,62 +82,9 @@ export default function HorizontalStepper({ isAutomatic = false }) {
       });
   };
 
-  const getQuestionsMap = (questions: IExamQuestionsGroup[]) => {
-    const questionsMap = new Map<string, IExamQuestion[]>();
-
-    questions.forEach((group) => {
-      Object.keys(group).forEach((key) => {
-        questionsMap.set(key, group[key]);
-      });
-    });
-
-    return questionsMap;
-  };
-
-  const handleAutoGenerate = () => {
-    let question_type_topics: IQuestionTypeTopics[] = [];
-    Array.from(automaticExamState.topics?.entries() ?? []).map(
-      ([key, topicsList]) => {
-        question_type_topics.push({
-          question_type_id: key,
-          topic_ids: topicsList,
-        });
-      }
-    );
-    const autoGeneratePayload: IAutoGeneratePayload = {
-      question_type_topics: question_type_topics,
-      course_id: parseInt(courseId!),
-      duration: automaticExamState.duration!,
-    };
-
-    autoGenerateExamApi(autoGeneratePayload)
-      .then(({ data }: IExamResponse) => {
-        setAutomaticExamState({
-          ...automaticExamState,
-          // FIXME: map this to this
-          questions: getQuestionsMap(data.exam.exam_questions),
-        });
-        setAlertState({
-          open: true,
-          message: "Questions are auto-generated successfully!",
-          severity: "success",
-        });
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      })
-      .catch(({ response: { status, statusText, data } }: IErrorResponse) => {
-        setAlertState({
-          open: true,
-          message: data.message,
-          severity: "error",
-        });
-      });
-  };
-
   const handleNext = () => {
     if (activeStep === steps.length - 1) {
       handleSubmit();
-    } else if (activeStep === 0 && isAutomatic) {
-      handleAutoGenerate();
     } else {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
@@ -207,15 +140,11 @@ export default function HorizontalStepper({ isAutomatic = false }) {
         </React.Fragment>
       </Box>
       {activeStep === 0 ? (
-        isAutomatic ? (
-          <AutomaticInfo setDisabled={setDisabled} />
-        ) : (
-          <ManualInfo setDisabled={setDisabled} />
-        )
+        <ExamInfo setDisabled={setDisabled} />
       ) : activeStep === 1 ? (
-        <QuestionsBody isAutomatic={isAutomatic} setDisabled={setDisabled} />
+        <QuestionsBody setDisabled={setDisabled} />
       ) : (
-        <Summary isAutomatic={isAutomatic} />
+        <Summary />
       )}
     </Stack>
   );

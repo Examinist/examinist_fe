@@ -1,13 +1,11 @@
-import { Grid, Typography } from "@mui/material";
+import { Box, Grid, Stack, TextField, Typography } from "@mui/material";
 import React, { useContext } from "react";
 import theme from "../../../../assets/theme";
-import { ManualExamContext } from "./ManualExam";
-import { AutomaticExamContext } from "./AutomaticExam";
+import RadioButtonOptions from "./RadioButtonOptions";
+import { examContext } from "./EditExam";
 
-export default function SummaryInfo({ isAutomatic = false }) {
-  const { examState, setExamState } = useContext(ManualExamContext);
-  const { automaticExamState, setAutomaticExamState } =
-    useContext(AutomaticExamContext);
+export default function SummaryInfo() {
+  const { examState, setExamState } = useContext(examContext);
   return (
     <Grid
       container
@@ -27,7 +25,7 @@ export default function SummaryInfo({ isAutomatic = false }) {
           color={theme.palette.gray.dark}
           sx={{ fontWeight: 400 }}
         >
-          {(isAutomatic ? automaticExamState : examState).title}
+          { examState.title}
         </Typography>
       </Grid>
       <Grid item xs={3} component={"span"}>
@@ -41,7 +39,7 @@ export default function SummaryInfo({ isAutomatic = false }) {
           color={theme.palette.gray.dark}
           sx={{ fontWeight: 400 }}
         >
-          {(isAutomatic ? automaticExamState : examState).duration}
+          {examState.duration}
         </Typography>
       </Grid>
       <Grid item xs={3} component={"span"}>
@@ -55,7 +53,7 @@ export default function SummaryInfo({ isAutomatic = false }) {
           color={theme.palette.gray.dark}
           sx={{ fontWeight: 400 }}
         >
-          {(isAutomatic ? automaticExamState : examState).has_models
+          {examState.has_models
             ? "Multiple Models"
             : "Single Model"}
         </Typography>
