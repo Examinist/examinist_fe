@@ -182,7 +182,7 @@ export const mockQuestions: IQuestion[] = [
       },
       {
         id: 2,
-        choice: "Choice 1",
+        choice: "Choice 2",
         is_answer: false,
       },
     ],
@@ -202,7 +202,7 @@ export const mockQuestions: IQuestion[] = [
       },
       {
         id: 2,
-        choice: "Choice 1",
+        choice: "Choice 2",
         is_answer: false,
       },
     ],

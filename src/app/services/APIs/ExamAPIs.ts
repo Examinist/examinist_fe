@@ -144,15 +144,20 @@ export const autoGenerateExamApi = async (
 //   ]
 // }
 export const updateExamApi = async (exam_id: number, exam: IExamPayload) => {
-  try {
-    const portal = localStorage.getItem("portal");
-    const response = await axiosInstance.put(`${portal}/exams/${exam_id}`, {
-      exam,
-    });
-    return response as IExamResponse;
-  } catch (error) {
-    return { data: { exam: mockDetailedExam } } as IExamResponse;
-  }
+  const portal = localStorage.getItem("portal");
+  const response = await axiosInstance.put(`${portal}/exams/${exam_id}`, {
+    ...exam,
+  });
+  return response as IExamResponse;
+  // try {
+  //   const portal = localStorage.getItem("portal");
+  //   const response = await axiosInstance.put(`${portal}/exams/${exam_id}`, {
+  //     exam,
+  //   });
+  //   return response as IExamResponse;
+  // } catch (error) {
+  //   return { data: { exam: mockDetailedExam } } as IExamResponse;
+  // }
 };
 
 export const deleteExamApi = async (exam_id: number) => {

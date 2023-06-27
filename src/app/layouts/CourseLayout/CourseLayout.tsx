@@ -30,7 +30,6 @@ const tabs: ITab[] = [
   },
   { name: "Question Bank" },
   { name: "Exams" },
-  { name: "DashBoard" },
   {
     name: "Settings",
     menu: [

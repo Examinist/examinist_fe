@@ -1,4 +1,4 @@
-import { ExamStatusEnum } from "./Exam";
+import { ExamStatusEnum, IExamQuestion } from "./Exam";
 import { IStudent } from "./User";
 
 export interface IStudentExam {
@@ -10,6 +10,17 @@ export interface IStudentExam {
     total_graded_questions: number;
     partial_graded_questions: number;
     student: IStudent;
+}
+
+export interface IStudentAnswer{
+    id: number;
+    answers?: string[];
+    score?: number;
+    question: IExamQuestion;
+}
+
+export interface IDetailedStudentExam extends IStudentExam{
+    answers: IStudentAnswer[];
 }
 
 export enum StudentStatusEnum{

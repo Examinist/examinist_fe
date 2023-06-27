@@ -4,7 +4,7 @@ import React from "react";
 import Logo from "../components/Logo/Logo";
 import theme from "../../../assets/theme";
 import { Outlet } from "react-router";
-import StudentInfo from "./StudentInfo";
+import StudentInfo from "./UserInfo";
 
 export default function StudentLayout() {
   return (
