@@ -1,8 +1,10 @@
 import { Box, Button } from "@mui/material";
 import React from "react";
 import theme from "../../../assets/theme";
+import { useNavigate } from "react-router-dom";
 
 export default function Schedules() {
+  const navigate = useNavigate();
   return (
     <Box sx={{ px: 12, py: 5 }}>
       <Box display="flex">
@@ -22,11 +24,15 @@ export default function Schedules() {
             backgroundColor: theme.palette.white.main,
             ml: "auto",
             border: 1,
-            fontSize: "16px",
-            fontWeight: "bold",
+            fontSize: "14px",
+            fontWeight: "650",
+            height: "fit-content",
+            py:1,
             px: 4,
+            alignSelf: "center",
             borderRadius: "20px",
           }}
+          onClick={() => {navigate("./new")}}
         >
           Create Schedule
         </Button>

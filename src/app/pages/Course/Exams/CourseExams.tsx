@@ -14,6 +14,9 @@ import {
   IExamsReloadContext,
 } from "../../../context/ExamsReloadContext";
 import { IsAssignedContext } from "../../../layouts/CourseLayout/CourseLayout";
+import { fullDateOptions } from "../../../utilities/Date";
+
+
 
 function getCourseExamAttributesList(exam: IExam) {
   var attrList: string[] = [];
@@ -23,8 +26,9 @@ function getCourseExamAttributesList(exam: IExam) {
     exam.status,
     exam.creation_mode,
     exam.creator.first_name + " " + exam.creator.last_name,
-    exam.created_at.toLocaleString(),
-    exam.scheduled_date?.toLocaleString() ?? "Not Scheduled",
+    exam.created_at.toLocaleString(undefined, fullDateOptions),
+    exam.scheduled_date?.toLocaleString(undefined, fullDateOptions) ??
+      "Not Scheduled",
   ];
   return attrList;
 }
@@ -95,8 +99,8 @@ export default function CourseExams() {
   };
 
   useEffect(() => {
-    if(isAssigned){
-      setTableHeader([...tableHeader, "Action"])
+    if (isAssigned) {
+      setTableHeader([...tableHeader, "Action"]);
     }
     loadExams();
   }, []);
@@ -104,8 +108,6 @@ export default function CourseExams() {
   const contextValue: IExamsReloadContext = {
     reloadExams: loadExams,
   };
-
-
 
   return (
     <Box sx={{ px: 15, py: 5 }}>

@@ -4,9 +4,6 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import theme from "../../../../assets/theme";
-import { ManualExamContext } from "./ManualExam";
-import { AutomaticExamContext } from "./AutomaticExam";
-import { useContext } from "react";
 import SummaryInfo from "./SummaryInfo";
 import SummaryQuestions from "./SummaryQuestions";
 

@@ -1,5 +1,7 @@
+import { mock } from "node:test";
 import { ICourse, ICourseGroup } from "../../../types/Course";
 import {
+  DefaultQuestionTypesEnum,
   IExamTemplate,
   IQuestionType,
   ITopic,
@@ -9,14 +11,23 @@ import {
   ExamStatusEnum,
   IDetailedExam,
   IExam,
+  IExamQuestion,
   IExamQuestionsGroup,
 } from "../../../types/Exam";
-import { ILab } from "../../../types/Lab";
+import { IBusyLab, ILab } from "../../../types/Lab";
 import {
   AnswerTypeEnum,
   DifficultyLevelEnum,
   IQuestion,
 } from "../../../types/Question";
+import {
+  IStudentAnswer,
+  IStudentDetailedExam,
+  IStudentPortalStudentExam,
+  IStudentQuestion,
+  IStudentQuestionType,
+  StudentExamStatusEnum,
+} from "../../../types/StudentPortalStudentExam";
 import IUser from "../../../types/User";
 import { UserRoleEnum } from "../../../types/User";
 import { IExamPayload } from "../ExamAPIs";
@@ -28,7 +39,6 @@ export const mockInstructor: IUser = {
   role: UserRoleEnum.INSTRUCTOR,
   auth_token: "123456789",
 };
-
 
 export const mockCourses: ICourse[] = [
   {
@@ -172,7 +182,7 @@ export const mockQuestions: IQuestion[] = [
       },
       {
         id: 2,
-        choice: "Choice 1",
+        choice: "Choice 2",
         is_answer: false,
       },
     ],
@@ -192,7 +202,7 @@ export const mockQuestions: IQuestion[] = [
       },
       {
         id: 2,
-        choice: "Choice 1",
+        choice: "Choice 2",
         is_answer: false,
       },
     ],
@@ -234,11 +244,12 @@ export const mockExam: IExam = {
   status: ExamStatusEnum.UNSCHEDULED,
   duration: 60,
   created_at: new Date("2021-01-01"),
-  scheduled_date: new Date("2021-01-01"),
+  scheduled_date: new Date(),
   creation_mode: ExamCreationModeEnum.MANUAL,
   creator: mockInstructor,
   course: mockCourses[0],
   total_score: 0,
+  has_models: false,
 };
 
 export const mockExamsList: IExam[] = [
@@ -267,21 +278,31 @@ export const mockExamsList: IExam[] = [
   },
 ];
 
-export const mockExamQuestions: IExamQuestionsGroup[] = [
-  {
-    "MCQ": [
-      { id: 1, score: 2, question: mockQuestions[0] },
-      { id: 2, score: 3, question: mockQuestions[1] },
-    ],
-  },
-  {
-    "T/F": [{ id: 3, score: 2, question: mockQuestions[3] }],
-  },
-];
+// export let mockExamQuestions: Map<string, IExamQuestion[]> = new Map([
+//   [
+//     "MCQ",
+//     [
+//       { id: 1, score: 2, question: mockQuestions[0] },
+//       { id: 2, score: 3, question: mockQuestions[1] },
+//     ],
+//   ],
+//   ["T/F", [{ id: 3, score: 2, question: mockQuestions[3] }]],
+// ]);
 
 export const mockDetailedExam: IDetailedExam = {
   ...mockExam,
-  exam_questions: mockExamQuestions,
+  exam_questions: [
+    {
+      MCQ: [
+        { id: 1, score: 2, question: mockQuestions[0] },
+        { id: 2, score: 3, question: mockQuestions[1] },
+      ],
+      "T/F": [
+        { id: 3, score: 2, question: mockQuestions[0] },
+        { id: 4, score: 3, question: mockQuestions[1] },
+      ],
+    },
+  ],
 };
 
 export const mockExamPayload: IExamPayload = {
@@ -312,3 +333,155 @@ export const mockLabs: ILab[] = [
     capacity: 10,
   },
 ];
+
+export const mockBusyLabs: IBusyLab[] = [
+  {
+    id: 1,
+    name: "Lab 1",
+  },
+  {
+    id: 2,
+    name: "Lab 2",
+  },
+  {
+    id: 3,
+    name: "Lab 3",
+  },
+];
+
+export const mockStudentExam: IStudentPortalStudentExam = {
+  id: 1,
+  status: StudentExamStatusEnum.UPCOMING,
+  title: "Mock Exam",
+  duration: 60,
+  total_score: 40,
+  scheduled_date: new Date(),
+  ends_at: new Date(Date.now() + 120 * 60000),
+  course: mockCourses[0],
+  busy_lab: mockBusyLabs[0],
+};
+
+export const mockStudentExams: IStudentPortalStudentExam[] = [mockStudentExam];
+
+export const mockStudentQuestionTypes: IStudentQuestionType[] = [
+  {
+    id: 1,
+    name: DefaultQuestionTypesEnum.MCQ,
+  },
+  {
+    id: 2,
+    name: DefaultQuestionTypesEnum.T_F,
+  },
+  {
+    id: 3,
+    name: DefaultQuestionTypesEnum.SHORT_ANSWER,
+  },
+  {
+    id: 4,
+    name: DefaultQuestionTypesEnum.ESSAY,
+  },
+];
+
+export const mockStudentQuestion: IStudentQuestion = {
+  id: 1,
+  header: "Lorem epsum dolor sit amet ? ",
+  difficulty: DifficultyLevelEnum.EASY,
+  answer_type: AnswerTypeEnum.SINGLE,
+  question_type: mockStudentQuestionTypes[0],
+  topic: mockTopics[0],
+  choices: [
+    { id: 1, choice: "Choice 1" },
+    { id: 2, choice: "Choice 2" },
+    { id: 3, choice: "Choice 3" },
+  ],
+};
+
+export const mockStudentQuestions: IStudentQuestion[] = [
+  mockStudentQuestion,
+  {
+    ...mockStudentQuestion,
+    id: 2,
+    answer_type: AnswerTypeEnum.MULTIPLE,
+  },
+  {
+    ...mockStudentQuestion,
+    id: 3,
+    question_type: mockStudentQuestionTypes[1],
+    choices: [
+      { id: 1, choice: "True" },
+      { id: 2, choice: "False" },
+    ],
+  },
+  {
+    ...mockStudentQuestion,
+    id: 4,
+    question_type: mockStudentQuestionTypes[2],
+    answer_type: AnswerTypeEnum.TEXT,
+  },
+  {
+    ...mockStudentQuestion,
+    id: 5,
+    question_type: mockStudentQuestionTypes[3],
+    answer_type: AnswerTypeEnum.TEXT,
+  },
+];
+
+export const mockStudentAnswer: IStudentAnswer = {
+  id: 1,
+  answers: [],
+  marked: false,
+  solved: false,
+  question: mockStudentQuestions[0],
+};
+
+export const mockStudentAnswers: IStudentAnswer[] = [
+  mockStudentAnswer,
+  {
+    ...mockStudentAnswer,
+    id: 2,
+    question: mockStudentQuestions[1],
+  },
+  {
+    ...mockStudentAnswer,
+    id: 3,
+    question: mockStudentQuestions[2],
+  },
+  {
+    ...mockStudentAnswer,
+    id: 4,
+    question: mockStudentQuestions[3],
+  },
+  {
+    ...mockStudentAnswer,
+    id: 5,
+    question: mockStudentQuestions[4],
+  },
+  {
+    ...mockStudentAnswer,
+    id: 6,
+    question: mockStudentQuestions[1],
+  },
+  {
+    ...mockStudentAnswer,
+    id: 7,
+    question: mockStudentQuestions[2],
+  },
+  {
+    ...mockStudentAnswer,
+    id: 8,
+    question: mockStudentQuestions[3],
+  },
+  {
+    ...mockStudentAnswer,
+    id: 9,
+    question: mockStudentQuestions[4],
+  },
+];
+
+export const mockStudentDetailedExam: IStudentDetailedExam = {
+  ...mockStudentExam,
+  ends_at: new Date(Date.now() + 120 * 60000),
+  answers: mockStudentAnswers,
+};
+
+

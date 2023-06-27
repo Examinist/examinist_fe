@@ -5,6 +5,7 @@ import UnAuthorized from "../pages/UnAuthorized/UnAuthorized";
 import FacultyAdminRoutes from "./FacultyAdminRoutes";
 import InstructorRoutes from "./InstructorRoutes";
 import UniversityAdminRoutes from "./UniversityAdminRoutes";
+import StudentRoutes from "./StudentRoutes";
 
 
 const AppRoutes = () => {
@@ -16,6 +17,7 @@ const AppRoutes = () => {
       {InstructorRoutes()}
       {FacultyAdminRoutes()}
       {UniversityAdminRoutes()}
+      {StudentRoutes()}
 
       <Route path="/unauthorized" element={<UnAuthorized />} />
     </Routes>

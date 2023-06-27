@@ -4,14 +4,10 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import theme from "../../../../assets/theme";
 import { Stack } from "@mui/material";
 import ManualInfo from "./ManualInfo";
 import AutomaticInfo from "./AutomaticInfo";
-import QuestionBankDialog from "./QuestionBankDialog";
-import QuestionsList from "./QuestionsList";
-import QuestionBank from "../QuestionBank/QuestionBank";
 import QuestionsBody from "./QuestionsBody";
 import Summary from "./Summary";
 import { ManualExamContext } from "./ManualExam";
@@ -28,6 +24,7 @@ import {
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { IErrorResponse } from "../../../services/Response";
 import useAlert from "../../../hooks/useAlert";
+import { IExamQuestion, IExamQuestionsGroup } from "../../../types/Exam";
 
 const steps = ["Exam General Info", "Exam Questions", "Submit Exam"];
 
@@ -35,9 +32,10 @@ export default function HorizontalStepper({ isAutomatic = false }) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [disabled, setDisabled] = React.useState(true);
   const { examState } = React.useContext(ManualExamContext);
-  const { automaticExamState, setAutomaticExamState } = React.useContext(AutomaticExamContext);
+  const { automaticExamState, setAutomaticExamState } =
+    React.useContext(AutomaticExamContext);
   const { courseId } = useParams<{ courseId: string }>();
-  const { setAlertState } = useAlert()
+  const { setAlertState } = useAlert();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -45,13 +43,15 @@ export default function HorizontalStepper({ isAutomatic = false }) {
     const pathname = location.pathname;
     const firstPart = pathname.split("/")[1];
     const path = `/${firstPart}/courses/${courseId}/exams`;
-    console.log("hi",path);
+    console.log("hi", path);
 
     navigate(`/${firstPart}/courses/${courseId}/exams`);
   };
 
   const flattenQuestionsMap = () => {
-    const questionsMap = isAutomatic ? automaticExamState.questions : examState.questions;
+    const questionsMap = isAutomatic
+      ? automaticExamState.questions
+      : examState.questions;
     let examQuestionsList: IExamQuestionPayload[] = [];
     Array.from(questionsMap?.entries() ?? []).map(([key, questionsList]) => {
       questionsList.map((question) => {
@@ -76,7 +76,7 @@ export default function HorizontalStepper({ isAutomatic = false }) {
       exam_questions_attributes: examQuestionsList,
     };
     console.log(automaticExamState);
-    console.log("exam",examPayload);
+    console.log("exam", examPayload);
     createExamApi(examPayload)
       .then(({ data }: IExamResponse) => {
         setAlertState({
@@ -87,13 +87,25 @@ export default function HorizontalStepper({ isAutomatic = false }) {
         console.log("dd");
         navigateToExamsPage();
       })
-      .catch(({ response: {  statusText, data } }: IErrorResponse) => {
+      .catch(({ response: { statusText, data } }: IErrorResponse) => {
         setAlertState({
           open: true,
           message: data?.message || statusText,
           severity: "error",
         });
       });
+  };
+
+  const getQuestionsMap = (questions: IExamQuestionsGroup[]) => {
+    const questionsMap = new Map<string, IExamQuestion[]>();
+
+    questions.forEach((group) => {
+      Object.keys(group).forEach((key) => {
+        questionsMap.set(key, group[key]);
+      });
+    });
+
+    return questionsMap;
   };
 
   const handleAutoGenerate = () => {
@@ -113,26 +125,26 @@ export default function HorizontalStepper({ isAutomatic = false }) {
     };
 
     autoGenerateExamApi(autoGeneratePayload)
-    .then(({ data }: IExamResponse) => {  
-
-      setAutomaticExamState({
-        ...automaticExamState,
-        questions: data.exam.exam_questions,
+      .then(({ data }: IExamResponse) => {
+        setAutomaticExamState({
+          ...automaticExamState,
+          // FIXME: map this to this
+          questions: getQuestionsMap(data.exam.exam_questions),
+        });
+        setAlertState({
+          open: true,
+          message: "Questions are auto-generated successfully!",
+          severity: "success",
+        });
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      })
+      .catch(({ response: { status, statusText, data } }: IErrorResponse) => {
+        setAlertState({
+          open: true,
+          message: data.message,
+          severity: "error",
+        });
       });
-      setAlertState({
-        open: true,
-        message: "Questions are auto-generated successfully!",
-        severity: "success",
-      });
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    })
-    .catch(({ response: { status, statusText, data } }: IErrorResponse) => {
-      setAlertState({
-        open: true,
-        message: data.message,
-        severity: "error",
-      });
-    });
   };
 
   const handleNext = () => {
@@ -150,14 +162,17 @@ export default function HorizontalStepper({ isAutomatic = false }) {
   };
 
   return (
-    <Stack sx={{ justifyContent: "center", alignItems: "center", px: 10 }} spacing={2}>
+    <Stack
+      sx={{ justifyContent: "center", alignItems: "center", px: 10 }}
+      spacing={2}
+    >
       <Box
         sx={{
           width: "100%",
           backgroundColor: theme.palette.background.paper,
           borderRadius: "15px",
           py: 3,
-          px: 5
+          px: 5,
         }}
       >
         <Stepper activeStep={activeStep} sx={{ p: "20px" }}>
@@ -169,7 +184,7 @@ export default function HorizontalStepper({ isAutomatic = false }) {
 
             return (
               <Step key={label} {...stepProps}>
-                <StepLabel {...labelProps} >{label}</StepLabel>
+                <StepLabel {...labelProps}>{label}</StepLabel>
               </Step>
             );
           })}
