@@ -20,6 +20,7 @@ const AppRoutes = () => {
       {StudentRoutes()}
 
       <Route path="/unauthorized" element={<UnAuthorized />} />
+      <Route path="*" element={<div>Page not found.</div>} />
     </Routes>
   );
 };

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route } from 'react-router';
-import StudentLayout from '../layouts/StudentLayout/StudentLayout';
+import StudentLayout from '../layouts/UpperLayout/UpperLayout';
 import StudentExamsPage from '../pages/Student/ExamsPage/StudentExamsPage';
 import StudentExam from '../pages/Student/Exam/StudentExam';
 
