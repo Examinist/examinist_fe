@@ -34,7 +34,7 @@ console.log(mapEntries);
               {key}
             </Typography>
             {value.map((question) => (
-              <Question key={question.id} examQuestion={question} isAutomatic={isAutomatic}/>
+              <Question key={question.question.id} examQuestion={question} isAutomatic={isAutomatic}/>
             ))}
           </Stack>
         ))}

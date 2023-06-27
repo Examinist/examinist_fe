@@ -347,6 +347,7 @@ export default function QuestionBank({
                               >
                                 <Grid item key={question.id}>
                                   <Checkbox
+                                    key={question.id}
                                     checked={questionsList.includes(question)}
                                     onChange={(
                                       event: React.ChangeEvent<HTMLInputElement>

@@ -69,7 +69,6 @@ export default function AddQuestionDialog({ isAutomatic = false }) {
           questions.find((q) => q.question.id === question.id) == undefined
         ) {
           questions.push({
-            id: question.id,
             score: getWeight(question),
             question: question,
           });
@@ -89,7 +88,6 @@ export default function AddQuestionDialog({ isAutomatic = false }) {
           question.question_type.name,
           [
             {
-              id: question.id,
               score: getWeight(question),
               question: question,
             },

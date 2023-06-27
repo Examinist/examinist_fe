@@ -67,7 +67,6 @@ export default function QuestionBankDialog() {
           questions.find((q) => q.question.id === question.id) == undefined
         ) {
           questions.push({
-            id: question.id,
             score: getWeight(question),
             question: question,
           });
@@ -77,19 +76,18 @@ export default function QuestionBankDialog() {
       } else {
         examState.questions?.set(question.question_type.name, [
           {
-            id: question.id,
             score: getWeight(question),
             question: question,
           },
         ]);
-        const newQuestion = {
-          question_id: question.id,
-          score: getWeight(question),
-        };
-        updateState.exam_questions_attributes?.push(newQuestion);
-        setUpdateState({...updateState, exam_questions_attributes: updateState.exam_questions_attributes});
         setExamState({ ...examState, questions: examState.questions });
       }
+      const newQuestion = {
+        question_id: question.id,
+        score: getWeight(question),
+      };
+      updateState.exam_questions_attributes?.push(newQuestion);
+      setUpdateState({...updateState, exam_questions_attributes: updateState.exam_questions_attributes});
     });
   };
   const handleClose = () => {

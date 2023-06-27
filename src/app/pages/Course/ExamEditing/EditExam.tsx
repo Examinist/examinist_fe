@@ -53,7 +53,6 @@ export default function EditExam() {
 
   const getQuestionsMap = (questions: IExamQuestionsGroup[]) => {
     const questionsMap = new Map<string, IExamQuestion[]>();
-
     questions.forEach((group) => {
       Object.keys(group).forEach((key) => {
         questionsMap.set(key, group[key]);

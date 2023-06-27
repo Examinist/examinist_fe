@@ -71,6 +71,7 @@ export default function Question({
           });
         }
       } else {
+        console.log("here");
         const newQuestion = {
           id: examQuestion.id,
           _destroy: true,
@@ -108,6 +109,7 @@ export default function Question({
   const handleUpdateScore = (value: number) => {
     if (updateState.exam_questions_attributes) {
       if (examQuestion.id === undefined) {
+        console.log("here");
         const questionIndex = updateState.exam_questions_attributes.findIndex(
           (q) => q.question_id === examQuestion.question.id
         );
@@ -124,6 +126,7 @@ export default function Question({
           });
         }
       } else {
+        console.log("there");
         const newQuestion = {
           id: examQuestion.id,
           score: value,

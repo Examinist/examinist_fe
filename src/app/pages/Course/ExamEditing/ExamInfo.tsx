@@ -16,7 +16,6 @@ export default function ExamInfo({
   setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const { examState, setExamState } = useContext(examContext);
-  const { updateState, setUpdateState } = useContext(updateContext);
   const [isTitleEmpty, setIsTitleEmpty] = useState(
     examState.title?.trim() === ""
   );
@@ -32,7 +31,6 @@ export default function ExamInfo({
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEntered(true);
     setExamState({ ...examState, title: e.target.value });
-    setUpdateState({ ...updateState, title: e.target.value });
     setIsTitleEmpty(e.target.value.toString().trim() === "");
     setDisabled(!e.target.value || isDurationEmpty);
   };
@@ -40,7 +38,6 @@ export default function ExamInfo({
   const handleDurationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEntered(true);
     setExamState({ ...examState, duration: parseInt(e.target.value) });
-    setUpdateState({ ...updateState, duration: parseInt(e.target.value) });
     setIsDurationEmpty(!e.target.value || parseInt(e.target.value) < 30);
     setDisabled(
       !e.target.value || parseInt(e.target.value) < 30 || isTitleEmpty
