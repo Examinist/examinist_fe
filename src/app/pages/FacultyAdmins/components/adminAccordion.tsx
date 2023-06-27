@@ -30,15 +30,18 @@ import { IErrorResponse } from "../../../services/Response";
 //we can take only faculty name and api call when need to get faculty admin and faculty instructors
 interface IAdminAccordionProp {
   faculty: IUniversityFaculty;
-  onChange: () => void;
+  onChange: (facultyId: number) => void;
+  isLastChanged: boolean
 }
 
 export default function AdminAccordion({
   faculty,
   onChange,
+  isLastChanged
 }: IAdminAccordionProp) {
   const [openDialog, setDialog] = useState(false);
   const { setAlertState } = useAlert();
+  const [expanded, setExpanded] = useState(isLastChanged);
 
   const handleClose = () => {
     setDialog(false);
@@ -48,7 +51,7 @@ export default function AdminAccordion({
     console.log(staff);
     updateStaffRoleApi(faculty.id, staff.id, UserRoleEnum.INSTRUCTOR)
       .then(() => {
-        onChange();
+        onChange(faculty.id);
         setAlertState({
           open: true,
           message: "Admin is removed succesfully.",
@@ -74,7 +77,7 @@ export default function AdminAccordion({
         marginBottom: 3,
       }}
     >
-      <Accordion elevation={0}>
+      <Accordion elevation={0} expanded={expanded} onChange={(event: React.SyntheticEvent)=>{ setExpanded(!expanded)} }>
         <AccordionSummary
           sx={{ mr: 3 }}
           expandIcon={<ExpandMoreIcon />}

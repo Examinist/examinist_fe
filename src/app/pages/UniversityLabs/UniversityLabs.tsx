@@ -122,12 +122,9 @@ export default function UniversityLabs() {
     }
   };
 
-  const handleEdit = () => {
-  };
+  const handleEdit = () => {};
 
-  const handleDelete = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
+  const handleDelete = (event: React.MouseEvent<HTMLButtonElement>) => {
     //console.log("in delete");
     // if (lab.id) {
     //   deleteLabApi(lab.id)
@@ -158,7 +155,7 @@ export default function UniversityLabs() {
               fontSize: "2rem",
               fontWeight: "medium",
               fontFamily: "montserrat",
-              paddingBottom: "10px",
+              paddingBottom: "30px",
             }}
           >
             University Labs
@@ -184,9 +181,12 @@ export default function UniversityLabs() {
                 </TableHead>
                 <TableBody>
                   {labs.map((lab, index) => (
-                    <LabTableRow 
-                    lab={lab}
-                    index={index}></LabTableRow>
+                    <LabTableRow
+                      key={lab.id}
+                      onChange={loadLabs}
+                      lab={lab}
+                      index={index}
+                    ></LabTableRow>
                   ))}
                   {addLab ? (
                     <TableRow>

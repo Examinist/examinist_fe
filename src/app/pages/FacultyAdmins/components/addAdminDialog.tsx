@@ -24,7 +24,7 @@ interface IAdminDialogProp {
   facultyId: number;
   open: boolean;
   handleOpenClose: () => void;
-  onSuccess: ()=> void
+  onSuccess: (facultyId:number)=> void
 }
 
 export default function AddAdminDialog({
@@ -70,7 +70,7 @@ export default function AddAdminDialog({
     )
       .then(() => {
         handleOpenClose();
-        onSuccess();
+        onSuccess(facultyId);
         setAlertState({
           open: true,
           message: "User is assigned succesfully.",

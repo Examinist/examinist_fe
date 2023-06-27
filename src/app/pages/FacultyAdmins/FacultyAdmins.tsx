@@ -29,6 +29,7 @@ export default function FacultyAdmins() {
   const [faculties, setFaculties] = useState<IUniversityFaculty[]>([]);
   const { setAlertState } = useAlert();
   const [loading, setLoading] = useState<boolean>(false);
+  const [lastChangedId, setLastChangedId] = useState<number>(-1);
 
   const loadFaculties = () => {
     setLoading(true);
@@ -47,6 +48,11 @@ export default function FacultyAdmins() {
         setLoading(false);
       });
   };
+
+ const handleChange = (id: number) =>{
+    loadFaculties();
+    setLastChangedId(id);
+  }
 
   useEffect(() => {
     loadFaculties();
@@ -68,7 +74,7 @@ export default function FacultyAdmins() {
         <CustomCircularProgress />
       ) : (
         faculties.map((value) => (
-          <AdminAccordion key={value.id} faculty={value} onChange={loadFaculties}></AdminAccordion>
+          <AdminAccordion key={value.id} faculty={value} onChange={handleChange} isLastChanged={lastChangedId === value.id}></AdminAccordion>
         ))
       )}
     </Box>
