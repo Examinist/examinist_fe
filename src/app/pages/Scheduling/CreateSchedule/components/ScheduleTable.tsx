@@ -4,14 +4,16 @@ import React from "react";
 import { ScheduleContext } from "../ScheduleContext";
 import SchedulingTableRow from "./SchedulingTableRow";
 import { IScheduleView } from "./ScheduleDateComponent";
+import { IExam } from "../../../../types/Exam";
 
 interface IScheduleTableProps{
     review: boolean,
+    examList: IExam[],
 }
 
-export default function ScheduleTable({review}: IScheduleTableProps){
+export default function ScheduleTable({review, examList}: IScheduleTableProps){
     const header = ["ID", "Title", "Course", "Number of Students", "Duration", "Scheduled Date", "Start Time", "End Time", "Labs"];
-    const { exams, setExams } = React.useContext(ScheduleContext);
+    const [ exams, setExams ] = React.useState(examList);
 
     return(
         <TableContainer>

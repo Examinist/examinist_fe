@@ -3,8 +3,10 @@ import { Box } from '@mui/system';
 import React from 'react'
 import theme from '../../../../../assets/theme';
 import ScheduleTable from '../components/ScheduleTable';
+import { ScheduleContext } from '../ScheduleContext';
 
 export default function ReviewSchedule() {
+  const {exams, setExams} = React.useContext(ScheduleContext);
   return (
     <Box display="flex" sx={{ flexDirection: "column", gap: 3 }}>
       <Box display="flex">
@@ -40,7 +42,7 @@ export default function ReviewSchedule() {
             backgroundColor: theme.palette.background.paper,
             borderRadius: "15px",
           }}>
-          <ScheduleTable review={true}></ScheduleTable>
+          <ScheduleTable review={true} examList={exams}></ScheduleTable>
         </Box>
     </Box>
   );

@@ -74,7 +74,7 @@ export default function ScheduleExamsForm({
             backgroundColor: theme.palette.background.paper,
             borderRadius: "15px",
           }}>
-          <ScheduleTable review={false}></ScheduleTable>
+          <ScheduleTable review={false} examList={exams}></ScheduleTable>
         </Box>
       </Box>
     </form>
