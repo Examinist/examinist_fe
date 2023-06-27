@@ -81,7 +81,7 @@ export default function AllExams() {
     <Box sx={{ px: 15, py: 5 }}>
       <Box
         sx={{
-          fontSize: "2rem",
+          fontSize: "2.2rem",
           fontWeight: "medium",
           fontFamily: "montserrat",
           pb: 4,
