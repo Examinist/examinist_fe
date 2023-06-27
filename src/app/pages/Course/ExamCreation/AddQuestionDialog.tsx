@@ -14,7 +14,7 @@ import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 import QuestionBank from "../QuestionBank/QuestionBank";
 import theme from "../../../../assets/theme";
-import { ManualExamContext } from "./ManualExam";
+import { examContext } from "../ExamCreation/Models";
 import { AutomaticExamContext } from "./AutomaticExam";
 import { QuestionsContext } from "./Models";
 import { Alert, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar } from "@mui/material";
@@ -38,7 +38,7 @@ export default function AddQuestionDialog({ isAutomatic = false }) {
   const [open, setOpen] = React.useState(false);
   const [openAlert, setOpenAlert] = React.useState(false);
 
-  const { examState, setExamState } = React.useContext(ManualExamContext);
+  const { examState, setExamState } = React.useContext(examContext);
   const { automaticExamState, setAutomaticExamState } =
     React.useContext(AutomaticExamContext);
 

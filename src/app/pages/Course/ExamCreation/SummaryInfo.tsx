@@ -1,11 +1,11 @@
 import { Grid, Typography } from "@mui/material";
 import React, { useContext } from "react";
 import theme from "../../../../assets/theme";
-import { ManualExamContext } from "./ManualExam";
 import { AutomaticExamContext } from "./AutomaticExam";
+import { examContext } from "./Models";
 
 export default function SummaryInfo({ isAutomatic = false }) {
-  const { examState, setExamState } = useContext(ManualExamContext);
+  const { examState, setExamState } = useContext(examContext);
   const { automaticExamState, setAutomaticExamState } =
     useContext(AutomaticExamContext);
   return (

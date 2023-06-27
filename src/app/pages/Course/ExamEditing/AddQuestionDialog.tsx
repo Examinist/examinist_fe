@@ -14,7 +14,6 @@ import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 import QuestionBank from "../QuestionBank/QuestionBank";
 import theme from "../../../../assets/theme";
-import { examContext, updateContext } from "./EditExam";
 import {
   Alert,
   DialogActions,
@@ -26,7 +25,8 @@ import {
 import { IQuestion, DifficultyLevelEnum } from "../../../types/Question";
 import AddQuestion from "../QuestionForms/AddQuestion/AddQuestion";
 import AddQuestionForm from "../QuestionForms/AddQuestion/components/AddQuestionForm";
-import { QuestionsContext } from "../ExamCreation/Models";
+import { QuestionsContext, examContext } from "../ExamCreation/Models";
+import { updateContext } from "./EditExam";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {

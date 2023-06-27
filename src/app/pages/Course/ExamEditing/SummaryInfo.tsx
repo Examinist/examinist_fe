@@ -2,7 +2,7 @@ import { Box, Grid, Stack, TextField, Typography } from "@mui/material";
 import React, { useContext } from "react";
 import theme from "../../../../assets/theme";
 import RadioButtonOptions from "./RadioButtonOptions";
-import { examContext } from "./EditExam";
+import { examContext } from "../ExamCreation/Models";
 
 export default function SummaryInfo() {
   const { examState, setExamState } = useContext(examContext);

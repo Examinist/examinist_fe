@@ -2,25 +2,17 @@ import { Box, CircularProgress, Typography } from "@mui/material";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import HorizontalStepper from "./Stepper";
 import { IExamQuestion, IExamQuestionsGroup } from "../../../types/Exam";
-import { IManualExamDetails } from "../ExamCreation/Models";
+import { IExamContext, IManualExamDetails, examContext } from "../ExamCreation/Models";
 import { useNavigate, useParams } from "react-router-dom";
 import { getExamApi, IExamResponse } from "../../../services/APIs/ExamAPIs";
 import { IErrorResponse } from "../../../services/Response";
 import { IUpdateExam } from "./Models";
 
-interface IExamContext {
-  examState: IManualExamDetails;
-  setExamState: Dispatch<SetStateAction<IManualExamDetails>>;
-}
+
 interface IUpdateExamContext {
   updateState: IUpdateExam;
   setUpdateState: Dispatch<SetStateAction<IUpdateExam>>;
 }
-
-export const examContext = React.createContext<IExamContext>({
-  examState: {},
-  setExamState: () => {},
-});
 
 export const updateContext = React.createContext<IUpdateExamContext>({
   updateState: {},

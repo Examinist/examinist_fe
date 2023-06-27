@@ -4,7 +4,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-import { examContext } from "./EditExam";
+import { examContext } from "../ExamCreation/Models";
 
 export default function RadioButtonOptions({ isAutomatic = false }) {
   const { examState, setExamState } = React.useContext(examContext);

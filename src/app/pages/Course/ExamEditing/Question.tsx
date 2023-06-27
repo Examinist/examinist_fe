@@ -17,7 +17,8 @@ import { IExamQuestion } from "../../../types/Exam";
 import QuestionAnswer from "../QuestionBank/QuestionAnswer";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import { examContext, updateContext } from "./EditExam";
+import { updateContext } from "./EditExam";
+import { examContext } from "../ExamCreation/Models";
 
 export default function Question({
   examQuestion,

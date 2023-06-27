@@ -10,14 +10,14 @@ import {
 import React, { useContext, useEffect, useState } from "react";
 import theme from "../../../../assets/theme";
 import RadioButtonOptions from "./RadioButtonOptions";
-import { ManualExamContext } from "./ManualExam";
+import { examContext } from "../ExamCreation/Models";
 
 export default function ManualInfo({
   setDisabled,
 }: {
   setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const { examState, setExamState } = useContext(ManualExamContext);
+  const { examState, setExamState } = useContext(examContext);
   const [isTitleEmpty, setIsTitleEmpty] = useState(
     examState.title?.trim() === ""
   );

@@ -9,7 +9,7 @@ import {
 import React, { useContext } from "react";
 import theme from "../../../../assets/theme";
 import RadioButtonOptions from "./RadioButtonOptions";
-import { ManualExamContext } from "./ManualExam";
+import { examContext } from "./Models";
 import { AutomaticExamContext } from "./AutomaticExam";
 import { get } from "react-hook-form";
 import { IExamQuestion } from "../../../types/Exam";
@@ -18,7 +18,7 @@ export default function SummaryQuestions({ isAutomatic = false }) {
   const [total, setTotal] = React.useState(0);
   const [score, setScore] = React.useState(0);
 
-  const { examState, setExamState } = useContext(ManualExamContext);
+  const { examState, setExamState } = useContext(examContext);
   const { automaticExamState, setAutomaticExamState } =
     useContext(AutomaticExamContext);
   const mapEntries = Array.from(

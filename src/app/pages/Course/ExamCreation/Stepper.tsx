@@ -10,7 +10,7 @@ import ManualInfo from "./ManualInfo";
 import AutomaticInfo from "./AutomaticInfo";
 import QuestionsBody from "./QuestionsBody";
 import Summary from "./Summary";
-import { ManualExamContext } from "./ManualExam";
+import { examContext } from "../ExamCreation/Models";
 import { AutomaticExamContext } from "./AutomaticExam";
 import {
   IAutoGeneratePayload,
@@ -31,7 +31,7 @@ const steps = ["Exam General Info", "Exam Questions", "Submit Exam"];
 export default function HorizontalStepper({ isAutomatic = false }) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [disabled, setDisabled] = React.useState(true);
-  const { examState } = React.useContext(ManualExamContext);
+  const { examState } = React.useContext(examContext);
   const { automaticExamState, setAutomaticExamState } =
     React.useContext(AutomaticExamContext);
   const { courseId } = useParams<{ courseId: string }>();

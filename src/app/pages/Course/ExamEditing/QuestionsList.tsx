@@ -1,7 +1,7 @@
 import { Grid, Stack, Typography } from "@mui/material";
 import { useContext, useEffect } from "react";
 import theme from "../../../../assets/theme";
-import { examContext } from "./EditExam";
+import { examContext } from "../ExamCreation/Models";
 import Question from "./Question";
 import { IExamQuestion } from "../../../types/Exam";
 

@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import React, { useContext } from "react";
 import theme from "../../../../assets/theme";
-import { examContext } from "./EditExam";
+import { examContext } from "../ExamCreation/Models";
 import { IExamQuestion } from "../../../types/Exam";
 
 export default function SummaryQuestion() {

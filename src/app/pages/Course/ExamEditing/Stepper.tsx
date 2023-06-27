@@ -9,7 +9,9 @@ import { Stack } from "@mui/material";
 import ExamInfo from "./ExamInfo";
 import QuestionsBody from "./QuestionsBody";
 import Summary from "./Summary";
-import { examContext, updateContext } from "./EditExam";
+import { updateContext } from "./EditExam";
+import { examContext } from "../ExamCreation/Models";
+
 import {
   IExamPayload,
   IExamQuestionPayload,

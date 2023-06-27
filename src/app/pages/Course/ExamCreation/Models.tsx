@@ -23,3 +23,11 @@ export const QuestionsContext = React.createContext<IQuestionsContext>({
   questionsList: [],
   setQuestionsList: () => {},
 });
+export interface IExamContext {
+  examState: IManualExamDetails;
+  setExamState: Dispatch<SetStateAction<IManualExamDetails>>;
+}
+export const examContext = React.createContext<IExamContext>({
+  examState: {},
+  setExamState: () => {},
+});

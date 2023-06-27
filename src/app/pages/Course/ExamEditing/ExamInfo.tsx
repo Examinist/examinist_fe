@@ -8,7 +8,7 @@ import {
 import React, { useContext, useEffect, useState } from "react";
 import theme from "../../../../assets/theme";
 import RadioButtonOptions from "./RadioButtonOptions";
-import { examContext, updateContext } from "./EditExam";
+import { examContext } from "../ExamCreation/Models";
 
 export default function ExamInfo({
   setDisabled,
