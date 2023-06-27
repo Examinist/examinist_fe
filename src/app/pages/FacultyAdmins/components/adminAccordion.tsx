@@ -1,27 +1,68 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, DialogContent, Divider, IconButton, List, ListItem, ListItemButton, ListItemText } from "@mui/material";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Button,
+  DialogContent,
+  Divider,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+} from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import IUser, { UserRoleEnum } from "../../../types/User";
+import IUser, { IStaff, UserRoleEnum } from "../../../types/User";
 import { mockInstructor } from "../../../services/APIs/mockData/MockData";
 import { Delete } from "@mui/icons-material";
 import theme from "../../../../assets/theme";
 import { useState } from "react";
-import CustomDialog, { CustomDialogTitle } from "../../Course/CourseSettings/QuestionTypes/components/CustomDialog";
+import CustomDialog, {
+  CustomDialogTitle,
+} from "../../Course/CourseSettings/QuestionTypes/components/CustomDialog";
 import AddAdminDialog from "./addAdminDialog";
-
+import { IUniversityFaculty } from "../../../types/University";
+import useAlert from "../../../hooks/useAlert";
+import { updateStaffRoleApi } from "../../../services/APIs/FacultyAPIs";
+import { IErrorResponse } from "../../../services/Response";
 
 //we can take only faculty name and api call when need to get faculty admin and faculty instructors
 interface IAdminAccordionProp {
-  faculty: string,
-  admins: IUser[],
-  instructors: IUser[],
+  faculty: IUniversityFaculty;
+  onChange: () => void;
 }
 
-export default function AdminAccordion({ faculty, admins, instructors }: IAdminAccordionProp) {
+export default function AdminAccordion({
+  faculty,
+  onChange,
+}: IAdminAccordionProp) {
   const [openDialog, setDialog] = useState(false);
+  const { setAlertState } = useAlert();
 
   const handleClose = () => {
     setDialog(false);
-  }
+  };
+
+  const handleDelete = (staff: IStaff) => {
+    console.log(staff);
+    updateStaffRoleApi(faculty.id, staff.id, UserRoleEnum.INSTRUCTOR)
+      .then(() => {
+        onChange();
+        setAlertState({
+          open: true,
+          message: "Admin is removed succesfully.",
+          severity: "success",
+        });
+      })
+      .catch(({ response: { status, statusText, data } }: IErrorResponse) => {
+        setAlertState({
+          open: true,
+          message: data.message || statusText,
+          severity: "error",
+        });
+      });
+  };
 
   return (
     <Box
@@ -46,33 +87,40 @@ export default function AdminAccordion({ faculty, admins, instructors }: IAdminA
               fontWeight: "medium",
             }}
           >
-            Faculty of {faculty}
+            {faculty.faculty_name}
           </Box>
         </AccordionSummary>
         <AccordionDetails sx={{ mr: 4 }}>
           <Box>
             <List disablePadding>
-              {admins.map((value, index) => (
+              {faculty.admins.map((value, index) => (
                 <div key={value.id}>
                   <ListItem
                     secondaryAction={
-                      <IconButton>
-                        <Delete
-                          sx={{ color: "#000000" }}></Delete>
+                      <IconButton onClick={() => handleDelete(value)}>
+                        <Delete sx={{ color: "#000000" }}></Delete>
                       </IconButton>
-                    }>
-                    <ListItemText primary={value.first_name + " " + value.last_name}
-                      primaryTypographyProps={{ fontWeight: "medium", fontSize: 18 }}
+                    }
+                  >
+                    <ListItemText
+                      primary={value.first_name + " " + value.last_name}
+                      primaryTypographyProps={{
+                        fontWeight: "medium",
+                        fontSize: 18,
+                      }}
                       secondary={value.username}
-                      secondaryTypographyProps={{ fontWeight: "medium", fontSize: 15, color: "#969090" }}></ListItemText>
+                      secondaryTypographyProps={{
+                        fontWeight: "medium",
+                        fontSize: 15,
+                        color: "#969090",
+                      }}
+                    ></ListItemText>
                   </ListItem>
-                  {index != admins.length - 1 && <Divider />}
+                  {index != faculty.admins.length - 1 && <Divider />}
                 </div>
               ))}
             </List>
-            <Box display="flex"
-              justifyContent="flex-end"
-            >
+            <Box display="flex" justifyContent="flex-end">
               <Button
                 variant="outlined"
                 onClick={() => setDialog(!openDialog)}
@@ -87,17 +135,23 @@ export default function AdminAccordion({ faculty, admins, instructors }: IAdminA
                   textTransform: "none",
                   borderRadius: "15px",
                   py: 1.5,
-                  height: "40px"
+                  height: "40px",
                 }}
               >
                 Add User
               </Button>
-              {openDialog && <AddAdminDialog instructors={instructors} open={openDialog} handleOpenClose={handleClose}></AddAdminDialog>
-                }
+              {openDialog && (
+                <AddAdminDialog
+                  onSuccess={onChange}
+                  facultyId={faculty.id}
+                  open={openDialog}
+                  handleOpenClose={handleClose}
+                ></AddAdminDialog>
+              )}
             </Box>
           </Box>
         </AccordionDetails>
       </Accordion>
     </Box>
-  )
+  );
 }

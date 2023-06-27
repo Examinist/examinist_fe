@@ -1,15 +1,56 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Divider, IconButton, List, ListItem, ListItemText } from '@mui/material'
-import React from 'react'
-import IUser, { UserRoleEnum } from '../../types/User';
-import { mockInstructor } from '../../services/APIs/mockData/MockData';
-import { Delete } from '@mui/icons-material';
-import theme from '../../../assets/theme';
-import AdminAccordion from './components/adminAccordion';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
+import IUser, { UserRoleEnum } from "../../types/User";
+import { mockInstructor } from "../../services/APIs/mockData/MockData";
+import { Delete } from "@mui/icons-material";
+import theme from "../../../assets/theme";
+import AdminAccordion from "./components/adminAccordion";
+import { IUniversityFaculty } from "../../types/University";
+import {
+  IFacultiesListResponse,
+  getFacultiesApi,
+} from "../../services/APIs/FacultyAPIs";
+import { IErrorResponse } from "../../services/Response";
+import useAlert from "../../hooks/useAlert";
+import CustomCircularProgress from "../../components/CustomCircularProgress";
 
 export default function FacultyAdmins() {
-  const admins: IUser[] = [{ ...mockInstructor, role: UserRoleEnum.FACULTY_ADMIN }, { ...mockInstructor,  role: UserRoleEnum.FACULTY_ADMIN }];
-  const faculties: string[] = ["Engineering", "Science"];
-  const instructors: IUser[] = [{ ...mockInstructor }, { ...mockInstructor }];
+  const [faculties, setFaculties] = useState<IUniversityFaculty[]>([]);
+  const { setAlertState } = useAlert();
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const loadFaculties = () => {
+    setLoading(true);
+    getFacultiesApi()
+      .then(({ data }: IFacultiesListResponse) => {
+        setFaculties(data.faculties);
+      })
+      .catch(({ response: { status, statusText, data } }: IErrorResponse) => {
+        setAlertState({
+          open: true,
+          message: data.message,
+          severity: "error",
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    loadFaculties();
+  }, []);
 
   return (
     <Box sx={{ px: 15, py: 5 }}>
@@ -18,19 +59,18 @@ export default function FacultyAdmins() {
           fontSize: "2rem",
           fontWeight: "medium",
           fontFamily: "montserrat",
-          paddingBottom: "10px"
+          paddingBottom: "40px",
         }}
       >
         Faculties Admins
       </Box>
-      {faculties.map((value) =>
-        <AdminAccordion
-          faculty={value}
-          admins={admins}
-          instructors={instructors}
-          ></AdminAccordion>
+      {loading ? (
+        <CustomCircularProgress />
+      ) : (
+        faculties.map((value) => (
+          <AdminAccordion key={value.id} faculty={value} onChange={loadFaculties}></AdminAccordion>
+        ))
       )}
-
     </Box>
-  )
+  );
 }
