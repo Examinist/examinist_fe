@@ -75,10 +75,6 @@ export default function UniversityLabs() {
   }, []);
 
   const [addLab, openAddLab] = useState(false);
-
-  const [curr, setCurr] = React.useState<null | number>(null);
-  const [editId, setEdit] = React.useState<null | number>(null);
-
   const [LabName, setLabName] = useState("");
   const [LabCapacity, setLabCapacity] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -126,17 +122,13 @@ export default function UniversityLabs() {
     }
   };
 
-  const handleEdit = (
-    //event: React.MouseEvent<HTMLButtonElement>
-    ) => {
-    setEdit(curr)
-    //handleClose(event);
+  const handleEdit = () => {
   };
 
   const handleDelete = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
-    console.log("in delete", curr);
+    //console.log("in delete");
     // if (lab.id) {
     //   deleteLabApi(lab.id)
     //     .then(() => {
