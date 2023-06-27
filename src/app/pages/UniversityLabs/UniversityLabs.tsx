@@ -2,10 +2,7 @@ import {
   Box,
   Button,
   Card,
-  Divider,
   IconButton,
-  Menu,
-  MenuItem,
   Table,
   TableBody,
   TableCell,
@@ -19,7 +16,6 @@ import {
 import React, { useEffect, useState } from "react";
 import { ILab } from "../../types/Lab";
 import { mockLabs } from "../../services/APIs/mockData/MockData";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import ClearIcon from "@mui/icons-material/Clear";
 import theme from "../../../assets/theme";
@@ -34,8 +30,12 @@ import {
 import useAlert from "../../hooks/useAlert";
 import { IErrorResponse } from "../../services/Response";
 import CustomCircularProgress from "../../components/CustomCircularProgress";
+import ReviewLabRow from "./LabCell";
+import LabCells from "./LabCell";
+import LabCell from "./LabCell";
+import LabTableRow from "./LabTableRow";
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
+export const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: "#F5F5F5",
     borderBottom: "none",
@@ -75,16 +75,9 @@ export default function UniversityLabs() {
   }, []);
 
   const [addLab, openAddLab] = useState(false);
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-    event.stopPropagation();
-  };
-  const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(null);
-    event.stopPropagation();
-  };
+
+  const [curr, setCurr] = React.useState<null | number>(null);
+  const [editId, setEdit] = React.useState<null | number>(null);
 
   const [LabName, setLabName] = useState("");
   const [LabCapacity, setLabCapacity] = useState<string | null>(null);
@@ -133,13 +126,17 @@ export default function UniversityLabs() {
     }
   };
 
-  const handleEdit = () => {};
+  const handleEdit = (
+    //event: React.MouseEvent<HTMLButtonElement>
+    ) => {
+    setEdit(curr)
+    //handleClose(event);
+  };
 
   const handleDelete = (
-    event: React.MouseEvent<HTMLButtonElement>,
-    lab: ILab
+    event: React.MouseEvent<HTMLButtonElement>
   ) => {
-    console.log("in delete", lab);
+    console.log("in delete", curr);
     // if (lab.id) {
     //   deleteLabApi(lab.id)
     //     .then(() => {
@@ -195,54 +192,9 @@ export default function UniversityLabs() {
                 </TableHead>
                 <TableBody>
                   {labs.map((lab, index) => (
-                    <TableRow key={lab.id!}>
-                      <StyledTableCell align="center">
-                        {lab.name}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {lab.capacity}
-                      </StyledTableCell>
-                      <StyledTableCell align="right">
-                        <div>
-                          <IconButton
-                            aria-label="more"
-                            id="long-button"
-                            aria-controls={open ? "long-menu" : undefined}
-                            aria-expanded={open ? "true" : undefined}
-                            aria-haspopup="true"
-                            onClick={handleClick}
-                          >
-                            <MoreVertIcon />
-                          </IconButton>
-                          <Menu
-                            id="basic-menu"
-                            anchorEl={anchorEl}
-                            open={open}
-                            onClose={handleClose}
-                            MenuListProps={{
-                              "aria-labelledby": "basic-button",
-                            }}
-                          >
-                            <MenuItem
-                              sx={{ minWidth: "150px" }}
-                              onClick={handleEdit}
-                            >
-                              Edit
-                            </MenuItem>
-                            <Divider />
-                            <MenuItem
-                              sx={{ minWidth: "150px" }}
-                              onClick={(event: any) => {
-                                console.log(index, lab)
-                                handleDelete(event, lab);
-                              }}
-                            >
-                              Delete
-                            </MenuItem>
-                          </Menu>
-                        </div>
-                      </StyledTableCell>
-                    </TableRow>
+                    <LabTableRow 
+                    lab={lab}
+                    index={index}></LabTableRow>
                   ))}
                   {addLab ? (
                     <TableRow>
