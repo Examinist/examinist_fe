@@ -1,20 +1,7 @@
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
   Box,
-  Button,
-  Divider,
-  IconButton,
-  List,
-  ListItem,
-  ListItemText,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import IUser, { UserRoleEnum } from "../../types/User";
-import { mockInstructor } from "../../services/APIs/mockData/MockData";
-import { Delete } from "@mui/icons-material";
-import theme from "../../../assets/theme";
 import AdminAccordion from "./components/adminAccordion";
 import { IUniversityFaculty } from "../../types/University";
 import {
