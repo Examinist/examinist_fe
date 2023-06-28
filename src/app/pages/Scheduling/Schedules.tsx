@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { IDetailedSchedule, ISchedule } from "../../types/Schedule";
 import { mockExamsList } from "../../services/APIs/mockData/MockData";
 import ScheduleTable from "./CreateSchedule/components/ScheduleTable";
-import { right } from "@popperjs/core";
 
 export default function Schedules() {
   const schedules: IDetailedSchedule[] = [{ id: 1, title: "CSE222", exams: mockExamsList }, { id: 2, title: "CSE223", exams: mockExamsList }]
@@ -24,6 +23,8 @@ export default function Schedules() {
   }
 
   const navigate = useNavigate();
+  
+  //needs list padding right & left
   return (
     <Box sx={{ px: 12, py: 5 }}>
       <Box display="flex">

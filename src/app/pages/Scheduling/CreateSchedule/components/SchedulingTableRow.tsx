@@ -1,10 +1,5 @@
-import { Checkbox, Divider, FormControl, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, SelectChangeEvent, TableCell, TableRow } from "@mui/material";
+import { TableCell, TableRow } from "@mui/material";
 import { IExam } from "../../../../types/Exam";
-import { DatePicker, LocalizationProvider, TimePicker } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import React from "react";
-import { ILab } from "../../../../types/Lab";
-import { mockLabs } from "../../../../services/APIs/mockData/MockData";
 import ScheduleDateComponent from "./ScheduleDateComponent";
 import ScheduleTimeComponent from "./ScheduleTimeComponent";
 import ScheduleLabComponent from "./ScheduleLabComponent";
