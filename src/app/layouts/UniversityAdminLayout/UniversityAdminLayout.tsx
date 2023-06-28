@@ -28,8 +28,10 @@ export default function UniversityAdminLayout() {
           },
         }}
       >
-        <Logo />
-       <UniversityAdminMenu/>
+        <Box sx={{ ml: 3, mt: 1 }}>
+          <Logo />
+        </Box>
+        <UniversityAdminMenu />
         <Box sx={{ mt: "auto" }}>
           <Divider />
           <UserInfo />

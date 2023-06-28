@@ -1,13 +1,13 @@
 import { Grid, Stack, Typography } from "@mui/material";
 import { useContext, useEffect } from "react";
 import theme from "../../../../assets/theme";
-import { ManualExamContext } from "./ManualExam";
+import { examContext } from "../ExamCreation/Models";
 import Question from "./Question";
 import { AutomaticExamContext } from "./AutomaticExam";
 import { IExamQuestion } from "../../../types/Exam";
 
 export default function QuestionsList({ isAutomatic,setDisabled }: { isAutomatic: boolean,setDisabled: React.Dispatch<React.SetStateAction<boolean>>}) {
-  const { examState, setExamState } = useContext(ManualExamContext);
+  const { examState, setExamState } = useContext(examContext);
   const { automaticExamState, setAutomaticExamState } =
     useContext(AutomaticExamContext);
   const mapEntries=  Array.from(
@@ -34,7 +34,7 @@ console.log(mapEntries);
               {key}
             </Typography>
             {value.map((question) => (
-              <Question key={question.id} examQuestion={question} isAutomatic={isAutomatic}/>
+              <Question key={question.question.id} examQuestion={question} isAutomatic={isAutomatic}/>
             ))}
           </Stack>
         ))}

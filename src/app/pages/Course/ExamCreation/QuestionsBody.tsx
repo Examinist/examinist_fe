@@ -14,7 +14,7 @@ import theme from "../../../../assets/theme";
 import QuestionBankDialog from "./QuestionBankDialog";
 import { useNavigate } from "react-router-dom";
 import QuestionsList from "./QuestionsList";
-import { ManualExamContext } from "./ManualExam";
+import { examContext } from "../ExamCreation/Models";
 import { IQuestionsContext, QuestionsContext } from "./Models";
 import AddQuestionDialog from "./AddQuestionDialog";
 

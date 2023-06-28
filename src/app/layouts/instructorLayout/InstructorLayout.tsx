@@ -27,7 +27,9 @@ export default function InstructorLayout() {
           },
         }}
       >
-        <Logo />
+        <Box sx={{ml:3, mt: 1}}>
+          <Logo />
+        </Box>
         <InstructorMenu />
         <Box sx={{ mt: "auto" }}>
           <Divider />

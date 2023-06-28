@@ -8,6 +8,8 @@ import Schedules from "../pages/Scheduling/Schedules";
 import CourseRoutes from "./CourseRoutes";
 import StudentExam from "../pages/Course/ExamGrading/StudentExam";
 import CreateSchedule from "../pages/Scheduling/CreateSchedule/CreateSchedule";
+import ExamsLabs from "../pages/ExamsLabs/ExamsLabs";
+import ExamLabs from "../pages/ExamsLabs/ExamLabs";
 
 const FacultyAdminRoutes = () => {
   return (
@@ -21,20 +23,14 @@ const FacultyAdminRoutes = () => {
 
         <Route path="exams" element={<AllExams />} />
 
-        <Route path="dashboard" element={<Test />} />
-
-        <Route path="calendar" element={<Test />} />
-
-        <Route path="exam-sessions" element={<Test />} />
-
-        <Route path="pending-reports" element={<Test />} />
-
         <Route path="scheduling">
           <Route index element={<Schedules />} />
           <Route path="new" element={<CreateSchedule />} />
         </Route>
-
-        <Route path="users" element={<Test />} />
+        <Route path="exams_labs">
+          <Route index element={<ExamsLabs />} />
+          <Route path=":examId" element={<ExamLabs />} />
+        </Route>
       </Route>
       <Route
         path={`${

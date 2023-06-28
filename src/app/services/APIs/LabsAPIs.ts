@@ -15,6 +15,9 @@ export interface ILabsListResponse extends IResponse<ILabsListData> {}
 export interface ILabResponse extends IResponse<ILabData> {}
 
 export const getLabsListApi = async () => {
+  //  const portal = localStorage.getItem("portal");
+  //  const response = await axiosInstance.get(`${portal}/labs`);
+  //  return response as ILabsListResponse;
   try {
     const portal = localStorage.getItem("portal");
     const response = await axiosInstance.get(`${portal}/labs`);
@@ -68,4 +71,7 @@ export const deleteLabApi = async (labId: number) => {
       },
     } as ILabResponse;
   }
+  //  const portal = localStorage.getItem("portal");
+  //  const response = await axiosInstance.delete(`${portal}/labs/${labId}`);
+  //  return response as ILabResponse;
 };

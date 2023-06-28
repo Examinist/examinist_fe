@@ -3,3 +3,8 @@ export interface ILab{
     name: string;
     capacity: number;
 }
+
+export interface IBusyLab {
+  id: number;
+  name: string;
+}

@@ -42,10 +42,7 @@ import UpdateAlert, {
   IAlertState,
 } from "../../../components/UpdateAlert/UpdateAlert";
 import { IQuestionType, ITopic } from "../../../types/CourseSettings";
-import { IManualExamDetails, QuestionsContext } from "../ExamCreation/Models";
-import {
-  ManualExamContext,
-} from "../ExamCreation/ManualExam";
+import { IManualExamDetails, QuestionsContext, examContext } from "../ExamCreation/Models";
 import { AutomaticExamContext } from "../ExamCreation/AutomaticExam";
 
 const DifficultyLevelOptions = [
@@ -79,7 +76,7 @@ export default function QuestionBank({
   isAutomatic?: boolean;
 }) {
   const { questionsList, setQuestionsList } = useContext(QuestionsContext);
-  const { examState, setExamState } = useContext(ManualExamContext);
+  const { examState, setExamState } = useContext(examContext);
   const { automaticExamState, setAutomaticExamState } =
     useContext(AutomaticExamContext);
 
@@ -171,7 +168,7 @@ export default function QuestionBank({
     <div>
       <Stack
         sx={{
-          px: 15,
+          px: 7,
           py: 5,
           justifyContent: "center",
           alignItems: "center",
@@ -347,6 +344,7 @@ export default function QuestionBank({
                               >
                                 <Grid item key={question.id}>
                                   <Checkbox
+                                    key={question.id}
                                     checked={questionsList.includes(question)}
                                     onChange={(
                                       event: React.ChangeEvent<HTMLInputElement>

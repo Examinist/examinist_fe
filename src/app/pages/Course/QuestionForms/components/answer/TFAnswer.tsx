@@ -16,8 +16,7 @@ export default function TFAnswer() {
   useEffect(() => {
     setValue("answer_type", AnswerTypeEnum.SINGLE);
     const choices: IChoice[] = getValues("choices_attributes")!;
-    console.log(choices);
-    if((choices && choices.length == 2 && choices[0].choice == "true" && choices[1].choice == "false")){
+    if((choices && choices.length == 2 && choices[0].choice?.toLowerCase() == "true" && choices[1].choice?.toLowerCase() == "false")){
         setChecked(choices[0].is_answer ? "true" : "false");
     }
     else{

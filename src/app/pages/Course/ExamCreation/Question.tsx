@@ -17,7 +17,7 @@ import QuestionModifications from "../QuestionBank/QuestionModifications";
 import { IExamQuestion } from "../../../types/Exam";
 import QuestionAnswer from "../QuestionBank/QuestionAnswer";
 import { AutomaticExamContext } from "./AutomaticExam";
-import { ManualExamContext } from "./ManualExam";
+import { examContext } from "../ExamCreation/Models";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 
@@ -28,7 +28,7 @@ export default function Question({
   examQuestion: IExamQuestion;
   isAutomatic: boolean;
 }) {
-  const { examState, setExamState } = React.useContext(ManualExamContext);
+  const { examState, setExamState } = React.useContext(examContext);
   const { automaticExamState, setAutomaticExamState } =
   React.useContext(AutomaticExamContext);
   const [score, setScore] = React.useState<number>(examQuestion.score);

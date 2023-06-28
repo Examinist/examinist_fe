@@ -6,6 +6,7 @@ import {
 } from "../services/APIs/AuthAPIs";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Box, CircularProgress } from "@mui/material";
+import { setupResponseInterceptor } from "../services/AxiosConfig";
 
 type AuthContextType = {
   isAuthenticated: boolean;

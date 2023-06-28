@@ -14,7 +14,7 @@ import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 import QuestionBank from "../QuestionBank/QuestionBank";
 import theme from "../../../../assets/theme";
-import { ManualExamContext } from "./ManualExam";
+import { examContext } from "../ExamCreation/Models";
 import { AutomaticExamContext } from "./AutomaticExam";
 import { QuestionsContext } from "./Models";
 import { Alert, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar } from "@mui/material";
@@ -36,7 +36,7 @@ export default function QuestionBankDialog({ isAutomatic = false }) {
   const [open, setOpen] = React.useState(false);
   const [openAlert, setOpenAlert] = React.useState(false);
 
-  const { examState, setExamState } = React.useContext(ManualExamContext);
+  const { examState, setExamState } = React.useContext(examContext);
   const { automaticExamState, setAutomaticExamState } =
     React.useContext(AutomaticExamContext);
 
@@ -67,7 +67,6 @@ export default function QuestionBankDialog({ isAutomatic = false }) {
           questions.find((q) => q.question.id === question.id) == undefined
         ) {
           questions.push({
-            id: question.id,
             score: getWeight(question),
             question: question,
           });
@@ -87,7 +86,6 @@ export default function QuestionBankDialog({ isAutomatic = false }) {
           question.question_type.name,
           [
             {
-              id: question.id,
               score: getWeight(question),
               question: question,
             },
