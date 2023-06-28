@@ -25,7 +25,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TimePicker } from "@mui/x-date-pickers";
 import SchedulingTableRow from "../components/SchedulingTableRow";
 import ScheduleTable from "../components/ScheduleTable";
-import GenerateAutomaticScheduleDialog from "./GenerateAutomaticScheduleDialog";
+import GenerateAutomaticScheduleDialog from "./GenerateAutomaticSchedule/GenerateAutomaticScheduleDialog";
 import { IExam } from "../../../../types/Exam";
 //const StyledTableCell = styled(TableCell)(({ theme }) => ({
 //  [`&.${tableCellClasses.head}`]: {
