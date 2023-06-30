@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, DialogContent, DialogTitle, Divider, List, ListItem, ListItemButton, ListItemText } from "@mui/material";
+import { Box, Button, Dialog, DialogContent, DialogTitle, Divider, List, ListItem, ListItemButton, ListItemText, TextField, Typography } from "@mui/material";
 import React from "react";
 import theme from "../../../assets/theme";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +10,7 @@ export default function Schedules() {
   const schedules: IDetailedSchedule[] = [{ id: 1, title: "CSE222", exams: mockExamsList }, { id: 2, title: "CSE223", exams: mockExamsList }]
   const [open, setOpen] = React.useState(false);
   const [chosen, setChosen] = React.useState(0);
-  const [edit, setEdit] = React.useState(true);
+  const [edit, setEdit] = React.useState(false);
 
   const handleClickOpen = (index: number) => {
     setOpen(true);
@@ -18,12 +18,13 @@ export default function Schedules() {
   };
 
   const handleClose = () => {
-    setOpen(false);
-    setChosen(0);
+    setOpen(false)
+    setChosen(0)
+    setEdit(false)
   }
 
   const navigate = useNavigate();
-  
+
   //needs list padding right & left
   return (
     <Box sx={{ px: 12, py: 5 }}>
@@ -75,10 +76,18 @@ export default function Schedules() {
                 maxWidth="lg"
                 open={open}
                 onClose={handleClose}>
-                <DialogTitle>{schedules[chosen].title}</DialogTitle>
+                {edit ? 
+                <DialogTitle>
+                  <Typography color="#1B84BF" fontSize="15px" fontWeight="medium">Title</Typography>
+                  <TextField value={schedules[chosen].title}
+                  size="medium"
+                  variant="standard"
+                  fullWidth
+                  sx={{fontSize:"22px"}}></TextField>
+                </DialogTitle> : <DialogTitle>{schedules[chosen].title}</DialogTitle>}
                 <DialogContent>
-                  <ScheduleTable review={edit} examList={schedules[chosen].exams}></ScheduleTable>
-                  {edit ?
+                  <ScheduleTable review={!edit} examList={schedules[chosen].exams}></ScheduleTable>
+                  {!edit ?
                     <Box display="flex"
                       justifyContent="flex-end"
                       alignItems="flex-end">
@@ -100,7 +109,7 @@ export default function Schedules() {
                         width: "90px",
                         fontWeight: "600"
                       }}
-                        onClick={() => setEdit(false)}>Edit</Button>
+                        onClick={() => setEdit(true)}>Edit</Button>
                     </Box>
                     : <Box display="flex"
                       justifyContent="flex-end"
@@ -113,7 +122,7 @@ export default function Schedules() {
                         width: "170px",
                         fontWeight: "600"
                       }}
-                        onClick={() => setEdit(true)}>Save Changes</Button>
+                        onClick={() => setEdit(false)}>Save Changes</Button>
                     </Box>}
                 </DialogContent>
               </Dialog>

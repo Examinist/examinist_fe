@@ -11,6 +11,12 @@ interface IScheduleTableRow {
 
 export default function ScheduleTableRow({ value, review }: IScheduleTableRow) {
 
+    const addDuration = () => {
+        const copyDate = new Date(value.scheduled_date)
+        var newDate = new Date(copyDate.setMinutes(copyDate.getMinutes()+60,0,0))
+        return newDate.toLocaleTimeString()
+    }
+
     return (
         <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
             <TableCell align="center">{value.id}</TableCell>
@@ -20,7 +26,7 @@ export default function ScheduleTableRow({ value, review }: IScheduleTableRow) {
             <TableCell align="center">{value.duration}</TableCell>
             <ScheduleDateComponent review={review} exam={value}></ScheduleDateComponent>
             <ScheduleTimeComponent review={review} exam={value}></ScheduleTimeComponent>
-            <TableCell align="center">{value.duration}</TableCell>
+            <TableCell align="center">{addDuration()}</TableCell>
             <ScheduleLabComponent review={review} exam={value}></ScheduleLabComponent>
         </TableRow >
     );

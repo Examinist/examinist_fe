@@ -3,20 +3,15 @@ import theme from "../../../../../assets/theme";
 import React from "react";
 import SchedulingTableRow from "./SchedulingTableRow";
 import { IExam } from "../../../../types/Exam";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { IExamInputs } from "../Step2/Fields";
 
 interface IScheduleTableProps{
     review: boolean,
     examList: IExam[],
 }
 
-export interface IScheduleFormInput{
-  list: IExam[],
-}
-
-const schema = yup.object().shape({
+export const schema = yup.object().shape({
   list: yup.array().of(
     yup.object().shape({
       scheduled_date: yup.date(),
@@ -25,16 +20,18 @@ const schema = yup.object().shape({
   ),
 });
 
+const mapExamToFormInput=(items: IExam[])=>{
+    var newList:IExamInputs[] = []
+    items.forEach((value)=>{
+      const item:IExamInputs={date:value.scheduled_date,time:value.scheduled_date,labs:value.busy_labs}
+      newList.concat(item)
+    })
+    return newList;
+}
+
 export default function ScheduleTable({review, examList}: IScheduleTableProps){
     const header = ["ID", "Title", "Course", "Number of Students", "Duration", "Scheduled Date", "Start Time", "End Time", "Labs"];
     const [ exams, setExams ] = React.useState(examList);
-
-    const methods = useForm<IScheduleFormInput>({
-      defaultValues:{
-        list: exams,
-      },
-      resolver: yupResolver(schema)
-    })
 
     return(
         <TableContainer>

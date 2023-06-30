@@ -2,21 +2,8 @@ import { Box, Button, Checkbox, ListItemText, MenuItem, OutlinedInput, Select, S
 import React, { useImperativeHandle } from "react";
 import theme from "../../../../../assets/theme";
 import { ScheduleContext } from "../ScheduleContext";
-import { useForm } from "react-hook-form";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { TimePicker } from "@mui/x-date-pickers";
-import SchedulingTableRow from "../components/SchedulingTableRow";
+import { FormProvider, useForm } from "react-hook-form";
 import ScheduleTable from "../components/ScheduleTable";
-//const StyledTableCell = styled(TableCell)(({ theme }) => ({
-//  [`&.${tableCellClasses.head}`]: {
-//    borderBottom: "none",
-//  },
-//  [`&.${tableCellClasses.body}`]: {
-//    borderBottom: "none",
-//  },
-//}));
 
 interface IScheduleExamsFormProps {
   reference: React.Ref<any>;
@@ -33,50 +20,53 @@ export default function ScheduleExamsForm({
     },
   }));
 
-  const { handleSubmit } = useForm();
+  const methods = useForm();
+  const { handleSubmit } = methods;
   const onSubmit = () => {
     onSuccess();
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Box display="flex" sx={{ flexDirection: "column", gap: 3 }}>
-        <Box display="flex">
-          <Box
-            sx={{
-              fontSize: "1.7rem",
-              fontWeight: "medium",
-              px: 1,
-              py: 2,
-              color: theme.palette.gray.dark,
-            }}
-          >
-            Schedule Exams
+      <FormProvider {...methods}>
+        <Box display="flex" sx={{ flexDirection: "column", gap: 3 }}>
+          <Box display="flex">
+            <Box
+              sx={{
+                fontSize: "1.7rem",
+                fontWeight: "medium",
+                px: 1,
+                py: 2,
+                color: theme.palette.gray.dark,
+              }}
+            >
+              Schedule Exams
+            </Box>
+            <Button
+              variant="outlined"
+              sx={{
+                ml: "auto",
+                borderRadius: 4,
+                height: "fit-content",
+                py: 1,
+                px: 3,
+                alignSelf: "center",
+                fontWeight: 650,
+                backgroundColor: theme.palette.background.paper,
+              }}
+            >
+              Generate Automatic Schedule
+            </Button>
           </Box>
-          <Button
-            variant="outlined"
+          <Box display="flex"
             sx={{
-              ml: "auto",
-              borderRadius: 4,
-              height: "fit-content",
-              py: 1,
-              px: 3,
-              alignSelf: "center",
-              fontWeight: 650,
               backgroundColor: theme.palette.background.paper,
-            }}
-          >
-            Generate Automatic Schedule
-          </Button>
+              borderRadius: "15px",
+            }}>
+            <ScheduleTable review={false} examList={exams}></ScheduleTable>
+          </Box>
         </Box>
-        <Box display="flex"
-          sx={{
-            backgroundColor: theme.palette.background.paper,
-            borderRadius: "15px",
-          }}>
-          <ScheduleTable review={false} examList={exams}></ScheduleTable>
-        </Box>
-      </Box>
+      </FormProvider>
     </form>
   );
 }
