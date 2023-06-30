@@ -58,47 +58,49 @@ export default function ScheduleExamsForm({
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Box display="flex" sx={{ flexDirection: "column", gap: 3 }}>
-        <Box display="flex">
-          <Box
-            sx={{
-              fontSize: "1.7rem",
-              fontWeight: "medium",
-              px: 1,
-              py: 2,
-              color: theme.palette.gray.dark,
-            }}
-          >
-            Schedule Exams
+    <>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Box display="flex" sx={{ flexDirection: "column", gap: 3 }}>
+          <Box display="flex">
+            <Box
+              sx={{
+                fontSize: "1.7rem",
+                fontWeight: "medium",
+                px: 1,
+                py: 2,
+                color: theme.palette.gray.dark,
+              }}
+            >
+              Schedule Exams
+            </Box>
+            <Button
+              variant="outlined"
+              sx={{
+                ml: "auto",
+                borderRadius: 4,
+                height: "fit-content",
+                py: 1,
+                px: 3,
+                alignSelf: "center",
+                fontWeight: 650,
+                backgroundColor: theme.palette.background.paper,
+              }}
+              onClick={() => setDialogOpen(true)}
+            >
+              Generate Automatic Schedule
+            </Button>
           </Box>
-          <Button
-            variant="outlined"
+          <Box
+            display="flex"
             sx={{
-              ml: "auto",
-              borderRadius: 4,
-              height: "fit-content",
-              py: 1,
-              px: 3,
-              alignSelf: "center",
-              fontWeight: 650,
               backgroundColor: theme.palette.background.paper,
+              borderRadius: "15px",
             }}
-            onClick={() => setDialogOpen(true)}
           >
-            Generate Automatic Schedule
-          </Button>
+            <ScheduleTable review={false} examList={exams}></ScheduleTable>
+          </Box>
         </Box>
-        <Box
-          display="flex"
-          sx={{
-            backgroundColor: theme.palette.background.paper,
-            borderRadius: "15px",
-          }}
-        >
-          <ScheduleTable review={false} examList={exams}></ScheduleTable>
-        </Box>
-      </Box>
+      </form>
       {dialogOpen && (
         <GenerateAutomaticScheduleDialog
           isOpened={dialogOpen}
@@ -108,6 +110,6 @@ export default function ScheduleExamsForm({
           }}
         />
       )}
-    </form>
+    </>
   );
 }

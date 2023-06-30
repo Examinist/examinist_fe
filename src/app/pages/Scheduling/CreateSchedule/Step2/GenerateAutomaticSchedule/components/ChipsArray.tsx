@@ -15,6 +15,12 @@ const ListItem = styled("li")(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
 
+interface IChipsArrayProps {
+  chips: ChipData[];
+  name: string;
+  label: string;
+}
+
 export default function ChipsArray() {
   const [chipData, setChipData] = React.useState<readonly ChipData[]>([
     { key: 0, label: "Angular" },
