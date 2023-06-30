@@ -35,6 +35,6 @@ export const initialValues: IFormInput = {
   time: dayjs(""),
   weekDays: [],
   labsIds: [],
-  holidayDates: [new Date(Date.now())],
+  holidayDates: [],
 };
 export type FieldPath = Path<IFormInput>;
