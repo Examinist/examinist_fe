@@ -27,7 +27,8 @@
     "react-hook-form": "^7.43.5",
     "react-router-dom": "^6.8.2",
     "sort-by": "^0.0.2",
-    "yup": "^1.0.2"
+    "yup": "^1.0.2",
+    "react-countdown": "^2.3.5"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.9",

@@ -79,11 +79,12 @@ export const getExamsApi = async (
   }
 };
 
+// TODO:
+// exam_questions: Array(3)
+// 0: {Essay: Array(1)}
+// 1: {Short_Answer: Array(1)}
+// 2: {T/F: Array(1)}
 export const getExamApi = async (exam_id: number) => {
-  // const portal = localStorage.getItem("portal");
-  // const response = await axiosInstance.get(`${portal}/exams/${exam_id}`);
-  // console.log(response);
-  // return response as IExamResponse;
   try {
     const portal = localStorage.getItem("portal");
     const response = await axiosInstance.get(`${portal}/exams/${exam_id}`);
@@ -115,14 +116,7 @@ export const autoGenerateExamApi = async (
     const response = await axiosInstance.post(`${portal}/exams/auto_generate`, {
       ...exam_parameters,
     });
-    const exam = {
-      ...response.data.exam,
-      exam_questions: mapQuestions(response.data.exam.exam_questions),
-    };
-    return {
-      ...response,
-      data: { ...response.data, exam: exam },
-    } as IExamResponse;
+    return response as IExamResponse;
   } catch (error) {
     return { data: { exam: mockDetailedExam } } as IExamResponse;
   }
@@ -135,33 +129,35 @@ export const autoGenerateExamApi = async (
 //   "duration": 60,
 //   "has_models": false,
 //   "exam_questions_attributes": [
-// EDIT QUESTION SCORE
-//     {
+//     { //EDIT
 //       "id": 5,
 //       "score": 5
 //     },
-//   ADD NEW QUESTION
-//     {
+//     { // New
 //       "question_id": 10,
 //       "score": 10
 //     },
-//   DELETE QUESTION
-//     {
+//     { // DELETE
 //       "id": 7,
 //       "_destroy": true
 //     }
 //   ]
 // }
 export const updateExamApi = async (exam_id: number, exam: IExamPayload) => {
-  try {
-    const portal = localStorage.getItem("portal");
-    const response = await axiosInstance.put(`${portal}/exams/${exam_id}`, {
-      exam,
-    });
-    return response as IExamResponse;
-  } catch (error) {
-    return { data: { exam: mockDetailedExam } } as IExamResponse;
-  }
+  const portal = localStorage.getItem("portal");
+  const response = await axiosInstance.put(`${portal}/exams/${exam_id}`, {
+    ...exam,
+  });
+  return response as IExamResponse;
+  // try {
+  //   const portal = localStorage.getItem("portal");
+  //   const response = await axiosInstance.put(`${portal}/exams/${exam_id}`, {
+  //     exam,
+  //   });
+  //   return response as IExamResponse;
+  // } catch (error) {
+  //   return { data: { exam: mockDetailedExam } } as IExamResponse;
+  // }
 };
 
 export const deleteExamApi = async (exam_id: number) => {

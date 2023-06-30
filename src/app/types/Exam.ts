@@ -1,6 +1,6 @@
 import { ICourse } from "./Course";
+import { IBusyLab } from "./Lab";
 import { IQuestion } from "./Question";
-import { IBusyLab } from "./Schedule";
 import IUser from "./User";
 
 export interface IExam {
@@ -16,32 +16,32 @@ export interface IExam {
   course: ICourse;
   number_of_students?: number;
   busy_labs?: IBusyLab[];
+  has_models: boolean;
 }
 
 export interface IDetailedExam extends IExam {
-  exam_questions: Map<string, IExamQuestion[]>;
+  exam_questions: IExamQuestionsGroup[];
 }
 
-
-export interface IExamQuestionsGroup{
-    [key: string]: IExamQuestion[];
+export interface IExamQuestionsGroup {
+  [key: string]: IExamQuestion[];
 }
 
-export interface IExamQuestion{
-    id?: number;
-    score: number;
-    question: IQuestion;
+export interface IExamQuestion {
+  id?: number;
+  score: number;
+  question: IQuestion;
 }
 
 export enum ExamStatusEnum {
-    UNSCHEDULED = "unscheduled",
-    SCHEDULED = "scheduled",
-    ONGOING = "ongoing",
-    PENDINGGRADING = "pendinggrading",
-    GRADED = "graded",
+  UNSCHEDULED = "unscheduled",
+  SCHEDULED = "scheduled",
+  ONGOING = "ongoing",
+  PENDINGGRADING = "pendinggrading",
+  GRADED = "graded",
 }
 
 export enum ExamCreationModeEnum {
-    MANUAL = "manual",
-    AUTOMATIC = "automatic",
+  MANUAL = "manual",
+  AUTOMATIC = "automatic",
 }

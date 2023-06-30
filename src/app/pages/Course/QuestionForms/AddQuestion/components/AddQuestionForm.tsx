@@ -151,7 +151,7 @@ export default function AddQuestionForm({
             </Grid>
             <Grid item xs={7} md={9} sx={{ px: 6, py: 4 }}>
               <QuestionCard />
-              <Box sx={{ display: "flex", gap: 2, flexDirection: "row-reverse" }}>
+              <Box sx={{ display: "flex", gap: 2, justifyContent:"left" }}>
                 {onCancel && (
                   <Button
                     variant="outlined"

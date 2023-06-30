@@ -10,8 +10,8 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import DifficultyLevelsTable from "./DifficultyLevelsTable";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
-import { IQuestionType } from "../../../../../types/Question";
 import theme from "../../../../../../assets/theme";
+import { IQuestionType } from "../../../../../types/CourseSettings";
 
 
 interface IQuestionTypeAccordion {

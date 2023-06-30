@@ -1,9 +1,36 @@
-import { Box, Button, Checkbox, ListItemText, MenuItem, OutlinedInput, Select, SelectChangeEvent, Table, TableCell, TableContainer, TableHead, TableRow, styled, tableCellClasses } from "@mui/material";
+import {
+  Box,
+  Button,
+  Checkbox,
+  ListItemText,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  SelectChangeEvent,
+  Table,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  styled,
+  tableCellClasses,
+} from "@mui/material";
 import React, { useImperativeHandle } from "react";
 import theme from "../../../../../assets/theme";
 import { ScheduleContext } from "../ScheduleContext";
-import { FormProvider, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import SchedulingTableRow from "../components/SchedulingTableRow";
 import ScheduleTable from "../components/ScheduleTable";
+import GenerateAutomaticScheduleDialog from "./GenerateAutomaticSchedule/GenerateAutomaticScheduleDialog";
+import { IExam } from "../../../../types/Exam";
+//const StyledTableCell = styled(TableCell)(({ theme }) => ({
+//  [`&.${tableCellClasses.head}`]: {
+//    borderBottom: "none",
+//  },
+//  [`&.${tableCellClasses.body}`]: {
+//    borderBottom: "none",
+//  },
+//}));
 
 interface IScheduleExamsFormProps {
   reference: React.Ref<any>;
@@ -14,6 +41,7 @@ export default function ScheduleExamsForm({
   onSuccess,
 }: IScheduleExamsFormProps) {
   const { exams, setExams } = React.useContext(ScheduleContext);
+  const [dialogOpen, setDialogOpen] = React.useState<boolean>(false);
   useImperativeHandle(reference, () => ({
     submitForm() {
       handleSubmit(onSubmit)();
@@ -27,8 +55,8 @@ export default function ScheduleExamsForm({
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <FormProvider {...methods}>
+    <>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Box display="flex" sx={{ flexDirection: "column", gap: 3 }}>
           <Box display="flex">
             <Box
@@ -54,19 +82,31 @@ export default function ScheduleExamsForm({
                 fontWeight: 650,
                 backgroundColor: theme.palette.background.paper,
               }}
+              onClick={() => setDialogOpen(true)}
             >
               Generate Automatic Schedule
             </Button>
           </Box>
-          <Box display="flex"
+          <Box
+            display="flex"
             sx={{
               backgroundColor: theme.palette.background.paper,
               borderRadius: "15px",
-            }}>
+            }}
+          >
             <ScheduleTable review={false} examList={exams}></ScheduleTable>
           </Box>
         </Box>
-      </FormProvider>
-    </form>
+      </form>
+      {dialogOpen && (
+        <GenerateAutomaticScheduleDialog
+          isOpened={dialogOpen}
+          handleClose={() => setDialogOpen(false)}
+          onSuccessfulSubmit={(exams: IExam[]) => {
+            console.log(exams);
+          }}
+        />
+      )}
+    </>
   );
 }

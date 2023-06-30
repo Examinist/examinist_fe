@@ -1,3 +1,5 @@
+import { IUniversity } from "./University";
+
 interface IUser {
   id?: number;
   first_name?: string;
@@ -8,10 +10,23 @@ interface IUser {
   university?: IUniversity;
 }
 
-export interface IUniversity{
+export interface IStudent{
   id: number;
-  name: string;
+  first_name: string;
+  last_name: string;
+  username: string;
+  email: string;
+  academic_id: string;
+  role: string;
 }
+
+export interface IStaff{
+  id: number;
+  first_name: string;
+  last_name: string;
+  username: string;
+}
+
 
 export enum UserPortalEnum {
   STUDENT = "student_portal",

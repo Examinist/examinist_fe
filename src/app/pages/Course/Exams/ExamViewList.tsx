@@ -5,6 +5,7 @@ import { IDetailedExam, IExamQuestion } from "../../../types/Exam";
 import ExamViewQuestion from "./ExamViewQuestion";
 
 export default function ExamViewList({ exam }: { exam: IDetailedExam }) {
+  console.log(exam);
   return (
     <Grid container direction="column" spacing={4} paddingTop={2}>
       <Grid item xs={12}>
