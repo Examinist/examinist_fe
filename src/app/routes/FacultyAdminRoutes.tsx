@@ -6,7 +6,7 @@ import FacultyAdminLayout from "../layouts/FacultyAdminLayout/FacultyAdminLayout
 import AllExams from "../pages/AllExams/AllExams";
 import Schedules from "../pages/Scheduling/Schedules";
 import CourseRoutes from "./CourseRoutes";
-import StudentExam from "../pages/Course/ExamGrading/StudentExam";
+import StudentExam from "../pages/Course/ExamGrading/ExamGrading/StudentExam";
 import CreateSchedule from "../pages/Scheduling/CreateSchedule/CreateSchedule";
 import ExamsLabs from "../pages/ExamsLabs/ExamsLabs";
 import ExamLabs from "../pages/ExamsLabs/ExamLabs";

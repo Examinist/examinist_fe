@@ -6,7 +6,7 @@ import Test from "../pages/Test";
 import { UserRoleEnum, userRoleToPathMap } from "../types/User";
 import AllExams from "../pages/AllExams/AllExams";
 import CourseRoutes from "./CourseRoutes";
-import StudentExam from "../pages/Course/ExamGrading/StudentExam";
+import StudentExam from "../pages/Course/ExamGrading/ExamGrading/StudentExam";
 
 const InstructorRoutes = () => {
   return (
