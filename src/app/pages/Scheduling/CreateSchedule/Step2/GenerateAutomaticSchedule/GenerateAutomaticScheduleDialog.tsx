@@ -10,19 +10,13 @@ import {
   DialogContent,
   Divider,
   Stack,
-  TextField,
 } from "@mui/material";
-import CustomDatePicker from "./components/CustomDatePicker";
-import HolidayDatesArray from "./components/HolidayDatesArray";
 import LabsDropDown from "./components/LabsDropDown";
 import FormTimePicker from "./components/FormTimePicker";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { IFormInput, initialValues, schema } from "./Fields";
 import { yupResolver } from "@hookform/resolvers/yup";
-import dayjs from "dayjs";
 import FormDatePicker from "./components/FormDatePicker";
-import { getDateStr } from "../../../../../utilities/Date";
-import { ILab } from "../../../../../types/Lab";
 import WeekDaysDropDown from "./components/WeekDaysDropDown";
 import AddHolidayDate from "./components/AddHolidayDate";
 
@@ -93,7 +87,6 @@ export default function GenerateAutomaticScheduleDialog({
               </Box>
               <Box sx={{ pr: "10%", pl: 2 }}>
                 <AddHolidayDate />
-                {/* <HolidayDatesArray /> */}
               </Box>
             </Box>
 
