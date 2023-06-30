@@ -53,15 +53,7 @@ export default function CreateScheduleStepper({
           </Button>
           <Box sx={{ flex: "1 1 auto" }} />
 
-          {activeStep === steps.length - 1 ? (
-            <Button
-              variant="contained"
-              onClick={handleNext}
-              sx={{ ml: 1, borderRadius: 3, boxShadow: 0 }}
-            >
-              Submit
-            </Button>
-          ) : (
+          {activeStep < steps.length - 1 && (
             <Button onClick={handleNext} sx={{ ml: 1 }}>
               Next
             </Button>
