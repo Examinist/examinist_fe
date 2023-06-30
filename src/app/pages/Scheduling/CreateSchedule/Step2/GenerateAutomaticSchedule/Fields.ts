@@ -9,6 +9,7 @@ export interface IFormInput {
   time: Dayjs;
   weekDays: string[];
   labsIds: number[];
+  holidayDates: Date[];
 }
 
 export const schema = yup.object().shape({
@@ -24,6 +25,8 @@ export const schema = yup.object().shape({
   time: yup.date().required("Time is required").typeError("Time is required"),
   weekDays: yup.array().min(1, "Week days is required"), 
   labsIds: yup.array().min(1, "Labs is required"),
+  holidayDates: yup.array(),
+  
 });
 
 export const initialValues: IFormInput = {
@@ -32,5 +35,6 @@ export const initialValues: IFormInput = {
   time: dayjs(""),
   weekDays: [],
   labsIds: [],
+  holidayDates: [new Date(Date.now())],
 };
 export type FieldPath = Path<IFormInput>;
