@@ -4,7 +4,8 @@ import theme from "../../../assets/theme";
 import { useNavigate } from "react-router-dom";
 import { IDetailedSchedule, ISchedule } from "../../types/Schedule";
 import { mockExamsList } from "../../services/APIs/mockData/MockData";
-import ScheduleTable from "./CreateSchedule/components/ScheduleTable";
+import ScheduleReviewTable from "./ScheduleTables/ScheduleReviewTable";
+import ScheduleEditTable from "./ScheduleTables/ScheduleEditTable";
 
 export default function Schedules() {
   const schedules: IDetailedSchedule[] = [{ id: 1, title: "CSE222", exams: mockExamsList }, { id: 2, title: "CSE223", exams: mockExamsList }]
@@ -76,54 +77,60 @@ export default function Schedules() {
                 maxWidth="lg"
                 open={open}
                 onClose={handleClose}>
-                {edit ? 
-                <DialogTitle>
-                  <Typography color="#1B84BF" fontSize="15px" fontWeight="medium">Title</Typography>
-                  <TextField value={schedules[chosen].title}
-                  size="medium"
-                  variant="standard"
-                  fullWidth
-                  sx={{fontSize:"22px"}}></TextField>
-                </DialogTitle> : <DialogTitle>{schedules[chosen].title}</DialogTitle>}
+                {edit ?
+                  <DialogTitle>
+                    <Typography color="#1B84BF" fontSize="15px" fontWeight="medium">Title</Typography>
+                    <TextField value={schedules[chosen].title}
+                      size="medium"
+                      variant="standard"
+                      fullWidth
+                      sx={{ fontSize: "22px" }}></TextField>
+                  </DialogTitle> : <DialogTitle>{schedules[chosen].title}</DialogTitle>}
                 <DialogContent>
-                  <ScheduleTable review={!edit} examList={schedules[chosen].exams}></ScheduleTable>
                   {!edit ?
-                    <Box display="flex"
-                      justifyContent="flex-end"
-                      alignItems="flex-end">
-                      <Button sx={{
-                        color: "#FF4B4B",
-                        backgroundColor: theme.palette.white.main,
-                        border: 1,
-                        alignSelf: "center",
-                        borderRadius: "10px",
-                        width: "90px",
-                        fontWeight: "600",
-                        marginRight: "15px"
-                      }}>Delete</Button>
-                      <Button sx={{
-                        backgroundColor: theme.palette.white.main,
-                        border: 1,
-                        alignSelf: "center",
-                        borderRadius: "10px",
-                        width: "90px",
-                        fontWeight: "600"
-                      }}
-                        onClick={() => setEdit(true)}>Edit</Button>
-                    </Box>
-                    : <Box display="flex"
-                      justifyContent="flex-end"
-                      alignItems="flex-end">
-                      <Button sx={{
-                        backgroundColor: theme.palette.white.main,
-                        border: 1,
-                        alignSelf: "center",
-                        borderRadius: "10px",
-                        width: "170px",
-                        fontWeight: "600"
-                      }}
-                        onClick={() => setEdit(false)}>Save Changes</Button>
-                    </Box>}
+                    <>
+                      <ScheduleReviewTable examList={schedules[chosen].exams}></ScheduleReviewTable>
+                      <Box display="flex"
+                        justifyContent="flex-end"
+                        alignItems="flex-end">
+                        <Button sx={{
+                          color: "#FF4B4B",
+                          backgroundColor: theme.palette.white.main,
+                          border: 1,
+                          alignSelf: "center",
+                          borderRadius: "10px",
+                          width: "90px",
+                          fontWeight: "600",
+                          marginRight: "15px"
+                        }}>Delete</Button>
+                        <Button sx={{
+                          backgroundColor: theme.palette.white.main,
+                          border: 1,
+                          alignSelf: "center",
+                          borderRadius: "10px",
+                          width: "90px",
+                          fontWeight: "600"
+                        }}
+                          onClick={() => setEdit(true)}>Edit</Button>
+                      </Box></>
+                    :
+                    <>
+                      <ScheduleEditTable examList={schedules[chosen].exams}></ScheduleEditTable>
+                      <Box display="flex"
+                        justifyContent="flex-end"
+                        alignItems="flex-end">
+                        <Button sx={{
+                          backgroundColor: theme.palette.white.main,
+                          border: 1,
+                          alignSelf: "center",
+                          borderRadius: "10px",
+                          width: "170px",
+                          fontWeight: "600"
+                        }}
+                          onClick={() => setEdit(false)}>Save Changes</Button>
+                      </Box>
+                    </>
+                  }
                 </DialogContent>
               </Dialog>
             </>

@@ -1,21 +1,19 @@
-import { TableCell, TableRow } from "@mui/material";
-import { IExam } from "../../../../types/Exam";
-import ScheduleDateComponent from "./ScheduleDateComponent";
-import ScheduleTimeComponent from "./ScheduleTimeComponent";
-import ScheduleLabComponent from "./ScheduleLabComponent";
+import { TableCell, TableRow } from "@mui/material"
+import { IExam } from "../../../types/Exam"
 
-interface IScheduleTableRow {
+interface IScheduleRowProps{
     value: IExam,
-    review: boolean,
 }
 
-export default function ScheduleTableRow({ value, review }: IScheduleTableRow) {
-
+export default function ScheduleReviewRow({value}:IScheduleRowProps){
     const addDuration = () => {
         const copyDate = new Date(value.scheduled_date)
         var newDate = new Date(copyDate.setMinutes(copyDate.getMinutes()+60,0,0))
         return newDate.toLocaleTimeString()
     }
+
+    var labs: string = "";
+        value.busy_labs?.forEach((value) => labs.concat(value.name));
 
     return (
         <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -24,10 +22,10 @@ export default function ScheduleTableRow({ value, review }: IScheduleTableRow) {
             <TableCell align="center">{value.course.code}</TableCell>
             <TableCell align="center">{value.number_of_students == undefined ? 0 : value.number_of_students}</TableCell>
             <TableCell align="center">{value.duration}</TableCell>
-            <ScheduleDateComponent review={review} exam={value}></ScheduleDateComponent>
-            <ScheduleTimeComponent review={review} exam={value}></ScheduleTimeComponent>
+            <TableCell align="center">{value.scheduled_date.toLocaleDateString()}</TableCell>
+            <TableCell  align="center">{value.scheduled_date.toLocaleTimeString()}</TableCell>
             <TableCell align="center">{addDuration()}</TableCell>
-            <ScheduleLabComponent review={review} exam={value}></ScheduleLabComponent>
-        </TableRow >
+            <TableCell  align="center">{labs}</TableCell>
+        </TableRow>
     );
 }

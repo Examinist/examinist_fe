@@ -22,14 +22,23 @@ export const timeOptions: Intl.DateTimeFormatOptions = {
 };
 
 export const getTimeStr = (date: Date) => {
+  if(!date){
+    return ""
+  }
   return date.toLocaleTimeString(undefined, timeOptions);
 };
 
 export const getFullDateStr = (date: Date) => {
+  if(!date){
+    return ""
+  }
   return date.toLocaleDateString(undefined, fullDateOptions);
 };
 
 export const getDateStr = (date: Date) => {
+  if(!date){
+    return ""
+  }
   return date.toLocaleDateString(undefined, dateOptions);
 };
 

@@ -1,41 +1,21 @@
 import {
   Box,
   Button,
-  Checkbox,
-  ListItemText,
-  MenuItem,
-  OutlinedInput,
-  Select,
-  SelectChangeEvent,
-  Table,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  styled,
-  tableCellClasses,
 } from "@mui/material";
 import React, { useImperativeHandle } from "react";
 import theme from "../../../../../assets/theme";
 import { ScheduleContext } from "../ScheduleContext";
-import { useForm } from "react-hook-form";
-import SchedulingTableRow from "../components/SchedulingTableRow";
-import ScheduleTable from "../components/ScheduleTable";
+import { FormProvider, useForm } from "react-hook-form";
 import GenerateAutomaticScheduleDialog from "./GenerateAutomaticSchedule/GenerateAutomaticScheduleDialog";
 import { IExam } from "../../../../types/Exam";
-//const StyledTableCell = styled(TableCell)(({ theme }) => ({
-//  [`&.${tableCellClasses.head}`]: {
-//    borderBottom: "none",
-//  },
-//  [`&.${tableCellClasses.body}`]: {
-//    borderBottom: "none",
-//  },
-//}));
+import { IScheduleFormInput, mapToScheduleForm } from "./Fields";
+import ScheduleEditTable from "../../ScheduleTables/ScheduleEditTable";
 
 interface IScheduleExamsFormProps {
   reference: React.Ref<any>;
   onSuccess: () => void;
 }
+
 export default function ScheduleExamsForm({
   reference,
   onSuccess,
@@ -48,15 +28,21 @@ export default function ScheduleExamsForm({
     },
   }));
 
-  const methods = useForm();
+  const methods = useForm<IScheduleFormInput>({
+    defaultValues:{
+      list: mapToScheduleForm(exams),
+    }
+  });
   const { handleSubmit } = methods;
-  const onSubmit = () => {
-    onSuccess();
+  const onSubmit = (input:IScheduleFormInput) => {
+    console.log("Step2:",input)
+    //onSuccess();
   };
 
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
+        <FormProvider {...methods}>
         <Box display="flex" sx={{ flexDirection: "column", gap: 3 }}>
           <Box display="flex">
             <Box
@@ -94,9 +80,10 @@ export default function ScheduleExamsForm({
               borderRadius: "15px",
             }}
           >
-            <ScheduleTable review={false} examList={exams}></ScheduleTable>
+            <ScheduleEditTable examList={exams}></ScheduleEditTable>
           </Box>
         </Box>
+        </FormProvider>
       </form>
       {dialogOpen && (
         <GenerateAutomaticScheduleDialog

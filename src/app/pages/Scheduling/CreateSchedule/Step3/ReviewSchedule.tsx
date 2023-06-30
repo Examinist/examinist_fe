@@ -2,8 +2,8 @@ import { Button } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react'
 import theme from '../../../../../assets/theme';
-import ScheduleTable from '../components/ScheduleTable';
 import { ScheduleContext } from '../ScheduleContext';
+import ScheduleReviewTable from '../../ScheduleTables/ScheduleReviewTable';
 
 export default function ReviewSchedule() {
   const {exams, setExams} = React.useContext(ScheduleContext);
@@ -42,7 +42,7 @@ export default function ReviewSchedule() {
             backgroundColor: theme.palette.background.paper,
             borderRadius: "15px",
           }}>
-          <ScheduleTable review={true} examList={exams}></ScheduleTable>
+          <ScheduleReviewTable examList={exams}></ScheduleReviewTable>
         </Box>
     </Box>
   );

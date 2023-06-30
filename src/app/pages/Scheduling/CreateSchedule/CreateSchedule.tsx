@@ -36,7 +36,7 @@ export default function CreateSchedule() {
       stepOneFormRef.current?.submitForm();
     },
     () => {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      stepTwoFormRef.current?.submitForm();
     },
     () => {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);

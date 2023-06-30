@@ -9,7 +9,6 @@ export interface IFormInput {
   time: Dayjs;
   weekDays: string[];
   labsIds: number[];
-
 }
 
 export const schema = yup.object().shape({
