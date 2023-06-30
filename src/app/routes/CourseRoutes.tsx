@@ -15,7 +15,7 @@ import QuestionBank from "../pages/Course/QuestionBank/QuestionBank";
 import AddQuestion from "../pages/Course/QuestionForms/AddQuestion/AddQuestion";
 import EditQuestion from "../pages/Course/QuestionForms/EditQuestion/EditQuestion";
 import ExamEdit from "../pages/Course/ExamEditing/EditExam";
-import ExamGrading from "../pages/Course/ExamGrading/ExamGrading";
+import ExamGrading from "../pages/Course/ExamGrading/GradingTable/GradingTablePage";
 import { UserRoleEnum, userRoleToPathMap } from "../types/User";
 
 

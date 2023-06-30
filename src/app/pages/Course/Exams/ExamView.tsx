@@ -16,7 +16,6 @@ import { useNavigate } from "react-router-dom";
 import ExamViewList from "./ExamViewList";
 
 export default function ExamView() {
-  const location = useLocation();
   const [isLoading, setIsLoading] = useState(true);
   const [detailedExam, setDetailedExam] = useState<IDetailedExam>(null!);
   const navigate = useNavigate();

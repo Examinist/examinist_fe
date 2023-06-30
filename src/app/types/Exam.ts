@@ -34,6 +34,7 @@ export interface IExamQuestion {
 }
 
 export enum ExamStatusEnum {
+  ALL="all",
   UNSCHEDULED = "unscheduled",
   SCHEDULED = "scheduled",
   ONGOING = "ongoing",
