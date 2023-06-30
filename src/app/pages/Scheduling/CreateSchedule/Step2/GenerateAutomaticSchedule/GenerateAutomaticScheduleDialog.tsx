@@ -14,14 +14,16 @@ import {
 } from "@mui/material";
 import CustomDatePicker from "./components/CustomDatePicker";
 import ChipsArray from "./components/ChipsArray";
-import ChipsDropDown from "./components/ChipsDropDown";
+import LabsDropDown from "./components/LabsDropDown";
 import FormTimePicker from "./components/FormTimePicker";
-import { FieldValues, FormProvider, SubmitHandler, useForm } from "react-hook-form";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { IFormInput, initialValues, schema } from "./Fields";
 import { yupResolver } from "@hookform/resolvers/yup";
 import dayjs from "dayjs";
 import FormDatePicker from "./components/FormDatePicker";
 import { getDateStr } from "../../../../../utilities/Date";
+import { ILab } from "../../../../../types/Lab";
+import WeekDaysDropDown from "./components/WeekDaysDropDown";
 
 interface IGenerateAutomaticScheduleDialogProps {
   isOpened: boolean;
@@ -121,7 +123,7 @@ export default function GenerateAutomaticScheduleDialog({
                 <Box sx={{ fontWeight: 300 }}>
                   Select week days on which exams can be scheduled.
                 </Box>
-                <ChipsDropDown />
+                <WeekDaysDropDown />
               </Stack>
             </Box>
 
@@ -148,7 +150,7 @@ export default function GenerateAutomaticScheduleDialog({
                 <Box sx={{ fontWeight: 300 }}>
                   Select the Labs which can be assigned to the exams
                 </Box>
-                <ChipsDropDown />
+                <LabsDropDown />
               </Stack>
             </Box>
           </DialogContent>

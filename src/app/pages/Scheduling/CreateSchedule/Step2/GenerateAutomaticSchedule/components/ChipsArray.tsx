@@ -6,7 +6,7 @@ import TagFacesIcon from "@mui/icons-material/TagFaces";
 import theme from "../../../../../../../assets/theme";
 import { Box } from "@mui/material";
 
-interface ChipData {
+interface IChipData {
   key: number;
   label: string;
 }
@@ -16,13 +16,13 @@ const ListItem = styled("li")(({ theme }) => ({
 }));
 
 interface IChipsArrayProps {
-  chips: ChipData[];
+  chips: IChipData[];
   name: string;
   label: string;
 }
 
 export default function ChipsArray() {
-  const [chipData, setChipData] = React.useState<readonly ChipData[]>([
+  const [chipData, setChipData] = React.useState<readonly IChipData[]>([
     { key: 0, label: "Angular" },
     { key: 1, label: "jQuery" },
     { key: 2, label: "Polymer" },
@@ -30,7 +30,7 @@ export default function ChipsArray() {
     { key: 4, label: "Vue.js" },
   ]);
 
-  const handleDelete = (chipToDelete: ChipData) => () => {
+  const handleDelete = (chipToDelete: IChipData) => () => {
     setChipData((chips) =>
       chips.filter((chip) => chip.key !== chipToDelete.key)
     );
