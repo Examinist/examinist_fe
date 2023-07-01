@@ -23,7 +23,7 @@ export const mockStudentExam: IStudentExam = {
   student_status: StudentStatusEnum.ATTENDED,
   total_score: 10,
   partial_score: 3,
-  total_graded_questions: 10,
+  total_graded_questions: 4,
   partial_graded_questions: 5,
   student: mockStudent,
 };
@@ -194,95 +194,6 @@ export const mockDetailedStudentExam: IDetailedStudentExam = {
       },
       answers: ["Student Answer"],
     },
-    {
-      id: 4,
-      question: {
-        id: 3,
-        score: 3,
-        question: mockQuestions[3],
-      },
-      answers: ["Student Answer"],
-    },
-    {
-      id: 4,
-      question: {
-        id: 3,
-        score: 3,
-        question: mockQuestions[3],
-      },
-      answers: ["Student Answer"],
-    },
-    {
-      id: 4,
-      question: {
-        id: 3,
-        score: 3,
-        question: mockQuestions[3],
-      },
-      answers: ["Student Answer"],
-    },
-    {
-      id: 4,
-      question: {
-        id: 3,
-        score: 3,
-        question: mockQuestions[3],
-      },
-      answers: ["Student Answer"],
-    },
-    {
-      id: 4,
-      question: {
-        id: 3,
-        score: 3,
-        question: mockQuestions[3],
-      },
-      answers: ["Student Answer"],
-    },
-    {
-      id: 4,
-      question: {
-        id: 3,
-        score: 3,
-        question: mockQuestions[3],
-      },
-      answers: ["Student Answer"],
-    },
-    {
-      id: 4,
-      question: {
-        id: 3,
-        score: 3,
-        question: mockQuestions[3],
-      },
-      answers: ["Student Answer"],
-    },
-    {
-      id: 4,
-      question: {
-        id: 3,
-        score: 3,
-        question: mockQuestions[3],
-      },
-      answers: ["Student Answer"],
-    },
-    {
-      id: 4,
-      question: {
-        id: 3,
-        score: 3,
-        question: mockQuestions[3],
-      },
-      answers: ["Student Answer"],
-    },
-    {
-      id: 4,
-      question: {
-        id: 3,
-        score: 3,
-        question: mockQuestions[3],
-      },
-      answers: ["Student Answer"],
-    },
+   
   ],
 };

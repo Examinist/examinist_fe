@@ -46,13 +46,16 @@ export default function UpperGradingBar({
   const { setAlertState } = useAlert();
 
   const getCount = () => {
-    let totalScore = 0;
+    let count = 0;
     gradeState.answers?.forEach((answer) => {
       if (answer.score !== undefined) {
-        totalScore++;
+        count++;
       }
     });
-    return totalScore;
+    console.log(count);
+    console.log(gradeState.answers?.length);
+    console.log(gradeState.totalQuestions);
+    return count;
   };
 
   React.useEffect(() => {

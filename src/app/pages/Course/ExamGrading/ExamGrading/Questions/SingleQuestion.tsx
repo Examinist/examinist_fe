@@ -23,6 +23,7 @@ import theme from "../../../../../../assets/theme";
 import QuestionAnswer from "./QuestionAnswer";
 import { gradeExamContext } from "../../Models";
 import { useContext } from "react";
+import { DefaultQuestionTypesEnum } from "../../../../../types/CourseSettings";
 
 export default function SingleQuestion({
   examQuestion,
@@ -101,6 +102,12 @@ export default function SingleQuestion({
       });
     }
   };
+  React.useEffect(() => {
+    if (examQuestion.score !== undefined) {
+      setScore(examQuestion.score);
+    }
+  }, []);
+
   return (
     <Stack
       sx={{
@@ -193,35 +200,42 @@ export default function SingleQuestion({
       </Box>
       <Box sx={{ display: "flex", alignItems: "center" }}>
         <Box sx={{ flexGrow: 2 }}>{/* Empty space */}</Box>
-        <Box sx={{ flexGrow: 1 }}>
-          <Button
-            variant="contained"
-            color="error"
-            sx={{
-              width: "200px",
-              borderRadius: 5,
-              backgroundColor: theme.palette.red.main,
-              flexGrow: 1,
-            }}
-            onClick={() => onMark("false")}
-          >
-            Wrong Answer
-          </Button>
-          <Button
-            variant="contained"
-            color="success"
-            sx={{
-              width: "200px",
-              borderRadius: 5,
-              backgroundColor:"#3FC164",
-              flexGrow: 1,
-              ml: 3,
-            }}
-            onClick={() => onMark("correct")}
-          >
-            Full Mark
-          </Button>
-        </Box>
+        {examQuestion.question.question.question_type.name !=
+          DefaultQuestionTypesEnum.MCQ &&
+        examQuestion.question.question.question_type.name !=
+          DefaultQuestionTypesEnum.T_F ? (
+          <Box sx={{ flexGrow: 1 }}>
+            <Button
+              variant="contained"
+              color="error"
+              sx={{
+                width: "200px",
+                borderRadius: 5,
+                backgroundColor: theme.palette.red.main,
+                flexGrow: 1,
+              }}
+              onClick={() => onMark("false")}
+            >
+              Wrong Answer
+            </Button>
+            <Button
+              variant="contained"
+              color="success"
+              sx={{
+                width: "200px",
+                borderRadius: 5,
+                backgroundColor: "#3FC164",
+                flexGrow: 1,
+                ml: 3,
+              }}
+              onClick={() => onMark("correct")}
+            >
+              Full Mark
+            </Button>
+          </Box>
+        ) : (
+          <Box sx={{ flexGrow: 2 }}>{/* Empty space */}</Box>
+        )}
         <Box
           sx={{
             border: 1,
