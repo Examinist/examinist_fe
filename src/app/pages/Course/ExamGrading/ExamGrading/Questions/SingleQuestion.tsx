@@ -21,13 +21,16 @@ import { DifficultyLevelEnum } from "../../../../../types/Question";
 import { Rectangle } from "../../../../../components/Rectangle";
 import theme from "../../../../../../assets/theme";
 import QuestionAnswer from "./QuestionAnswer";
+import { gradeExamContext } from "../../Models";
+import { useContext } from "react";
 
 export default function SingleQuestion({
   examQuestion,
 }: {
   examQuestion: IStudentAnswer;
 }) {
-  //   const [score, setScore] = React.useState<string>(examQuestion.score?.toString??"");
+  const { gradeState, setGradeState } = useContext(gradeExamContext);
+  const [score, setScore] = React.useState<number>();
   const getColor = (questionDifficulty: string) => {
     if (questionDifficulty === DifficultyLevelEnum.EASY)
       return theme.palette.green.main;
@@ -38,9 +41,66 @@ export default function SingleQuestion({
   const [isFieldEmpty, setIsFieldEmpty] = React.useState(false);
 
   function handleChange(value: string): void {
-    // setScore(parseInt(value));
+    setScore(parseInt(value));
+    const val = parseInt(value);
+    if (val > examQuestion.question.score) {
+      setIsFieldEmpty(true);
+    } else {
+      setIsFieldEmpty(false);
+      setGradeState({
+        ...gradeState,
+        answers: gradeState.answers?.map((answer: IStudentAnswer) => {
+          if (answer.id === examQuestion.id) {
+            return {
+              ...answer,
+              score: value.trim() === "" ? undefined : val,
+            };
+          }
+          return answer;
+        }),
+      });
+      handleUpdateScore(val);
+    }
   }
 
+  const onMark = (type: string) => {
+    setGradeState({
+      ...gradeState,
+      answers: gradeState.answers?.map((answer: IStudentAnswer) => {
+        if (answer.id === examQuestion.id) {
+          return {
+            ...answer,
+            score: type === "correct" ? examQuestion.question.score : 0,
+          };
+        }
+        return answer;
+      }),
+    });
+
+    setScore(type === "correct" ? examQuestion.question.score : 0);
+    handleUpdateScore(type === "correct" ? examQuestion.question.score : 0);
+  };
+  const handleUpdateScore = (value: number) => {
+    if (gradeState.student_answers_attributes) {
+      const questionIndex = gradeState.student_answers_attributes.findIndex(
+        (q) => q.id === examQuestion.id
+      );
+      if (questionIndex !== -1) {
+        gradeState.student_answers_attributes.splice(questionIndex, 1);
+      }
+      if (!isNaN(value)) {
+        const newQuestion = {
+          id: examQuestion.id,
+          score: value,
+        };
+        gradeState.student_answers_attributes.push(newQuestion);
+      }
+      setGradeState({
+        ...gradeState,
+        student_answers_attributes: gradeState.student_answers_attributes,
+      });
+    }
+  };
   return (
     <Stack
       sx={{
@@ -141,6 +201,7 @@ export default function SingleQuestion({
           variant="contained"
           color="error"
           sx={{ borderRadius: 5, backgroundColor: theme.palette.red.main }}
+          onClick={() => onMark("false")}
         >
           Wrong Answer
         </Button>
@@ -148,6 +209,7 @@ export default function SingleQuestion({
           variant="contained"
           color="success"
           sx={{ borderRadius: 5, backgroundColor: theme.palette.green.main }}
+          onClick={() => onMark("correct")}
         >
           Full Mark
         </Button>
@@ -164,6 +226,8 @@ export default function SingleQuestion({
             <InputBase
               sx={{ ml: 1, flex: 1, width: "60px" }}
               placeholder="score"
+              value={score}
+              onChange={(e) => handleChange(e.target.value)}
               inputProps={{
                 type: "number",
                 min: 0,
@@ -186,6 +250,18 @@ export default function SingleQuestion({
             </Typography>
           </Stack>
         </Box>
+      </Stack>
+      <Stack
+        direction="row"
+        justifyContent="flex-end"
+        alignItems="center"
+        spacing={2}
+      >
+        {isFieldEmpty && (
+          <FormHelperText error>
+            the score can't be greater than the question score
+          </FormHelperText>
+        )}
       </Stack>
     </Stack>
   );
