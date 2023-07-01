@@ -1,5 +1,5 @@
 import { ICourse } from "./Course";
-import { IBusyLab } from "./Lab";
+import { IBusyLab, IDetailedBusyLab } from "./Lab";
 import { IQuestion } from "./Question";
 import IUser from "./User";
 
@@ -15,8 +15,9 @@ export interface IExam {
   creator: IUser;
   course: ICourse;
   number_of_students?: number;
-  busy_labs?: IBusyLab[];
+  busy_labs?: IDetailedBusyLab[];
   has_models: boolean;
+  pending_labs_assignment?: boolean;
 }
 
 export interface IDetailedExam extends IExam {
