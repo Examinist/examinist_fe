@@ -1,11 +1,12 @@
 import * as React from "react";
 import Typography from "@mui/material/Typography";
-import theme from "../../../../assets/theme";
 import { Box, Grid, TextField, styled } from "@mui/material";
-import { IQuestion } from "../../../types/Question";
 import { useState } from "react";
-import { DefaultQuestionTypesEnum } from "../../../types/CourseSettings";
-
+import { IStudentAnswer } from "../../../../../types/StudentExam";
+import { DefaultQuestionTypesEnum } from "../../../../../types/CourseSettings";
+import theme from "../../../../../../assets/theme";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 const Circle = styled("div")(({ theme, color }) => ({
   position: "relative",
   display: "flex",
@@ -21,17 +22,17 @@ const Circle = styled("div")(({ theme, color }) => ({
 }));
 
 export default function QuestionAnswer({
-  question,
-  creation = false,
+  examQuestion,
 }: {
-  question: IQuestion;
-  creation?: boolean;
+  examQuestion: IStudentAnswer;
 }) {
   return (
     <Grid container direction="column" marginLeft={5} spacing={1}>
-      {question.question_type.name == DefaultQuestionTypesEnum.MCQ ||
-      question.question_type.name == DefaultQuestionTypesEnum.T_F ? (
-        question.choices?.map((choice, index) => {
+      {examQuestion.question.question.question_type.name ==
+        DefaultQuestionTypesEnum.MCQ ||
+      examQuestion.question.question.question_type.name ==
+        DefaultQuestionTypesEnum.T_F ? (
+        examQuestion.question.question.choices?.map((choice, index) => {
           return (
             <Grid
               key={choice.id!}
@@ -43,10 +44,8 @@ export default function QuestionAnswer({
               <Grid item>
                 <Circle
                   color={
-                    creation
-                      ? theme.palette.white.main
-                      : choice.is_answer
-                      ? theme.palette.green.main
+                    examQuestion.answers?.includes(choice.choice!)
+                      ? theme.palette.grey[400]
                       : theme.palette.white.main
                   }
                 >
@@ -65,27 +64,34 @@ export default function QuestionAnswer({
                   {choice.choice}
                 </Typography>
               </Grid>
+              <Grid item>
+                {choice.is_answer ? (
+                  <CheckIcon sx={{ color: theme.palette.green.main }} />
+                ) : (
+                  examQuestion.answers?.includes(choice.choice!) && (
+                    <ClearIcon sx={{ color: theme.palette.red.main }} />
+                  )
+                )}
+              </Grid>
             </Grid>
           );
         })
       ) : (
-        <Grid container direction="column">
-          <Box
-            sx={{
-              width: "1100px",
-              border: 1,
-              borderRadius: 3,
-              borderColor: theme.palette.gray.main,
-            }}
-          >
-            <Box sx={{ color: theme.palette.gray.dark, px: 2, pt: 1 }}>
-              Answer
-            </Box>
-            <Typography variant="body1" sx={{ p: 2 }}>
-              {question.correct_answers?.[0].answer}
-            </Typography>
+        <Box
+          sx={{
+            width: "95%",
+            border: 1,
+            borderRadius: 3,
+            borderColor: theme.palette.gray.main,
+          }}
+        >
+          <Box sx={{ color: theme.palette.gray.dark, px: 2, pt: 1 }}>
+            Answer
           </Box>
-        </Grid>
+          <Typography variant="body1" sx={{ p: 2 }}>
+            {examQuestion.answers?.at(0)}
+          </Typography>
+        </Box>
       )}
     </Grid>
   );

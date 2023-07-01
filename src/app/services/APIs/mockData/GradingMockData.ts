@@ -181,6 +181,8 @@ export const mockDetailedStudentExam: IDetailedStudentExam = {
         score: 3,
         question: mockQuestions[2],
       },
+      answers: ["true"],
+
       score: 0,
     },
     {

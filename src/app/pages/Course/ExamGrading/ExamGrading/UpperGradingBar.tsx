@@ -30,6 +30,7 @@ export default function UpperGradingBar({
         backgroundColor: theme.palette.white.main,
         borderBottom: 1,
         borderBottomColor: theme.palette.gray.light,
+        width: "100%",
       }}
     >
       <Box

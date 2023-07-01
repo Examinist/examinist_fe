@@ -13,6 +13,8 @@ import { IExamResponse, getExamApi } from "../../../../services/APIs/ExamAPIs";
 import { IGradeExam, IGradeExamContext, gradeExamContext } from "../Models";
 import { IStudent } from "../../../../types/User";
 import { any } from "prop-types";
+import ExamQuestionsList from "./Questions/ExamQuestionsList";
+import theme from "../../../../../assets/theme";
 
 export default function StudentExam() {
   const { examId } = useParams<{ examId: string }>();
@@ -81,12 +83,22 @@ export default function StudentExam() {
           <CircularProgress />
         </Box>
       ) : (
-        <Box sx={{ width:'100%' ,display: "flex", flexDirection: "column" }}>
+        <Box sx={{ width: "100%", display: "flex", flexDirection: "column" }}>
           <UpperGradingBar title={title} student={student} />
           <gradeExamContext.Provider value={contextValue}>
             <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "row" }}>
-              <Box >
+              <Box>
                 <QuestionsSideBar />
+              </Box>
+              <Box
+                sx={{
+                  width: "80%",
+                  backgroundColor: theme.palette.background.default,
+                  py: 5,
+                  px:5
+                }}
+              >
+                <ExamQuestionsList />
               </Box>
             </Box>
           </gradeExamContext.Provider>
