@@ -10,20 +10,15 @@ import {
   DialogContent,
   Divider,
   Stack,
-  TextField,
 } from "@mui/material";
-import CustomDatePicker from "./components/CustomDatePicker";
-import ChipsArray from "./components/ChipsArray";
 import LabsDropDown from "./components/LabsDropDown";
 import FormTimePicker from "./components/FormTimePicker";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { IFormInput, initialValues, schema } from "./Fields";
 import { yupResolver } from "@hookform/resolvers/yup";
-import dayjs from "dayjs";
 import FormDatePicker from "./components/FormDatePicker";
-import { getDateStr } from "../../../../../utilities/Date";
-import { ILab } from "../../../../../types/Lab";
 import WeekDaysDropDown from "./components/WeekDaysDropDown";
+import AddHolidayDate from "./components/AddHolidayDate";
 
 interface IGenerateAutomaticScheduleDialogProps {
   isOpened: boolean;
@@ -91,25 +86,7 @@ export default function GenerateAutomaticScheduleDialog({
                 Holiday Dates
               </Box>
               <Box sx={{ pr: "10%", pl: 2 }}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "left",
-                    alignItems: "center",
-                    gap: 10,
-                    my: 2,
-                  }}
-                >
-                  <CustomDatePicker label="From" />
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    sx={{ borderRadius: 4, py: 1, px: 3 }}
-                  >
-                    + Add
-                  </Button>
-                </Box>
-                <ChipsArray />
+                <AddHolidayDate />
               </Box>
             </Box>
 
