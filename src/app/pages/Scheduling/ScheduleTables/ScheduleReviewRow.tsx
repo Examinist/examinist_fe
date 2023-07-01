@@ -19,7 +19,7 @@ export default function ScheduleReviewRow({value}:IScheduleRowProps){
         <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
             <TableCell align="center">{value.id}</TableCell>
             <TableCell align="center">{value.title}</TableCell>
-            <TableCell align="center">{value.course.code}</TableCell>
+            <TableCell align="center">{value.course.title+" - "+value.course.code}</TableCell>
             <TableCell align="center">{value.number_of_students == undefined ? 0 : value.number_of_students}</TableCell>
             <TableCell align="center">{value.duration}</TableCell>
             <TableCell align="center">{value.scheduled_date.toLocaleDateString()}</TableCell>

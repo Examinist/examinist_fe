@@ -8,8 +8,9 @@ import { ScheduleContext } from "../ScheduleContext";
 import { FormProvider, useForm } from "react-hook-form";
 import GenerateAutomaticScheduleDialog from "./GenerateAutomaticSchedule/GenerateAutomaticScheduleDialog";
 import { IExam } from "../../../../types/Exam";
-import { IScheduleFormInput, mapToScheduleForm } from "./Fields";
+import { IScheduleFormInput, mapToExam, mapToScheduleForm } from "./Fields";
 import ScheduleEditTable from "../../ScheduleTables/ScheduleEditTable";
+import { mockLabs } from "../../../../services/APIs/mockData/MockData";
 
 interface IScheduleExamsFormProps {
   reference: React.Ref<any>;
@@ -35,8 +36,8 @@ export default function ScheduleExamsForm({
   });
   const { handleSubmit } = methods;
   const onSubmit = (input:IScheduleFormInput) => {
-    console.log("Step2:",input)
-    //onSuccess();
+    setExams(mapToExam(input.list,exams,mockLabs))
+    onSuccess();
   };
 
   return (

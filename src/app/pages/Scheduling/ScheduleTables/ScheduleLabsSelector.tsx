@@ -34,14 +34,17 @@ export default function ScheduleLabsSelector({ index }: { index: number }) {
                         multiple
                         {...field}
                         input={<OutlinedInput label="Select Lab" />}
-                        //renderValue={(selected) => mockLabs.filter((lab) => lab.id === selected)?.name.join(', ')}
+                        renderValue={(selected) => selected.map((ind) => mockLabs.find((val) => val.id == ind)?.name).join(", ")}
                         MenuProps={MenuProps}
-                        sx={{ width: "120px" }}
+                        sx={{
+                            width: "120px",
+                            fontSize: "13px"
+                        }}
                     >
                         {mockLabs.map((lab) => (
                             <MenuItem key={lab.id} value={lab.id}>
                                 <ListItemText primary={lab.name} primaryTypographyProps={{ fontSize: "14px", fontWeight: "medium" }}
-                                secondary={"Capacity: " + lab.capacity} />
+                                    secondary={"Capacity: " + lab.capacity} />
                             </MenuItem>
                         ))}
                     </Select>

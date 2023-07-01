@@ -9,35 +9,36 @@ import ScheduleDatePicker from "./ScheduleDatePicker";
 import ScheduleTimePicker from "./ScheduleTimePicker";
 import ScheduleLabsSelector from "./ScheduleLabsSelector";
 
-interface IScheduleEditRowProps{
+interface IScheduleEditRowProps {
     value: IExam,
     index: number,
 }
 
-export default function ScheduleEditRow({value, index}:IScheduleEditRowProps){
-        const addDuration = () => {
-            const copyDate = new Date(value.scheduled_date)
-            var newDate = new Date(copyDate.setMinutes(copyDate.getMinutes()+60,0,0))
-            return newDate.toLocaleTimeString()
-        }
+export default function ScheduleEditRow({ value, index }: IScheduleEditRowProps) {
+    const addDuration = () => {
+        const copyDate = new Date(value.scheduled_date)
+        var newDate = new Date(copyDate.setMinutes(copyDate.getMinutes() + 60, 0, 0))
+        return newDate.toLocaleString('en-US', {
+            hour: "2-digit",
+            minute: "2-digit"
+        })
+    }
 
     return (
         <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
             <TableCell align="center">{value.id}</TableCell>
             <TableCell align="center">{value.title}</TableCell>
-            <TableCell align="center">{value.course.code}</TableCell>
+            <TableCell align="center">{value.course.title + " - " + value.course.code}</TableCell>
             <TableCell align="center">{value.number_of_students == undefined ? 0 : value.number_of_students}</TableCell>
             <TableCell align="center">{value.duration}</TableCell>
-            <TableCell style={{ width: "160px", }}
-                align="center">
+            <TableCell style={{ width: "160px", }} align="center">
                 <ScheduleDatePicker index={index}></ScheduleDatePicker>
             </TableCell>
-            <TableCell style={{ width: "160px" }}
-            align="center">
+            <TableCell style={{ width: "160px" }} align="center">
                 <ScheduleTimePicker index={index}></ScheduleTimePicker>
             </TableCell>
             <TableCell align="center">{addDuration()}</TableCell>
-            <TableCell  align="center">
+            <TableCell align="center">
                 <ScheduleLabsSelector index={index}></ScheduleLabsSelector>
             </TableCell>
         </TableRow>
