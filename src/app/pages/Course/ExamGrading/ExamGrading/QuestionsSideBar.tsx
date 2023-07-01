@@ -11,13 +11,26 @@ import { Divider, Grid, Typography } from "@mui/material";
 
 export default function QuestionsSideBar() {
   const { gradeState, setGradeState } = useContext(gradeExamContext);
+  const[partialScore,setPartialScore]=React.useState<number>(gradeState.partialScore??0);
   const getScore = (answer: IStudentAnswer) => {
     if (answer.score === undefined) {
       return `-/${answer.question.score}`;
     }
     return `${answer.score}/${answer.question.score}`;
   };
-
+  const getTotalScore = () => {
+    let totalScore = 0;
+    gradeState.answers?.forEach((answer) => {
+      if (answer.score !== undefined) {
+        totalScore += answer.score;
+      }
+    });
+    return totalScore;
+  };
+  React.useEffect(()=>{
+    setPartialScore(getTotalScore());
+  },[gradeState.answers])
+  
   return (
     <Box
       sx={{
@@ -118,7 +131,7 @@ export default function QuestionsSideBar() {
                 fontSize: 15,
               }}
             >
-              {`${gradeState.partialScore} / ${gradeState.totalScore}`}
+              {`${partialScore} / ${gradeState.totalScore}`}
             </Typography>
           </Grid>
         </Grid>

@@ -83,9 +83,10 @@ export default function StudentExam() {
           <CircularProgress />
         </Box>
       ) : (
+        <gradeExamContext.Provider value={contextValue}>
+
         <Box sx={{ width: "100%", display: "flex", flexDirection: "column" }}>
           <UpperGradingBar title={title} student={student} />
-          <gradeExamContext.Provider value={contextValue}>
             <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "row" }}>
               <Box>
                 <QuestionsSideBar />
@@ -101,8 +102,9 @@ export default function StudentExam() {
                 <ExamQuestionsList />
               </Box>
             </Box>
-          </gradeExamContext.Provider>
         </Box>
+        </gradeExamContext.Provider>
+
       )}
     </>
   );
