@@ -168,7 +168,7 @@ export const mockDetailedStudentExam: IDetailedStudentExam = {
       id: 2,
       question: {
         id: 2,
-        score: 3,
+        score: 3,    
         question: mockQuestions[1],
       },
       answers: ["Choice 2"],
@@ -182,6 +182,96 @@ export const mockDetailedStudentExam: IDetailedStudentExam = {
         question: mockQuestions[2],
       },
       score: 0,
+    },
+    {
+      id: 4,
+      question: {
+        id: 3,
+        score: 3,
+        question: mockQuestions[3],
+      },
+      answers: ["Student Answer"],
+    },
+    {
+      id: 4,
+      question: {
+        id: 3,
+        score: 3,
+        question: mockQuestions[3],
+      },
+      answers: ["Student Answer"],
+    },
+    {
+      id: 4,
+      question: {
+        id: 3,
+        score: 3,
+        question: mockQuestions[3],
+      },
+      answers: ["Student Answer"],
+    },
+    {
+      id: 4,
+      question: {
+        id: 3,
+        score: 3,
+        question: mockQuestions[3],
+      },
+      answers: ["Student Answer"],
+    },
+    {
+      id: 4,
+      question: {
+        id: 3,
+        score: 3,
+        question: mockQuestions[3],
+      },
+      answers: ["Student Answer"],
+    },
+    {
+      id: 4,
+      question: {
+        id: 3,
+        score: 3,
+        question: mockQuestions[3],
+      },
+      answers: ["Student Answer"],
+    },
+    {
+      id: 4,
+      question: {
+        id: 3,
+        score: 3,
+        question: mockQuestions[3],
+      },
+      answers: ["Student Answer"],
+    },
+    {
+      id: 4,
+      question: {
+        id: 3,
+        score: 3,
+        question: mockQuestions[3],
+      },
+      answers: ["Student Answer"],
+    },
+    {
+      id: 4,
+      question: {
+        id: 3,
+        score: 3,
+        question: mockQuestions[3],
+      },
+      answers: ["Student Answer"],
+    },
+    {
+      id: 4,
+      question: {
+        id: 3,
+        score: 3,
+        question: mockQuestions[3],
+      },
+      answers: ["Student Answer"],
     },
     {
       id: 4,
