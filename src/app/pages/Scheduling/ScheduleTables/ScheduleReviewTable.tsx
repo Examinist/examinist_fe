@@ -19,6 +19,7 @@ export default function ScheduleReviewTable({examList}:IScheduleTableProps){
           <TableRow>
             {header.map((value) =>
               <TableCell
+              key={value}
                 align="center"
                 sx={{
                   color: theme.palette.gray.dark,

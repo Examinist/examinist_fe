@@ -6,25 +6,21 @@ import { IDetailedSchedule, ISchedule } from "../../types/Schedule";
 import { mockExamsList } from "../../services/APIs/mockData/MockData";
 import ScheduleReviewTable from "./ScheduleTables/ScheduleReviewTable";
 import ScheduleEditTable from "./ScheduleTables/ScheduleEditTable";
+import ScheduleExamsDialog from "./ScheduleExamsDialog";
 
 export default function Schedules() {
   const schedules: IDetailedSchedule[] = [{ id: 1, title: "CSE222", exams: mockExamsList }, { id: 2, title: "CSE223", exams: mockExamsList }]
   const [open, setOpen] = React.useState(false);
   const [chosen, setChosen] = React.useState(0);
-  const [edit, setEdit] = React.useState(false);
 
   const handleClickOpen = (index: number) => {
     setOpen(true);
     setChosen(index);
   };
 
-  const handleClose = () => {
-    setOpen(false)
-    setChosen(0)
-    setEdit(false)
-  }
-
   const navigate = useNavigate();
+
+  
 
   //needs list padding right & left
   return (
@@ -67,73 +63,14 @@ export default function Schedules() {
         }}>
         <List sx={{ width: "100%" }}>
           {schedules.map((value, index) => (
-            <>
+            <div key={value.id}>
               <ListItemButton sx={{ paddingX: "25px" }}
                 onClick={() => handleClickOpen(index)}>
                 <ListItemText primary={value.title} primaryTypographyProps={{ fontSize: "19px", }}></ListItemText>
               </ListItemButton>
               {index != schedules.length - 1 ? <Divider></Divider> : <></>}
-              <Dialog
-                maxWidth="lg"
-                open={open}
-                onClose={handleClose}>
-                {edit ?
-                  <DialogTitle>
-                    <Typography color="#1B84BF" fontSize="15px" fontWeight="medium">Title</Typography>
-                    <TextField value={schedules[chosen].title}
-                      size="medium"
-                      variant="standard"
-                      fullWidth
-                      sx={{ fontSize: "22px" }}></TextField>
-                  </DialogTitle> : <DialogTitle>{schedules[chosen].title}</DialogTitle>}
-                <DialogContent>
-                  {!edit ?
-                    <>
-                      <ScheduleReviewTable examList={schedules[chosen].exams}></ScheduleReviewTable>
-                      <Box display="flex"
-                        justifyContent="flex-end"
-                        alignItems="flex-end">
-                        <Button sx={{
-                          color: "#FF4B4B",
-                          backgroundColor: theme.palette.white.main,
-                          border: 1,
-                          alignSelf: "center",
-                          borderRadius: "10px",
-                          width: "90px",
-                          fontWeight: "600",
-                          marginRight: "15px"
-                        }}>Delete</Button>
-                        <Button sx={{
-                          backgroundColor: theme.palette.white.main,
-                          border: 1,
-                          alignSelf: "center",
-                          borderRadius: "10px",
-                          width: "90px",
-                          fontWeight: "600"
-                        }}
-                          onClick={() => setEdit(true)}>Edit</Button>
-                      </Box></>
-                    :
-                    <>
-                      <ScheduleEditTable examList={schedules[chosen].exams}></ScheduleEditTable>
-                      <Box display="flex"
-                        justifyContent="flex-end"
-                        alignItems="flex-end">
-                        <Button sx={{
-                          backgroundColor: theme.palette.white.main,
-                          border: 1,
-                          alignSelf: "center",
-                          borderRadius: "10px",
-                          width: "170px",
-                          fontWeight: "600"
-                        }}
-                          onClick={() => setEdit(false)}>Save Changes</Button>
-                      </Box>
-                    </>
-                  }
-                </DialogContent>
-              </Dialog>
-            </>
+              <ScheduleExamsDialog schedule={schedules[chosen]} open={open} setOpen={setOpen} setChosen={setChosen}></ScheduleExamsDialog>
+            </div>
           ))}
         </List>
       </Box>

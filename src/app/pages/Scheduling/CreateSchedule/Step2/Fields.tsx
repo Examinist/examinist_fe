@@ -36,3 +36,15 @@ export const mapToExam = (items: IExamInputs[], exams: IExam[], labs: ILab[]) =>
     })
     return exams
 }
+
+export const schema = yup.object().shape({
+    list: yup.array().of(
+      yup.object().shape({
+        date: yup.date()
+        .required("From date is required")
+        .typeError("From date is required"),
+        time: yup.date().required("Time is required").typeError("Time is required"),
+        labs: yup.array().min(1, "Labs is required"),
+      })
+    ),
+  });

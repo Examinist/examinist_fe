@@ -8,9 +8,10 @@ import { ScheduleContext } from "../ScheduleContext";
 import { FormProvider, useForm } from "react-hook-form";
 import GenerateAutomaticScheduleDialog from "./GenerateAutomaticSchedule/GenerateAutomaticScheduleDialog";
 import { IExam } from "../../../../types/Exam";
-import { IScheduleFormInput, mapToExam, mapToScheduleForm } from "./Fields";
+import { IScheduleFormInput, mapToExam, mapToScheduleForm, schema } from "./Fields";
 import ScheduleEditTable from "../../ScheduleTables/ScheduleEditTable";
 import { mockLabs } from "../../../../services/APIs/mockData/MockData";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 interface IScheduleExamsFormProps {
   reference: React.Ref<any>;
@@ -32,7 +33,8 @@ export default function ScheduleExamsForm({
   const methods = useForm<IScheduleFormInput>({
     defaultValues:{
       list: mapToScheduleForm(exams),
-    }
+    },
+    resolver: yupResolver(schema)
   });
   const { handleSubmit } = methods;
   const onSubmit = (input:IScheduleFormInput) => {
