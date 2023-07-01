@@ -1,11 +1,13 @@
 import * as React from "react";
 import {
   Box,
+  Button,
   Chip,
   Divider,
   FormHelperText,
   Grid,
   IconButton,
+  InputBase,
   Stack,
   TextField,
   Typography,
@@ -109,30 +111,82 @@ export default function SingleQuestion({
         {examQuestion.question.question.header}
       </Typography>
       <QuestionAnswer examQuestion={examQuestion} />
-      <Box sx={{ display: "flex", alignItems: "center", width: "100%" ,justifyContent:'center'}}>
-        <Divider sx={{ width: "430px", borderColor: theme.palette.grey[800] }} />
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          width: "100%",
+          justifyContent: "center",
+        }}
+      >
+        <Divider
+          sx={{ width: "430px", borderColor: theme.palette.grey[800] }}
+        />
         <Typography
           sx={{ px: 1, color: theme.palette.gray.dark, fontWeight: 500 }}
         >
           Grade
         </Typography>
-        <Divider sx={{ width: "430px", borderColor: theme.palette.grey[800] }} />
+        <Divider
+          sx={{ width: "430px", borderColor: theme.palette.grey[800] }}
+        />
       </Box>
-      {/* <TextField
-        required
-        id="standard-basic"
-        label="Score"
-        variant="standard"
-        value={10}
-        onChange={(e) => handleChange(e.target.value)}
-        error={isFieldEmpty}
-
-      />
-      {isFieldEmpty && (
-        <FormHelperText error>
-          This field is required and must be at least 1
-        </FormHelperText>
-      )} */}
+      <Stack
+        direction="row"
+        justifyContent="flex-end"
+        alignItems="center"
+        spacing={2}
+      >
+        <Button
+          variant="contained"
+          color="error"
+          sx={{ borderRadius: 5, backgroundColor: theme.palette.red.main }}
+        >
+          Wrong Answer
+        </Button>
+        <Button
+          variant="contained"
+          color="success"
+          sx={{ borderRadius: 5, backgroundColor: theme.palette.green.main }}
+        >
+          Full Mark
+        </Button>
+        <Box
+          sx={{
+            border: 1,
+            borderRadius: 3,
+            borderColor: theme.palette.gray.main,
+            height: "40px",
+            width: "120px",
+          }}
+        >
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <InputBase
+              sx={{ ml: 1, flex: 1, width: "60px" }}
+              placeholder="score"
+              inputProps={{
+                type: "number",
+                min: 0,
+                max: examQuestion.question.score,
+                "aria-label": "search google maps",
+              }}
+            />
+            <Divider
+              orientation="vertical"
+              sx={{ height: "40px", borderColor: theme.palette.grey[800] }}
+            />
+            <Typography
+              sx={{
+                color: theme.palette.gray.dark,
+                fontWeight: 500,
+                width: "30px",
+              }}
+            >
+              {examQuestion.question.score}
+            </Typography>
+          </Stack>
+        </Box>
+      </Stack>
     </Stack>
   );
 }
