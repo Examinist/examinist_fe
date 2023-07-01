@@ -201,7 +201,7 @@ export default function HorizontalStepper({ isAutomatic = false }) {
             </Button>
             <Box sx={{ flex: "1 1" }} />
             <Button onClick={handleNext} disabled={disabled}>
-              {activeStep === steps.length - 1 ? "Sumbit" : "Next"}
+              {activeStep === steps.length - 1 ? "Submit" : "Next"}
             </Button>
           </Box>
         </React.Fragment>
