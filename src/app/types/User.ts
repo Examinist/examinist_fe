@@ -10,7 +10,7 @@ interface IUser {
   university?: IUniversity;
 }
 
-export interface IStudent{
+export interface IStudent {
   id: number;
   first_name: string;
   last_name: string;
@@ -20,13 +20,13 @@ export interface IStudent{
   role: string;
 }
 
-export interface IStaff{
+export interface IStaff {
   id: number;
   first_name: string;
   last_name: string;
   username: string;
+  role: string;
 }
-
 
 export enum UserPortalEnum {
   STUDENT = "student_portal",
