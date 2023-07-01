@@ -120,7 +120,7 @@ export default function QuestionAnswer({
               border: 1,
               borderRadius: 3,
               borderColor: theme.palette.gray.main,
-              backgroundColor:theme.palette.green.main,
+              backgroundColor:"#E3FFEB",
             }}
           >
             <Box sx={{ color: theme.palette.gray.dark, px: 2, pt: 1 }}>

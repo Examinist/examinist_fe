@@ -191,28 +191,37 @@ export default function SingleQuestion({
           sx={{ width: "430px", borderColor: theme.palette.grey[800] }}
         />
       </Box>
-      <Stack
-        direction="row"
-        justifyContent="flex-end"
-        alignItems="center"
-        spacing={2}
-      >
-        <Button
-          variant="contained"
-          color="error"
-          sx={{ borderRadius: 5, backgroundColor: theme.palette.red.main }}
-          onClick={() => onMark("false")}
-        >
-          Wrong Answer
-        </Button>
-        <Button
-          variant="contained"
-          color="success"
-          sx={{ borderRadius: 5, backgroundColor: theme.palette.green.main }}
-          onClick={() => onMark("correct")}
-        >
-          Full Mark
-        </Button>
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box sx={{ flexGrow: 2 }}>{/* Empty space */}</Box>
+        <Box sx={{ flexGrow: 1 }}>
+          <Button
+            variant="contained"
+            color="error"
+            sx={{
+              width: "200px",
+              borderRadius: 5,
+              backgroundColor: theme.palette.red.main,
+              flexGrow: 1,
+            }}
+            onClick={() => onMark("false")}
+          >
+            Wrong Answer
+          </Button>
+          <Button
+            variant="contained"
+            color="success"
+            sx={{
+              width: "200px",
+              borderRadius: 5,
+              backgroundColor:"#3FC164",
+              flexGrow: 1,
+              ml: 3,
+            }}
+            onClick={() => onMark("correct")}
+          >
+            Full Mark
+          </Button>
+        </Box>
         <Box
           sx={{
             border: 1,
@@ -222,7 +231,12 @@ export default function SingleQuestion({
             width: "120px",
           }}
         >
-          <Stack direction="row" alignItems="center" spacing={1}>
+          <Stack
+            direction="row"
+            alignItems="center"
+            spacing={1}
+            sx={{ ml: "auto" }}
+          >
             <InputBase
               sx={{ ml: 1, flex: 1, width: "60px" }}
               placeholder="score"
@@ -250,7 +264,7 @@ export default function SingleQuestion({
             </Typography>
           </Stack>
         </Box>
-      </Stack>
+      </Box>
       <Stack
         direction="row"
         justifyContent="flex-end"
