@@ -1,6 +1,6 @@
 import * as React from "react";
 import Typography from "@mui/material/Typography";
-import { Box, Grid, TextField, styled } from "@mui/material";
+import { Box, Divider, Grid, Stack, TextField, styled } from "@mui/material";
 import { useState } from "react";
 import { IStudentAnswer } from "../../../../../types/StudentExam";
 import { DefaultQuestionTypesEnum } from "../../../../../types/CourseSettings";
@@ -77,21 +77,60 @@ export default function QuestionAnswer({
           );
         })
       ) : (
-        <Box
-          sx={{
-            width: "95%",
-            border: 1,
-            borderRadius: 3,
-            borderColor: theme.palette.gray.main,
-          }}
-        >
-          <Box sx={{ color: theme.palette.gray.dark, px: 2, pt: 1 }}>
-            Answer
+        <Stack spacing={2}>
+          <Box
+            sx={{
+              width: "95%",
+              border: 1,
+              borderRadius: 3,
+              borderColor: theme.palette.gray.main,
+            }}
+          >
+            <Box sx={{ color: theme.palette.gray.dark, px: 2, pt: 1 }}>
+              Answer
+            </Box>
+            <Typography variant="body1" sx={{ p: 2 }}>
+              {examQuestion.answers?.[0]}
+            </Typography>
           </Box>
-          <Typography variant="body1" sx={{ p: 2 }}>
-            {examQuestion.answers?.at(0)}
-          </Typography>
-        </Box>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              alignContent: "center",
+              justifyContent: "center",
+              width: "100%",
+            }}
+          >
+            <Divider
+              sx={{ width: "400px", borderColor: theme.palette.grey[800] }}
+            />
+            <Typography
+              sx={{ px: 1, color: theme.palette.gray.dark, fontWeight: 500 }}
+            >
+              Model Answer
+            </Typography>
+            <Divider
+              sx={{ width: "400px", borderColor: theme.palette.grey[800] }}
+            />
+          </Box>
+          <Box
+            sx={{
+              width: "95%",
+              border: 1,
+              borderRadius: 3,
+              borderColor: theme.palette.gray.main,
+              backgroundColor:theme.palette.green.main,
+            }}
+          >
+            <Box sx={{ color: theme.palette.gray.dark, px: 2, pt: 1 }}>
+              Answer
+            </Box>
+            <Typography variant="body1" sx={{ p: 2 }}>
+              {examQuestion.question.question.correct_answers?.[0].answer}
+            </Typography>
+          </Box>
+        </Stack>
       )}
     </Grid>
   );

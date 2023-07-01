@@ -23,7 +23,7 @@ export default function QuestionsSideBar() {
       sx={{
         backgroundColor: theme.palette.white.main,
         height: "90vh",
-        width: "200px",
+        width: "250px",
         py: 2,
         border: 1,
         borderColor: theme.palette.gray.light,

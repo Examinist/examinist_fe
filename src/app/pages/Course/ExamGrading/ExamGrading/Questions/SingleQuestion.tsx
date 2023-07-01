@@ -109,14 +109,14 @@ export default function SingleQuestion({
         {examQuestion.question.question.header}
       </Typography>
       <QuestionAnswer examQuestion={examQuestion} />
-      <Box sx={{ display: "flex", alignItems: "center", width: "100%" ,px:10}}>
-        <Divider sx={{ width: "40%", borderColor: theme.palette.grey[800] }} />
+      <Box sx={{ display: "flex", alignItems: "center", width: "100%" ,justifyContent:'center'}}>
+        <Divider sx={{ width: "430px", borderColor: theme.palette.grey[800] }} />
         <Typography
           sx={{ px: 1, color: theme.palette.gray.dark, fontWeight: 500 }}
         >
           Grade
         </Typography>
-        <Divider sx={{ width: "40%", borderColor: theme.palette.grey[800] }} />
+        <Divider sx={{ width: "430px", borderColor: theme.palette.grey[800] }} />
       </Box>
       {/* <TextField
         required
