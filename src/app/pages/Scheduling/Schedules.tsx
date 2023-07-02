@@ -1,24 +1,15 @@
 import {
   Box,
   Button,
-  Dialog,
-  DialogContent,
-  DialogTitle,
   Divider,
   List,
-  ListItem,
   ListItemButton,
   ListItemText,
-  TextField,
-  Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import theme from "../../../assets/theme";
 import { useNavigate } from "react-router-dom";
 import { IDetailedSchedule, ISchedule } from "../../types/Schedule";
-import { mockExamsList } from "../../services/APIs/mockData/MockData";
-import ScheduleReviewTable from "./ScheduleTables/ScheduleReviewTable";
-import ScheduleEditTable from "./ScheduleTables/ScheduleEditTable";
 
 import {
   IScheduleResponse,
@@ -122,31 +113,35 @@ export default function Schedules() {
           Create Schedule
         </Button>
       </Box>
-      <Box
-        display="flex"
-        sx={{
-          marginTop: "25px",
-          backgroundColor: theme.palette.background.paper,
-          borderRadius: "15px",
-        }}
-      >
-        <List sx={{ width: "100%" }}>
-          {schedules.map((value, index) => (
-            <div key={value.id}>
-              <ListItemButton
-                sx={{ paddingX: "25px" }}
-                onClick={() => handleClickOpen(index)}
-              >
-                <ListItemText
-                  primary={value.title}
-                  primaryTypographyProps={{ fontSize: "19px" }}
-                ></ListItemText>
-              </ListItemButton>
-              {index != schedules.length - 1 ? <Divider></Divider> : <></>}
-            </div>
-          ))}
-        </List>
-      </Box>
+      {schedules.length === 0 ? (
+        <Box sx={{my: 3, mx: 1, fontSize: '17px'}}> No schedules to show.</Box>
+      ) : (
+        <Box
+          display="flex"
+          sx={{
+            marginTop: "25px",
+            backgroundColor: theme.palette.background.paper,
+            borderRadius: "15px",
+          }}
+        >
+          <List sx={{ width: "100%" }}>
+            {schedules.map((value, index) => (
+              <div key={value.id}>
+                <ListItemButton
+                  sx={{ paddingX: "25px" }}
+                  onClick={() => handleClickOpen(index)}
+                >
+                  <ListItemText
+                    primary={value.title}
+                    primaryTypographyProps={{ fontSize: "19px" }}
+                  ></ListItemText>
+                </ListItemButton>
+                {index != schedules.length - 1 ? <Divider></Divider> : <></>}
+              </div>
+            ))}
+          </List>
+        </Box>
+      )}
       {open && (
         <ScheduleDialog
           reload={loadSchedules}

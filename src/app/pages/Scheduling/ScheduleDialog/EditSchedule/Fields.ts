@@ -1,6 +1,6 @@
 import { IScheduleFormInput } from "../../CreateSchedule/Step2/Fields";
 import * as yup from "yup";
-import { IBusyLab } from "../../../../types/Lab";
+import { IBusyLab, ILab } from "../../../../types/Lab";
 import {
   IScheduleLabPayload,
   IUpdateSchedulePayload,
@@ -30,13 +30,14 @@ export const schema = yup.object().shape({
 });
 
 export const getLabsPayload: (
-  newLabs: number[],
-  originalLabs: IBusyLab[]
-) => IScheduleLabPayload[] = (newLabs: number[], originalLabs: IBusyLab[]) => {
+  newLabs: string[],
+  originalLabs: IBusyLab[],
+  universityLabs: ILab[]
+) => IScheduleLabPayload[] = (newLabs: string[], originalLabs: IBusyLab[], universityLabs: ILab[]) => {
   let payload: IScheduleLabPayload[] = [];
 
   originalLabs.forEach((lab) => {
-    if (!newLabs.includes(lab.id)) {
+    if (!newLabs.includes(lab.name)) {
       payload.push({
         id: lab.id,
         _destroy: true,
@@ -44,10 +45,10 @@ export const getLabsPayload: (
     }
   });
 
-  newLabs.forEach((lab) => {
-    if (!originalLabs.find((l) => l.id === lab)) {
+  newLabs.forEach((labName) => {
+    if (!originalLabs.find((l) => l.name === labName)) {
       payload.push({
-        lab_id: lab,
+        lab_id: universityLabs.find((l) => l.name === labName)?.id!,
       });
     }
   });
@@ -56,10 +57,12 @@ export const getLabsPayload: (
 
 export const getSchedulePayload: (
   formInput: IEditScheduleFormInput,
-  originalSchedule: IDetailedSchedule
+  originalSchedule: IDetailedSchedule,
+  universityLabs: ILab[]
 ) => IUpdateSchedulePayload = (
   formInput: IEditScheduleFormInput,
-  originalSchedule: IDetailedSchedule
+  originalSchedule: IDetailedSchedule,
+  universityLabs: ILab[]
 ) => {
   let schedulePayload: IUpdateSchedulePayload = {
     title: formInput.title,
@@ -75,7 +78,8 @@ export const getSchedulePayload: (
       _force: false,
       busy_labs_attributes: getLabsPayload(
         formExam.labs,
-        originalExam?.busy_labs || []
+        originalExam?.busy_labs || [],
+        universityLabs
       ),
     });
   });

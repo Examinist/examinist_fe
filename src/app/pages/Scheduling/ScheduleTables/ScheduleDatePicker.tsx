@@ -17,6 +17,7 @@ export default function ScheduleDatePicker({ index }: ISchedulePickerProps) {
             render={({ field }) => (
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DesktopDatePicker
+                      format="DD/MM/YYYY"
                         {...field}
                         slotProps={{
                             textField: {

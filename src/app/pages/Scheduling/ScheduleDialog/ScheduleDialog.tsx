@@ -56,29 +56,10 @@ export default function ScheduleDialog({
       });
   };
 
-  const handleUpdate = (schedulePayload: IUpdateSchedulePayload) => {
-    setLoading(true);
-    updateScheduleApi(schedule.id, schedulePayload)
-      .then(({ data: { schedule } }: IScheduleResponse) => {
-        setAlertState({
-          open: true,
-          severity: "success",
-          message: "Schedule is updated successfully",
-        });
-        reload();
-        setEdit(false);
-        setSchedule(schedule);
-      })
-      .catch(({ response: { data, statusText } }: IErrorResponse) => {
-        setAlertState({
-          open: true,
-          severity: "error",
-          message: data.message || statusText || "Something went wrong",
-        });
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+  const handleUpdate = (schedule: IDetailedSchedule) => {
+     reload();
+     setEdit(false);
+     setSchedule(schedule);
   };
 
   return (

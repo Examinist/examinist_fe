@@ -27,6 +27,7 @@ import {
 import { IErrorResponse } from "../../../../services/Response";
 import { useNavigate } from "react-router-dom";
 import CustomCircularProgress from "../../../../components/CustomCircularProgress";
+import { dayjsToDate } from "../../../../utilities/Date";
 
 interface IScheduleExamsFormProps {
   reference: React.Ref<any>;
@@ -37,7 +38,8 @@ export default function ScheduleExamsForm({
   reference,
   onSuccess,
 }: IScheduleExamsFormProps) {
-  const { exams, setExams, title, loading, setLoading } = React.useContext(ScheduleContext);
+  const { exams, setExams, title, loading, setLoading } =
+    React.useContext(ScheduleContext);
   const [dialogOpen, setDialogOpen] = React.useState<boolean>(false);
   const [loadingMessage, setLoadingMessage] = React.useState<
     string | undefined
@@ -82,18 +84,21 @@ export default function ScheduleExamsForm({
 
   const onSubmit = (input: IScheduleFormInput) => {
     setExams(mapToExam(input.list, exams, labs));
+
     const schedulePayload: ISchedulePayload = {
       title: title,
-      exams: exams.map((exam) => ({
-        id: exam.id,
-        starts_at: exam.scheduled_date,
+      exams: input.list.map((formExam) => ({
+        id: formExam.id,
+        starts_at: dayjsToDate(formExam.date!, formExam.time!),
         _force: false,
         busy_labs_attributes:
-          exam.busy_labs?.map((lab) => ({ lab_id: lab.id })) || [],
+          formExam.labs?.map((labName) => ({
+            lab_id: labs.find((lab) => lab.name === labName)?.id!,
+          })) || [],
       })),
     };
     setLoading(true);
-    setLoadingMessage("Creating schedule...")
+    setLoadingMessage("Creating schedule...");
     addScheduleApi(schedulePayload)
       .then(() => {
         setAlertState({
@@ -117,7 +122,7 @@ export default function ScheduleExamsForm({
   };
 
   return loading ? (
-    <CustomCircularProgress message={loadingMessage} />
+    <CustomCircularProgress message={loadingMessage} height="60vh" />
   ) : (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -159,7 +164,7 @@ export default function ScheduleExamsForm({
                 borderRadius: "15px",
               }}
             >
-              <ScheduleEditTable examList={exams}></ScheduleEditTable>
+              <ScheduleEditTable exams={exams} labs={labs}></ScheduleEditTable>
             </Box>
           </Box>
         </FormProvider>

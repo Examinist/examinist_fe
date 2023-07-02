@@ -55,9 +55,7 @@ export default function ScheduleLabsSelector({
                   overflow: "auto",
                 }}
               >
-                {selected
-                  .map((ind) => labs.find((val) => val.id == ind)?.name)
-                  .join(",")}
+                {selected.join(",")}
               </Box>
             )}
             MenuProps={MenuProps}
@@ -68,7 +66,7 @@ export default function ScheduleLabsSelector({
             error={errors.list?.[index]?.labs ? true : false}
           >
             {labs.map((lab) => (
-              <MenuItem key={lab.id} value={lab.id}>
+              <MenuItem key={lab.name} value={lab.name}>
                 <ListItemText
                   primary={lab.name}
                   primaryTypographyProps={{

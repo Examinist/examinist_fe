@@ -3,8 +3,10 @@ import React from "react";
 
 export default function CustomCircularProgress({
   message,
+  height = "100vh",
 }: {
   message?: string;
+  height?: string;
 }) {
   return (
     <Box
@@ -13,7 +15,7 @@ export default function CustomCircularProgress({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        height: "100vh",
+        height: height,
         gap: 5,
       }}
     >

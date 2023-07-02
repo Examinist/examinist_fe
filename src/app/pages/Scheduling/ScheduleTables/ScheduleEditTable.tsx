@@ -1,5 +1,3 @@
-import React, { useEffect } from "react";
-import { IScheduleTableProps } from "./ScheduleReviewTable";
 import {
   Table,
   TableBody,
@@ -13,14 +11,17 @@ import ScheduleEditRow from "./ScheduleEditRow";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { IScheduleFormInput } from "../CreateSchedule/Step2/Fields";
 import { ILab } from "../../../types/Lab";
-import useAlert from "../../../hooks/useAlert";
-import {
-  ILabsListResponse,
-  getLabsListApi,
-} from "../../../services/APIs/LabsAPIs";
-import CustomCircularProgress from "../../../components/CustomCircularProgress";
+import { IExam } from "../../../types/Exam";
 
-export default function ScheduleEditTable({ examList }: IScheduleTableProps) {
+interface ISscheduleEditTableProps {
+  exams: IExam[];
+  labs: ILab[];
+}
+
+export default function ScheduleEditTable({
+  exams,
+  labs,
+}: ISscheduleEditTableProps) {
   const header = [
     "ID",
     "Title",
@@ -32,36 +33,13 @@ export default function ScheduleEditTable({ examList }: IScheduleTableProps) {
     "End Time",
     "Labs",
   ];
-  const [exams, setExams] = React.useState(examList);
-  const [loading, setLoading] = React.useState<boolean>(false);
-  const [labs, setLabs] = React.useState<ILab[]>([]);
-  const { setAlertState } = useAlert();
   const { control } = useFormContext<IScheduleFormInput>();
   const { fields } = useFieldArray({
     control,
     name: "list",
   });
 
-  useEffect(() => {
-    setLoading(true);
-    getLabsListApi()
-      .then(({ data }: ILabsListResponse) => {
-        setLabs(data.labs);
-      })
-      .catch((error) => {
-        setAlertState({
-          open: true,
-          severity: "error",
-          message:
-            "Error occurred while fetching labs list, please try again later",
-        });
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
-
-  return ( loading ? <CustomCircularProgress /> :
+  return (
     <TableContainer>
       <Table>
         <TableHead>
@@ -83,7 +61,7 @@ export default function ScheduleEditTable({ examList }: IScheduleTableProps) {
         <TableBody>
           {fields.map((field, index) => (
             <ScheduleEditRow
-            labs={labs}
+              labs={labs}
               key={field.id}
               value={exams[index]}
               index={index}

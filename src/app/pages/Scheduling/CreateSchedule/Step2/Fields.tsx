@@ -8,7 +8,7 @@ export interface IExamInputs {
   id: number;
   date: Dayjs | null;
   time: Dayjs | null;
-  labs: number[];
+  labs: string[];
 }
 
 export interface IScheduleFormInput {
@@ -26,7 +26,7 @@ export const mapToScheduleForm = (items: IExam[]) => {
       time: value.scheduled_date
         ? dayjs(getDateStr(value.scheduled_date))
         : null,
-      labs: value.busy_labs ? value.busy_labs.map((value) => value.id) : [],
+      labs: value.busy_labs ? value.busy_labs.map((value) => value.name) : [],
     };
     res.push(item);
   });
@@ -53,10 +53,10 @@ export const mapToExam = (
     var index = exams.findIndex((val) => val.id === item.id);
     exams[index].scheduled_date = getScheduleDate(item.date!, item.time!);
     let busy_labs: IBusyLab[] = [];
-    item.labs.forEach((id) => {
+    item.labs.forEach((name) => {
       busy_labs.push({
-        id: id,
-        name: labs.find((val) => val.id === id)?.name || "",
+        id: labs.find((val) => val.name === name)?.id!,
+        name: name,
       });
     });
     exams[index].busy_labs = busy_labs;

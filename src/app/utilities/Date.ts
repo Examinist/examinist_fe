@@ -26,23 +26,23 @@ export const timeOptions: Intl.DateTimeFormatOptions = {
 
 export const getTimeStr = (date: Date) => {
   if (!date) {
-    return "";
+    return "--";
   }
-  return date.toLocaleTimeString(undefined, timeOptions);
+  return date.toLocaleTimeString("en-IN", timeOptions);
 };
 
 export const getFullDateStr = (date: Date) => {
   if (!date) {
-    return "";
+    return "--";
   }
-  return date.toLocaleDateString(undefined, fullDateOptions);
+  return date.toLocaleDateString("en-IN", fullDateOptions);
 };
 
 export const getDateStr = (date: Date) => {
   if (!date) {
-    return "";
+    return "--";
   }
-  return date.toLocaleDateString(undefined, dateOptions);
+  return date.toLocaleDateString("en-IN", dateOptions);
 };
 
 export const addTime = (date: Date, offset: number) => {
