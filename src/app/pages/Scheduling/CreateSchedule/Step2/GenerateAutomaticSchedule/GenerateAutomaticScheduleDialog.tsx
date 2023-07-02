@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { IExam } from "../../../../../types/Exam";
 import CustomDialog, {
   CustomDialogTitle,
@@ -19,6 +19,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import FormDatePicker from "./components/FormDatePicker";
 import WeekDaysDropDown from "./components/WeekDaysDropDown";
 import AddHolidayDate from "./components/AddHolidayDate";
+import {
+  getLabsListApi,
+  ILabsListResponse,
+} from "../../../../../services/APIs/LabsAPIs";
+import { ILab } from "../../../../../types/Lab";
+import useAlert from "../../../../../hooks/useAlert";
+import CustomCircularProgress from "../../../../../components/CustomCircularProgress";
 
 interface IGenerateAutomaticScheduleDialogProps {
   isOpened: boolean;
@@ -30,20 +37,41 @@ export default function GenerateAutomaticScheduleDialog({
   handleClose,
   onSuccessfulSubmit,
 }: IGenerateAutomaticScheduleDialogProps) {
+  const [loading, setLoading] = React.useState<boolean>(false);
+  const [labs, setLabs] = React.useState<ILab[]>([]);
+  const { setAlertState } = useAlert();
+
   const methods = useForm<IFormInput>({
     defaultValues: initialValues,
     resolver: yupResolver(schema),
   });
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-    reset,
-  } = methods;
+  const { handleSubmit, reset } = methods;
   const onSubmit: SubmitHandler<IFormInput> = (input: IFormInput) => {
     console.log("onSubmit", input);
   };
-  return (
+
+  useEffect(() => {
+    setLoading(true);
+    getLabsListApi()
+      .then(({ data }: ILabsListResponse) => {
+        setLabs(data.labs);
+      })
+      .catch((error) => {
+        setAlertState({
+          open: true,
+          severity: "error",
+          message:
+            "Error occurred while fetching labs list, please try again later",
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  return loading ? (
+    <CustomCircularProgress />
+  ) : (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} id="auto-schedule">
         <CustomDialog
@@ -127,7 +155,7 @@ export default function GenerateAutomaticScheduleDialog({
                 <Box sx={{ fontWeight: 300 }}>
                   Select the Labs which can be assigned to the exams
                 </Box>
-                <LabsDropDown />
+                <LabsDropDown labs={labs} />
               </Stack>
             </Box>
           </DialogContent>

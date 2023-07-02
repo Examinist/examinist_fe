@@ -50,17 +50,20 @@ export const getSchedulesListApi = async () => {
 };
 
 export const addScheduleApi = async (schedule: ISchedulePayload) => {
-  try {
     const portal = localStorage.getItem("portal");
     const response = await axiosInstance.post(`${portal}/schedules`, schedule);
     return response as ISchedulesListResponse;
-  } catch (error) {
-    return {
-      data: {
-        schedule: {},
-      },
-    } as IScheduleResponse;
-  }
+  // try {
+  //   const portal = localStorage.getItem("portal");
+  //   const response = await axiosInstance.post(`${portal}/schedules`, schedule);
+  //   return response as ISchedulesListResponse;
+  // } catch (error) {
+  //   return {
+  //     data: {
+  //       schedule: {},
+  //     },
+  //   } as IScheduleResponse;
+  // }
 };
 
 export const getScheduleApi = async (scheduleId: number) => {

@@ -23,20 +23,8 @@ const MenuProps = {
   },
 };
 
-const labs: ILab[] = [
-  {
-    id: 1,
-    name: "Lab 1",
-    capacity: 20,
-  },
-  {
-    id: 2,
-    name: "Lab 2",
-    capacity: 20,
-  },
-];
 
-export default function LabsDropDown() {
+export default function LabsDropDown({labs}: {labs: ILab[]}) {
   const {
     control,
     formState: { errors },
