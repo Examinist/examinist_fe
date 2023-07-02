@@ -20,55 +20,65 @@ export default function ExamLabsTable({ exam }: { exam: IExam }) {
     };
 
     return (
-        <Box
-            sx={{
-                backgroundColor: theme.palette.background.paper,
-                borderRadius: "15px",
-                marginTop: "50px",
-                mx: "4%",
-                px: "10px",
-            }}>
-            <TableContainer>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell align='center'>Lab</TableCell>
-                            <TableCell align='center'>Proctor</TableCell>
-                            <TableCell align='center'></TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {exam.busy_labs?.map((value) =>
-                            <TableRow>
-                                <TableCell align='center'>{value.name}</TableCell>
-                                <TableCell style={{ width: "50%" }}>
-                                    <ProctorSelector lab={value}></ProctorSelector>
-                                </TableCell>
-                                <TableCell align='right' width="20%">
-                                    <Button
-                                        onClick={handleDialogOpen}
-                                        sx={{
-                                            border: 1,
-                                            borderRadius: "15px",
-                                            textTransform: 'none',
-                                        }}>View Students</Button>
-                                    <CustomDialog
-                                        fullWidth
-                                        onClose={handleDialogClose}
-                                        open={dialogOpen}>
-                                        <CustomDialogTitle onClose={handleDialogClose}>
-                                            <Box sx={{ mx: 2, my: 1 }}>Students (50)</Box>
-                                        </CustomDialogTitle>
-                                        <Divider></Divider>
-                                        <DialogContent sx={{ p: 3, mx: 2, my: 1 }}>
-                                            <UsersTable users={students as IUser[]}></UsersTable>
-                                        </DialogContent>
-                                    </CustomDialog>
-                                </TableCell>
-                            </TableRow>)}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </Box>
-    )
+      <Box
+        sx={{
+          backgroundColor: theme.palette.background.paper,
+          borderRadius: "15px",
+          marginTop: "50px",
+          px: "10px",
+        }}
+      >
+        <TableContainer sx={{ px: 1 }}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell align="left" sx={{ fontSize: "17px" }}>
+                  Lab
+                </TableCell>
+                <TableCell align="left" sx={{ fontSize: "17px" }}>
+                  Proctor
+                </TableCell>
+                <TableCell align="left" sx={{ fontSize: "17px" }}>
+                  Students
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {exam.busy_labs?.map((lab) => (
+                <TableRow key={lab.id} >
+                  <TableCell align="left" sx={{ fontSize: "17px" }}>
+                    {lab.name}
+                  </TableCell>
+                  <TableCell style={{ width: "50%" }} sx={{ fontSize: "17px" }}>
+                    <ProctorSelector lab={lab}></ProctorSelector>
+                  </TableCell>
+                  <TableCell align="left" width="20%" sx={{ fontSize: "17px" }}>
+                    <Button
+                      onClick={handleDialogOpen}
+                      sx={{
+                        border: 1,
+                        borderRadius: "15px",
+                        textTransform: "none",
+                        px:3
+                      }}
+                    >
+                      View Students
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <CustomDialog fullWidth onClose={handleDialogClose} open={dialogOpen}>
+          <CustomDialogTitle onClose={handleDialogClose}>
+            <Box sx={{ mx: 2, my: 1 }}>Students (50)</Box>
+          </CustomDialogTitle>
+          <Divider></Divider>
+          <DialogContent sx={{ p: 3, mx: 2, my: 1 }}>
+            <UsersTable users={students as IUser[]}></UsersTable>
+          </DialogContent>
+        </CustomDialog>
+      </Box>
+    );
 }

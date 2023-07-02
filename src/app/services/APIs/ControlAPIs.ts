@@ -15,10 +15,10 @@ export interface IStudentsListResponse extends IResponse<IStudentsListData> {}
 
 export interface IProctorsListResponse extends IResponse<IProctorsListData> {}
 
-export const getStudentsInLabApi = async (examId: number, labId: number) => {
+export const getStudentsInLabApi = async (examId: number, busyLabId: number) => {
   try {
     const response = await axiosInstance.get(
-      `staff_portal/busy_labs/${labId}/students?exam_id=${examId}`
+      `staff_portal/busy_labs/${busyLabId}/students?exam_id=${examId}`
     );
     return response as IStudentsListResponse;
   } catch (error) {
@@ -28,10 +28,10 @@ export const getStudentsInLabApi = async (examId: number, labId: number) => {
   }
 };
 
-export const getProctorsInLabApi = async (examId: number, labId: number) => {
+export const getProctorsInLabApi = async (examId: number, busyLabId: number) => {
   try {
     const response = await axiosInstance.get(
-      `staff_portal/busy_labs/${labId}/available_proctors?exam_id=${examId}`
+      `staff_portal/busy_labs/${busyLabId}/available_proctors?exam_id=${examId}`
     );
     return response as IProctorsListResponse;
   } catch (error) {
@@ -43,12 +43,12 @@ export const getProctorsInLabApi = async (examId: number, labId: number) => {
 
 export const assignProctorToLabApi = async (
   examId: number,
-  labId: number,
+  busyLabId: number,
   staffId: number
 ) => {
   try {
     const response = await axiosInstance.patch(
-      `staff_portal/busy_labs/${labId}?exam_id=${examId}`,
+      `staff_portal/busy_labs/${busyLabId}?exam_id=${examId}`,
       {
         staff_id: staffId,
       }
@@ -60,3 +60,4 @@ export const assignProctorToLabApi = async (
     } as IProctorsListResponse;
   }
 };
+
