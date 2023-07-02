@@ -11,13 +11,14 @@ import { IScheduleContext, ScheduleContext } from "./ScheduleContext";
 import { useRef, useState } from "react";
 import { IExam } from "../../../types/Exam";
 import ReviewSchedule from "./Step3/ReviewSchedule";
-const steps = ["Set Schedule's Info", "Schedule Exams", "Submit"];
+const steps = ["Set Schedule's Info", "Schedule Exams"];
 
 export default function CreateSchedule() {
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = React.useState(0);
   const [title, setTitle] = useState<string>("");
   const [exams, setExams] = useState<IExam[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const stepOneFormRef = useRef<any>();
   const stepTwoFormRef = useRef<any>();
 
@@ -27,9 +28,8 @@ export default function CreateSchedule() {
 
   const components = [
     <ScheduleInfoForm reference={stepOneFormRef} onSuccess={nextStep} />,
-    <ScheduleExamsForm reference={stepTwoFormRef} onSuccess={nextStep}/>,
-    <ReviewSchedule />,
-  ];
+    <ScheduleExamsForm reference={stepTwoFormRef} onSuccess={nextStep}/>
+  ]
 
   const stepsNextActions = [
     () => {
@@ -38,9 +38,6 @@ export default function CreateSchedule() {
     () => {
       stepTwoFormRef.current?.submitForm();
     },
-    () => {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    },
   ];
 
   const contextValue: IScheduleContext = {
@@ -48,6 +45,8 @@ export default function CreateSchedule() {
     setTitle: setTitle,
     exams: exams,
     setExams: setExams,
+    loading: loading,
+    setLoading: setLoading,
   };
 
   return (
@@ -82,13 +81,14 @@ export default function CreateSchedule() {
           Create Schedule
         </Box>
       </Box>
-      <CreateScheduleStepper
-        activeStep={activeStep}
-        setActiveStep={setActiveStep}
-        steps={steps}
-        stepsNextActions={stepsNextActions}
-      />
+
       <ScheduleContext.Provider value={contextValue}>
+        <CreateScheduleStepper
+          activeStep={activeStep}
+          setActiveStep={setActiveStep}
+          steps={steps}
+          stepsNextActions={stepsNextActions}
+        />
         {components[activeStep]}
       </ScheduleContext.Provider>
     </Box>

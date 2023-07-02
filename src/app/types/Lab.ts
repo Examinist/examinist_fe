@@ -9,8 +9,6 @@ export interface ILab {
 export interface IBusyLab {
   id: number;
   name: string;
-}
-
-export interface IDetailedBusyLab extends IBusyLab {
   proctor?: IStaff;
 }
+

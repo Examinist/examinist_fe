@@ -26,7 +26,7 @@ export interface IFormInput {
 }
 
 const schema = yup.object({
-  name: yup.string().required("name is required"),
+  name: yup.string().trim().required("name is required"),
   capacity: yup.number().required("Capacity is required."),
 });
 
@@ -38,7 +38,6 @@ export default function LabTableRow({
   const [edit, setEdit] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const { setAlertState } = useAlert();
-  //const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
     event.stopPropagation();
@@ -61,24 +60,24 @@ export default function LabTableRow({
 
   const onSubmit = (inputs: IFormInput) => {
     console.log(inputs);
-    const updatedLab:ILab = {...inputs, id: lab.id};
-     updateLabApi(updatedLab)
-       .then(() => {
-         onChange();
-         setEdit(false);
-          setAlertState({
-            open: true,
-            message: "Lab is updated successfully.",
-            severity: "success",
-          });
-       })
-       .catch(({ response: { status, statusText, data } }: IErrorResponse) => {
-         setAlertState({
-           open: true,
-           message: data?.message! || statusText,
-           severity: "error",
-         });
-       });
+    const updatedLab: ILab = { ...inputs, id: lab.id };
+    updateLabApi(updatedLab)
+      .then(() => {
+        onChange();
+        setEdit(false);
+        setAlertState({
+          open: true,
+          message: "Lab is updated successfully.",
+          severity: "success",
+        });
+      })
+      .catch(({ response: { status, statusText, data } }: IErrorResponse) => {
+        setAlertState({
+          open: true,
+          message: data?.message! || statusText,
+          severity: "error",
+        });
+      });
   };
 
   const handleDelete = () => {
@@ -87,7 +86,7 @@ export default function LabTableRow({
         onChange();
         setAlertState({
           open: true,
-          message:"Lab is deleted successfully.",
+          message: "Lab is deleted successfully.",
           severity: "success",
         });
       })
@@ -106,7 +105,7 @@ export default function LabTableRow({
         <FormProvider {...methods}>
           <LabCell edit={edit} lab={lab} />
           <StyledTableCell align="right">
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)} id="edit-lab-form">
               {!edit ? (
                 <div>
                   <IconButton
@@ -164,13 +163,7 @@ export default function LabTableRow({
                       }}
                     />
                   </IconButton>
-                  <IconButton
-                    type="submit"
-                    //   onClick={() => {
-                    //     //handleEdit
-                    //     setEdit(false);
-                    //   }}
-                  >
+                  <IconButton type="submit">
                     <CheckOutlinedIcon color="primary" />
                   </IconButton>
                 </div>

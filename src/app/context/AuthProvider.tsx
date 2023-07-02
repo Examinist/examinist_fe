@@ -3,10 +3,12 @@ import IUser, { UserRoleEnum, userRoleToPathMap } from "../types/User";
 import {
   getUserProfileAPI,
   IGetUserInfoResponse,
+  logoutAPI,
 } from "../services/APIs/AuthAPIs";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Box, CircularProgress } from "@mui/material";
 import { setupResponseInterceptor } from "../services/AxiosConfig";
+import useAlert from "../hooks/useAlert";
 
 type AuthContextType = {
   isAuthenticated: boolean;
@@ -24,6 +26,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
+  const {setAlertState} = useAlert();
 
   const redirectToLogin = () => navigate("/login", { replace: true });
 
@@ -37,7 +40,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     GoToHomePage(user!);
   };
 
-  const logout = () => {};
+  const logout = () => {
+    logoutAPI()
+      .then(() => {
+        localStorage.clear();
+        navigate("/login");
+      })
+      .catch(() => {
+        setAlertState({
+          open: true,
+          severity: "error",
+          message: "Error logging out, please try again.",
+        });
+      });
+  };
 
   useEffect(() => {
     getUserProfileAPI()

@@ -7,16 +7,15 @@ import AppRoutes from "./app/routes/Routes";
 import theme from "./assets/theme";
 import AlertProvider from "./app/context/AlertProvider";
 
-
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <Router>
-        <AuthProvider>
-          <AlertProvider>
-          <AppRoutes />
-          </AlertProvider>
-        </AuthProvider>
+        <AlertProvider>
+          <AuthProvider>
+            <AppRoutes />
+          </AuthProvider>
+        </AlertProvider>
       </Router>
     </ThemeProvider>
   );

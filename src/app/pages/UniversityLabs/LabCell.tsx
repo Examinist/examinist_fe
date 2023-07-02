@@ -29,6 +29,7 @@ export default function LabCell({ edit, lab }: ILabCellProps) {
         <StyledTableCell align="center">
           <TextField
             size="small"
+            label="Lab Name"
             {...register("name")}
             error={errors.name?.message ? true : false}
             helperText={errors.name?.message}
@@ -36,6 +37,8 @@ export default function LabCell({ edit, lab }: ILabCellProps) {
         </StyledTableCell>
         <StyledTableCell align="center">
           <TextField
+            label="Capacity"
+            type="number"
             size="small"
             {...register("capacity")}
             error={errors.capacity?.message ? true : false}

@@ -43,6 +43,7 @@ export default function ScheduleInfoForm({
   useEffect(() => {
     getExamsApi(undefined, ExamStatusEnum.UNSCHEDULED)
       .then(({ data }: IExamsListResponse) => {
+        console.log(data);
         setUnScheduledExams(data.exams);
       })
       .catch(({ response: { statusText, data } }: IErrorResponse) => {

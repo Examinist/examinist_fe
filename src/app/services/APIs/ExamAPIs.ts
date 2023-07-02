@@ -62,7 +62,7 @@ export const getExamsApi = async (
     const response = await axiosInstance.get(`${portal}/exams`, {
       params: {
         course_id: course_id,
-        status: status,
+        filter_by_status: status,
         page: page,
       },
     });

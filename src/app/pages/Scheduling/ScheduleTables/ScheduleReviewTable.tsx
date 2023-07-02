@@ -9,7 +9,7 @@ export interface IScheduleTableProps {
   }
 
 export default function ScheduleReviewTable({examList}:IScheduleTableProps){
-  const header = ["ID", "Title", "Course", "Number of Students", "Duration", "Scheduled Date", "Start Time", "End Time", "Labs"];
+  const header = ["ID", "Title", "Course", "No. of Students", "Duration", "Scheduled Date", "Start Time", "End Time", "Labs"];
   const [exams, setExams] = React.useState(examList);
 
   return (
@@ -19,6 +19,7 @@ export default function ScheduleReviewTable({examList}:IScheduleTableProps){
           <TableRow>
             {header.map((value) =>
               <TableCell
+              key={value}
                 align="center"
                 sx={{
                   color: theme.palette.gray.dark,
