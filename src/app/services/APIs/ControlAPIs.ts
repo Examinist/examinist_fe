@@ -16,16 +16,20 @@ export interface IStudentsListResponse extends IResponse<IStudentsListData> {}
 export interface IProctorsListResponse extends IResponse<IProctorsListData> {}
 
 export const getStudentsInLabApi = async (examId: number, busyLabId: number) => {
-  try {
-    const response = await axiosInstance.get(
-      `staff_portal/busy_labs/${busyLabId}/students?exam_id=${examId}`
-    );
-    return response as IStudentsListResponse;
-  } catch (error) {
-    return {
-      data: { students: mockStudents },
-    } as IStudentsListResponse;
-  }
+   const response = await axiosInstance.get(
+     `staff_portal/busy_labs/${busyLabId}/students?exam_id=${examId}`
+   );
+   return response as IStudentsListResponse;
+  // try {
+  //   const response = await axiosInstance.get(
+  //     `staff_portal/busy_labs/${busyLabId}/students?exam_id=${examId}`
+  //   );
+  //   return response as IStudentsListResponse;
+  // } catch (error) {
+  //   return {
+  //     data: { students: mockStudents },
+  //   } as IStudentsListResponse;
+  // }
 };
 
 export const getProctorsInLabApi = async (examId: number, busyLabId: number) => {

@@ -9,8 +9,6 @@ import {
 import theme from "../../../../assets/theme";
 import { mockProctors } from "../../../services/APIs/mockData/MockData";
 import React from "react";
-import { IStaff } from "../../../types/User";
-import { IExam } from "../../../types/Exam";
 import { IBusyLab } from "../../../types/Lab";
 
 export default function ProctorSelector({

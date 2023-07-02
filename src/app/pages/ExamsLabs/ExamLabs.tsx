@@ -1,27 +1,13 @@
 import {
   Box,
-  Button,
-  FormControl,
   IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
 } from "@mui/material";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import React, { useEffect } from "react";
 import theme from "../../../assets/theme";
-import { mockBusyLabs, mockExam } from "../../services/APIs/mockData/MockData";
 import { ArrowBack } from "@mui/icons-material";
 import ExamLabsTable from "./components/ExamLabsTable";
 import { IExam } from "../../types/Exam";
-import { IExamResponse, getExamApi } from "../../services/APIs/ExamAPIs";
 import CustomCircularProgress from "../../components/CustomCircularProgress";
 
 export default function ExamLabs() {
