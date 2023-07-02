@@ -9,7 +9,7 @@ interface IExamLabsCardProps {
     exam: IExam,
 }
 
-export default function ExamLabsCard({ exam }: IExamLabsCardProps) {
+export default function ExamsLabsCard({ exam }: IExamLabsCardProps) {
     const navigate = useNavigate();
 
     const getLabsString = () => {
@@ -27,18 +27,18 @@ export default function ExamLabsCard({ exam }: IExamLabsCardProps) {
     return (
         <Box
             sx={{
-                marginY:"20px",
+                marginY: "20px",
                 backgroundColor: theme.palette.background.paper,
                 borderRadius: "15px",
                 paddingY: "10px",
                 paddingX: "15px",
             }}>
-            <Chip
+            {exam.pending_labs_assignment ? <Chip
                 label="Pending Labs Assignment"
                 sx={{
-                    background:"#D9D9D9",
-                    fontWeight:"450",
-                }}></Chip>
+                    background: "#D9D9D9",
+                    fontWeight: "450",
+                }}></Chip> : <></>}
             <Box
                 sx={{
                     paddingY: "10px",
@@ -61,7 +61,7 @@ export default function ExamLabsCard({ exam }: IExamLabsCardProps) {
                                 paddingTop: "5px",
                                 fontSize: "18px",
                                 color: "#6B6767",
-                                fontWeight:"450",
+                                fontWeight: "450",
                             }}>{exam.scheduled_date.toLocaleString()}</Typography>
                     </Grid>
                 </Grid>
@@ -75,7 +75,7 @@ export default function ExamLabsCard({ exam }: IExamLabsCardProps) {
                                 fontSize: "18px",
                                 color: "#6B6767",
                                 fontWeight: "500",
-                            }}>{"Course: "+exam.course.title + " - " + exam.course.code}</Typography>
+                            }}>{"Course: " + exam.course.title + " - " + exam.course.code}</Typography>
                     </Grid>
                     <Grid item xs={4}
                         display="flex"
@@ -85,7 +85,7 @@ export default function ExamLabsCard({ exam }: IExamLabsCardProps) {
                                 paddingTop: "5px",
                                 fontSize: "18px",
                                 color: "#6B6767",
-                                fontWeight:"450",
+                                fontWeight: "450",
                             }}>{getLabsString()}</Typography>
                     </Grid>
                 </Grid>
@@ -107,7 +107,7 @@ export default function ExamLabsCard({ exam }: IExamLabsCardProps) {
                         width: "130px",
                         textTransform: 'none',
                     }}
-                    onClick={()=>navigate(`./${exam.id}`)}
+                    onClick={() => navigate(`./${exam.id}`)}
                 >
                     View</Button>
             </Box>

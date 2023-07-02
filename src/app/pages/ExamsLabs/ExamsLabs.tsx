@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import React from "react";
 import { mockExamsList } from "../../services/APIs/mockData/MockData";
 import { ExamStatusEnum } from "../../types/Exam";
-import ExamLabsCard from "./components/ExamLabsCard";
+import ExamsLabsCard from "./components/ExamsLabsCard";
 
 export default function ExamsLabs() {
   const exams = mockExamsList;
@@ -21,7 +21,7 @@ export default function ExamsLabs() {
       {exams.map((value)=>{
         if(value.status==ExamStatusEnum.SCHEDULED){
           return(
-            <ExamLabsCard exam={value}></ExamLabsCard>
+            <ExamsLabsCard exam={value}></ExamsLabsCard>
           );
         }
       })}

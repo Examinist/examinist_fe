@@ -5,6 +5,7 @@ import React from 'react'
 import theme from '../../../assets/theme';
 import { mockBusyLabs, mockExam } from '../../services/APIs/mockData/MockData';
 import { ArrowBack } from '@mui/icons-material';
+import ExamLabsTable from './components/ExamLabsTable';
 
 export default function ExamLabs() {
   const navigate = useNavigate();
@@ -23,7 +24,6 @@ export default function ExamLabs() {
       sx={{
         display: "flex",
         flexDirection: "column",
-        //rowGap: "1rem",
         px: "5%",
         pt: 4,
       }}
@@ -50,13 +50,6 @@ export default function ExamLabs() {
         >
           {exam.title}
         </Box>
-        <Box display="flex" justifyContent="space-between" alignItems="inherit" >
-          <Button
-            sx={{
-              border: 1,
-              borderRadius: "15px",
-            }}>Save Changes</Button>
-        </Box>
       </Box>
       <Box
         sx={{
@@ -79,48 +72,7 @@ export default function ExamLabs() {
           })}
         </Box>
       </Box>
-      <Box
-        sx={{
-          backgroundColor: theme.palette.background.paper,
-          borderRadius: "15px",
-          marginTop: "50px",
-          mx: "4%",
-          px: "10px",
-        }}>
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell align='center'>Lab</TableCell>
-                <TableCell align='center'>Proctor</TableCell>
-                <TableCell align='center'></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {exam.busy_labs?.map((value, index) =>
-                <TableRow>
-                  <TableCell align='center'>{value.name}</TableCell>
-                  <TableCell>
-                    <FormControl fullWidth size='small'>
-                      <InputLabel>Select Proctor</InputLabel>
-                      <Select>
-                        {proctors.map((value) =>
-                          <MenuItem>{value}</MenuItem>)}
-                      </Select>
-                    </FormControl>
-                  </TableCell>
-                  <TableCell align='right'>
-                    <Button
-                      sx={{
-                        border: 1,
-                        borderRadius: "15px",
-                      }}>View Students</Button>
-                  </TableCell>
-                </TableRow>)}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Box>
+      <ExamLabsTable exam={exam}></ExamLabsTable>
     </Box>
   )
 }
