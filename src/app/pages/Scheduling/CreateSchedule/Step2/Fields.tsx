@@ -5,6 +5,7 @@ import { IExam } from "../../../../types/Exam";
 import { getDateStr } from "../../../../utilities/Date";
 
 export interface IExamInputs {
+  id: number;
   date: Dayjs | null;
   time: Dayjs | null;
   labs: number[];
@@ -18,6 +19,7 @@ export const mapToScheduleForm = (items: IExam[]) => {
   var res: IExamInputs[] = [];
   items.forEach((value) => {
     var item = {
+      id: value.id,
       date: value.scheduled_date
         ? dayjs(getDateStr(value.scheduled_date))
         : null,
@@ -47,7 +49,8 @@ export const mapToExam = (
   exams: IExam[],
   labs: ILab[]
 ) => {
-  items.forEach((item, index) => {
+  items.forEach((item) => {
+    var index = exams.findIndex((val) => val.id === item.id);
     exams[index].scheduled_date = getScheduleDate(item.date!, item.time!);
     let busy_labs: IBusyLab[] = [];
     item.labs.forEach((id) => {

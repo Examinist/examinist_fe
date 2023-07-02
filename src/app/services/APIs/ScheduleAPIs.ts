@@ -5,7 +5,7 @@ import axiosInstance from "../AxiosConfig";
 import { IResponse } from "../Response";
 
 export interface IScheduleLabPayload {
-  lab_id: number;
+  lab_id?: number;
   id?: number;
   _destroy?: boolean;
 }
@@ -38,17 +38,20 @@ export interface ISchedulesListResponse extends IResponse<ISchedulesListData> {}
 export interface IScheduleResponse extends IResponse<IScheduleData> {}
 
 export const getSchedulesListApi = async () => {
-  try {
-    const portal = localStorage.getItem("portal");
-    const response = await axiosInstance.get(`${portal}/schedules`);
-    return response as ISchedulesListResponse;
-  } catch (error) {
-    return {
-      data: {
-        schedules: [],
-      },
-    } as ISchedulesListResponse;
-  }
+  // try {
+  //   const portal = localStorage.getItem("portal");
+  //   const response = await axiosInstance.get(`${portal}/schedules`);
+  //   return response as ISchedulesListResponse;
+  // } catch (error) {
+  //   return {
+  //     data: {
+  //       schedules: [],
+  //     },
+  //   } as ISchedulesListResponse;
+  // }
+  const portal = localStorage.getItem("portal");
+  const response = await axiosInstance.get(`${portal}/schedules`);
+  return response as ISchedulesListResponse;
 };
 
 export const addScheduleApi = async (schedule: ISchedulePayload) => {
@@ -69,56 +72,85 @@ export const addScheduleApi = async (schedule: ISchedulePayload) => {
 };
 
 export const getScheduleApi = async (scheduleId: number) => {
-  try {
-    const portal = localStorage.getItem("portal");
-    const response = await axiosInstance.get(
-      `${portal}/schedules/${scheduleId}`
-    );
-    response.data.schedule.exams = response.data.schedule.exams.map(
-      (exam: IExam) => fixExamDate(exam)
-    );
-    return response as IScheduleResponse;
-  } catch (error) {
-    return {
-      data: {
-        schedule: {},
-      },
-    } as IScheduleResponse;
-  }
+  // try {
+  //   const portal = localStorage.getItem("portal");
+  //   const response = await axiosInstance.get(
+  //     `${portal}/schedules/${scheduleId}`
+  //   );
+  //   response.data.schedule.exams = response.data.schedule.exams.map(
+  //     (exam: IExam) => fixExamDate(exam)
+  //   );
+  //   return response as IScheduleResponse;
+  // } catch (error) {
+  //   return {
+  //     data: {
+  //       schedule: {},
+  //     },
+  //   } as IScheduleResponse;
+  // }
+  const portal = localStorage.getItem("portal");
+  const response = await axiosInstance.get(`${portal}/schedules/${scheduleId}`);
+  response.data.schedule.exams = response.data.schedule.exams.map(
+    (exam: IExam) => fixExamDate(exam)
+  );
+  return response as IScheduleResponse;
 };
 
 export const updateScheduleApi = async (
   scheduleId: number,
   schedule: IUpdateSchedulePayload
 ) => {
-  try {
-    const portal = localStorage.getItem("portal");
-    const response = await axiosInstance.put(
-      `${portal}/schedules/${scheduleId}`,
-      schedule
-    );
-    return response as IScheduleResponse;
-  } catch (error) {
-    return {
-      data: {
-        schedule: {},
-      },
-    } as IScheduleResponse;
-  }
+  // try {
+  //   const portal = localStorage.getItem("portal");
+  //   const response = await axiosInstance.patch(
+  //     `${portal}/schedules/${scheduleId}`,
+  //     schedule
+  //   );
+  //   response.data.schedule.exams = response.data.schedule.exams.map(
+  //     (exam: IExam) => fixExamDate(exam)
+  //   );
+  //   return response as IScheduleResponse;
+  // } catch (error) {
+  //   return {
+  //     data: {
+  //       schedule: {},
+  //     },
+  //   } as IScheduleResponse;
+  // }
+  const portal = localStorage.getItem("portal");
+  const response = await axiosInstance.patch(
+    `${portal}/schedules/${scheduleId}`,
+    schedule
+  );
+  response.data.schedule.exams = response.data.schedule.exams.map(
+    (exam: IExam) => fixExamDate(exam)
+  );
+  return response as IScheduleResponse;
 };
 
 export const deleteScheduleApi = async (scheduleId: number) => {
-  try {
-    const portal = localStorage.getItem("portal");
-    const response = await axiosInstance.delete(
-      `${portal}/schedules/${scheduleId}`
-    );
-    return response as IScheduleResponse;
-  } catch (error) {
-    return {
-      data: {
-        schedule: {},
-      },
-    } as IScheduleResponse;
-  }
+  // try {
+  //   const portal = localStorage.getItem("portal");
+  //   const response = await axiosInstance.delete(
+  //     `${portal}/schedules/${scheduleId}`
+  //   );
+  //   response.data.schedule.exams = response.data.schedule.exams.map(
+  //     (exam: IExam) => fixExamDate(exam)
+  //   );
+  //   return response as IScheduleResponse;
+  // } catch (error) {
+  //   return {
+  //     data: {
+  //       schedule: {},
+  //     },
+  //   } as IScheduleResponse;
+  // }
+  const portal = localStorage.getItem("portal");
+  const response = await axiosInstance.delete(
+    `${portal}/schedules/${scheduleId}`
+  );
+  response.data.schedule.exams = response.data.schedule.exams.map(
+    (exam: IExam) => fixExamDate(exam)
+  );
+  return response as IScheduleResponse;
 };

@@ -150,7 +150,7 @@ export default function Schedules() {
       {open && (
         <ScheduleDialog
           reload={loadSchedules}
-          schedule={chosenSchedule!}
+          initialSchedule={chosenSchedule!}
           open={open}
           onClose={handleClose}
         ></ScheduleDialog>

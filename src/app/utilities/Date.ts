@@ -1,4 +1,5 @@
 import { IExam } from "../types/Exam";
+import dayjs, { Dayjs } from "dayjs";
 
 export const fullDateOptions: Intl.DateTimeFormatOptions = {
   year: "numeric",
@@ -72,4 +73,16 @@ export const fixExamDate = (exam: IExam) => {
     created_at: new Date(exam.created_at),
     scheduled_date: exam.scheduled_date && new Date(exam.scheduled_date),
   };
+};
+
+export const dayjsToDate = (date: Dayjs, time?: Dayjs) => {
+  var newDate: Date = date.toDate();
+  if (!time) return newDate;
+  newDate.setHours(
+    time.hour(),
+    time.minute(),
+    time.second(),
+    time.millisecond()
+  );
+  return newDate;
 };

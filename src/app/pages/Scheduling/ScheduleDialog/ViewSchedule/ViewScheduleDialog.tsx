@@ -5,12 +5,10 @@ import {
   Button,
   DialogActions,
 } from "@mui/material";
-import theme from "../../../../assets/theme";
-import {
-  CustomDialogTitle,
-} from "../../Course/CourseSettings/QuestionTypes/components/CustomDialog";
-import ScheduleReviewTable from "../ScheduleTables/ScheduleReviewTable";
-import { IDetailedSchedule } from "../../../types/Schedule";
+import theme from "../../../../../assets/theme";
+import { CustomDialogTitle } from "../../../Course/CourseSettings/QuestionTypes/components/CustomDialog";
+import ScheduleReviewTable from "../../ScheduleTables/ScheduleReviewTable";
+import { IDetailedSchedule } from "../../../../types/Schedule";
 
 interface IViewScheduleDialogProps {
   schedule: IDetailedSchedule;
