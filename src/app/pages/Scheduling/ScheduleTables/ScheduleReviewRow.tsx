@@ -22,10 +22,10 @@ export default function ScheduleReviewRow({ value }: IScheduleRowProps) {
     <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
       <TableCell align="center">{value.id}</TableCell>
       <TableCell align="center">{value.title}</TableCell>
-      <TableCell align="center">
+      <TableCell align="center" style={{ width: "160px" }}>
         {value.course.title + " - " + value.course.code}
       </TableCell>
-      <TableCell align="center">
+      <TableCell align="center" style={{ width: "100px" }}>
         {value.number_of_students == undefined ? 0 : value.number_of_students}
       </TableCell>
       <TableCell align="center">{value.duration}</TableCell>

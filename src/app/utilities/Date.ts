@@ -1,3 +1,5 @@
+import { IExam } from "../types/Exam";
+
 export const fullDateOptions: Intl.DateTimeFormatOptions = {
   year: "numeric",
   month: "2-digit",
@@ -22,29 +24,29 @@ export const timeOptions: Intl.DateTimeFormatOptions = {
 };
 
 export const getTimeStr = (date: Date) => {
-  if(!date){
-    return ""
+  if (!date) {
+    return "";
   }
   return date.toLocaleTimeString(undefined, timeOptions);
 };
 
 export const getFullDateStr = (date: Date) => {
-  if(!date){
-    return ""
+  if (!date) {
+    return "";
   }
   return date.toLocaleDateString(undefined, fullDateOptions);
 };
 
 export const getDateStr = (date: Date) => {
-  if(!date){
-    return ""
+  if (!date) {
+    return "";
   }
   return date.toLocaleDateString(undefined, dateOptions);
 };
 
 export const addTime = (date: Date, offset: number) => {
   return new Date(date.getTime() + offset * 60000);
-}
+};
 
 declare global {
   interface Date {
@@ -62,4 +64,12 @@ Date.prototype.stdTimezoneOffset = function () {
 
 Date.prototype.isDstObserved = function () {
   return this.getTimezoneOffset() < this.stdTimezoneOffset();
+};
+
+export const fixExamDate = (exam: IExam) => {
+  return {
+    ...exam,
+    created_at: new Date(exam.created_at),
+    scheduled_date: exam.scheduled_date && new Date(exam.scheduled_date),
+  };
 };

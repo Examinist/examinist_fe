@@ -13,7 +13,7 @@ export default function CustomCircularProgress({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        height: "500px",
+        height: "100vh",
         gap: 5,
       }}
     >

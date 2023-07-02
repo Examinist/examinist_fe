@@ -1,4 +1,6 @@
-import { ISchedule } from "../../types/Schedule";
+import { IExam } from "../../types/Exam";
+import { IDetailedSchedule, ISchedule } from "../../types/Schedule";
+import { fixExamDate } from "../../utilities/Date";
 import axiosInstance from "../AxiosConfig";
 import { IResponse } from "../Response";
 
@@ -29,7 +31,7 @@ interface ISchedulesListData {
 }
 
 interface IScheduleData {
-  schedule: ISchedule;
+  schedule: IDetailedSchedule;
 }
 
 export interface ISchedulesListResponse extends IResponse<ISchedulesListData> {}
@@ -50,9 +52,9 @@ export const getSchedulesListApi = async () => {
 };
 
 export const addScheduleApi = async (schedule: ISchedulePayload) => {
-    const portal = localStorage.getItem("portal");
-    const response = await axiosInstance.post(`${portal}/schedules`, schedule);
-    return response as ISchedulesListResponse;
+  const portal = localStorage.getItem("portal");
+  const response = await axiosInstance.post(`${portal}/schedules`, schedule);
+  return response as ISchedulesListResponse;
   // try {
   //   const portal = localStorage.getItem("portal");
   //   const response = await axiosInstance.post(`${portal}/schedules`, schedule);
@@ -71,6 +73,9 @@ export const getScheduleApi = async (scheduleId: number) => {
     const portal = localStorage.getItem("portal");
     const response = await axiosInstance.get(
       `${portal}/schedules/${scheduleId}`
+    );
+    response.data.schedule.exams = response.data.schedule.exams.map(
+      (exam: IExam) => fixExamDate(exam)
     );
     return response as IScheduleResponse;
   } catch (error) {
@@ -102,19 +107,18 @@ export const updateScheduleApi = async (
   }
 };
 
-
 export const deleteScheduleApi = async (scheduleId: number) => {
-    try {
-        const portal = localStorage.getItem("portal");
-        const response = await axiosInstance.delete(
-        `${portal}/schedules/${scheduleId}`
-        );
-        return response as IScheduleResponse;
-    } catch (error) {
-        return {
-        data: {
-            schedule: {},
-        },
-        } as IScheduleResponse;
-    }
-}
+  try {
+    const portal = localStorage.getItem("portal");
+    const response = await axiosInstance.delete(
+      `${portal}/schedules/${scheduleId}`
+    );
+    return response as IScheduleResponse;
+  } catch (error) {
+    return {
+      data: {
+        schedule: {},
+      },
+    } as IScheduleResponse;
+  }
+};
