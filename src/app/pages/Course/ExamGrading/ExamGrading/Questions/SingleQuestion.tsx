@@ -240,7 +240,7 @@ export default function SingleQuestion({
           sx={{
             border: 1,
             borderRadius: 3,
-            borderColor: theme.palette.gray.main,
+            borderColor: theme.palette.gray.dark,
             height: "40px",
             width: "120px",
           }}
@@ -252,15 +252,20 @@ export default function SingleQuestion({
             sx={{ ml: "auto" }}
           >
             <InputBase
-              sx={{ ml: 1, flex: 1, width: "60px" }}
+              sx={{ ml: 2, flex: 1, width: "60px" }}
               placeholder="score"
               value={score}
               onChange={(e) => handleChange(e.target.value)}
+              disabled={
+                examQuestion.question.question.question_type.name ===
+                  DefaultQuestionTypesEnum.MCQ ||
+                examQuestion.question.question.question_type.name ===
+                  DefaultQuestionTypesEnum.T_F
+              }
               inputProps={{
                 type: "number",
                 min: 0,
                 max: examQuestion.question.score,
-                "aria-label": "search google maps",
               }}
             />
             <Divider
