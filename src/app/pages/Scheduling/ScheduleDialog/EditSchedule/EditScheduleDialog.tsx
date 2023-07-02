@@ -15,7 +15,11 @@ import ScheduleEditTable from "../../ScheduleTables/ScheduleEditTable";
 import { IDetailedSchedule } from "../../../../types/Schedule";
 import { IEditScheduleFormInput, getSchedulePayload, schema } from "./Fields";
 import { mapToScheduleForm } from "../../CreateSchedule/Step2/Fields";
-import { IScheduleResponse, IUpdateSchedulePayload, updateScheduleApi } from "../../../../services/APIs/ScheduleAPIs";
+import {
+  IScheduleResponse,
+  IUpdateSchedulePayload,
+  updateScheduleApi,
+} from "../../../../services/APIs/ScheduleAPIs";
 import {
   ILabsListResponse,
   getLabsListApi,
@@ -49,28 +53,28 @@ export default function EditScheduleDialog({
     resolver: yupResolver(schema),
   });
 
-   const handleUpdate = (schedulePayload: IUpdateSchedulePayload) => {
-     setLoading(true);
-     updateScheduleApi(schedule.id, schedulePayload)
-       .then(({ data: { schedule } }: IScheduleResponse) => {
-         setAlertState({
-           open: true,
-           severity: "success",
-           message: "Schedule is updated successfully",
-         });
-          onUpdate(schedule);
-       })
-       .catch(({ response: { data, statusText } }: IErrorResponse) => {
-         setAlertState({
-           open: true,
-           severity: "error",
-           message: data.message || statusText || "Something went wrong",
-         });
-       })
-       .finally(() => {
-         setLoading(false);
-       });
-   };
+  const handleUpdate = (schedulePayload: IUpdateSchedulePayload) => {
+    setLoading(true);
+    updateScheduleApi(schedule.id, schedulePayload)
+      .then(({ data: { schedule } }: IScheduleResponse) => {
+        setAlertState({
+          open: true,
+          severity: "success",
+          message: "Schedule is updated successfully",
+        });
+        onUpdate(schedule);
+      })
+      .catch(({ response: { data, statusText } }: IErrorResponse) => {
+        setAlertState({
+          open: true,
+          severity: "error",
+          message: data.message || statusText || "Something went wrong",
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -99,7 +103,6 @@ export default function EditScheduleDialog({
       schedule,
       labs
     );
-    console.log(schedulePayload);
     handleUpdate(schedulePayload);
   };
 

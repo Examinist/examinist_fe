@@ -17,14 +17,14 @@ export interface IScheduleFormInput {
 
 export const mapToScheduleForm = (items: IExam[]) => {
   var res: IExamInputs[] = [];
-  items.forEach((value) => {
+  items.forEach((value, index) => {
     var item = {
       id: value.id,
       date: value.scheduled_date
-        ? dayjs(getDateStr(value.scheduled_date))
+        ? dayjs(value.scheduled_date.toDateString())
         : null,
       time: value.scheduled_date
-        ? dayjs(getDateStr(value.scheduled_date))
+        ? dayjs(value.scheduled_date.toDateString())
         : null,
       labs: value.busy_labs ? value.busy_labs.map((value) => value.name) : [],
     };

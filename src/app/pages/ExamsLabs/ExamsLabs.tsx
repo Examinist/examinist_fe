@@ -45,7 +45,7 @@ export default function ExamsLabs() {
       {loading && <CustomCircularProgress />}
       {!loading &&
         (exams.length === 0 ? (
-          <Box> No exams to show.</Box>
+          <Box sx={{ my: 3, mx: 1, fontSize: "17px" }}> No exams to show.</Box>
         ) : (
           exams.map((exam) => {
             return <ExamsLabsCard exam={exam} key={exam.id}></ExamsLabsCard>;

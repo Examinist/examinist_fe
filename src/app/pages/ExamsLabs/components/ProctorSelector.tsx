@@ -7,20 +7,72 @@ import {
   Select,
 } from "@mui/material";
 import theme from "../../../../assets/theme";
-import { mockProctors } from "../../../services/APIs/mockData/MockData";
-import React from "react";
+import React, { useEffect } from "react";
 import { IBusyLab } from "../../../types/Lab";
+import { useParams } from "react-router-dom";
+import {
+  IBusyLabResponse,
+  IProctorsListResponse,
+  assignProctorToLabApi,
+  getAvailableProctors,
+} from "../../../services/APIs/ControlAPIs";
+import { IStaff } from "../../../types/User";
+import useAlert from "../../../hooks/useAlert";
+import { IErrorResponse } from "../../../services/Response";
 
-export default function ProctorSelector({
-  lab,
-}: {
-  lab: IBusyLab | undefined;
-}) {
-  const proctors = mockProctors;
-  const [proctorId, setProctorId] = React.useState<string>("");
+export default function ProctorSelector({ initialLab }: { initialLab: IBusyLab }) {
+  const [lab, setLab] = React.useState<IBusyLab>(initialLab);
+  const [proctors, setProctors] = React.useState<IStaff[] | undefined>();
+  const { examId } = useParams<{ examId: string }>();
+  const [loading, setLoading] = React.useState<boolean>(false);
+  const [proctorId, setProctorId] = React.useState<string>(
+    lab.proctor?.id.toString() || ""
+  );
+  const { setAlertState } = useAlert();
+
+  useEffect(() => {
+    getAvailableProctors(parseInt(examId!), lab.id)
+      .then(({ data }: IProctorsListResponse) => {
+        if (lab.proctor) {
+          setProctors([...data.proctors, lab.proctor]);
+        } else {
+          setProctors(data.proctors);
+        }
+      })
+      .catch(({ response: { data, statusText } }: IErrorResponse) => {
+        setAlertState({
+          open: true,
+          severity: "error",
+          message: data.message || statusText || "Something went wrong!",
+        });
+      });
+  }, []);
 
   const handleChange = (event: any) => {
     setProctorId(event.target.value);
+  };
+
+  const handleAssignProctor = () => {
+    setLoading(true);
+    assignProctorToLabApi(parseInt(examId!), lab.id, parseInt(proctorId))
+      .then(({data}: IBusyLabResponse) => {
+        setLab(data.busy_lab);
+        setAlertState({
+          open: true,
+          severity: "success",
+          message: "Proctor assigned successfully!",
+        });
+      })
+      .catch(({ response: { data, statusText } }: IErrorResponse) => {
+        setAlertState({
+          open: true,
+          severity: "error",
+          message: data.message || statusText || "Something went wrong!",
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -33,26 +85,36 @@ export default function ProctorSelector({
     >
       <FormControl style={{ width: "70%" }} size="small">
         <InputLabel>Select Proctor</InputLabel>
-        <Select label="Select Proctor" value={proctorId} onChange={handleChange}>
-          {proctors.map((proctor) => (
-            <MenuItem value={proctor.id} key={proctor.id}>
-              {proctor.first_name + " " + proctor.last_name}
+        <Select
+          label="Select Proctor"
+          value={proctorId}
+          onChange={handleChange}
+        >
+          {proctors &&
+            proctors.map((proctor) => (
+              <MenuItem value={proctor.id} key={proctor.id}>
+                {proctor.first_name + " " + proctor.last_name}
+              </MenuItem>
+            ))}
+          {proctors && proctors.length === 0 && (
+            <MenuItem value={""} disabled>
+              No proctors available
             </MenuItem>
-          ))}
+          )}
         </Select>
       </FormControl>
-      {(lab?.proctor?.id == parseInt(proctorId) || proctorId === '') ? (
+      {lab?.proctor?.id === parseInt(proctorId) || proctorId === "" ? (
         <></>
       ) : (
         <Button
+          variant="contained"
           sx={{
-            border: 1,
             borderRadius: "15px",
             textTransform: "none",
-            backgroundColor: "#1B84BF",
-            color: theme.palette.background.paper,
-            px: 3
+            px: 3,
           }}
+          onClick={handleAssignProctor}
+          disabled={loading}
         >
           Save
         </Button>

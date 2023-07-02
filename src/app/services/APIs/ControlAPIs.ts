@@ -1,3 +1,4 @@
+import { IBusyLab } from "./../../types/Lab";
 import { IStaff, IStudent } from "../../types/User";
 import axiosInstance from "../AxiosConfig";
 import { IResponse, IResponseData } from "../Response";
@@ -11,15 +12,24 @@ interface IProctorsListData extends IResponseData {
   proctors: IStaff[];
 }
 
+interface IBusyLabData extends IResponseData {
+  busy_lab: IBusyLab;
+}
+
 export interface IStudentsListResponse extends IResponse<IStudentsListData> {}
 
 export interface IProctorsListResponse extends IResponse<IProctorsListData> {}
 
-export const getStudentsInLabApi = async (examId: number, busyLabId: number) => {
-   const response = await axiosInstance.get(
-     `staff_portal/busy_labs/${busyLabId}/students?exam_id=${examId}`
-   );
-   return response as IStudentsListResponse;
+export interface IBusyLabResponse extends IResponse<IBusyLabData> {}
+
+export const getStudentsInLabApi = async (
+  examId: number,
+  busyLabId: number
+) => {
+  const response = await axiosInstance.get(
+    `staff_portal/busy_labs/${busyLabId}/students?exam_id=${examId}`
+  );
+  return response as IStudentsListResponse;
   // try {
   //   const response = await axiosInstance.get(
   //     `staff_portal/busy_labs/${busyLabId}/students?exam_id=${examId}`
@@ -32,17 +42,24 @@ export const getStudentsInLabApi = async (examId: number, busyLabId: number) => 
   // }
 };
 
-export const getProctorsInLabApi = async (examId: number, busyLabId: number) => {
-  try {
-    const response = await axiosInstance.get(
-      `staff_portal/busy_labs/${busyLabId}/available_proctors?exam_id=${examId}`
-    );
-    return response as IProctorsListResponse;
-  } catch (error) {
-    return {
-      data: { proctors: mockProctors },
-    } as IProctorsListResponse;
-  }
+export const getAvailableProctors = async (
+  examId: number,
+  busyLabId: number
+) => {
+  const response = await axiosInstance.get(
+    `staff_portal/busy_labs/${busyLabId}/available_proctors?exam_id=${examId}`
+  );
+  return response as IProctorsListResponse;
+  // try {
+  //   const response = await axiosInstance.get(
+  //     `staff_portal/busy_labs/${busyLabId}/available_proctors?exam_id=${examId}`
+  //   );
+  //   return response as IProctorsListResponse;
+  // } catch (error) {
+  //   return {
+  //     data: { proctors: mockProctors },
+  //   } as IProctorsListResponse;
+  // }
 };
 
 export const assignProctorToLabApi = async (
@@ -50,18 +67,11 @@ export const assignProctorToLabApi = async (
   busyLabId: number,
   staffId: number
 ) => {
-  try {
-    const response = await axiosInstance.patch(
-      `staff_portal/busy_labs/${busyLabId}?exam_id=${examId}`,
-      {
-        staff_id: staffId,
-      }
-    );
-    return response as IProctorsListResponse;
-  } catch (error) {
-    return {
-      data: { proctors: mockProctors },
-    } as IProctorsListResponse;
-  }
+  const response = await axiosInstance.patch(
+    `staff_portal/busy_labs/${busyLabId}?exam_id=${examId}`,
+    {
+      staff_id: staffId,
+    }
+  );
+  return response as IBusyLabResponse;
 };
-

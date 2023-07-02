@@ -13,12 +13,12 @@ export default function ExamLabsRow({
   onViewStudents,
 }: IExamLabsRowProps) {
   return (
-    <TableRow >
+    <TableRow>
       <TableCell align="left" sx={{ fontSize: "17px" }}>
         {lab.name}
       </TableCell>
       <TableCell style={{ width: "50%" }} sx={{ fontSize: "17px" }}>
-        <ProctorSelector lab={lab}></ProctorSelector>
+        <ProctorSelector initialLab={lab}></ProctorSelector>
       </TableCell>
       <TableCell align="left" width="20%" sx={{ fontSize: "17px" }}>
         <Button
