@@ -52,7 +52,7 @@ export const mockStudentExams: IStudentExam[] = [
   {
     id: 4,
     status: ExamStatusEnum.PENDINGGRADING,
-    student_status: StudentStatusEnum.ABSENT,
+    student_status: StudentStatusEnum.SICK_LEAVE,
     total_score: 10,
     partial_score: 0,
     total_graded_questions: 0,
@@ -62,7 +62,7 @@ export const mockStudentExams: IStudentExam[] = [
   {
     id: 5,
     status: ExamStatusEnum.PENDINGGRADING,
-    student_status: StudentStatusEnum.ABSENT,
+    student_status: StudentStatusEnum.CHEATED,
     total_score: 10,
     partial_score: 0,
     total_graded_questions: 0,

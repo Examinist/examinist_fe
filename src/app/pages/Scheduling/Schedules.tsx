@@ -114,7 +114,9 @@ export default function Schedules() {
         </Button>
       </Box>
       {schedules.length === 0 ? (
-        <Box sx={{my: 3, mx: 1, fontSize: '17px'}}> No schedules to show.</Box>
+        <Box sx={{ my: 3, mx: 1, fontSize: "1.2rem" }}>
+          No schedules to show.
+        </Box>
       ) : (
         <Box
           display="flex"

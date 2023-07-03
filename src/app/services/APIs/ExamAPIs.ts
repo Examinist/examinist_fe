@@ -80,11 +80,6 @@ export const getExamsApi = async (
   }
 };
 
-// TODO:
-// exam_questions: Array(3)
-// 0: {Essay: Array(1)}
-// 1: {Short_Answer: Array(1)}
-// 2: {T/F: Array(1)}
 export const getExamApi = async (exam_id: number) => {
   try {
     const portal = localStorage.getItem("portal");
@@ -97,10 +92,6 @@ export const getExamApi = async (exam_id: number) => {
 };
 
 export const createExamApi = async (exam: IExamPayload) => {
-  //  const portal = localStorage.getItem("portal");
-  //  const response = await axiosInstance.post(`${portal}/exams`, { ...exam });
-  //  console.log(response);
-  //  return response as IExamResponse;
   try {
     const portal = localStorage.getItem("portal");
     const response = await axiosInstance.post(`${portal}/exams`, { ...exam });
@@ -124,27 +115,6 @@ export const autoGenerateExamApi = async (
   }
 };
 
-// EXAM PAYLOAD EXAMPLE
-// {
-//  MODIFIED ATTRIBUTES (WE CAN SEND ALL OF THEM 3ADY)
-//   "title": "Final",
-//   "duration": 60,
-//   "has_models": false,
-//   "exam_questions_attributes": [
-//     { //EDIT
-//       "id": 5,
-//       "score": 5
-//     },
-//     { // New
-//       "question_id": 10,
-//       "score": 10
-//     },
-//     { // DELETE
-//       "id": 7,
-//       "_destroy": true
-//     }
-//   ]
-// }
 export const updateExamApi = async (exam_id: number, exam: IExamPayload) => {
   const portal = localStorage.getItem("portal");
   const response = await axiosInstance.put(`${portal}/exams/${exam_id}`, {

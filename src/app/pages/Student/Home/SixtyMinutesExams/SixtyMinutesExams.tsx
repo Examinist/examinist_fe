@@ -1,14 +1,10 @@
 import { Stack } from "@mui/system";
 import React, { useEffect, useState } from "react";
-import {
-  mockExam,
-  mockStudentExam,
-} from "../../../../services/APIs/mockData/MockData";
 import SixtyMinutesExam from "./SixtyMinuteExam";
 import {
   IStudentExamsListResponse,
   getStudentSixtyMinutesExamsApi,
-} from "../../../../services/APIs/StudentExamAPIs";
+} from "../../../../services/APIs/StudentAPIs";
 import { IStudentPortalStudentExam } from "../../../../types/StudentPortalStudentExam";
 
 const reloadPeriodMins = 1;

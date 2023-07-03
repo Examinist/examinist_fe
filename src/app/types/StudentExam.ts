@@ -1,3 +1,4 @@
+import { green, grey, orange, red, yellow } from "@mui/material/colors";
 import { ExamStatusEnum, IExamQuestion } from "./Exam";
 import { IStudent } from "./User";
 
@@ -29,3 +30,10 @@ export enum StudentStatusEnum {
   SICK_LEAVE = 'sick_leave',
   CHEATED = "cheated",
 }
+
+export const studentStatusEnumToColorMap: Record<StudentStatusEnum, string> = {
+  [StudentStatusEnum.ATTENDED]: green[500],
+  [StudentStatusEnum.ABSENT]: grey[500],
+  [StudentStatusEnum.SICK_LEAVE]: yellow[700],
+  [StudentStatusEnum.CHEATED]: red[500],
+};
