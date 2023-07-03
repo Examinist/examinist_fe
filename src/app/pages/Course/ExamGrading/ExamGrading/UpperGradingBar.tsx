@@ -52,9 +52,6 @@ export default function UpperGradingBar({
         count++;
       }
     });
-    console.log(count);
-    console.log(gradeState.answers?.length);
-    console.log(gradeState.totalQuestions);
     return count;
   };
 
@@ -104,6 +101,9 @@ export default function UpperGradingBar({
   const handleAlertDisagree = () => {
     setOpenAlert(false);
   };
+  const handleAlertDisagreeDone = () => {
+    setOpenAlertDone(false);
+  };
   
   return (
     <Box
@@ -140,7 +140,7 @@ export default function UpperGradingBar({
             </DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
-                Your answers will be neglected if you close the dialog
+                Your progress will be neglected if you close the dialog
               </DialogContentText>
             </DialogContent>
             <DialogActions>
@@ -185,8 +185,9 @@ export default function UpperGradingBar({
             </DialogContentText>
           </DialogContent>
           <DialogActions>
+          <Button onClick={handleAlertDisagreeDone}>Continue grading</Button>
             <Button onClick={handleAlertDoneClose} autoFocus>
-              Ok
+              Close
             </Button>
           </DialogActions>
         </Dialog>
