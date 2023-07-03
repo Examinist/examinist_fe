@@ -53,7 +53,9 @@ export default function ExamUpperBar() {
           <>
             <HoursMinutesCountDown
               toDate={exam?.ends_at}
-              onComplete={() => console.log("exam submit")}
+              onComplete={() => {
+                
+              }}
             />
             <Button
               variant="contained"

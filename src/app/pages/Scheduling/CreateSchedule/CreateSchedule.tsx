@@ -10,7 +10,6 @@ import CreateScheduleStepper from "./CreateScheduleStepper";
 import { IScheduleContext, ScheduleContext } from "./ScheduleContext";
 import { useRef, useState } from "react";
 import { IExam } from "../../../types/Exam";
-import ReviewSchedule from "./Step3/ReviewSchedule";
 const steps = ["Set Schedule's Info", "Schedule Exams"];
 
 export default function CreateSchedule() {

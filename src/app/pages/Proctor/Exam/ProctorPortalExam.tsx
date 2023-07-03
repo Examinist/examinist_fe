@@ -73,7 +73,7 @@ export default function ProctorPortalExam() {
     <Stack>
       <ProctorPortalExamContext.Provider value={contextValue}>
         <ExamUpperBar />
-        <Stack sx={{my: 2, mx: 15, gap: 4}}>
+        <Stack sx={{ my: 2, mx: 15, gap: 4 }}>
           <Box
             sx={{
               fontSize: "2rem",
@@ -83,7 +83,7 @@ export default function ProctorPortalExam() {
           >
             Students
           </Box>
-          {loading ? <CustomCircularProgress /> : <StudentsTable/>}
+          {loading ? <CustomCircularProgress /> : <StudentsTable />}
         </Stack>
       </ProctorPortalExamContext.Provider>
     </Stack>

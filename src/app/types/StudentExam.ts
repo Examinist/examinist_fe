@@ -5,7 +5,7 @@ import { IStudent } from "./User";
 export interface IStudentExam {
   id: number;
   status: ExamStatusEnum.PENDINGGRADING | ExamStatusEnum.GRADED;
-  student_status: StudentStatusEnum;
+  student_status: StudentStatusEnum | null;
   total_score: number;
   partial_score: number;
   total_graded_questions: number;

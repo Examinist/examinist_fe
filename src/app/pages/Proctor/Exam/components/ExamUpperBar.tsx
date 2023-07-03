@@ -4,10 +4,15 @@ import theme from "../../../../../assets/theme";
 import { ProctorPortalExamContext } from "../ProctorPortalExamContext";
 import HoursMinutesCountDown from "../../../Student/Exam/ExamUpperBar/CountDown/HoursMinutesCountDown";
 import { addTime } from "../../../../utilities/Date";
-import { Button } from "@mui/material";
+import { IconButton, LinearProgress } from "@mui/material";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import { useNavigate } from "react-router";
 
 export default function ExamUpperBar() {
-  const { exam, changedStudentsIds } = useContext(ProctorPortalExamContext);
+  const { exam, studentsCount, assignedStudentsCount } = useContext(
+    ProctorPortalExamContext
+  );
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -15,64 +20,95 @@ export default function ExamUpperBar() {
         backgroundColor: theme.palette.white.main,
         position: "sticky",
         top: 0,
-        display: "flex",
-        alignItems: "center",
-        px: 2,
-        py: 2,
         border: 1,
         borderColor: theme.palette.gray.light,
         overFlow: "auto",
         zIndex: 1000,
       }}
     >
-      <Stack>
-        <Box
-          sx={{
-            fontSize: 20,
-            fontWeight: 600,
-            color: theme.palette.gray.dark,
+      <Box sx={{ display: "flex", alignItems: "center", px: 2, py: 2 }}>
+        <IconButton
+          aria-label="back"
+          size="large"
+          sx={{ mr: 2 }}
+          onClick={() => {
+            navigate("/proctor");
+            localStorage.removeItem("exam");
           }}
         >
-          {exam.title}
-        </Box>
+          <ArrowBackIosNewIcon
+            sx={{ color: theme.palette.text.primary }}
+            fontSize="inherit"
+          />
+        </IconButton>
+        <Stack>
+          <Box
+            sx={{
+              fontSize: 20,
+              fontWeight: 600,
+              color: theme.palette.gray.dark,
+            }}
+          >
+            {exam.title}
+          </Box>
+          <Box
+            sx={{
+              fontSize: 17,
+              fontWeight: 500,
+              color: theme.palette.gray.dark,
+            }}
+          >
+            {exam.course.title + " - " + exam.course.code}
+          </Box>
+          <Box
+            sx={{
+              fontSize: 16,
+              fontWeight: 400,
+              color: theme.palette.gray.dark,
+            }}
+          >
+          {exam.busy_labs.name}
+          </Box>
+        </Stack>
         <Box
-          sx={{
-            fontSize: 17,
-            fontWeight: 500,
-            color: theme.palette.gray.dark,
-          }}
-        >
-          {exam.course.title + " - " + exam.course.code}
-        </Box>
-      </Stack>
-
-      <Box
-        sx={{
-          position: "absolute",
-          left: "50%",
-          transform: "translateX(-50%)",
-        }}
-      >
-        <HoursMinutesCountDown
-          toDate={addTime(exam.scheduled_date, exam.duration)}
-          onComplete={() => {}}
-        />
-      </Box>
-
-      {changedStudentsIds.size > 0 && (
-        <Button
-          variant="contained"
           sx={{
             position: "absolute",
-            right: "0px",
-            transform: "translateX(-10%)",
-            borderRadius: 3,
-            px: 3
+            left: "50%",
+            transform: "translateX(-50%)",
           }}
         >
-          Save Changes
-        </Button>
-      )}
+          <HoursMinutesCountDown
+            toDate={addTime(exam.scheduled_date, exam.duration)}
+            onComplete={() => {}}
+          />
+        </Box>
+
+        <Stack sx={{ ml: "auto", alignItems: "end", gap: 0.5 }}>
+          {/* <Box
+            sx={{
+              fontSize: 20,
+              fontWeight: 600,
+              color: theme.palette.gray.dark,
+            }}
+          >
+            {exam.busy_labs.name}
+          </Box> */}
+          <Box
+            sx={{
+              fontSize: 17,
+              fontWeight: 400,
+              color: theme.palette.gray.dark,
+            }}
+          >
+          Assigned Students: {assignedStudentsCount + "/" + studentsCount}
+          </Box>
+        </Stack>
+      </Box>
+      <LinearProgress
+        variant="determinate"
+        color="success"
+        value={(assignedStudentsCount / studentsCount) * 100}
+      />
     </Box>
   );
 }

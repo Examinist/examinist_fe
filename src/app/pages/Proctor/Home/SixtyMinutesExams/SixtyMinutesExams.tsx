@@ -3,6 +3,7 @@ import { IProctorPortalExam } from '../../../../types/ProctorPortalExam';
 import { IExamsListResponse, getProctorSixtyMinutesExamsApi } from '../../../../services/APIs/ProctorAPIs';
 import { Stack } from '@mui/system';
 import SixtyMinutesExam from '../../../Student/Home/SixtyMinutesExams/SixtyMinuteExam';
+import { UserRoleEnum } from '../../../../types/User';
 
 const reloadPeriodMins = 1;
 export default function SixtyMinutesExams() {
@@ -31,7 +32,7 @@ export default function SixtyMinutesExams() {
     <Stack sx={{ gap: 2 }}>
       {exams.map((exam) => (
         <div key={exam.id}>
-          <SixtyMinutesExam exam={exam} />
+          <SixtyMinutesExam exam={exam} buttonText='Enter Session' role={UserRoleEnum.PROCTOR} />
         </div>
       ))}
     </Stack>

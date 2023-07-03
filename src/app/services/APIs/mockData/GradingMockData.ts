@@ -82,7 +82,7 @@ export const mockStudentExams: IStudentExam[] = [
   {
     id: 7,
     status: ExamStatusEnum.PENDINGGRADING,
-    student_status: StudentStatusEnum.ABSENT,
+    student_status: null,
     total_score: 10,
     partial_score: 0,
     total_graded_questions: 0,
@@ -92,7 +92,7 @@ export const mockStudentExams: IStudentExam[] = [
   {
     id: 8,
     status: ExamStatusEnum.PENDINGGRADING,
-    student_status: StudentStatusEnum.ABSENT,
+    student_status: null,
     total_score: 10,
     partial_score: 0,
     total_graded_questions: 0,
@@ -102,7 +102,7 @@ export const mockStudentExams: IStudentExam[] = [
   {
     id: 9,
     status: ExamStatusEnum.PENDINGGRADING,
-    student_status: StudentStatusEnum.ABSENT,
+    student_status: null,
     total_score: 10,
     partial_score: 0,
     total_graded_questions: 0,

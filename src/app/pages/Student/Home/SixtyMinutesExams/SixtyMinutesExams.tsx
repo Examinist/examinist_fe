@@ -6,6 +6,7 @@ import {
   getStudentSixtyMinutesExamsApi,
 } from "../../../../services/APIs/StudentAPIs";
 import { IStudentPortalStudentExam } from "../../../../types/StudentPortalStudentExam";
+import { UserRoleEnum } from "../../../../types/User";
 
 const reloadPeriodMins = 1;
 export default function SixtyMinutesExams() {
@@ -35,7 +36,7 @@ export default function SixtyMinutesExams() {
     <Stack sx={{ gap: 2 }}>
       {exams.map((exam) => (
         <div key={exam.id}>
-          <SixtyMinutesExam exam={exam} />
+          <SixtyMinutesExam exam={exam} buttonText="Start Exam" role={UserRoleEnum.STUDENT}/>
         </div>
       ))}
     </Stack>

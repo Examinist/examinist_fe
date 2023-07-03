@@ -1,5 +1,9 @@
 import React, { useContext } from "react";
-import { IStudentExam, StudentStatusEnum, studentStatusEnumToColorMap } from "../../../../types/StudentExam";
+import {
+  IStudentExam,
+  StudentStatusEnum,
+  studentStatusEnumToColorMap,
+} from "../../../../types/StudentExam";
 import {
   FormControl,
   InputLabel,
@@ -8,11 +12,13 @@ import {
   ListItemIcon,
   ListItemText,
   Box,
-  Chip,
 } from "@mui/material";
 import { ProctorPortalExamContext } from "../ProctorPortalExamContext";
 import { Circle } from "@mui/icons-material";
-import { red } from "@mui/material/colors";
+import { updateStudentExamApi } from "../../../../services/APIs/StaffPortalStudentExamAPIs";
+import { useParams } from "react-router";
+import { IErrorResponse } from "../../../../services/Response";
+import useAlert from "../../../../hooks/useAlert";
 
 interface IStudentStatusSelector {
   studentExam: IStudentExam;
@@ -22,16 +28,27 @@ export default function StudentStatusSelector({
   studentExam,
   index,
 }: IStudentStatusSelector) {
-  const {
-    studentsExams,
-    setStudentsExams,
-    changedStudentsIds,
-    setChangedStudentsIds,
-    setAssignedStudentsCount,
-  } = useContext(ProctorPortalExamContext);
+  const { studentsExams, setStudentsExams, setAssignedStudentsCount } =
+    useContext(ProctorPortalExamContext);
   const [status, setStatus] = React.useState<string>(
     studentExam.student_status === null ? "" : studentExam.student_status
   );
+  const { examId } = useParams<{ examId: string }>();
+  const { setAlertState } = useAlert();
+
+  const submitChange = (studentStatus: StudentStatusEnum) => {
+    updateStudentExamApi(parseInt(examId!), studentExam.id, {
+      student_status: studentStatus,
+    }).catch(
+      ({response: { data, statusText}}: IErrorResponse) => {
+        setAlertState({
+          open: true,
+          message: data?.message || statusText || "Something went wrong",
+          severity: "error",
+        });
+      }
+    );
+  };
 
   const handleChange = (event: any) => {
     let newStatus = event.target.value;
@@ -44,12 +61,10 @@ export default function StudentStatusSelector({
       student.student_status === null ||
       student.student_status !== newStatus
     ) {
-      let newSet = new Set(changedStudentsIds);
-      newSet.add(studentExam.id);
-      setChangedStudentsIds(newSet);
       let newStudentsExams = [...studentsExams];
       newStudentsExams[index].student_status = newStatus;
       setStudentsExams(newStudentsExams);
+      submitChange(newStatus);
     }
   };
 
@@ -66,12 +81,12 @@ export default function StudentStatusSelector({
         renderValue={(selected) => (
           <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
             <Circle sx={{ fontSize: "12px", color: getColor(selected) }} />
-            <Box>{selected.replace('_', " ")}</Box>
+            <Box>{selected.replace("_", " ")}</Box>
           </Box>
         )}
       >
         {Object.values(StudentStatusEnum).map((status) => (
-          <MenuItem onClick={handleChange} value={status}>
+          <MenuItem onClick={handleChange} value={status} key={status}>
             <ListItemIcon>
               <Circle sx={{ fontSize: "12px", color: getColor(status) }} />
             </ListItemIcon>

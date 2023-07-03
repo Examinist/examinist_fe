@@ -67,15 +67,20 @@ export const updateStudentExamApi = async (
   studentExamId: number,
   payload: IStudentExamPayload
 ) => {
-  try {
-    const response = await axiosInstance.patch(
-      `staff_portal/exams/${examId}/student_exams/${studentExamId}`,
-      { ...payload }
-    );
-    return response as IStudentExamResponse;
-  } catch (error) {
-    return {
-      data: { student_exam: mockDetailedStudentExam },
-    } as IStudentExamResponse;
-  }
+  const response = await axiosInstance.patch(
+    `staff_portal/exams/${examId}/student_exams/${studentExamId}`,
+    { ...payload }
+  );
+  return response as IStudentExamResponse;
+  // try {
+  //   const response = await axiosInstance.patch(
+  //     `staff_portal/exams/${examId}/student_exams/${studentExamId}`,
+  //     { ...payload }
+  //   );
+  //   return response as IStudentExamResponse;
+  // } catch (error) {
+  //   return {
+  //     data: { student_exam: mockDetailedStudentExam },
+  //   } as IStudentExamResponse;
+  // }
 };

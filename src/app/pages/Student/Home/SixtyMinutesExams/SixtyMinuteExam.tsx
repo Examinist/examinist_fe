@@ -10,6 +10,7 @@ import {
   StudentExamStatusEnum,
 } from "../../../../types/StudentPortalStudentExam";
 import { useNavigate } from "react-router";
+import { UserRoleEnum } from "../../../../types/User";
 
 const fromToDateStr = (exam: any) => {
   const from = getTimeStr(exam.scheduled_date);
@@ -17,7 +18,15 @@ const fromToDateStr = (exam: any) => {
   return from + " - " + to;
 };
 
-export default function SixtyMinutesExam({ exam }: { exam: any }) {
+export default function SixtyMinutesExam({
+  exam,
+  role,
+  buttonText,
+}: {
+  exam: any;
+  role: UserRoleEnum;
+  buttonText: string;
+}) {
   const [started, setStarted] = useState<Boolean>(false);
   const navigate = useNavigate();
 
@@ -41,12 +50,21 @@ export default function SixtyMinutesExam({ exam }: { exam: any }) {
         </Box>
         <Box
           sx={{
-            fontSize: 17,
+            fontSize: 18,
             fontWeight: 500,
             color: theme.palette.gray.dark,
           }}
         >
           {exam.course.title + " - " + exam.course.code.toUpperCase()}
+        </Box>
+        <Box
+          sx={{
+            fontSize: 17,
+            fontWeight: 450,
+            color: theme.palette.gray.dark,
+          }}
+        >
+          {role === UserRoleEnum.PROCTOR ? exam.busy_labs.name : exam.busy_lab.name}
         </Box>
         <Box
           sx={{
@@ -96,10 +114,11 @@ export default function SixtyMinutesExam({ exam }: { exam: any }) {
         }
         onClick={() => {
           navigate(`./exams/${exam.id}`, { state: { exam: exam } });
-          localStorage.setItem("exam", JSON.stringify(exam));
+          if (role === UserRoleEnum.PROCTOR)
+            localStorage.setItem("exam", JSON.stringify(exam));
         }}
       >
-        Start Exam
+        {buttonText}
       </Button>
     </Box>
   );
