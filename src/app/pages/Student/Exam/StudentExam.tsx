@@ -17,6 +17,10 @@ import {
 import { StudentExamContext } from "./StudentExamContext";
 import Questions from "./Questions/Questions";
 import { CircularProgress } from "@mui/material";
+import CustomCircularProgress from "../../../components/CustomCircularProgress";
+import { IErrorResponse } from "../../../services/Response";
+import useAlert from "../../../hooks/useAlert";
+import { useNavigate } from "react-router-dom";
 
 const saveUpdatesPeriodMins = 1;
 export default function StudentExam() {
@@ -26,6 +30,8 @@ export default function StudentExam() {
   const [changedAnswers, setChangedAnswers] = useState<Set<number>>(new Set());
   const [questionsCount, setQuestionsCount] = useState<number>(0);
   const [solvedQuestionsCount, setSolvedQuestionsCount] = useState<number>(0);
+  const { setAlertState } = useAlert();
+  const navigate = useNavigate();
 
   const syncExamData = (exam: IStudentDetailedExam) => {
     setExam(exam);
@@ -40,6 +46,14 @@ export default function StudentExam() {
     getStudentExamApi(parseInt(examId!))
       .then(({ data }: IStudentExamResponse) => {
         syncExamData(data.student_exam);
+      })
+      .catch(({ response: { data, statusText } }: IErrorResponse) => {
+        setAlertState({
+          open: true,
+          message: data?.message || statusText || "Something went wrong",
+          severity: "error",
+        });
+        navigate("/student");
       })
       .finally(() => setIsLoading(false));
   }, []);
@@ -74,39 +88,43 @@ export default function StudentExam() {
 
   return (
     <Box sx={{ display: "flex", height: "100vh" }}>
-      <StudentExamContext.Provider
-        value={{
-          exam: exam,
-          setExam: setExam,
-          changedAnswers: changedAnswers,
-          setChangedAnswers: setChangedAnswers,
-          questionsCount: questionsCount,
-          solvedQuestionsCount: solvedQuestionsCount,
-          setSolvedQuestionsCount: setSolvedQuestionsCount,
-        }}
-      >
-        <Box sx={{ width: "200px" }}>
-          <QuestionsOutline />
-        </Box>
+      {isLoading ? (
+        <CustomCircularProgress />
+      ) : (
+        <StudentExamContext.Provider
+          value={{
+            exam: exam,
+            setExam: setExam,
+            changedAnswers: changedAnswers,
+            setChangedAnswers: setChangedAnswers,
+            questionsCount: questionsCount,
+            solvedQuestionsCount: solvedQuestionsCount,
+            setSolvedQuestionsCount: setSolvedQuestionsCount,
+          }}
+        >
+          <Box sx={{ width: "200px" }}>
+            <QuestionsOutline />
+          </Box>
 
-        <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
-          <UpperBar />
-          {isLoading ? (
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100vh",
-              }}
-            >
-              <CircularProgress />
-            </Box>
-          ) : (
-            <Questions />
-          )}
-        </Box>
-      </StudentExamContext.Provider>
+          <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
+            <UpperBar />
+            {isLoading ? (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100vh",
+                }}
+              >
+                <CircularProgress />
+              </Box>
+            ) : (
+              <Questions />
+            )}
+          </Box>
+        </StudentExamContext.Provider>
+      )}
     </Box>
   );
 }

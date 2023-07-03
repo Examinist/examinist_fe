@@ -6,6 +6,7 @@ import FacultyAdminRoutes from "./FacultyAdminRoutes";
 import InstructorRoutes from "./InstructorRoutes";
 import UniversityAdminRoutes from "./UniversityAdminRoutes";
 import StudentRoutes from "./StudentRoutes";
+import AutomaticScheduleTest from "../pages/Test/AutomaticScheduleTest";
 
 
 const AppRoutes = () => {
@@ -13,6 +14,7 @@ const AppRoutes = () => {
     <Routes>
       <Route path="/login" element={<Signin />} />
       <Route path="/test" element={<Test />} />
+      <Route path="/test2" element={<AutomaticScheduleTest />} />
 
       {InstructorRoutes()}
       {FacultyAdminRoutes()}

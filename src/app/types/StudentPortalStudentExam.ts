@@ -45,7 +45,7 @@ export interface IStudentQuestion {
 
 export interface IStudentAnswer {
   id: number;
-  answers: string[];
+  answer: string[];
   question?: IStudentQuestion;
   marked: boolean;
   solved: boolean;

@@ -53,7 +53,7 @@ export default function StudentExam() {
           partialScore: data.student_exam.partial_score,
           totalQuestions: data.student_exam.total_graded_questions,
           questionsAnswered: data.student_exam.partial_graded_questions,
-          answers: data.student_exam.answers,
+          answers: data.student_exam.student_answers,
         });
         setStudent(data.student_exam.student);
       })
@@ -84,9 +84,8 @@ export default function StudentExam() {
         </Box>
       ) : (
         <gradeExamContext.Provider value={contextValue}>
-
-        <Box sx={{ width: "100%", display: "flex", flexDirection: "column" }}>
-          <UpperGradingBar title={title} student={student} />
+          <Box sx={{ width: "100%", display: "flex", flexDirection: "column" }}>
+            <UpperGradingBar title={title} student={student} />
             <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "row" }}>
               <Box>
                 <QuestionsSideBar />
@@ -96,15 +95,14 @@ export default function StudentExam() {
                   width: "80%",
                   backgroundColor: theme.palette.background.default,
                   py: 5,
-                  px:5
+                  px: 5,
                 }}
               >
                 <ExamQuestionsList />
               </Box>
             </Box>
-        </Box>
+          </Box>
         </gradeExamContext.Provider>
-
       )}
     </>
   );

@@ -153,47 +153,46 @@ export const mockStudentExams: IStudentExam[] = [
 
 export const mockDetailedStudentExam: IDetailedStudentExam = {
   ...mockStudentExam,
-  answers: [
+  student_answers: [
     {
       id: 1,
-      question: {
+      exam_question: {
         id: 1,
         score: 3,
         question: mockQuestions[0],
       },
-      answers: ["Choice 1"],
+      answer: ["Choice 1"],
       score: 3,
     },
     {
       id: 2,
-      question: {
+      exam_question: {
         id: 2,
-        score: 3,    
+        score: 3,
         question: mockQuestions[1],
       },
-      answers: ["Choice 2"],
+      answer: ["Choice 2"],
       score: 0,
     },
     {
       id: 3,
-      question: {
+      exam_question: {
         id: 3,
         score: 3,
         question: mockQuestions[2],
       },
-      answers: ["true"],
+      answer: ["true"],
 
       score: 0,
     },
     {
       id: 4,
-      question: {
+      exam_question: {
         id: 3,
         score: 3,
         question: mockQuestions[3],
       },
-      answers: ["Student Answer"],
+      answer: ["Student Answer"],
     },
-   
   ],
 };

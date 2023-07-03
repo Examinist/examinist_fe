@@ -44,7 +44,7 @@ export default function SingleQuestion({
   function handleChange(value: string): void {
     setScore(parseInt(value));
     const val = parseInt(value);
-    if (val > examQuestion.question.score) {
+    if (val > examQuestion.exam_question.score) {
       setIsFieldEmpty(true);
     } else {
       setIsFieldEmpty(false);
@@ -71,15 +71,17 @@ export default function SingleQuestion({
         if (answer.id === examQuestion.id) {
           return {
             ...answer,
-            score: type === "correct" ? examQuestion.question.score : 0,
+            score: type === "correct" ? examQuestion.exam_question.score : 0,
           };
         }
         return answer;
       }),
     });
 
-    setScore(type === "correct" ? examQuestion.question.score : 0);
-    handleUpdateScore(type === "correct" ? examQuestion.question.score : 0);
+    setScore(type === "correct" ? examQuestion.exam_question.score : 0);
+    handleUpdateScore(
+      type === "correct" ? examQuestion.exam_question.score : 0
+    );
   };
   const handleUpdateScore = (value: number) => {
     if (gradeState.student_answers_attributes) {
@@ -137,7 +139,8 @@ export default function SingleQuestion({
                   Topic:
                 </Typography>
                 <Typography variant="subtitle2" color={theme.palette.gray.dark}>
-                  {examQuestion.question.question.topic?.name || "Undefined"}
+                  {examQuestion.exam_question.question.topic?.name ||
+                    "Undefined"}
                 </Typography>
               </Box>
             </Grid>
@@ -147,7 +150,7 @@ export default function SingleQuestion({
           <Grid container direction="row" alignItems="center" spacing={1}>
             <Grid item>
               <Chip
-                label={examQuestion.question.question.question_type.name}
+                label={examQuestion.exam_question.question.question_type.name}
                 sx={{ color: theme.palette.gray.dark, fontWeight: 500 }}
                 variant="outlined"
               />
@@ -158,12 +161,12 @@ export default function SingleQuestion({
           <Grid container direction="row" alignItems="center" spacing={1}>
             <Grid item>
               <Typography variant="subtitle2" color={theme.palette.gray.dark}>
-                {examQuestion.question.question.difficulty}
+                {examQuestion.exam_question.question.difficulty}
               </Typography>
             </Grid>
             <Grid item>
               <Rectangle
-                color={getColor(examQuestion.question.question.difficulty)}
+                color={getColor(examQuestion.exam_question.question.difficulty)}
               />
             </Grid>
           </Grid>
@@ -175,7 +178,7 @@ export default function SingleQuestion({
         color={theme.palette.gray.dark}
         sx={{ fontSize: 20, pb: 2 }}
       >
-        {examQuestion.question.question.header}
+        {examQuestion.exam_question.question.header}
       </Typography>
       <QuestionAnswer examQuestion={examQuestion} />
       <Box
@@ -200,9 +203,9 @@ export default function SingleQuestion({
       </Box>
       <Box sx={{ display: "flex", alignItems: "center" }}>
         <Box sx={{ flexGrow: 2 }}>{/* Empty space */}</Box>
-        {examQuestion.question.question.question_type.name !=
+        {examQuestion.exam_question.question.question_type.name !=
           DefaultQuestionTypesEnum.MCQ &&
-        examQuestion.question.question.question_type.name !=
+        examQuestion.exam_question.question.question_type.name !=
           DefaultQuestionTypesEnum.T_F ? (
           <Box sx={{ flexGrow: 1 }}>
             <Button
@@ -257,15 +260,15 @@ export default function SingleQuestion({
               value={score}
               onChange={(e) => handleChange(e.target.value)}
               disabled={
-                examQuestion.question.question.question_type.name ===
+                examQuestion.exam_question.question.question_type.name ===
                   DefaultQuestionTypesEnum.MCQ ||
-                examQuestion.question.question.question_type.name ===
+                examQuestion.exam_question.question.question_type.name ===
                   DefaultQuestionTypesEnum.T_F
               }
               inputProps={{
                 type: "number",
                 min: 0,
-                max: examQuestion.question.score,
+                max: examQuestion.exam_question.score,
               }}
             />
             <Divider
@@ -279,7 +282,7 @@ export default function SingleQuestion({
                 width: "30px",
               }}
             >
-              {examQuestion.question.score}
+              {examQuestion.exam_question.score}
             </Typography>
           </Stack>
         </Box>

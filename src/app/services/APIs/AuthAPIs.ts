@@ -36,19 +36,38 @@ const SignInAPI = async (data: ISignInRequest, portal: UserPortalEnum) => {
   }
 };
 
+const logoutAPI = async () => {
+  try {
+    const portal = localStorage.getItem("portal");
+    const response = await axiosInstance.delete(`/${portal}/sessions`);
+    console.log(response);
+    return response;
+  } catch (error) {
+    return {};
+  }
+};
+
 const getUserProfileAPI = async () => {
   const token = localStorage.getItem("auth_token");
   // if (token == null) throw new Error();
   const portal = localStorage.getItem("portal");
 
   try {
-    const resource = portal === UserPortalEnum.STAFF ? "staffs" : portal === UserPortalEnum.STUDENT ? "students" : "coordinators";
-    const response = await axiosInstance.get(`/${portal}/${resource}/user_info`);
+    const resource =
+      portal === UserPortalEnum.STAFF
+        ? "staffs"
+        : portal === UserPortalEnum.STUDENT
+        ? "students"
+        : "coordinators";
+    const response = await axiosInstance.get(
+      `/${portal}/${resource}/user_info`
+    );
     return response as IGetUserInfoResponse;
   } catch {
     return {
-      data: { status: "success", user_info: mockInstructor }} as IGetUserInfoResponse;
+      data: { status: "success", user_info: mockInstructor },
+    } as IGetUserInfoResponse;
   }
 };
 
-export { SignInAPI, getUserProfileAPI };
+export { SignInAPI, getUserProfileAPI, logoutAPI };

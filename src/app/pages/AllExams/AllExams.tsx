@@ -12,7 +12,7 @@ import {
   ExamsReloadContext,
   IExamsReloadContext,
 } from "../../context/ExamsReloadContext";
-import { fullDateOptions } from "../../utilities/Date";
+import { fullDateOptions, getFullDateStr } from "../../utilities/Date";
 
 function getAllExamsAttributesList(exam: IExam) {
   var attrList: string[] = [];
@@ -22,8 +22,8 @@ function getAllExamsAttributesList(exam: IExam) {
     exam.status,
     exam.course.title,
     exam.creator.first_name + " " + exam.creator.last_name,
-    exam.created_at.toLocaleString(undefined, fullDateOptions),
-    exam.scheduled_date?.toLocaleString(undefined, fullDateOptions) || "Not Scheduled",
+    getFullDateStr(exam.created_at),
+    getFullDateStr(exam.scheduled_date),
   ];
   return attrList;
 }

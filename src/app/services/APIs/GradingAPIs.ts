@@ -35,7 +35,7 @@ export const getStudentExamsApi = async (
 ) => {
   try {
     const response = await axiosInstance.get(
-      `staff_portal/exams/${examId}/student_exams?page=${page}?filter_by_status=${status}`
+      `staff_portal/exams/${examId}/student_exams?page=${page}&filter_by_status=${status || ""}`
     );
     return response as IStudentExamsListResponse;
   } catch (error) {

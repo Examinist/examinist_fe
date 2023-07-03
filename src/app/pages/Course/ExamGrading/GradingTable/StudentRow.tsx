@@ -14,7 +14,6 @@ import { useNavigate } from "react-router-dom";
 
 export default function StudentRow({ student }: { student: IStudentExam }) {
   const navigate = useNavigate();
-
   const getColor = () => {
     switch (student.student_status) {
       case StudentStatusEnum.ATTENDED:
@@ -33,7 +32,7 @@ export default function StudentRow({ student }: { student: IStudentExam }) {
   };
   return (
     <TableRow>
-      <TableCell key={student.id}>
+      <TableCell key="name">
         <Typography
           sx={{
             color: theme.palette.text.primary,
@@ -49,14 +48,26 @@ export default function StudentRow({ student }: { student: IStudentExam }) {
             ")"}
         </Typography>
       </TableCell>
-      <TableCell key={student.id}>
-        <Chip
-          label={student.student_status}
-          variant="outlined"
-          color={getColor()}
-        />
+      <TableCell key='student_status'>
+        {student.student_status !== null ? (
+          <Chip
+            label={student.student_status}
+            variant="outlined"
+            color={getColor()}
+          />
+        ) : (
+          <Typography
+            sx={{
+              color: theme.palette.text.primary,
+              fontWeight: "regular",
+              fontSize: "16px",
+            }}
+          >
+            ---
+          </Typography>
+        )}
       </TableCell>
-      <TableCell key={student.id}>
+      <TableCell key='grading_status'>
         {student.student_status == StudentStatusEnum.ATTENDED ? (
           <Chip
             label={student.status}
@@ -75,7 +86,7 @@ export default function StudentRow({ student }: { student: IStudentExam }) {
           </Typography>
         )}
       </TableCell>
-      <TableCell key={student.id}>
+      <TableCell key='graded_questions'>
         <Typography
           sx={{
             color: theme.palette.text.primary,
@@ -88,7 +99,7 @@ export default function StudentRow({ student }: { student: IStudentExam }) {
             student.total_graded_questions}
         </Typography>
       </TableCell>
-      <TableCell key={student.id}>
+      <TableCell key='score'>
         <Typography
           sx={{
             color: theme.palette.text.primary,
@@ -99,8 +110,15 @@ export default function StudentRow({ student }: { student: IStudentExam }) {
           {student.partial_score + "/" + student.total_score}
         </Typography>
       </TableCell>
-      <TableCell key={student.id}>
-        <IconButton aria-label="grade" size="large" color="primary" onClick={()=>{navigate(`${student.id}`)}}>
+      <TableCell key='action'>
+        <IconButton
+          aria-label="grade"
+          size="large"
+          color="primary"
+          onClick={() => {
+            navigate(`${student.id}`);
+          }}
+        >
           <Grade fontSize="inherit" />
         </IconButton>
       </TableCell>

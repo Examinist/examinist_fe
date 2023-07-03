@@ -6,7 +6,7 @@ import { addTime, getTimeStr } from "../../../../utilities/Date";
 import { Button, Stack } from "@mui/material";
 import Countdown from "react-countdown";
 import SixtyMinutesCustomCountDown from "./CountDown/SixtyMinutesCountDown";
-import { IStudentPortalStudentExam } from "../../../../types/StudentPortalStudentExam";
+import { IStudentPortalStudentExam, StudentExamStatusEnum } from "../../../../types/StudentPortalStudentExam";
 import { useNavigate } from "react-router";
 
 const fromToDateStr = (exam: IStudentPortalStudentExam) => {
@@ -70,7 +70,7 @@ export default function SixtyMinutesExam({
           Starts in
         </Box>
         <SixtyMinutesCustomCountDown
-          toDate={exam.ends_at}
+          toDate={exam.scheduled_date}
           onComplete={() => setStarted(true)}
         />
       </Stack>
@@ -84,7 +84,7 @@ export default function SixtyMinutesExam({
           px: 3,
           fontWeight: 600,
         }}
-        disabled={!started}
+        disabled={!started || (exam.status === StudentExamStatusEnum.PENDING_GRADING || exam.status === StudentExamStatusEnum.GRADED)}
         onClick={() => navigate(`./exams/${exam.id}`)}
       >
         Start Exam

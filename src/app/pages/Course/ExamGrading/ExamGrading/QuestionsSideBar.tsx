@@ -11,12 +11,14 @@ import { Divider, Grid, Typography } from "@mui/material";
 
 export default function QuestionsSideBar() {
   const { gradeState, setGradeState } = useContext(gradeExamContext);
-  const[partialScore,setPartialScore]=React.useState<number>(gradeState.partialScore??0);
+  const [partialScore, setPartialScore] = React.useState<number>(
+    gradeState.partialScore ?? 0
+  );
   const getScore = (answer: IStudentAnswer) => {
     if (answer.score === undefined) {
-      return `-/${answer.question.score}`;
+      return `-/${answer.exam_question.score}`;
     }
-    return `${answer.score}/${answer.question.score}`;
+    return `${answer.score}/${answer.exam_question.score}`;
   };
   const getTotalScore = () => {
     let totalScore = 0;
@@ -27,10 +29,10 @@ export default function QuestionsSideBar() {
     });
     return totalScore;
   };
-  React.useEffect(()=>{
+  React.useEffect(() => {
     setPartialScore(getTotalScore());
-  },[gradeState.answers])
-  
+  }, [gradeState.answers]);
+
   return (
     <Box
       sx={{
@@ -65,10 +67,10 @@ export default function QuestionsSideBar() {
         subheader={<li />}
       >
         {gradeState.answers?.map((answer, index) => {
-          const currentType = answer.question.question.question_type.name;
+          const currentType = answer.exam_question.question.question_type.name;
           const prevType =
             index > 0
-              ? gradeState.answers?.at(index - 1)?.question.question
+              ? gradeState.answers?.at(index - 1)?.exam_question.question
                   .question_type.name
               : "";
 

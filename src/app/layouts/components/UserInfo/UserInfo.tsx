@@ -28,13 +28,9 @@ const subInfo = (user: IUser) => {
 }
 
 export default function UserInfo() {
-  const { user} = useAuth();
+  const { user, logout} = useAuth();
   const navigate = useNavigate();
 
-  const logout = () => {
-    localStorage.clear();
-    navigate("/login");
-  };
 
   return (
     <Box sx={{ display: "flex", alignItems: "center", m: 3, mr: 1.5, mt: 2 }}>

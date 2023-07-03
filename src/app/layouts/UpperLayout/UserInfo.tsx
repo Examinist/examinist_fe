@@ -11,13 +11,9 @@ const initials = (user: IUser) => {
 };
 
 export default function StudentInfo() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
-
-  const logout = () => {
-    localStorage.clear();
-    navigate("/login");
-  };
+ 
   return (
     <Box sx={{ display: "flex", alignItems: "center" }}>
       <Avatar sx={{}}> {initials(user!)}</Avatar>

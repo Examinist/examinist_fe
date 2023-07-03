@@ -30,10 +30,10 @@ import {
 import useAlert from "../../hooks/useAlert";
 import { IErrorResponse } from "../../services/Response";
 import CustomCircularProgress from "../../components/CustomCircularProgress";
-import ReviewLabRow from "./LabCell";
-import LabCells from "./LabCell";
-import LabCell from "./LabCell";
 import LabTableRow from "./LabTableRow";
+import * as yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -44,6 +44,19 @@ export const StyledTableCell = styled(TableCell)(({ theme }) => ({
     borderBottom: "none",
   },
 }));
+
+interface IFormInput {
+  name: string;
+  capacity: number;
+}
+
+const schema = yup.object().shape({
+  name: yup.string().trim().required("Lab name is required"),
+  capacity: yup
+    .number()
+    .required("Lab capacity is required")
+    .typeError("Lab capacity must be a number"),
+});
 
 export default function UniversityLabs() {
   const tableHeader = ["Lab Name", "Capacity", ""];
@@ -75,80 +88,44 @@ export default function UniversityLabs() {
   }, []);
 
   const [addLab, openAddLab] = useState(false);
-  const [LabName, setLabName] = useState("");
-  const [LabCapacity, setLabCapacity] = useState<string | null>(null);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<IFormInput>({
+    resolver: yupResolver(schema),
+  });
 
   const handleCloseAdd = () => {
-    setLabName("");
-    setLabCapacity(null);
+    reset();
     openAddLab(false);
   };
 
-  const validateChange = () => {
-    let error = false;
-    if (LabName === "") {
-      setErrorMsg("Empty Input!");
-      error = true;
-    } else if (LabCapacity == null) {
-      setErrorMsg("Empty Input!");
-      error = true;
-    } else {
-      labs.forEach((lab) => {
-        if (lab.name == LabName) {
-          setErrorMsg("Topic Name Already Exists!");
-          error = true;
-        }
-      });
-    }
-    setErrorMsg(null);
-    if (!error) {
-      var newLab: ILab = {
-        name: LabName,
-        capacity: Number(LabCapacity),
-      };
-      addLabApi(newLab)
-        .then(() => {
-          loadLabs();
-          handleCloseAdd();
-        })
-        .catch(({ response: { status, statusText, data } }: IErrorResponse) => {
-          setAlertState({
-            open: true,
-            message: data?.message! || statusText,
-            severity: "error",
-          });
+  const onSubmit = (input: IFormInput) => {
+    var newLab: ILab = {
+      name: input.name,
+      capacity: input.capacity,
+    };
+    addLabApi(newLab)
+      .then(() => {
+        loadLabs();
+        handleCloseAdd();
+      })
+      .catch(({ response: { status, statusText, data } }: IErrorResponse) => {
+        setAlertState({
+          open: true,
+          message: data?.message! || statusText,
+          severity: "error",
         });
-    }
+      });
   };
 
-  const handleEdit = () => {};
-
-  const handleDelete = (event: React.MouseEvent<HTMLButtonElement>) => {
-    //console.log("in delete");
-    // if (lab.id) {
-    //   deleteLabApi(lab.id)
-    //     .then(() => {
-    //       loadLabs();
-    //     })
-    //     .catch(({ response: { status, statusText, data } }: IErrorResponse) => {
-    //       setAlertState({
-    //         open: true,
-    //         message: data?.message! || statusText,
-    //         severity: "error",
-    //       });
-    //     })
-    //     .finally(()=>{
-    //       setAnchorEl(null);
-    //       event.stopPropagation();
-    //     });
-    // }
-  };
   return (
     <>
-      {isloading ? (
-        <CustomCircularProgress />
-      ) : (
+      (
+      
         <Box sx={{ px: 15, py: 5 }}>
           <Box
             sx={{
@@ -160,6 +137,9 @@ export default function UniversityLabs() {
           >
             University Labs
           </Box>
+          {isloading ? (
+            <CustomCircularProgress />
+          ) : (
           <Card
             sx={{
               paddingX: "25px",
@@ -168,12 +148,13 @@ export default function UniversityLabs() {
               borderRadius: "10px",
             }}
           >
+            <form onSubmit={handleSubmit(onSubmit)} id="add-lab-form"></form>
             <TableContainer sx={{ borderRadius: "10px" }}>
               <Table>
                 <TableHead sx={{ color: "#F5F5F5" }}>
                   <TableRow>
                     {tableHeader.map((value, index) => (
-                      <StyledTableCell sx={{ fontSize: 16 }} align="center">
+                      <StyledTableCell sx={{ fontSize: 16 }} align="center" key={value}>
                         {value}
                       </StyledTableCell>
                     ))}
@@ -192,14 +173,14 @@ export default function UniversityLabs() {
                     <TableRow>
                       <StyledTableCell align="center">
                         <TextField
-                          onChange={(event) => setLabName(event.target.value)}
-                          value={LabName}
+                          {...register("name")}
                           placeholder="Enter new lab name"
-                          error={errorMsg ? true : false}
-                          helperText={errorMsg}
-                          InputProps={{ sx: { height: "32px" } }}
+                          variant="outlined"
+                          label="Lab Name"
+                          error={errors.name ? true : false}
+                          helperText={errors.name?.message}
+                          size="small"
                           sx={{
-                            bgcolor: "#F5F5F5",
                             borderColor: "#D9D9D9",
                             "& .MuiFormLabel-root": {
                               fontSize: "14px",
@@ -210,16 +191,15 @@ export default function UniversityLabs() {
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         <TextField
-                          onChange={(event) =>
-                            setLabCapacity(event.target.value)
-                          }
-                          value={LabCapacity}
+                          type="number"
+                          size="small"
+                          {...register("capacity")}
+                          variant="outlined"
+                          label="Capacity"
                           placeholder="Enter lab capacity"
-                          error={errorMsg ? true : false}
-                          helperText={errorMsg}
-                          InputProps={{ sx: { height: "32px" } }}
+                          error={errors.capacity ? true : false}
+                          helperText={errors.capacity?.message}
                           sx={{
-                            bgcolor: "#F5F5F5",
                             borderColor: "#D9D9D9",
                             "& .MuiFormLabel-root": {
                               fontSize: "14px",
@@ -236,7 +216,7 @@ export default function UniversityLabs() {
                             }}
                           />
                         </IconButton>
-                        <IconButton onClick={validateChange}>
+                        <IconButton type="submit" form="add-lab-form">
                           <CheckOutlinedIcon color="primary" />
                         </IconButton>
                       </StyledTableCell>
@@ -273,8 +253,9 @@ export default function UniversityLabs() {
               )}
             </Box>
           </Card>
+          )}
         </Box>
-      )}
+      )
     </>
   );
 }

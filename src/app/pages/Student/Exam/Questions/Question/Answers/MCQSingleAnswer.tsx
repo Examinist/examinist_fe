@@ -10,7 +10,7 @@ import {
 
 export default function MCQSingleAnswer({ answer, onUpdate }: IAnswerProbs) {
   const [value, setValue] = React.useState(
-    answer.answers.length > 0 ? answer.answers[0] : ""
+    answer.answer.length > 0 ? answer.answer[0] : ""
   );
 
   return (
@@ -25,20 +25,18 @@ export default function MCQSingleAnswer({ answer, onUpdate }: IAnswerProbs) {
                 checked={choice.choice === value}
                 onChange={(e) => {
                   const newValue = choice.choice;
-                  if(newValue === value) {
+                  if (newValue === value) {
                     setValue("");
                     onUpdate([]);
+                  } else {
+                    setValue(newValue);
+                    if (
+                      answer.answer.length === 0 ||
+                      newValue !== answer.answer[0]
+                    ) {
+                      onUpdate([newValue]);
+                    }
                   }
-                  else{
-                     setValue(newValue);
-                     if (
-                       answer.answers.length === 0 ||
-                       newValue !== answer.answers[0]
-                     ) {
-                       onUpdate([newValue]);
-                     }
-                  }
-                 
                 }}
               />
             }

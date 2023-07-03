@@ -1,6 +1,7 @@
 import { Box, Button, Step, StepLabel, Stepper } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 import theme from "../../../../assets/theme";
+import { IScheduleContext, ScheduleContext } from "./ScheduleContext";
 
 interface IStepperProps {
   activeStep: number;
@@ -14,6 +15,7 @@ export default function CreateScheduleStepper({
   steps,
   stepsNextActions,
 }: IStepperProps) {
+  const {loading} = useContext<IScheduleContext>(ScheduleContext);
   const handleNext = () => {
     stepsNextActions[activeStep]();
   };
@@ -45,25 +47,34 @@ export default function CreateScheduleStepper({
         <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
           <Button
             color="inherit"
-            disabled={activeStep === 0}
+            disabled={activeStep === 0 || loading}
             onClick={handleBack}
             sx={{ mr: 1 }}
+            
           >
             Back
           </Button>
           <Box sx={{ flex: "1 1 auto" }} />
 
-          {activeStep === steps.length - 1 ? (
-            <Button
-              variant="contained"
-              onClick={handleNext}
-              sx={{ ml: 1, borderRadius: 3, boxShadow: 0 }}
-            >
-              Submit
+          {activeStep < steps.length - 1 ? (
+            <Button onClick={handleNext} sx={{ ml: 1 }} disabled={loading}>
+              Next
             </Button>
           ) : (
-            <Button onClick={handleNext} sx={{ ml: 1 }}>
-              Next
+            <Button
+              variant="contained"
+              sx={{
+                ml: "auto",
+                borderRadius: 3,
+                boxShadow: 0,
+                height: "fit-content",
+                alignSelf: "center",
+                fontWeight: 650,
+              }}
+              onClick={handleNext}
+              disabled={loading}
+            >
+              Submit
             </Button>
           )}
         </Box>
