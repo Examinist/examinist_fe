@@ -4,6 +4,7 @@ import {
   IExamQuestionsGroup,
 } from "../../types/Exam";
 import { IExam } from "../../types/Exam";
+import { fixExamDate } from "../../utilities/Date";
 import axiosInstance from "../AxiosConfig";
 import { IResponse, IResponseData } from "../Response";
 import { mockDetailedExam, mockExamsList } from "./mockData/MockData";
@@ -88,6 +89,7 @@ export const getExamApi = async (exam_id: number) => {
   try {
     const portal = localStorage.getItem("portal");
     const response = await axiosInstance.get(`${portal}/exams/${exam_id}`);
+    response.data.exam = fixExamDate(response.data.exam);
     return response as IExamResponse;
   } catch (error) {
     return { data: { exam: mockDetailedExam } } as IExamResponse;

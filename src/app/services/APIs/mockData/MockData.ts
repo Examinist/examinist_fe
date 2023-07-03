@@ -434,7 +434,7 @@ export const mockStudentQuestions: IStudentQuestion[] = [
 
 export const mockStudentAnswer: IStudentAnswer = {
   id: 1,
-  answers: [],
+  answer: [],
   marked: false,
   solved: false,
   question: mockStudentQuestions[0],

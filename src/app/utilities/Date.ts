@@ -1,3 +1,4 @@
+import { IStudentPortalStudentExam } from './../types/StudentPortalStudentExam';
 import { IExam } from "../types/Exam";
 import dayjs, { Dayjs } from "dayjs";
 

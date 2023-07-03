@@ -11,7 +11,7 @@ import {
 
 export default function MCQMultipleAnswers({ answer, onUpdate }: IAnswerProbs) {
   const [selectedChoices, setSelectedChoices] = React.useState<string[]>(
-    answer.answers
+    answer.answer
   );
   return (
     <FormControl sx={{ ml: 2 }} component="fieldset" variant="standard">

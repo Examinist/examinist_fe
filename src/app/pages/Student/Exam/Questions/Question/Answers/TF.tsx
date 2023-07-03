@@ -12,7 +12,7 @@ import {
 
 export default function TF({ answer, onUpdate }: IAnswerProbs) {
   const [value, setValue] = React.useState(
-    answer.answers.length > 0 ? answer.answers[0] : ""
+    answer.answer.length > 0 ? answer.answer[0] : ""
   );
   return (
     <FormControl sx={{ ml: 2 }} component="fieldset" variant="standard">
@@ -31,8 +31,8 @@ export default function TF({ answer, onUpdate }: IAnswerProbs) {
                   } else {
                     setValue(newValue);
                     if (
-                      answer.answers.length === 0 ||
-                      newValue !== answer.answers[0]
+                      answer.answer.length === 0 ||
+                      newValue !== answer.answer[0]
                     ) {
                       onUpdate([newValue]);
                     }

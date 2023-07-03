@@ -2,11 +2,6 @@ import { Box, Stack } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import ExamsTable from "./ExamsTable/ExamsTable";
 import {
-  mockExamsList,
-  mockStudentExam,
-  mockStudentExams,
-} from "../../../../services/APIs/mockData/MockData";
-import {
   IStudentPortalStudentExam,
   StudentExamStatusEnum,
 } from "../../../../types/StudentPortalStudentExam";
@@ -15,7 +10,6 @@ import {
   IStudentExamsListResponse,
   getStudentExamsApi,
 } from "../../../../services/APIs/StudentExamAPIs";
-import { set } from "react-hook-form";
 import { IErrorResponse } from "../../../../services/Response";
 import useAlert from "../../../../hooks/useAlert";
 import { CircularProgress } from "@mui/material";
