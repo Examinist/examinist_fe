@@ -50,23 +50,6 @@ export const addTime = (date: Date, offset: number) => {
   return new Date(date.getTime() + offset * 60000);
 };
 
-declare global {
-  interface Date {
-    stdTimezoneOffset: () => number;
-    isDstObserved: () => boolean;
-  }
-}
-
-Date.prototype.stdTimezoneOffset = function () {
-  var jan = new Date(this.getFullYear(), 0, 1);
-  var jul = new Date(this.getFullYear(), 6, 1);
-  console.log(jan.getTimezoneOffset(), jul.getTimezoneOffset());
-  return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
-};
-
-Date.prototype.isDstObserved = function () {
-  return this.getTimezoneOffset() < this.stdTimezoneOffset();
-};
 
 export const fixExamDate = (exam: IExam) => {
   return {

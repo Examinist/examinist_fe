@@ -42,9 +42,6 @@ export const getStudentExamsApi = async (
     );
     response.data.student_exams = response.data.student_exams.map((exam : IStudentPortalStudentExam) => fixExamDate(exam));
     return response as IStudentExamsListResponse;
-  // return {
-  //   data: { student_exams: mockStudentExams, number_of_pages: 1 },
-  // } as IStudentExamsListResponse;
 };
 
 export const getStudentSixtyMinutesExamsApi = async (page: number = -1) => {

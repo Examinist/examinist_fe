@@ -1,16 +1,15 @@
-import React from 'react'
-import { Route } from 'react-router';
-import StudentLayout from '../layouts/UpperLayout/UpperLayout';
-import StudentExamsPage from '../pages/Student/ExamsPage/StudentExamsPage';
-import StudentExam from '../pages/Student/Exam/StudentExam';
+import { Route } from "react-router";
+import TopLayout from "../layouts/UpperLayout/TopLayout";
+import StudentHome from "../pages/Student/Home/StudentHome";
+import StudentPortalExam from "../pages/Student/Exam/StudentPortalExam";
 
 export default function StudentRoutes() {
   return (
     <Route>
-      <Route path="student" element={<StudentLayout />}>
-        <Route path="" element={<StudentExamsPage/>} />
+      <Route path="student" element={<TopLayout />}>
+        <Route path="" element={<StudentHome />} />
       </Route>
-      <Route path="student/exams/:examId" element={<StudentExam />} />
+      <Route path="student/exams/:examId" element={<StudentPortalExam />} />
     </Route>
   );
 }

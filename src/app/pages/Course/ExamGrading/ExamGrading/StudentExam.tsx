@@ -6,7 +6,7 @@ import UpperGradingBar from "./UpperGradingBar";
 import {
   IStudentExamResponse,
   getStudentExamApi,
-} from "../../../../services/APIs/GradingAPIs";
+} from "../../../../services/APIs/StaffPortalStudentExamAPIs";
 import useAlert from "../../../../hooks/useAlert";
 import { IErrorResponse } from "../../../../services/Response";
 import { IExamResponse, getExamApi } from "../../../../services/APIs/ExamAPIs";

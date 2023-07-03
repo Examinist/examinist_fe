@@ -4,9 +4,9 @@ import React from "react";
 import Logo from "../components/Logo/Logo";
 import theme from "../../../assets/theme";
 import { Outlet } from "react-router";
-import StudentInfo from "./UserInfo";
+import TopUserInfo from "./TopUserInfo";
 
-export default function StudentLayout() {
+export default function TopLayout() {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -21,10 +21,10 @@ export default function StudentLayout() {
         }}
       >
         <Toolbar>
-          <Box sx={{display: "flex", flexGrow: 1}}>
+          <Box sx={{ display: "flex", flexGrow: 1 }}>
             <Logo />
-            <Box sx={{ ml: "auto"}}>
-              <StudentInfo />
+            <Box sx={{ ml: "auto" }}>
+              <TopUserInfo />
             </Box>
           </Box>
         </Toolbar>

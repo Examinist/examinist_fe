@@ -1,4 +1,4 @@
-import { IDetailedStudentExam, IStudentExam } from "../../types/StudentExam";
+import { IDetailedStudentExam, IStudentExam, StudentStatusEnum } from "../../types/StudentExam";
 import axiosInstance from "../AxiosConfig";
 import { IResponse, IResponseData } from "../Response";
 import {
@@ -12,7 +12,8 @@ export interface IStudentAnswerPayload {
 }
 
 export interface IStudentExamPayload {
-  student_answers_attributes: IStudentAnswerPayload[];
+  student_status?: StudentStatusEnum;
+  student_answers_attributes?: IStudentAnswerPayload[];
 }
 
 interface IStudentExamsListData extends IResponseData {

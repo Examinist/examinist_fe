@@ -16,7 +16,7 @@ import {
   IStudentExamPayload,
   IStudentExamResponse,
   submitStudentExamApi,
-} from "../../../../services/APIs/StudentExamAPIs";
+} from "../../../../services/APIs/StudentAPIs";
 import { useNavigate, useParams } from "react-router-dom";
 import useAlert from "../../../../hooks/useAlert";
 import { IErrorResponse } from "../../../../services/Response";
@@ -104,7 +104,8 @@ export default function SubmitExamDialog({
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogTitle>Submit Exam</DialogTitle>
         {loading ? (
-          <DialogContent dividers
+          <DialogContent
+            dividers
             sx={{
               display: "flex",
               justifyContent: "center",

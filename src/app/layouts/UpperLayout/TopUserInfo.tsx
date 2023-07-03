@@ -10,10 +10,9 @@ const initials = (user: IUser) => {
   return user.first_name![0] + user.last_name![0];
 };
 
-export default function StudentInfo() {
+export default function TopUserInfo() {
   const { user, logout } = useAuth();
-  const navigate = useNavigate();
- 
+
   return (
     <Box sx={{ display: "flex", alignItems: "center" }}>
       <Avatar sx={{}}> {initials(user!)}</Avatar>
@@ -38,10 +37,7 @@ export default function StudentInfo() {
       </Box>
       <Tooltip title="Log out" sx={{ marginLeft: "auto" }}>
         <IconButton color="primary" onClick={logout}>
-          <Logout
-          
-            style={{ marginLeft: "auto", color: "#6B6767" }}
-          />
+          <Logout style={{ marginLeft: "auto", color: "#6B6767" }} />
         </IconButton>
       </Tooltip>
     </Box>

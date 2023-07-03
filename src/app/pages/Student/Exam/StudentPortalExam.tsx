@@ -1,14 +1,14 @@
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import QuestionsOutline from "./QuestionsOutline/QuestionsOutline";
-import UpperBar from "./UpperBar/UpperBar";
+import ExamUpperBar from "./ExamUpperBar/ExamUpperBar";
 import theme from "../../../../assets/theme";
 import {
   IStudentExamPayload,
   IStudentExamResponse,
   getStudentExamApi,
   submitStudentExamApi,
-} from "../../../services/APIs/StudentExamAPIs";
+} from "../../../services/APIs/StudentAPIs";
 import { useParams } from "react-router";
 import {
   IStudentAnswer,
@@ -23,7 +23,7 @@ import useAlert from "../../../hooks/useAlert";
 import { useNavigate } from "react-router-dom";
 
 const saveUpdatesPeriodMins = 1;
-export default function StudentExam() {
+export default function StudentPortalExam() {
   const { examId } = useParams<{ examId: string }>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [exam, setExam] = useState<IStudentDetailedExam | null>(null);
@@ -107,7 +107,7 @@ export default function StudentExam() {
           </Box>
 
           <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
-            <UpperBar />
+            <ExamUpperBar />
             {isLoading ? (
               <Box
                 sx={{

@@ -22,7 +22,7 @@ import {
   IStudentExamPayload,
   IStudentExamResponse,
   updateStudentExamApi,
-} from "../../../../services/APIs/GradingAPIs";
+} from "../../../../services/APIs/StaffPortalStudentExamAPIs";
 import { IErrorResponse } from "../../../../services/Response";
 import useAlert from "../../../../hooks/useAlert";
 
@@ -69,7 +69,7 @@ export default function UpperGradingBar({
     const examPayload: IStudentExamPayload = {
       student_answers_attributes: gradeState.student_answers_attributes ?? [],
     };
-    console.log('examPayload', examPayload)
+    console.log("examPayload", examPayload);
     updateStudentExamApi(
       parseInt(examId!),
       parseInt(studentExamId!),

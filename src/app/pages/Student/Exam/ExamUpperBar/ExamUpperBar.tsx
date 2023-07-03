@@ -6,7 +6,7 @@ import HoursMinutesCountDown from "./CountDown/HoursMinutesCountDown";
 import { Button, LinearProgress } from "@mui/material";
 import SubmitExamDialog from "../SubmitExam/SubmitExamDialog";
 
-export default function UpperBar() {
+export default function ExamUpperBar() {
   const { exam, questionsCount, solvedQuestionsCount } =
     useContext<IStudentExamContext>(StudentExamContext);
   const [submitWindowOpen, setSubmitWindowOpen] =
