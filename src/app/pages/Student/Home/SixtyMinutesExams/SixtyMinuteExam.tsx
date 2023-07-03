@@ -5,7 +5,10 @@ import { IExam } from "../../../../types/Exam";
 import { addTime, getTimeStr } from "../../../../utilities/Date";
 import { Button, Stack } from "@mui/material";
 import SixtyMinutesCustomCountDown from "./CountDown/SixtyMinutesCountDown";
-import { IStudentPortalStudentExam, StudentExamStatusEnum } from "../../../../types/StudentPortalStudentExam";
+import {
+  IStudentPortalStudentExam,
+  StudentExamStatusEnum,
+} from "../../../../types/StudentPortalStudentExam";
 import { useNavigate } from "react-router";
 
 const fromToDateStr = (exam: any) => {
@@ -14,11 +17,7 @@ const fromToDateStr = (exam: any) => {
   return from + " - " + to;
 };
 
-export default function SixtyMinutesExam({
-  exam,
-}: {
-  exam: any;
-}) {
+export default function SixtyMinutesExam({ exam }: { exam: any }) {
   const [started, setStarted] = useState<Boolean>(false);
   const navigate = useNavigate();
 
@@ -31,7 +30,7 @@ export default function SixtyMinutesExam({
         borderRadius: 3,
         display: "flex",
         justifyContent: "space-between",
-        position: 'relative'
+        position: "relative",
       }}
     >
       <Stack sx={{ gap: "2px", alignSelf: "center" }}>
@@ -60,7 +59,13 @@ export default function SixtyMinutesExam({
         </Box>
       </Stack>
 
-      <Stack sx={{position: 'absolute', left: '50%', transform: 'translateX(-50%)'}}>
+      <Stack
+        sx={{
+          position: "absolute",
+          left: "50%",
+          transform: "translateX(-50%)",
+        }}
+      >
         <Box
           sx={{
             fontSize: 13,
@@ -84,8 +89,15 @@ export default function SixtyMinutesExam({
           px: 3,
           fontWeight: 600,
         }}
-        disabled={!started || (exam.status === StudentExamStatusEnum.PENDING_GRADING || exam.status === StudentExamStatusEnum.GRADED)}
-        onClick={() => navigate(`./exams/${exam.id}`)}
+        disabled={
+          !started ||
+          exam.status === StudentExamStatusEnum.PENDING_GRADING ||
+          exam.status === StudentExamStatusEnum.GRADED
+        }
+        onClick={() => {
+          navigate(`./exams/${exam.id}`, { state: { exam: exam } });
+          localStorage.setItem("exam", JSON.stringify(exam));
+        }}
       >
         Start Exam
       </Button>

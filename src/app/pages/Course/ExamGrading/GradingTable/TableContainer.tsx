@@ -5,7 +5,7 @@ import { IStudentExam } from "../../../../types/StudentExam";
 import {
   IStudentExamsListResponse,
   getStudentExamsApi,
-} from "../../../../services/APIs/GradingAPIs";
+} from "../../../../services/APIs/StaffPortalStudentExamAPIs";
 import { ExamStatusEnum } from "../../../../types/Exam";
 import useAlert from "../../../../hooks/useAlert";
 import React from "react";
@@ -27,11 +27,11 @@ export default function TableContainer({ tabs, tableHeader }: IExamCardProp) {
   const { examId } = useParams<{ examId: string }>();
 
   const handleChangePage = (event: unknown, newPage: number) => {
-    loadStudents(newPage,gradeTableState.filterType??ExamStatusEnum.ALL);
+    loadStudents(newPage, gradeTableState.filterType ?? ExamStatusEnum.ALL);
     setGradeTableState({
-        ...gradeTableState,
-        pageNumber: newPage-1,
-    })
+      ...gradeTableState,
+      pageNumber: newPage - 1,
+    });
   };
   const handleChangeTab = (event: React.SyntheticEvent, newTab: number) => {
     selectTab(newTab);
@@ -77,7 +77,7 @@ export default function TableContainer({ tabs, tableHeader }: IExamCardProp) {
       });
   };
   useEffect(() => {
-   loadStudents(1, ExamStatusEnum.ALL);
+    loadStudents(1, ExamStatusEnum.ALL);
   }, []);
 
   return (
@@ -91,25 +91,24 @@ export default function TableContainer({ tabs, tableHeader }: IExamCardProp) {
         paddingBottom: "24px",
       }}
     >
-      
-          <Box sx={{ borderBottom: 1, borderColor: "divider", pb: 2 }}>
-            <Tabs value={currTab} onChange={handleChangeTab}>
-              {tabs.map((value, index) => (
-                <Tab
-                  key={index}
-                  label={value}
-                  sx={{
-                    fontWeight: index == currTab ? "bold" : "medium",
-                    fontFamily: "montserrat",
-                    textTransform: "none",
-                    fontSize: "18px",
-                    color: index == currTab ? "#1B84BF" : "#969090",
-                  }}
-                />
-              ))}
-            </Tabs>
-          </Box>
-          {isLoading ? (
+      <Box sx={{ borderBottom: 1, borderColor: "divider", pb: 2 }}>
+        <Tabs value={currTab} onChange={handleChangeTab}>
+          {tabs.map((value, index) => (
+            <Tab
+              key={index}
+              label={value}
+              sx={{
+                fontWeight: index == currTab ? "bold" : "medium",
+                fontFamily: "montserrat",
+                textTransform: "none",
+                fontSize: "18px",
+                color: index == currTab ? "#1B84BF" : "#969090",
+              }}
+            />
+          ))}
+        </Tabs>
+      </Box>
+      {isLoading ? (
         <Box
           sx={{
             display: "flex",
@@ -122,7 +121,10 @@ export default function TableContainer({ tabs, tableHeader }: IExamCardProp) {
         </Box>
       ) : (
         <>
-          <StudentsTable tableHeader={tableHeader} handleChangePage={handleChangePage}></StudentsTable>
+          <StudentsTable
+            tableHeader={tableHeader}
+            handleChangePage={handleChangePage}
+          ></StudentsTable>
         </>
       )}
     </Card>

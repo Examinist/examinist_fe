@@ -9,7 +9,7 @@ interface IExamsListData extends IResponseData {
 
 export interface IExamsListResponse extends IResponse<IExamsListData> {}
 
-const fixExamDate = (exam: IProctorPortalExam) => {
+export const fixExamDate = (exam: IProctorPortalExam) => {
   return {
     ...exam,
     scheduled_date: exam.scheduled_date && new Date(exam.scheduled_date),

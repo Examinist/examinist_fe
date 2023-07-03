@@ -1,7 +1,7 @@
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import QuestionsOutline from "./QuestionsOutline/QuestionsOutline";
-import UpperBar from "./UpperBar/UpperBar";
+import ExamUpperBar from "./ExamUpperBar/ExamUpperBar";
 import theme from "../../../../assets/theme";
 import {
   IStudentExamPayload,
@@ -107,7 +107,7 @@ export default function StudentPortalExam() {
           </Box>
 
           <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
-            <UpperBar />
+            <ExamUpperBar />
             {isLoading ? (
               <Box
                 sx={{

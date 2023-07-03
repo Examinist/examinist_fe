@@ -1,6 +1,5 @@
 import { createContext } from "react";
 import {
-  IStudentAnswer,
   IStudentDetailedExam,
 } from "../../../types/StudentPortalStudentExam";
 
