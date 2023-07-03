@@ -3,6 +3,7 @@ import {
   Button,
   FormControl,
   InputLabel,
+  ListItemText,
   MenuItem,
   Select,
 } from "@mui/material";
@@ -93,7 +94,7 @@ export default function ProctorSelector({ initialLab }: { initialLab: IBusyLab }
           {proctors &&
             proctors.map((proctor) => (
               <MenuItem value={proctor.id} key={proctor.id}>
-                {proctor.first_name + " " + proctor.last_name}
+                {proctor.first_name + " " + proctor.last_name + " (" + proctor.username + ")"}
               </MenuItem>
             ))}
           {proctors && proctors.length === 0 && (

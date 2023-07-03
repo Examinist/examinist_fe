@@ -40,12 +40,12 @@ export default function ExamsLabs() {
           fontFamily: "montserrat",
         }}
       >
-        Exams' Labs
+        Scheduled Exams' Labs
       </Box>
       {loading && <CustomCircularProgress />}
       {!loading &&
         (exams.length === 0 ? (
-          <Box sx={{ my: 3, mx: 1, fontSize: "17px" }}> No exams to show.</Box>
+          <Box sx={{ my: 3, mx: 1, fontSize: '1.2rem' }}> No scheduled exams to show.</Box>
         ) : (
           exams.map((exam) => {
             return <ExamsLabsCard exam={exam} key={exam.id}></ExamsLabsCard>;

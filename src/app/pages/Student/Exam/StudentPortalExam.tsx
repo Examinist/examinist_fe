@@ -23,7 +23,7 @@ import useAlert from "../../../hooks/useAlert";
 import { useNavigate } from "react-router-dom";
 
 const saveUpdatesPeriodMins = 1;
-export default function StudentExam() {
+export default function StudentPortalExam() {
   const { examId } = useParams<{ examId: string }>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [exam, setExam] = useState<IStudentDetailedExam | null>(null);
