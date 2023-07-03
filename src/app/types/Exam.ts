@@ -39,7 +39,7 @@ export enum ExamStatusEnum {
   UNSCHEDULED = "unscheduled",
   SCHEDULED = "scheduled",
   ONGOING = "ongoing",
-  PENDINGGRADING = "pendinggrading",
+  PENDINGGRADING = "pending_grading",
   GRADED = "graded",
 }
 
