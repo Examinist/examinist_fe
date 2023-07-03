@@ -34,7 +34,7 @@ export default function ProctorSelector({ initialLab }: { initialLab: IBusyLab }
   useEffect(() => {
     getAvailableProctors(parseInt(examId!), lab.id)
       .then(({ data }: IProctorsListResponse) => {
-        if (lab.proctor) {
+        if (lab.proctor && !data.proctors.find((p) => p.id === lab.proctor?.id)) {
           setProctors([...data.proctors, lab.proctor]);
         } else {
           setProctors(data.proctors);

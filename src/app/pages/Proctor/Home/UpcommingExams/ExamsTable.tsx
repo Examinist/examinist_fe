@@ -11,13 +11,8 @@ import {
   TableRow,
 } from "@mui/material";
 import React from "react";
-import {
-  addTime,
-  getDateStr,
-  getFullDateStr,
-  getTimeStr,
-} from "../../../../../utilities/Date";
-import { IStudentPortalStudentExam } from "../../../../../types/StudentPortalStudentExam";
+import { IProctorPortalExam } from "../../../../types/ProctorPortalExam";
+import { addTime, getDateStr, getTimeStr } from "../../../../utilities/Date";
 
 const cols = [
   "Title",
@@ -29,45 +24,27 @@ const cols = [
   "Lab",
 ];
 
-const row = (exam: IStudentPortalStudentExam) => [
+const row = (exam: IProctorPortalExam) => [
   exam.title,
   exam.course.title + " - " + exam.course.code.toUpperCase(),
   getDateStr(exam.scheduled_date),
   exam.duration,
   getTimeStr(exam.scheduled_date),
   getTimeStr(addTime(exam.scheduled_date, exam.duration)),
-  exam.busy_lab.name,
+  exam.busy_labs.name,
 ];
 const fontSize = "16px";
 
-const colsWithGrade = [
-  "Title",
-  "Course",
-  "Scheduled Date",
-  "Duration",
-  "Grade",
-];
-
-const rowWithGrade = (exam: IStudentPortalStudentExam) => [
-  exam.title,
-  exam.course.title + " - " + exam.course.code.toUpperCase(),
-  getFullDateStr(exam.scheduled_date),
-  exam.duration,
-  exam.grade ? exam.grade + "/" + exam.total_score : "NA",
-];
-
 interface IExamsTableProps {
-  exams: IStudentPortalStudentExam[];
+  exams: IProctorPortalExam[];
   onChangePage: (newPage: number) => void;
   pagesCount: number;
-  isWithGrade: boolean;
 }
 
 export default function ExamsTable({
   exams,
   onChangePage,
   pagesCount,
-  isWithGrade,
 }: IExamsTableProps) {
   const handleChangePage = (
     event: React.ChangeEvent<unknown>,
@@ -76,15 +53,7 @@ export default function ExamsTable({
     onChangePage(value);
   };
 
-  const [tableState, setTableState] = React.useState({ cols: cols, row: row });
-
-  React.useEffect(() => {
-    if (isWithGrade) {
-      setTableState({ cols: colsWithGrade, row: rowWithGrade });
-    } else {
-      setTableState({ cols: cols, row: row });
-    }
-  }, [isWithGrade]);
+  const tableState = { cols: cols, row: row };
 
   return (
     <TableContainer component={Paper} sx={{ px: 2, py: 1, shadow: 0 }}>

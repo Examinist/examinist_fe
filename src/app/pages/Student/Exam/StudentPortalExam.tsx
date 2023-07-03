@@ -8,7 +8,7 @@ import {
   IStudentExamResponse,
   getStudentExamApi,
   submitStudentExamApi,
-} from "../../../services/APIs/StudentExamAPIs";
+} from "../../../services/APIs/StudentAPIs";
 import { useParams } from "react-router";
 import {
   IStudentAnswer,

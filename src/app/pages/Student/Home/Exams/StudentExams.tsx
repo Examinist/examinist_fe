@@ -9,7 +9,7 @@ import ExamsTabs from "./ExamsTabs";
 import {
   IStudentExamsListResponse,
   getStudentExamsApi,
-} from "../../../../services/APIs/StudentExamAPIs";
+} from "../../../../services/APIs/StudentAPIs";
 import { IErrorResponse } from "../../../../services/Response";
 import useAlert from "../../../../hooks/useAlert";
 import { CircularProgress } from "@mui/material";

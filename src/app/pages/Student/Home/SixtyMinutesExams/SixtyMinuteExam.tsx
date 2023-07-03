@@ -4,21 +4,20 @@ import theme from "../../../../../assets/theme";
 import { IExam } from "../../../../types/Exam";
 import { addTime, getTimeStr } from "../../../../utilities/Date";
 import { Button, Stack } from "@mui/material";
-import Countdown from "react-countdown";
 import SixtyMinutesCustomCountDown from "./CountDown/SixtyMinutesCountDown";
 import { IStudentPortalStudentExam, StudentExamStatusEnum } from "../../../../types/StudentPortalStudentExam";
 import { useNavigate } from "react-router";
 
-const fromToDateStr = (exam: IStudentPortalStudentExam) => {
+const fromToDateStr = (exam: any) => {
   const from = getTimeStr(exam.scheduled_date);
-  const to = getTimeStr(exam.ends_at);
+  const to = getTimeStr(addTime(exam.scheduled_date, exam.duration));
   return from + " - " + to;
 };
 
 export default function SixtyMinutesExam({
   exam,
 }: {
-  exam: IStudentPortalStudentExam;
+  exam: any;
 }) {
   const [started, setStarted] = useState<Boolean>(false);
   const navigate = useNavigate();
@@ -32,6 +31,7 @@ export default function SixtyMinutesExam({
         borderRadius: 3,
         display: "flex",
         justifyContent: "space-between",
+        position: 'relative'
       }}
     >
       <Stack sx={{ gap: "2px", alignSelf: "center" }}>
@@ -60,7 +60,7 @@ export default function SixtyMinutesExam({
         </Box>
       </Stack>
 
-      <Stack sx={{}}>
+      <Stack sx={{position: 'absolute', left: '50%', transform: 'translateX(-50%)'}}>
         <Box
           sx={{
             fontSize: 13,
