@@ -1,4 +1,3 @@
-import { mock } from "node:test";
 import { ICourse, ICourseGroup } from "../../../types/Course";
 import {
   DefaultQuestionTypesEnum,
@@ -28,7 +27,7 @@ import {
   IStudentQuestionType,
   StudentExamStatusEnum,
 } from "../../../types/StudentPortalStudentExam";
-import IUser from "../../../types/User";
+import IUser, { IStaff, IStudent } from "../../../types/User";
 import { UserRoleEnum } from "../../../types/User";
 import { IExamPayload } from "../ExamAPIs";
 
@@ -260,6 +259,13 @@ export const mockExamsList: IExam[] = [
     ...mockExam,
     id: 2,
     status: ExamStatusEnum.SCHEDULED,
+    pending_labs_assignment: true,
+  },
+  {
+    ...mockExam,
+    id: 10,
+    status: ExamStatusEnum.SCHEDULED,
+    pending_labs_assignment: true,
   },
   {
     ...mockExam,
@@ -428,7 +434,7 @@ export const mockStudentQuestions: IStudentQuestion[] = [
 
 export const mockStudentAnswer: IStudentAnswer = {
   id: 1,
-  answers: [],
+  answer: [],
   marked: false,
   solved: false,
   question: mockStudentQuestions[0],
@@ -484,4 +490,68 @@ export const mockStudentDetailedExam: IStudentDetailedExam = {
   answers: mockStudentAnswers,
 };
 
+const mockStudent: IStudent = {
+  id: 1,
+  first_name: "Mock",
+  last_name: "Student",
+  username: "123456789",
+  email: "",
+  academic_id: "123456789",
+  role: "student",
+};
 
+export const mockStudents: IStudent[] = [
+  mockStudent,
+  { ...mockStudent, id: 2 },
+  { ...mockStudent, id: 3 },
+  { ...mockStudent, id: 4 },
+  { ...mockStudent, id: 5 },
+];
+
+const mockProctor: IStaff = {
+  id: 1,
+  first_name: "Mock",
+  last_name: "Proctor",
+  username: "mock_proctor",
+  role: "proctor",
+};
+
+export const mockProctors: IStaff[] = [
+  mockProctor,
+  { ...mockProctor, id: 2 },
+  { ...mockProctor, id: 3 },
+  { ...mockProctor, id: 4 },
+  { ...mockProctor, id: 5 },
+];
+
+export const mockScheduledExams: IExam[] = [
+  {
+    ...mockExam,
+    id: 2,
+    status: ExamStatusEnum.SCHEDULED,
+    pending_labs_assignment: true,
+    busy_labs: mockBusyLabs,
+  },
+  {
+    ...mockExam,
+    id: 10,
+    status: ExamStatusEnum.SCHEDULED,
+    pending_labs_assignment: true,
+    busy_labs: [
+      { ...mockBusyLabs[0], proctor: mockProctors[0] },
+      mockBusyLabs[1],
+      mockBusyLabs[2],
+    ],
+  },
+  {
+    ...mockExam,
+    id: 10,
+    status: ExamStatusEnum.SCHEDULED,
+    pending_labs_assignment: false,
+    busy_labs: [
+      { ...mockBusyLabs[0], proctor: mockProctors[0] },
+      { ...mockBusyLabs[1], proctor: mockProctors[1] },
+      { ...mockBusyLabs[2], proctor: mockProctors[2] },
+    ],
+  },
+];

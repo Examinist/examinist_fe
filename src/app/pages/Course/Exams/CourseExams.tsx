@@ -14,7 +14,7 @@ import {
   IExamsReloadContext,
 } from "../../../context/ExamsReloadContext";
 import { IsAssignedContext } from "../../../layouts/CourseLayout/CourseLayout";
-import { fullDateOptions } from "../../../utilities/Date";
+import { fullDateOptions, getFullDateStr } from "../../../utilities/Date";
 
 
 
@@ -26,9 +26,8 @@ function getCourseExamAttributesList(exam: IExam) {
     exam.status,
     exam.creation_mode,
     exam.creator.first_name + " " + exam.creator.last_name,
-    exam.created_at.toLocaleString(undefined, fullDateOptions),
-    exam.scheduled_date?.toLocaleString(undefined, fullDateOptions) ??
-      "Not Scheduled",
+    getFullDateStr(exam.created_at),
+    getFullDateStr(exam.scheduled_date),
   ];
   return attrList;
 }

@@ -4,19 +4,21 @@ import theme from "../../../../assets/theme";
 import { IconButton } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useNavigate } from "react-router-dom";
-import ScheduleInfoForm from "./StepOne/ScheduleInfoForm";
-import ScheduleExamsForm from "./StepTwo/ScheduleExamsForm";
+import ScheduleInfoForm from "./Step1/ScheduleInfoForm";
+import ScheduleExamsForm from "./Step2/ScheduleExamsForm";
 import CreateScheduleStepper from "./CreateScheduleStepper";
 import { IScheduleContext, ScheduleContext } from "./ScheduleContext";
 import { useRef, useState } from "react";
 import { IExam } from "../../../types/Exam";
-const steps = ["Set Schedule's Info", "Schedule Exams", "Submit"];
+import ReviewSchedule from "./Step3/ReviewSchedule";
+const steps = ["Set Schedule's Info", "Schedule Exams"];
 
 export default function CreateSchedule() {
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = React.useState(0);
   const [title, setTitle] = useState<string>("");
   const [exams, setExams] = useState<IExam[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const stepOneFormRef = useRef<any>();
   const stepTwoFormRef = useRef<any>();
 
@@ -26,19 +28,15 @@ export default function CreateSchedule() {
 
   const components = [
     <ScheduleInfoForm reference={stepOneFormRef} onSuccess={nextStep} />,
-    <ScheduleExamsForm reference={stepTwoFormRef} onSuccess={nextStep}/>,
-    <div></div>,
-  ];
+    <ScheduleExamsForm reference={stepTwoFormRef} onSuccess={nextStep}/>
+  ]
 
   const stepsNextActions = [
     () => {
       stepOneFormRef.current?.submitForm();
     },
     () => {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    },
-    () => {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      stepTwoFormRef.current?.submitForm();
     },
   ];
 
@@ -47,6 +45,8 @@ export default function CreateSchedule() {
     setTitle: setTitle,
     exams: exams,
     setExams: setExams,
+    loading: loading,
+    setLoading: setLoading,
   };
 
   return (
@@ -81,13 +81,14 @@ export default function CreateSchedule() {
           Create Schedule
         </Box>
       </Box>
-      <CreateScheduleStepper
-        activeStep={activeStep}
-        setActiveStep={setActiveStep}
-        steps={steps}
-        stepsNextActions={stepsNextActions}
-      />
+
       <ScheduleContext.Provider value={contextValue}>
+        <CreateScheduleStepper
+          activeStep={activeStep}
+          setActiveStep={setActiveStep}
+          steps={steps}
+          stepsNextActions={stepsNextActions}
+        />
         {components[activeStep]}
       </ScheduleContext.Provider>
     </Box>
