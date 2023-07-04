@@ -54,3 +54,5 @@ export interface IStudentAnswer {
 export interface IStudentDetailedExam extends IStudentPortalStudentExam {
   answers: IStudentAnswer[];
 }
+
+export const StudentExamLocalStorageKey = 'student-exam-id'

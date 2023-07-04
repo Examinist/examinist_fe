@@ -5,8 +5,9 @@ import theme from "../../../../../../assets/theme";
 interface IClockProps {
   hours: number;
   minutes: number;
+  seconds: number;
 }
-export default function HoursMinutesClock({ hours, minutes }: IClockProps) {
+export default function HoursMinutesClock({ hours, minutes, seconds }: IClockProps) {
   return (
     <Box
       sx={{
@@ -17,7 +18,7 @@ export default function HoursMinutesClock({ hours, minutes }: IClockProps) {
         justifyContent: "center",
       }}
     >
-      Time Remaining: {hours} hrs : {minutes} mins
+      Time Remaining: {hours} hrs : {minutes} mins : {seconds} secs
     </Box>
   );
 }

@@ -13,6 +13,7 @@ import { useParams } from "react-router";
 import {
   IStudentAnswer,
   IStudentDetailedExam,
+  StudentExamLocalStorageKey,
 } from "../../../types/StudentPortalStudentExam";
 import { StudentExamContext } from "./StudentExamContext";
 import Questions from "./Questions/Questions";
@@ -46,6 +47,7 @@ export default function StudentPortalExam() {
     getStudentExamApi(parseInt(examId!))
       .then(({ data }: IStudentExamResponse) => {
         syncExamData(data.student_exam);
+        localStorage.setItem(StudentExamLocalStorageKey, examId!);
       })
       .catch(({ response: { data, statusText } }: IErrorResponse) => {
         setAlertState({
@@ -58,33 +60,9 @@ export default function StudentPortalExam() {
       .finally(() => setIsLoading(false));
   }, []);
 
-  const saveChanges = () => {
-    if (exam?.answers && changedAnswers.size > 0) {
-      let studentAnswers: IStudentAnswer[] = [];
-      changedAnswers.forEach((index: number) => {
-        const { question, ...payload } = exam.answers[index]!;
-        studentAnswers.push(payload);
-      });
-      console.log("studentAnswers: ", studentAnswers);
-      const payload: IStudentExamPayload = {
-        is_submitting: false,
-        student_answers_attributes: studentAnswers,
-      };
-      submitStudentExamApi(parseInt(examId!), payload).then(
-        ({ data }: IStudentExamResponse) => {
-          syncExamData(data.student_exam);
-          setChangedAnswers(new Set());
-        }
-      );
-    }
+  const saveChanges = (payload: IStudentExamPayload) => {
+    submitStudentExamApi(parseInt(examId!), payload);
   };
-
-  useEffect(() => {
-    const interval = setInterval(saveChanges, saveUpdatesPeriodMins * 5000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, [changedAnswers]);
 
   return (
     <Box sx={{ display: "flex", height: "100vh" }}>
@@ -95,11 +73,10 @@ export default function StudentPortalExam() {
           value={{
             exam: exam,
             setExam: setExam,
-            changedAnswers: changedAnswers,
-            setChangedAnswers: setChangedAnswers,
             questionsCount: questionsCount,
             solvedQuestionsCount: solvedQuestionsCount,
             setSolvedQuestionsCount: setSolvedQuestionsCount,
+            saveChanges: saveChanges,
           }}
         >
           <Box sx={{ width: "200px" }}>

@@ -16,16 +16,18 @@ export default function HoursMinutesCountDown({
   const renderer = ({
     hours,
     minutes,
+    seconds,
     completed,
   }: {
     hours: number;
     minutes: number;
+    seconds: number;
     completed: any;
   }) => {
     if (completed) {
       onComplete();
     }
-    return <HoursMinutesClock hours={hours} minutes={minutes} />;
+    return <HoursMinutesClock hours={hours} minutes={minutes} seconds={seconds} />;
   };
   return <Countdown date={toDate} renderer={renderer} />;
 }

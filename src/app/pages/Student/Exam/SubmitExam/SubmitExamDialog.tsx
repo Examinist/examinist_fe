@@ -11,7 +11,7 @@ import { Alert, Box, CircularProgress, Divider, Stack } from "@mui/material";
 import { IStudentExamContext, StudentExamContext } from "../StudentExamContext";
 import theme from "../../../../../assets/theme";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { IStudentAnswer } from "../../../../types/StudentPortalStudentExam";
+import { IStudentAnswer, StudentExamLocalStorageKey } from "../../../../types/StudentPortalStudentExam";
 import {
   IStudentExamPayload,
   IStudentExamResponse,
@@ -76,6 +76,7 @@ export default function SubmitExamDialog({
             message: "Exam is submitted successfully.",
             severity: "success",
           });
+          localStorage.removeItem(StudentExamLocalStorageKey);
         })
         .catch(({ response: { status, statusText, data } }: IErrorResponse) => {
           setErrorMessage(data?.message || statusText || null);

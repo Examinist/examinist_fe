@@ -2,10 +2,7 @@ import React from "react";
 import IAnswerProbs from "./AnswerProbs";
 import {
   FormControl,
-  FormLabel,
-  RadioGroup,
   FormControlLabel,
-  Radio,
   FormGroup,
   Checkbox,
 } from "@mui/material";

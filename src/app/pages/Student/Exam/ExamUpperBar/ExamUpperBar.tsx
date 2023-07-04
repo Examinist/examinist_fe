@@ -5,12 +5,36 @@ import { IStudentExamContext, StudentExamContext } from "../StudentExamContext";
 import HoursMinutesCountDown from "./CountDown/HoursMinutesCountDown";
 import { Button, LinearProgress } from "@mui/material";
 import SubmitExamDialog from "../SubmitExam/SubmitExamDialog";
+import {
+  IStudentAnswer,
+  StudentExamLocalStorageKey,
+} from "../../../../types/StudentPortalStudentExam";
+import { IStudentExamPayload } from "../../../../services/APIs/StudentAPIs";
+import { useNavigate } from "react-router";
 
 export default function ExamUpperBar() {
-  const { exam, questionsCount, solvedQuestionsCount } =
+  const { exam, questionsCount, solvedQuestionsCount, saveChanges } =
     useContext<IStudentExamContext>(StudentExamContext);
   const [submitWindowOpen, setSubmitWindowOpen] =
     React.useState<boolean>(false);
+  const navigate = useNavigate();
+
+  const handleOnComplete = () => {
+    if (exam) {
+      let studentAnswers: IStudentAnswer[];
+      studentAnswers = exam?.answers.map((answer) => {
+        const { question, ...answerPayload } = answer;
+        return answerPayload;
+      });
+      const examPayload: IStudentExamPayload = {
+        is_submitting: true,
+        student_answers_attributes: studentAnswers,
+      };
+      saveChanges(examPayload);
+    }
+    localStorage.removeItem(StudentExamLocalStorageKey);
+    navigate("/student");
+  };
 
   return (
     <Box
@@ -46,16 +70,14 @@ export default function ExamUpperBar() {
               color: theme.palette.gray.dark,
             }}
           >
-            {exam?.course.title + " - " + exam?.course.code}
+            {exam?.course.title}
           </Box>
         </Stack>
         {exam && (
           <>
             <HoursMinutesCountDown
               toDate={exam?.ends_at}
-              onComplete={() => {
-                
-              }}
+              onComplete={handleOnComplete}
             />
             <Button
               variant="contained"

@@ -18,6 +18,12 @@ import {
 } from "../../StudentExamContext";
 import { YellowSwitch } from "./YellowSwitch";
 import { yellow } from "@mui/material/colors";
+import {
+  IStudentExamPayload,
+  IStudentExamResponse,
+  submitStudentExamApi,
+} from "../../../../../services/APIs/StudentAPIs";
+import { useParams } from "react-router";
 
 interface IQuestionCardProps {
   answer: IStudentAnswer;
@@ -28,17 +34,11 @@ export default function QuestionCard({ answer, index }: IQuestionCardProps) {
   const {
     exam,
     setExam,
-    changedAnswers,
-    setChangedAnswers,
     setSolvedQuestionsCount,
+    saveChanges,
   } = useContext<IStudentExamContext>(StudentExamContext);
   const [marked, setMarked] = React.useState<boolean>(answer.marked);
 
-  const addToUpdatedAnswers = () => {
-    const newSet: Set<number> = new Set(changedAnswers);
-    newSet.add(index);
-    setChangedAnswers(newSet);
-  };
 
   const updateAnswer = (newAnswer: string[]) => {
     const newExam: IStudentDetailedExam = { ...exam! };
@@ -58,7 +58,11 @@ export default function QuestionCard({ answer, index }: IQuestionCardProps) {
       setSolvedQuestionsCount((prev) => prev + 1);
     }
     setExam(newExam);
-    addToUpdatedAnswers();
+    const payload: IStudentExamPayload = {
+      is_submitting: false,
+      student_answers_attributes: [newExam.answers[index]],
+    };
+    saveChanges(payload);
   };
 
   const renderAnswer = () => {
@@ -135,7 +139,11 @@ export default function QuestionCard({ answer, index }: IQuestionCardProps) {
               const newExam: IStudentDetailedExam = { ...exam! };
               newExam.answers[index].marked = event.target.checked;
               setExam(newExam);
-              addToUpdatedAnswers();
+              const payload: IStudentExamPayload = {
+                is_submitting: false,
+                student_answers_attributes: [newExam.answers[index]],
+              };
+              saveChanges(payload);
             }}
             inputProps={{ "aria-label": "controlled" }}
           />

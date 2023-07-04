@@ -9,6 +9,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Box, CircularProgress } from "@mui/material";
 import { setupResponseInterceptor } from "../services/AxiosConfig";
 import useAlert from "../hooks/useAlert";
+import { StudentExamLocalStorageKey } from "../types/StudentPortalStudentExam";
 
 type AuthContextType = {
   isAuthenticated: boolean;
@@ -26,7 +27,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
-  const {setAlertState} = useAlert();
+  const { setAlertState } = useAlert();
 
   const redirectToLogin = () => navigate("/login", { replace: true });
 
@@ -61,8 +62,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const user = data.user_info;
         setIsAuthenticated(true);
         setUser(user);
-        if (location.pathname == "/login" || location.pathname == "/")
+        if (
+          user.role === UserRoleEnum.STUDENT &&
+          StudentExamLocalStorageKey in localStorage
+        ) {
+          const examId = localStorage.getItem(StudentExamLocalStorageKey);
+          navigate(`/student/exams/${examId}`, { replace: true });
+        } else if (
+          location.pathname === "/login" ||
+          location.pathname === "/"
+        ) {
           GoToHomePage(user);
+        }
       })
       .catch(() => redirectToLogin())
       .finally(() => {

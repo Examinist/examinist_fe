@@ -6,7 +6,6 @@ import {
   FormGroup,
   FormControlLabel,
   Checkbox,
-  FormHelperText,
 } from "@mui/material";
 
 export default function MCQMultipleAnswers({ answer, onUpdate }: IAnswerProbs) {

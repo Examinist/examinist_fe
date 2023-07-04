@@ -114,8 +114,10 @@ export default function SixtyMinutesExam({
         }
         onClick={() => {
           navigate(`./exams/${exam.id}`, { state: { exam: exam } });
-          if (role === UserRoleEnum.PROCTOR)
-            localStorage.setItem("exam", JSON.stringify(exam));
+          if (role === UserRoleEnum.PROCTOR){
+             localStorage.setItem("exam", JSON.stringify(exam));
+          }
+           
         }}
       >
         {buttonText}
