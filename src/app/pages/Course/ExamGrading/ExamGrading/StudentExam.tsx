@@ -90,7 +90,7 @@ export default function StudentExam() {
           <Box sx={{ width: "100%", display: "flex", flexDirection: "column" }}>
             <UpperGradingBar title={title} student={student} />
             <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "row" }}>
-              <Box >
+              <Box>
                 <QuestionsSideBar />
               </Box>
               <Box

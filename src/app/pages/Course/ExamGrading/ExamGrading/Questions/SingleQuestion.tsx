@@ -48,31 +48,22 @@ export default function SingleQuestion({
       setIsFieldEmpty(true);
     } else {
       setIsFieldEmpty(false);
-      console.log("shiit");
       const newAnswers = gradeState.answers?.map((answer: IStudentAnswer) => {
         if (answer.id === examQuestion.id) {
           return {
             ...answer,
-            score: value.trim() === "" ? 0 : val,
+            score: value.trim() === "" ? null : val,
           };
         }
         return answer;
       });
-      console.log("newAnswers", newAnswers);
-      setGradeState({
-        ...gradeState,
-        answers: newAnswers,
-      });
-      handleUpdateScore(val);
+      handleUpdateScore(val, newAnswers!);
     }
   }
 
   const onMark = (type: string) => {
     const newAnswers = gradeState.answers?.map((answer: IStudentAnswer) => {
-      console.log("answer.id", answer.id);
-
       if (answer.id === examQuestion.id) {
-        console.log("answer found ", answer.id);
         return {
           ...answer,
           score: type === "correct" ? examQuestion.exam_question.score : 0,
@@ -80,24 +71,15 @@ export default function SingleQuestion({
       }
       return answer;
     });
-    console.log("newAnswers", newAnswers);
-
-    setGradeState({
-      ...gradeState,
-      answers: newAnswers,
-    });
 
     setScore(type === "correct" ? examQuestion.exam_question.score : 0);
     handleUpdateScore(
-      type === "correct" ? examQuestion.exam_question.score : 0
+      type === "correct" ? examQuestion.exam_question.score : 0,
+      newAnswers!
     );
   };
-  const handleUpdateScore = (value: number) => {
-    console.log(gradeState.student_answers_attributes);
-    console.log("enter :", value);
+  const handleUpdateScore = (value: number, newAnswers: IStudentAnswer[]) => {
     if (gradeState.student_answers_attributes) {
-      console.log("enter 1");
-
       const questionIndex = gradeState.student_answers_attributes.findIndex(
         (q) => q.id === examQuestion.id
       );
@@ -105,7 +87,6 @@ export default function SingleQuestion({
         gradeState.student_answers_attributes.splice(questionIndex, 1);
       }
       if (!isNaN(value)) {
-        console.log("enter 2");
         const newQuestion = {
           id: examQuestion.id,
           score: value,
@@ -114,6 +95,7 @@ export default function SingleQuestion({
       }
       setGradeState({
         ...gradeState,
+        answers: newAnswers,
         student_answers_attributes: gradeState.student_answers_attributes,
       });
     }
@@ -154,8 +136,7 @@ export default function SingleQuestion({
                   Topic:
                 </Typography>
                 <Typography variant="subtitle2" color={theme.palette.gray.dark}>
-                  {examQuestion.exam_question.question.topic?.name ||
-                    "Undefined"}
+                  {examQuestion.exam_question.question.topic?.name}
                 </Typography>
               </Box>
             </Grid>

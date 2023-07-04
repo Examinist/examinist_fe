@@ -61,7 +61,7 @@ export default function UpperGradingBar({
   }, [gradeState]);
 
   const handleClose = () => {
-    if(gradeState.student_answers_attributes?.length === 0){
+    if (gradeState.student_answers_attributes?.length === 0) {
       navigate(-1);
       return;
     }
@@ -191,7 +191,10 @@ export default function UpperGradingBar({
             fontWeight: 600,
           }}
           onClick={handleDone}
-          disabled={gradeState.loading || gradeState.student_answers_attributes?.length === 0}
+          disabled={
+            gradeState.loading ||
+            gradeState.student_answers_attributes?.length === 0
+          }
         >
           Save Changes
         </Button>

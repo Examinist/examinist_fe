@@ -15,18 +15,15 @@ export default function QuestionsSideBar() {
     gradeState.partialScore ?? 0
   );
   const getScore = (answer: IStudentAnswer) => {
-    if (answer.score === null ) {
+    if (answer.score === null) {
       return `-/${answer.exam_question.score}`;
     }
     return `${answer.score}/${answer.exam_question.score}`;
   };
 
   const getTotalScore = () => {
-    console.log("ooooooooooooooooooooooooooooooooooooooooo");
-    console.log(gradeState.answers);
     let totalScore = 0;
     gradeState.answers?.forEach((answer) => {
-      console.log(answer.score);
       if (answer.score !== null) {
         totalScore += answer.score ?? 0;
       }
@@ -111,7 +108,7 @@ export default function QuestionsSideBar() {
         <Box
           justifyContent="flex-start"
           alignItems="flex-end"
-          sx={{ pt: 2, pl: 2,pr:5 }}
+          sx={{ pt: 2, pl: 2, pr: 5 }}
         >
           <Stack
             direction="row"

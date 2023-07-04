@@ -7,7 +7,7 @@ export default function ExamQuestionsList() {
   const { gradeState, setGradeState } = useContext(gradeExamContext);
 
   return (
-    <Box sx={{ height: 800, overflow: "auto",width:'100%',px:2 }}>
+    <Box sx={{ height: 800, overflow: "auto", width: "100%", px: 2 }}>
       {gradeState.loading ? (
         <Box
           sx={{
@@ -20,11 +20,11 @@ export default function ExamQuestionsList() {
           <CircularProgress />
         </Box>
       ) : (
-      <Stack spacing={2}>
-        {gradeState.answers?.map((answer, index) => (
-          <SingleQuestion key={answer.id} examQuestion={answer} />
-        ))}
-      </Stack>
+        <Stack spacing={2}>
+          {gradeState.answers?.map((answer, index) => (
+            <SingleQuestion key={answer.id} examQuestion={answer} />
+          ))}
+        </Stack>
       )}
     </Box>
   );
