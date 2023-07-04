@@ -49,7 +49,7 @@ export default function UpperGradingBar({
   const getCount = () => {
     let count = 0;
     gradeState.answers?.forEach((answer) => {
-      if (answer.score !==  undefined && answer.score !== null) {
+      if (answer.score !== null) {
         count++;
       }
     });
@@ -58,9 +58,13 @@ export default function UpperGradingBar({
 
   React.useEffect(() => {
     setQuestionsAnswered(getCount());
-  }, [gradeState.answers]);
+  }, [gradeState]);
 
   const handleClose = () => {
+    if(gradeState.student_answers_attributes?.length === 0){
+      navigate(-1);
+      return;
+    }
     setOpenAlert(true);
   };
   const handleDoneClose = () => {

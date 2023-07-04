@@ -48,34 +48,43 @@ export default function SingleQuestion({
       setIsFieldEmpty(true);
     } else {
       setIsFieldEmpty(false);
+      console.log("shiit");
+      const newAnswers = gradeState.answers?.map((answer: IStudentAnswer) => {
+        if (answer.id === examQuestion.id) {
+          return {
+            ...answer,
+            score: value.trim() === "" ? 0 : val,
+          };
+        }
+        return answer;
+      });
+      console.log("newAnswers", newAnswers);
       setGradeState({
         ...gradeState,
-        answers: gradeState.answers?.map((answer: IStudentAnswer) => {
-          if (answer.id === examQuestion.id) {
-            return {
-              ...answer,
-              score: value.trim() === "" ? undefined : val,
-            };
-          }
-          return answer;
-        }),
+        answers: newAnswers,
       });
       handleUpdateScore(val);
     }
   }
 
   const onMark = (type: string) => {
+    const newAnswers = gradeState.answers?.map((answer: IStudentAnswer) => {
+      console.log("answer.id", answer.id);
+
+      if (answer.id === examQuestion.id) {
+        console.log("answer found ", answer.id);
+        return {
+          ...answer,
+          score: type === "correct" ? examQuestion.exam_question.score : 0,
+        };
+      }
+      return answer;
+    });
+    console.log("newAnswers", newAnswers);
+
     setGradeState({
       ...gradeState,
-      answers: gradeState.answers?.map((answer: IStudentAnswer) => {
-        if (answer.id === examQuestion.id) {
-          return {
-            ...answer,
-            score: type === "correct" ? examQuestion.exam_question.score : 0,
-          };
-        }
-        return answer;
-      }),
+      answers: newAnswers,
     });
 
     setScore(type === "correct" ? examQuestion.exam_question.score : 0);
@@ -84,7 +93,11 @@ export default function SingleQuestion({
     );
   };
   const handleUpdateScore = (value: number) => {
+    console.log(gradeState.student_answers_attributes);
+    console.log("enter :", value);
     if (gradeState.student_answers_attributes) {
+      console.log("enter 1");
+
       const questionIndex = gradeState.student_answers_attributes.findIndex(
         (q) => q.id === examQuestion.id
       );
@@ -92,6 +105,7 @@ export default function SingleQuestion({
         gradeState.student_answers_attributes.splice(questionIndex, 1);
       }
       if (!isNaN(value)) {
+        console.log("enter 2");
         const newQuestion = {
           id: examQuestion.id,
           score: value,
@@ -104,8 +118,9 @@ export default function SingleQuestion({
       });
     }
   };
+
   React.useEffect(() => {
-    if (examQuestion.score !== undefined && examQuestion.score !== null) {
+    if (examQuestion.score !== null) {
       setScore(examQuestion.score);
     }
   }, []);

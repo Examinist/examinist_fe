@@ -61,7 +61,7 @@ export default function StudentRow({ student }: { student: IStudentExam }) {
       <TableCell key="student_status">
         {student.student_status !== null ? (
           <Chip
-            label={student.student_status}
+            label={student.student_status.replace("_", " ")}
             variant="outlined"
             sx={{
               borderColor: getColor(),
@@ -84,7 +84,7 @@ export default function StudentRow({ student }: { student: IStudentExam }) {
       <TableCell key="grading_status">
         {student.student_status == StudentStatusEnum.ATTENDED ? (
           <Chip
-            label={student.status}
+            label={student.status.replace("_", " ")}
             variant="outlined"
             sx={{
               fontWeight: "bold",
