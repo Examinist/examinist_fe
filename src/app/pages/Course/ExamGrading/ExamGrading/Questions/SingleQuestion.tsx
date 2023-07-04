@@ -105,7 +105,7 @@ export default function SingleQuestion({
     }
   };
   React.useEffect(() => {
-    if (examQuestion.score !== undefined) {
+    if (examQuestion.score !== undefined && examQuestion.score !== null) {
       setScore(examQuestion.score);
     }
   }, []);
@@ -202,7 +202,7 @@ export default function SingleQuestion({
         />
       </Box>
       <Box sx={{ display: "flex", alignItems: "center" }}>
-        <Box sx={{ flexGrow: 2 }}>{/* Empty space */}</Box>
+        <Box sx={{ flexGrow: 1.5 }}>{/* Empty space */}</Box>
         {examQuestion.exam_question.question.question_type.name !=
           DefaultQuestionTypesEnum.MCQ &&
         examQuestion.exam_question.question.question_type.name !=

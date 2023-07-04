@@ -15,15 +15,16 @@ export default function QuestionsSideBar() {
     gradeState.partialScore ?? 0
   );
   const getScore = (answer: IStudentAnswer) => {
-    if (answer.score === undefined) {
+    if (answer.score === undefined && answer.score === null) {
       return `-/${answer.exam_question.score}`;
     }
     return `${answer.score}/${answer.exam_question.score}`;
   };
+
   const getTotalScore = () => {
     let totalScore = 0;
     gradeState.answers?.forEach((answer) => {
-      if (answer.score !== undefined) {
+      if (answer.score !== undefined && answer.score !== null ) {
         totalScore += answer.score;
       }
     });
@@ -37,7 +38,7 @@ export default function QuestionsSideBar() {
     <Box
       sx={{
         backgroundColor: theme.palette.white.main,
-        height: "90vh",
+        // height: "90vh",
         width: "250px",
         py: 2,
         border: 1,

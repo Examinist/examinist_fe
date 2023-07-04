@@ -20,6 +20,7 @@ export const setGradeTableContext = React.createContext<IGradingTableContext>({
 });
 
 export interface IGradeExam {
+  loading?: boolean;
   totalScore?: number;
   partialScore?: number;
   totalQuestions?: number;
