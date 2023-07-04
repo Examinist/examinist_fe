@@ -5,4 +5,7 @@ export interface IUpdateExam {
       score?: number;
       _destroy?: boolean; // Optional flag to mark an existing exam question for deletion
     }>;
+    title?:boolean;
+    duration?:boolean;
+    models?:boolean;
   }
