@@ -30,6 +30,7 @@ export default function StudentExam() {
     questionsAnswered: 0,
     answers: [],
     student_answers_attributes: [],
+    loading: false,
   });
 
   const contextValue: IGradeExamContext = {
@@ -54,6 +55,8 @@ export default function StudentExam() {
           totalQuestions: data.student_exam.total_graded_questions,
           questionsAnswered: data.student_exam.partial_graded_questions,
           answers: data.student_exam.student_answers,
+          loading: false,
+          student_answers_attributes: [],
         });
         setStudent(data.student_exam.student);
       })
@@ -93,8 +96,9 @@ export default function StudentExam() {
               <Box
                 sx={{
                   width: "80%",
+                  height: "100%",
                   backgroundColor: theme.palette.background.default,
-                  py: 5,
+                  py: 1,
                   px: 5,
                 }}
               >

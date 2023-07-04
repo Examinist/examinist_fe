@@ -15,23 +15,24 @@ export default function QuestionsSideBar() {
     gradeState.partialScore ?? 0
   );
   const getScore = (answer: IStudentAnswer) => {
-    if (answer.score === undefined) {
+    if (answer.score === null) {
       return `-/${answer.exam_question.score}`;
     }
     return `${answer.score}/${answer.exam_question.score}`;
   };
+
   const getTotalScore = () => {
     let totalScore = 0;
     gradeState.answers?.forEach((answer) => {
-      if (answer.score !== undefined) {
-        totalScore += answer.score;
+      if (answer.score !== null) {
+        totalScore += answer.score ?? 0;
       }
     });
     return totalScore;
   };
   React.useEffect(() => {
     setPartialScore(getTotalScore());
-  }, [gradeState.answers]);
+  }, [gradeState]);
 
   return (
     <Box
@@ -99,20 +100,28 @@ export default function QuestionsSideBar() {
           );
         })}
       </List>
+      <Divider
+        orientation="horizontal"
+        sx={{ color: "#272727", p: "10px", borderBottomWidth: "2px" }}
+      ></Divider>
       <Box>
-        <Divider
-          orientation="horizontal"
-          sx={{ color: "#272727", p: "10px", borderBottomWidth: "2px" }}
-        ></Divider>
-
-        <Grid
-          container
-          direction="row"
+        <Box
           justifyContent="flex-start"
           alignItems="flex-end"
-          sx={{ pt: 2 }}
+          sx={{ pt: 2, pl: 2, pr: 5 }}
         >
-          <Grid item sx={{ px: 2 }}>
+          <Stack
+            direction="row"
+            alignItems="center"
+            spacing={1}
+            sx={{
+              border: 1,
+              borderRadius: 1,
+              borderColor: theme.palette.gray.dark,
+              px: 1,
+              py: 1,
+            }}
+          >
             <Typography
               variant="h6"
               sx={{
@@ -123,8 +132,6 @@ export default function QuestionsSideBar() {
             >
               {`Total Score: `}
             </Typography>
-          </Grid>
-          <Grid item>
             <Typography
               variant="subtitle1"
               sx={{
@@ -135,8 +142,8 @@ export default function QuestionsSideBar() {
             >
               {`${partialScore} / ${gradeState.totalScore}`}
             </Typography>
-          </Grid>
-        </Grid>
+          </Stack>
+        </Box>
       </Box>
     </Box>
   );

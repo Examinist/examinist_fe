@@ -193,6 +193,7 @@ export const mockDetailedStudentExam: IDetailedStudentExam = {
         question: mockQuestions[3],
       },
       answer: ["Student Answer"],
+      score: null,
     },
   ],
 };

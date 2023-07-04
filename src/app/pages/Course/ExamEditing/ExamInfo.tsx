@@ -9,6 +9,7 @@ import React, { useContext, useEffect, useState } from "react";
 import theme from "../../../../assets/theme";
 import RadioButtonOptions from "./RadioButtonOptions";
 import { examContext } from "../ExamCreation/Models";
+import { updateContext } from "./EditExam";
 
 export default function ExamInfo({
   setDisabled,
@@ -19,6 +20,8 @@ export default function ExamInfo({
   const [isTitleEmpty, setIsTitleEmpty] = useState(
     examState.title?.trim() === ""
   );
+  const { updateState, setUpdateState } = React.useContext(updateContext);
+
   const [isDurationEmpty, setIsDurationEmpty] = useState(
     (examState.duration ?? 0) < 30
   );
@@ -31,6 +34,7 @@ export default function ExamInfo({
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEntered(true);
     setExamState({ ...examState, title: e.target.value });
+    setUpdateState({ ...updateState, title: true });
     setIsTitleEmpty(e.target.value.toString().trim() === "");
     setDisabled(!e.target.value || isDurationEmpty);
   };
@@ -38,6 +42,7 @@ export default function ExamInfo({
   const handleDurationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEntered(true);
     setExamState({ ...examState, duration: parseInt(e.target.value) });
+    setUpdateState({ ...updateState, duration: true });
     setIsDurationEmpty(!e.target.value || parseInt(e.target.value) < 30);
     setDisabled(
       !e.target.value || parseInt(e.target.value) < 30 || isTitleEmpty

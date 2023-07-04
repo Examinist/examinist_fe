@@ -16,7 +16,7 @@ export interface IStudentExam {
 export interface IStudentAnswer {
   id: number;
   answer?: string[];
-  score?: number;
+  score?: number|null;
   exam_question: IExamQuestion;
 }
 

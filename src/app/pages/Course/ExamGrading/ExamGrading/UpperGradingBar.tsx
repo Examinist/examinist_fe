@@ -1,5 +1,5 @@
 import { Box, Stack } from "@mui/system";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import theme from "../../../../../assets/theme";
 import {
   Button,
@@ -25,6 +25,7 @@ import {
 } from "../../../../services/APIs/StaffPortalStudentExamAPIs";
 import { IErrorResponse } from "../../../../services/Response";
 import useAlert from "../../../../hooks/useAlert";
+import { setgid } from "process";
 
 export default function UpperGradingBar({
   title,
@@ -48,7 +49,7 @@ export default function UpperGradingBar({
   const getCount = () => {
     let count = 0;
     gradeState.answers?.forEach((answer) => {
-      if (answer.score !== undefined) {
+      if (answer.score !== null) {
         count++;
       }
     });
@@ -57,9 +58,13 @@ export default function UpperGradingBar({
 
   React.useEffect(() => {
     setQuestionsAnswered(getCount());
-  }, [gradeState.answers]);
+  }, [gradeState]);
 
   const handleClose = () => {
+    if (gradeState.student_answers_attributes?.length === 0) {
+      navigate(-1);
+      return;
+    }
     setOpenAlert(true);
   };
   const handleDoneClose = () => {
@@ -70,6 +75,10 @@ export default function UpperGradingBar({
       student_answers_attributes: gradeState.student_answers_attributes ?? [],
     };
     console.log("examPayload", examPayload);
+    setGradeState({
+      ...gradeState,
+      loading: true,
+    });
     updateStudentExamApi(
       parseInt(examId!),
       parseInt(studentExamId!),
@@ -89,6 +98,12 @@ export default function UpperGradingBar({
           message: data?.message || statusText,
           severity: "error",
         });
+      })
+      .finally(() => {
+        setGradeState({
+          ...gradeState,
+          loading: false,
+        });
       });
   };
   const handleAlertClose = () => {
@@ -105,7 +120,7 @@ export default function UpperGradingBar({
   const handleAlertDisagreeDone = () => {
     setOpenAlertDone(false);
   };
-  
+
   return (
     <Box
       sx={{
@@ -124,7 +139,12 @@ export default function UpperGradingBar({
         }}
       >
         <Box style={{ display: "flex", alignItems: "center" }}>
-          <IconButton aria-label="back" size="large" onClick={handleClose}>
+          <IconButton
+            aria-label="back"
+            size="large"
+            onClick={handleClose}
+            disabled={gradeState.loading}
+          >
             <ArrowBackIosNewIcon
               sx={{ color: theme.palette.text.primary }}
               fontSize="inherit"
@@ -171,6 +191,10 @@ export default function UpperGradingBar({
             fontWeight: 600,
           }}
           onClick={handleDone}
+          disabled={
+            gradeState.loading ||
+            gradeState.student_answers_attributes?.length === 0
+          }
         >
           Save Changes
         </Button>
@@ -186,7 +210,7 @@ export default function UpperGradingBar({
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-          <Button onClick={handleAlertDisagreeDone}>Continue grading</Button>
+            <Button onClick={handleAlertDisagreeDone}>Continue grading</Button>
             <Button onClick={handleAlertDoneClose} autoFocus>
               Close
             </Button>

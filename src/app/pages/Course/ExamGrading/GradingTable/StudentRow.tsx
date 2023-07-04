@@ -7,27 +7,37 @@ import {
 } from "@mui/material";
 import ExamActions from "../../../../components/ExamsComponents/ExamActions";
 import { ExamStatusEnum, IExam } from "../../../../types/Exam";
-import { IStudentExam, StudentStatusEnum } from "../../../../types/StudentExam";
+import {
+  IStudentExam,
+  StudentStatusEnum,
+  studentStatusEnumToColorMap,
+} from "../../../../types/StudentExam";
+
 import theme from "../../../../../assets/theme";
 import Grade from "@mui/icons-material/DriveFileRenameOutlineOutlined";
 import { useNavigate } from "react-router-dom";
 
 export default function StudentRow({ student }: { student: IStudentExam }) {
   const navigate = useNavigate();
+
   const getColor = () => {
     switch (student.student_status) {
       case StudentStatusEnum.ATTENDED:
-        return "success";
+        return studentStatusEnumToColorMap[StudentStatusEnum.ATTENDED];
       case StudentStatusEnum.ABSENT:
-        return "error";
+        return studentStatusEnumToColorMap[StudentStatusEnum.ABSENT];
+      case StudentStatusEnum.SICK_LEAVE:
+        return studentStatusEnumToColorMap[StudentStatusEnum.SICK_LEAVE];
+      case StudentStatusEnum.CHEATED:
+        return studentStatusEnumToColorMap[StudentStatusEnum.CHEATED];
     }
   };
   const ExamStatusString = () => {
     switch (student.status) {
       case ExamStatusEnum.GRADED:
-        return "success";
+        return studentStatusEnumToColorMap[StudentStatusEnum.ATTENDED];
       case ExamStatusEnum.PENDINGGRADING:
-        return "warning";
+        return studentStatusEnumToColorMap[StudentStatusEnum.CHEATED];
     }
   };
   return (
@@ -48,12 +58,16 @@ export default function StudentRow({ student }: { student: IStudentExam }) {
             ")"}
         </Typography>
       </TableCell>
-      <TableCell key='student_status'>
+      <TableCell key="student_status">
         {student.student_status !== null ? (
           <Chip
-            label={student.student_status}
+            label={student.student_status.replace("_", " ")}
             variant="outlined"
-            color={getColor()}
+            sx={{
+              borderColor: getColor(),
+              color: getColor(),
+              fontWeight: "bold",
+            }}
           />
         ) : (
           <Typography
@@ -67,12 +81,16 @@ export default function StudentRow({ student }: { student: IStudentExam }) {
           </Typography>
         )}
       </TableCell>
-      <TableCell key='grading_status'>
+      <TableCell key="grading_status">
         {student.student_status == StudentStatusEnum.ATTENDED ? (
           <Chip
-            label={student.status}
+            label={student.status.replace("_", " ")}
             variant="outlined"
-            color={ExamStatusString()}
+            sx={{
+              fontWeight: "bold",
+              color: ExamStatusString(),
+              borderColor: ExamStatusString(),
+            }}
           />
         ) : (
           <Typography
@@ -86,7 +104,7 @@ export default function StudentRow({ student }: { student: IStudentExam }) {
           </Typography>
         )}
       </TableCell>
-      <TableCell key='graded_questions'>
+      <TableCell key="graded_questions">
         <Typography
           sx={{
             color: theme.palette.text.primary,
@@ -99,7 +117,7 @@ export default function StudentRow({ student }: { student: IStudentExam }) {
             student.total_graded_questions}
         </Typography>
       </TableCell>
-      <TableCell key='score'>
+      <TableCell key="score">
         <Typography
           sx={{
             color: theme.palette.text.primary,
@@ -110,7 +128,7 @@ export default function StudentRow({ student }: { student: IStudentExam }) {
           {student.partial_score + "/" + student.total_score}
         </Typography>
       </TableCell>
-      <TableCell key='action'>
+      <TableCell key="action">
         <IconButton
           aria-label="grade"
           size="large"

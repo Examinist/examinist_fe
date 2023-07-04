@@ -15,7 +15,7 @@ import React from "react";
 import TableContainer from "./TableContainer";
 import theme from "../../../../../assets/theme";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import { IconButton } from "@mui/material";
+import { CircularProgress, IconButton } from "@mui/material";
 
 const tabs = ["All", "Pending Grading", "Graded"];
 let initialTableHeader = [
@@ -32,6 +32,7 @@ export default function GradingTablePage() {
   const [tableHeader, setTableHeader] = useState<string[]>(initialTableHeader);
   const [title, setTitle] = useState<string>("");
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const [gradeTableState, setGradeTableState] = React.useState<IGradeTable>({
     totalPages: 1,
@@ -46,34 +47,56 @@ export default function GradingTablePage() {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     getExamApi(parseInt(examId!))
       .then(({ data }: IExamResponse) => {
         setTitle(data.exam.title);
       })
-      .catch(({ response: { status, statusText } }: IErrorResponse) => {});
+      .catch(({ response: { status, statusText } }: IErrorResponse) => {})
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, []);
 
   return (
     <Box sx={{ px: 15, py: 5 }}>
-      <Box style={{ display: "flex", alignItems: "center" }}>
-        <IconButton
-          aria-label="back"
-          size="large"
-          onClick={() => {
-            navigate(-1);
+      {isLoading ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
           }}
         >
-          <ArrowBackIosNewIcon
-            sx={{ color: theme.palette.text.primary }}
-            fontSize="inherit"
-          />
-        </IconButton>
-        <h1 style={{ flexGrow: 1, textAlign: "start" }}>{title}</h1>
-      </Box>
+          <CircularProgress />
+        </Box>
+      ) : (
+        <>
+          <Box style={{ display: "flex", alignItems: "center" }}>
+            <IconButton
+              aria-label="back"
+              size="large"
+              onClick={() => {
+                navigate(-1);
+              }}
+            >
+              <ArrowBackIosNewIcon
+                sx={{ color: theme.palette.text.primary }}
+                fontSize="inherit"
+              />
+            </IconButton>
+            <h1 style={{ flexGrow: 1, textAlign: "start" }}>{title}</h1>
+          </Box>
 
-      <setGradeTableContext.Provider value={contextValue}>
-        <TableContainer tabs={tabs} tableHeader={tableHeader}></TableContainer>
-      </setGradeTableContext.Provider>
+          <setGradeTableContext.Provider value={contextValue}>
+            <TableContainer
+              tabs={tabs}
+              tableHeader={tableHeader}
+            ></TableContainer>
+          </setGradeTableContext.Provider>
+        </>
+      )}
     </Box>
   );
 }

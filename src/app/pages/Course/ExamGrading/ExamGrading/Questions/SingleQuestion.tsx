@@ -48,42 +48,37 @@ export default function SingleQuestion({
       setIsFieldEmpty(true);
     } else {
       setIsFieldEmpty(false);
-      setGradeState({
-        ...gradeState,
-        answers: gradeState.answers?.map((answer: IStudentAnswer) => {
-          if (answer.id === examQuestion.id) {
-            return {
-              ...answer,
-              score: value.trim() === "" ? undefined : val,
-            };
-          }
-          return answer;
-        }),
+      const newAnswers = gradeState.answers?.map((answer: IStudentAnswer) => {
+        if (answer.id === examQuestion.id) {
+          return {
+            ...answer,
+            score: value.trim() === "" ? null : val,
+          };
+        }
+        return answer;
       });
-      handleUpdateScore(val);
+      handleUpdateScore(val, newAnswers!);
     }
   }
 
   const onMark = (type: string) => {
-    setGradeState({
-      ...gradeState,
-      answers: gradeState.answers?.map((answer: IStudentAnswer) => {
-        if (answer.id === examQuestion.id) {
-          return {
-            ...answer,
-            score: type === "correct" ? examQuestion.exam_question.score : 0,
-          };
-        }
-        return answer;
-      }),
+    const newAnswers = gradeState.answers?.map((answer: IStudentAnswer) => {
+      if (answer.id === examQuestion.id) {
+        return {
+          ...answer,
+          score: type === "correct" ? examQuestion.exam_question.score : 0,
+        };
+      }
+      return answer;
     });
 
     setScore(type === "correct" ? examQuestion.exam_question.score : 0);
     handleUpdateScore(
-      type === "correct" ? examQuestion.exam_question.score : 0
+      type === "correct" ? examQuestion.exam_question.score : 0,
+      newAnswers!
     );
   };
-  const handleUpdateScore = (value: number) => {
+  const handleUpdateScore = (value: number, newAnswers: IStudentAnswer[]) => {
     if (gradeState.student_answers_attributes) {
       const questionIndex = gradeState.student_answers_attributes.findIndex(
         (q) => q.id === examQuestion.id
@@ -100,12 +95,14 @@ export default function SingleQuestion({
       }
       setGradeState({
         ...gradeState,
+        answers: newAnswers,
         student_answers_attributes: gradeState.student_answers_attributes,
       });
     }
   };
+
   React.useEffect(() => {
-    if (examQuestion.score !== undefined) {
+    if (examQuestion.score !== null) {
       setScore(examQuestion.score);
     }
   }, []);
@@ -139,8 +136,7 @@ export default function SingleQuestion({
                   Topic:
                 </Typography>
                 <Typography variant="subtitle2" color={theme.palette.gray.dark}>
-                  {examQuestion.exam_question.question.topic?.name ||
-                    "Undefined"}
+                  {examQuestion.exam_question.question.topic?.name}
                 </Typography>
               </Box>
             </Grid>
@@ -202,7 +198,7 @@ export default function SingleQuestion({
         />
       </Box>
       <Box sx={{ display: "flex", alignItems: "center" }}>
-        <Box sx={{ flexGrow: 2 }}>{/* Empty space */}</Box>
+        <Box sx={{ flexGrow: 1.5 }}>{/* Empty space */}</Box>
         {examQuestion.exam_question.question.question_type.name !=
           DefaultQuestionTypesEnum.MCQ &&
         examQuestion.exam_question.question.question_type.name !=
