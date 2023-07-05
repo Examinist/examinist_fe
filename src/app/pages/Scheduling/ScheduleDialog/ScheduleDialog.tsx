@@ -71,6 +71,7 @@ export default function ScheduleDialog({
       PaperProps={{
         sx: {
           minHeight: "60vh",
+          minWidth: "70vw",
         },
       }}
     >

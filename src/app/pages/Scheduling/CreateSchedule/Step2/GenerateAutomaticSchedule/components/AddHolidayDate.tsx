@@ -13,7 +13,7 @@ export default function AddHolidayDate() {
   const { control, getValues } = useFormContext<IFormInput>();
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "holidayDates" as FieldArrayPath<IFormInput>,
+    name: "holiday_dates" as FieldArrayPath<IFormInput>,
   });
 
   const handleAdd = () => {
@@ -40,6 +40,8 @@ export default function AddHolidayDate() {
       >
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
+            minDate={dayjs(Date.now())}
+            format="dddd, DD/MM/YYYY"
             label="Holiday Date"
             value={value}
             onChange={(newValue) => setValue(newValue)}

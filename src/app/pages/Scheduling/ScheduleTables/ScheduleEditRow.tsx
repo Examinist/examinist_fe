@@ -51,7 +51,7 @@ export default function ScheduleEditRow({
         {value.number_of_students == undefined ? 0 : value.number_of_students}
       </TableCell>
       <TableCell align="center">{value.duration}</TableCell>
-      <TableCell style={{ width: "180px" }} align="center">
+      <TableCell style={{ width: "200px" }} align="center">
         <ScheduleDatePicker index={index}></ScheduleDatePicker>
       </TableCell>
       <TableCell style={{ width: "180px" }} align="center">

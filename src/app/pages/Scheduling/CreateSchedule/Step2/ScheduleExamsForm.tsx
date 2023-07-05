@@ -1,5 +1,5 @@
 import { Box, Button } from "@mui/material";
-import React, { useEffect, useImperativeHandle } from "react";
+import React, { useEffect, useImperativeHandle, useState } from "react";
 import theme from "../../../../../assets/theme";
 import { ScheduleContext } from "../ScheduleContext";
 import { FormProvider, useForm } from "react-hook-form";
@@ -28,6 +28,7 @@ import { IErrorResponse } from "../../../../services/Response";
 import { useNavigate } from "react-router-dom";
 import CustomCircularProgress from "../../../../components/CustomCircularProgress";
 import { dayjsToDate } from "../../../../utilities/Date";
+import ConflictsDialog from "./ConflictsDialog";
 
 interface IScheduleExamsFormProps {
   reference: React.Ref<any>;
@@ -41,6 +42,10 @@ export default function ScheduleExamsForm({
   const { exams, setExams, title, loading, setLoading } =
     React.useContext(ScheduleContext);
   const [dialogOpen, setDialogOpen] = React.useState<boolean>(false);
+  const [conflictDialogState, setConflictDialogState] = useState<{
+    open: boolean;
+    message: string;
+  }>({ open: false, message: "" });
   const [loadingMessage, setLoadingMessage] = React.useState<
     string | undefined
   >();
@@ -82,15 +87,17 @@ export default function ScheduleExamsForm({
 
   const { handleSubmit } = methods;
 
-  const onSubmit = (input: IScheduleFormInput) => {
-    setExams(mapToExam(input.list, exams, labs));
-
+  const handleSubmitSchedule = (
+    input: IScheduleFormInput,
+    forceSave: boolean,
+    onError: (errorMessage: string) => void
+  ) => {
     const schedulePayload: ISchedulePayload = {
       title: title,
       exams: input.list.map((formExam) => ({
         id: formExam.id,
         starts_at: dayjsToDate(formExam.date!, formExam.time!),
-        _force: false,
+        _force: forceSave,
         busy_labs_attributes:
           formExam.labs?.map((labName) => ({
             lab_id: labs.find((lab) => lab.name === labName)?.id!,
@@ -109,16 +116,53 @@ export default function ScheduleExamsForm({
         navigate("./..");
       })
       .catch(({ response: { status, statusText, data } }: IErrorResponse) => {
-        setAlertState({
-          open: true,
-          severity: "error",
-          message: data?.message || statusText || "Something went wrong",
-        });
+        onError(data?.message || statusText || "Something went wrong");
       })
       .finally(() => {
         setLoading(false);
         setLoadingMessage(undefined);
       });
+  };
+
+  const onSubmit = (input: IScheduleFormInput) => {
+    setExams(mapToExam(input.list, exams, labs));
+
+    handleSubmitSchedule(input, false, (errorMessage) => {
+      setConflictDialogState({
+        open: true,
+        message: errorMessage,
+      });
+    });
+  };
+
+  const handleAutomaticScheduleSuccesfullSubmit = (exams: IExam[]) => {
+    setDialogOpen(false);
+    exams.forEach((exam) => {
+      if (exam.labs) {
+        exam.busy_labs = exam.labs.map((lab) => ({
+          id: lab.id!,
+          name: lab.name,
+        }));
+      }
+    });
+    setExams(exams);
+    const { setValue } = methods;
+    setValue("list", mapToScheduleForm(exams));
+  };
+
+  const handleCloseConflictDialog = () => {
+    setConflictDialogState({ open: false, message: "" });
+  };
+
+  const handleConfirmConflictDialog = () => {
+    handleSubmitSchedule(methods.getValues(), true, (errorMessage) => {
+      setAlertState({
+        open: true,
+        severity: "error",
+        message: errorMessage,
+      });
+    });
+    setConflictDialogState({ open: false, message: "" });
   };
 
   return loading ? (
@@ -173,9 +217,15 @@ export default function ScheduleExamsForm({
         <GenerateAutomaticScheduleDialog
           isOpened={dialogOpen}
           handleClose={() => setDialogOpen(false)}
-          onSuccessfulSubmit={(exams: IExam[]) => {
-            console.log(exams);
-          }}
+          onSuccessfulSubmit={handleAutomaticScheduleSuccesfullSubmit}
+        />
+      )}
+      {conflictDialogState.open && (
+        <ConflictsDialog
+          open={conflictDialogState.open}
+          onForceSave={handleConfirmConflictDialog}
+          onModify={handleCloseConflictDialog}
+          conflictMessage={conflictDialogState.message}
         />
       )}
     </>

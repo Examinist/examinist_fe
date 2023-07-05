@@ -3,6 +3,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Controller, useFormContext } from "react-hook-form";
 import { IScheduleFormInput } from "../CreateSchedule/Step2/Fields";
 import { ISchedulePickerProps } from "./ScheduleDatePicker";
+import dayjs from "dayjs";
 
 export default function ScheduleTimePicker({index}:ISchedulePickerProps) {
     const {
@@ -11,23 +12,29 @@ export default function ScheduleTimePicker({index}:ISchedulePickerProps) {
     } = useFormContext<IScheduleFormInput>();
 
     return (
-        <Controller
-            name={`list.${index}.time`}
-            control={control}
-            render={({ field }) => (
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DesktopTimePicker
-                        {...field}
-                        slotProps={{ textField: { size: 'small',
-                        error: errors.list?.[index]?.time ? true : false,
-                        helperText: errors.list?.[index]?.time?.message, } }}
-                        sx={{
-                            "& .MuiOutlinedInput-input": {
-                                fontSize: "13px"
-                            }
-                        }}></DesktopTimePicker>
-                </LocalizationProvider>
-            )}
-        />
+      <Controller
+        name={`list.${index}.time`}
+        control={control}
+        render={({ field }) => (
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DesktopTimePicker
+            
+              {...field}
+              slotProps={{
+                textField: {
+                  size: "small",
+                  error: errors.list?.[index]?.time ? true : false,
+                  helperText: errors.list?.[index]?.time?.message,
+                },
+              }}
+              sx={{
+                "& .MuiOutlinedInput-input": {
+                  fontSize: "13px",
+                },
+              }}
+            ></DesktopTimePicker>
+          </LocalizationProvider>
+        )}
+      />
     );
 }

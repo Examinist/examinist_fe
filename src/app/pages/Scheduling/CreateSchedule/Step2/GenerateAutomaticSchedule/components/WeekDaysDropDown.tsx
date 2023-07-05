@@ -40,7 +40,7 @@ export default function WeekDaysDropDown() {
 
   return (
     <Controller
-      name="weekDays"
+      name="exam_week_days"
       control={control}
       render={({ field }) => (
         <FormControl sx={{ mt: 1, width: "100%" }}>

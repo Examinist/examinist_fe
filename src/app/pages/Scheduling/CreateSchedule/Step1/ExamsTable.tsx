@@ -43,7 +43,7 @@ const columns: GridColDef[] = [
 
 const examColumns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 90, type: "number" },
-  { field: "title", headerName: "Title", width: 200 },
+  { field: "title", headerName: "Title", width: 300 },
   {
     field: "course",
     headerName: "Course",
@@ -80,15 +80,7 @@ export default function ExamsTable({ exams }: { exams: IExam[] }) {
       <DataGrid
         rows={exams}
         columns={examColumns}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 5,
-              page: 0,
-            },
-          },
-        }}
-        pageSizeOptions={[5]}
+      
         onRowSelectionModelChange={(newRowSelectionModel) => {
           setRowSelectionModel(newRowSelectionModel);
           setValue(

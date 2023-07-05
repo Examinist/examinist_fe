@@ -28,6 +28,8 @@ export default function FormDatePicker({
           <DesktopDatePicker
             label={label}
             {...field}
+            minDate={dayjs(Date.now())}
+            format="dddd, DD/MM/YYYY "
             slotProps={{
               textField: {
                 error: errors[name] ? true : false,

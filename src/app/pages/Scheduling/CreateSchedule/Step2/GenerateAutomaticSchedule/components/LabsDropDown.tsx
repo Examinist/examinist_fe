@@ -30,7 +30,7 @@ export default function LabsDropDown({ labs }: { labs: ILab[] }) {
   } = useFormContext<IFormInput>();
   return (
     <Controller
-      name="labsIds"
+      name="labs_ids"
       control={control}
       render={({ field }) => (
         <FormControl sx={{ mt: 1, width: "100%" }}>

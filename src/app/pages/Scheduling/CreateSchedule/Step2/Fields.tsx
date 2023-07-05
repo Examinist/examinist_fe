@@ -24,7 +24,7 @@ export const mapToScheduleForm = (items: IExam[]) => {
         ? dayjs(value.scheduled_date.toDateString())
         : null,
       time: value.scheduled_date
-        ? dayjs(value.scheduled_date.toDateString())
+        ? dayjs().set("hour", value.scheduled_date.getHours()).set("minute", value.scheduled_date.getMinutes())
         : null,
       labs: value.busy_labs ? value.busy_labs.map((value) => value.name) : [],
     };

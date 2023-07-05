@@ -1,7 +1,9 @@
 import dayjs, { Dayjs } from "dayjs";
-import { Path } from "react-hook-form";
+import { Path, get } from "react-hook-form";
 import * as yup from "yup";
 import { getDateStr } from "../../../../../utilities/Date";
+import { IAutomaticSchedulePayload } from "../../../../../services/APIs/ScheduleAPIs";
+import { IExam } from "../../../../../types/Exam";
 
 export interface IFormInput {
   schedule_from: Dayjs;
@@ -23,7 +25,7 @@ export const schema = yup.object().shape({
     .typeError("To date is required")
     .min(yup.ref("schedule_from"), "To date must be after from date"),
   exam_starting_time: yup
-    .date()
+    .object()
     .required("Time is required")
     .typeError("Time is required"),
   exam_week_days: yup.array().min(1, "Week days is required"),
@@ -32,7 +34,7 @@ export const schema = yup.object().shape({
 });
 
 export const initialValues: IFormInput = {
-  schedule_from: dayjs(getDateStr(new Date(Date.now()))),
+  schedule_from: dayjs(Date.now()),
   schedule_to: dayjs(""),
   exam_starting_time: dayjs(""),
   exam_week_days: [],
@@ -40,3 +42,29 @@ export const initialValues: IFormInput = {
   holiday_dates: [],
 };
 export type FieldPath = Path<IFormInput>;
+
+const mapDate = (date: Date) => {
+  return dayjs(date).format("DD-MM-YYYY");
+}
+
+export const mapInput: (
+  input: IFormInput,
+  title: string,
+  exams: IExam[]
+) => IAutomaticSchedulePayload = (
+  input: IFormInput,
+  title: string,
+  exams: IExam[]
+) => {
+  let payload: IAutomaticSchedulePayload = {
+    schedule_from: mapDate(input.schedule_from as unknown as Date),
+    schedule_to: mapDate(input.schedule_to as unknown as Date),
+    exam_starting_time: input.exam_starting_time.format("HH:mm"),
+    exam_week_days: input.exam_week_days.map((day) => day.toLowerCase()),
+    lab_ids: input.labs_ids,
+    title: title,
+    exam_ids: exams.map((exam) => exam.id),
+    holiday_dates: input.holiday_dates.map((date) => mapDate(date)),
+  };
+  return payload;
+};

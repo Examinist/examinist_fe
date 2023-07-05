@@ -4,6 +4,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopTimePicker } from "@mui/x-date-pickers/DesktopTimePicker";
 import { Controller, Field, FieldName, FieldPath, useFormContext } from "react-hook-form";
 import { IFormInput } from "../Fields";
+import dayjs from "dayjs";
 
 interface IFromTimePickerProps {
   label?: string;
@@ -25,6 +26,7 @@ export default function FormTimePicker({ label, name }: IFromTimePickerProps) {
          sx={{width: 'fit-content'}}
             label={label}
             {...field}
+            
             slotProps={{
               textField: {
                 error: errors[name] ? true : false,
