@@ -58,7 +58,7 @@ export default function WeekDaysDropDown() {
               </Box>
             )}
             MenuProps={MenuProps}
-            error={errors.weekDays ? true : false}
+            error={errors.exam_week_days ? true : false}
           >
             {days.map((day) => (
               <MenuItem key={day} value={day}>

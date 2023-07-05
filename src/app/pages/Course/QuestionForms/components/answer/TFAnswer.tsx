@@ -5,10 +5,7 @@ import { useFormContext } from "react-hook-form";
 import { AnswerTypeEnum, IChoice } from "../../../../../types/Question";
 import { IFormInputs } from "../../Fields";
 
-const options = [
-  { value: "true", label: "True" },
-  { value: "false", label: "False" },
-];
+
 
 export default function TFAnswer() {
   const { setValue, getValues } = useFormContext<IFormInputs>();
@@ -16,13 +13,13 @@ export default function TFAnswer() {
   useEffect(() => {
     setValue("answer_type", AnswerTypeEnum.SINGLE);
     const choices: IChoice[] = getValues("choices_attributes")!;
-    if((choices && choices.length == 2 && choices[0].choice?.toLowerCase() == "true" && choices[1].choice?.toLowerCase() == "false")){
-        setChecked(choices[0].is_answer ? "true" : "false");
+    if((choices && choices.length == 2 && choices[0].choice?.toLowerCase() === "true" && choices[1].choice?.toLowerCase() === "false")){
+        setChecked(choices[0].is_answer ? "True" : "False");
     }
     else{
         setValue("choices_attributes", [
-          { choice: "true", is_answer: true },
-          { choice: "false", is_answer: false },
+          { choice: "True", is_answer: true },
+          { choice: "False", is_answer: false },
         ]);
     }
    
@@ -30,7 +27,7 @@ export default function TFAnswer() {
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.value);
-    if (event.target.value === "true") {
+    if (event.target.value === "True") {
       setValue(`choices_attributes.0.is_answer`, true);
       setValue(`choices_attributes.1.is_answer`, false);
     } else {
@@ -44,8 +41,8 @@ export default function TFAnswer() {
         Answer:
       </Typography>
       <RadioGroup value={checked} onChange={handleOnChange}>
-        <FormControlLabel value={"true"} control={<Radio />} label={"true"} />
-        <FormControlLabel value={"false"} control={<Radio />} label={"false"} />
+        <FormControlLabel value={"True"} control={<Radio />} label={"True"} />
+        <FormControlLabel value={"False"} control={<Radio />} label={"False"} />
       </RadioGroup>
     </>
   );

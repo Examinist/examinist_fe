@@ -23,8 +23,7 @@ const MenuProps = {
   },
 };
 
-
-export default function LabsDropDown({labs}: {labs: ILab[]}) {
+export default function LabsDropDown({ labs }: { labs: ILab[] }) {
   const {
     control,
     formState: { errors },
@@ -52,12 +51,15 @@ export default function LabsDropDown({labs}: {labs: ILab[]}) {
               </Box>
             )}
             MenuProps={MenuProps}
-            error={errors.labsIds ? true : false}
+            error={errors.labs_ids ? true : false}
           >
             {labs.map((lab) => (
               <MenuItem key={lab.id!} value={lab.id!} divider>
                 <Checkbox checked={field.value.includes(lab.id!)} />
-                <ListItemText primary={lab.name}  secondary={`Capacity: ${lab.capacity}`}/>
+                <ListItemText
+                  primary={lab.name}
+                  secondary={`Capacity: ${lab.capacity}`}
+                />
               </MenuItem>
             ))}
           </Select>

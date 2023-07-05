@@ -62,7 +62,7 @@ export default function QuestionsSideBar() {
           bgcolor: "background.paper",
           position: "relative",
           overflow: "auto",
-          maxHeight: 520,
+          maxHeight: 600,
           "& ul": { padding: 0 },
         }}
         subheader={<li />}

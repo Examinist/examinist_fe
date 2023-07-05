@@ -110,6 +110,11 @@ export default function UniversityLabs() {
     };
     addLabApi(newLab)
       .then(() => {
+        setAlertState({
+          open: true,
+          message: "Lab is added successfully.",
+          severity: "success",
+        })
         loadLabs();
         handleCloseAdd();
       })
@@ -124,7 +129,7 @@ export default function UniversityLabs() {
 
   return (
     <>
-      (
+      
       
         <Box sx={{ px: 15, py: 5 }}>
           <Box
@@ -255,7 +260,7 @@ export default function UniversityLabs() {
           </Card>
           )}
         </Box>
-      )
+      
     </>
   );
 }

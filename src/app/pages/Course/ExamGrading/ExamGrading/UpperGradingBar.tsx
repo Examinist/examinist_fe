@@ -87,7 +87,7 @@ export default function UpperGradingBar({
       .then(() => {
         setAlertState({
           open: true,
-          message: "Exam is created successfully!",
+          message: "Changes are saved successfully!",
           severity: "success",
         });
         handleDoneClose();
@@ -155,6 +155,7 @@ export default function UpperGradingBar({
             onClose={handleAlertClose}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
+            fullWidth
           >
             <DialogTitle id="alert-dialog-title">
               {"Are you sure ?"}
@@ -203,6 +204,7 @@ export default function UpperGradingBar({
           onClose={handleAlertDoneClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
+          fullWidth
         >
           <DialogContent>
             <DialogContentText id="alert-dialog-description">

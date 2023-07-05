@@ -28,7 +28,7 @@ const theme = createTheme({
   palette: {
     primary: {
       main: "#1B84BF",
-      light:"#5FA5CD"
+      light: "#5FA5CD",
     },
     secondary: {
       main: "#6B6767",
@@ -42,17 +42,17 @@ const theme = createTheme({
       default: "#F5F5F5",
     },
     white: {
-      main:"#FFFFFF",
+      main: "#FFFFFF",
     },
     yellow: {
-      main:"#F9C74F",
+      main: "#F9C74F",
     },
     green: {
-      main:"#90BE6D",
+      main: "#90BE6D",
     },
     red: {
       dark: "#d32f2f",
-      main:"#F94144",
+      main: "#F94144",
     },
   },
   typography: {
@@ -66,12 +66,19 @@ const theme = createTheme({
         },
       },
     },
-  MuiAccordion: {
+    MuiAccordion: {
       styleOverrides: {
         root: {
           "&:before": {
             display: "none",
           },
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          inputProps: { spellCheck: "false" },
         },
       },
     },

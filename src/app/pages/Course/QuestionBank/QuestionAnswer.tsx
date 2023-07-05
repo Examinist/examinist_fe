@@ -72,7 +72,7 @@ export default function QuestionAnswer({
         <Grid container direction="column">
           <Box
             sx={{
-              width: "1100px",
+              mr: 8,
               border: 1,
               borderRadius: 3,
               borderColor: theme.palette.gray.main,

@@ -18,7 +18,11 @@ export default function AddHolidayDate() {
 
   const handleAdd = () => {
     console.log(dayjs(value).toDate());
-    if (!getValues().holidayDates.map((date) => getDateStr(date)).includes(getDateStr(dayjs(value).toDate()))) {
+    if (
+      !getValues()
+        .holiday_dates.map((date) => getDateStr(date))
+        .includes(getDateStr(dayjs(value).toDate()))
+    ) {
       append(dayjs(value).toDate());
     }
     setValue(null);
@@ -64,7 +68,7 @@ export default function AddHolidayDate() {
           shadow: 0,
           borderRadius: 4,
           minHeight: 40,
-          gap: 0.5
+          gap: 0.5,
         }}
         component="ul"
       >
@@ -72,12 +76,14 @@ export default function AddHolidayDate() {
           return (
             <Chip
               key={field.id}
-              label={getDateStr(getValues().holidayDates[index])}
+              label={getDateStr(getValues().holiday_dates[index])}
               onDelete={() => remove(index)}
             />
           );
         })}
-        {fields.length === 0 && (<Box sx={{fontWeight: 250, px: 1}}>No holiday dates added.</Box>)}
+        {fields.length === 0 && (
+          <Box sx={{ fontWeight: 250, px: 1 }}>No holiday dates added.</Box>
+        )}
       </Box>
     </Box>
   );

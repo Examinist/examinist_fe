@@ -20,7 +20,18 @@ export default function Courses() {
   }, []);
 
   return (
-    <div>
+    <Box>
+      <Box
+        sx={{
+          fontSize: "2.2rem",
+          fontWeight: "medium",
+          fontFamily: "montserrat",
+          px: 12,
+          py: 5,
+        }}
+      >
+        Courses
+      </Box>
       {isLoading ? (
         <Box
           sx={{
@@ -37,12 +48,13 @@ export default function Courses() {
           justifyContent="center"
           alignItems="center"
           sx={{
-            paddingBlock: 5,
+            paddingBlockX: 4,
           }}
         >
           <Grid
             container
             spacing={{ xs: 2, md: 3 }}
+            rowGap={{ xs: 2, md: 5 }}
             columns={{ xs: 4, sm: 8, md: 12 }}
           >
             {courses.map((course) => {
@@ -64,6 +76,6 @@ export default function Courses() {
           </Grid>
         </Box>
       )}
-    </div>
+    </Box>
   );
 }

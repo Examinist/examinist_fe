@@ -101,9 +101,9 @@ export default function GenerateAutomaticScheduleDialog({
                   pl: 2,
                 }}
               >
-                <FormDatePicker label="From" name="fromDate" />
+                <FormDatePicker label="From" name="schedule_from" />
                 <Box sx={{ alignSelf: "center" }}>__</Box>
-                <FormDatePicker label="To" name="toDate" />
+                <FormDatePicker label="To" name="schedule_to" />
               </Box>
             </Box>
 
@@ -143,7 +143,7 @@ export default function GenerateAutomaticScheduleDialog({
                   Select the time which all exams should start at.
                 </Box>
 
-                <FormTimePicker label="Time" name="time" />
+                <FormTimePicker label="Time" name="exam_starting_time" />
               </Stack>
             </Box>
 

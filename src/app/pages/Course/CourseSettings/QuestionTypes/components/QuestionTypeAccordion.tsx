@@ -67,7 +67,7 @@ export default function QuestionTypeAccordion({
                     fontWeight: "medium",
                   }}
                 >
-                  {name}
+                  {name.replace("_", " ")}
                 </Box>
 
               {expandedId === id && (

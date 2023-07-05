@@ -16,6 +16,17 @@ export interface IScheduledExamPayload {
   busy_labs_attributes: IScheduleLabPayload[];
 }
 
+export interface IAutomaticSchedulePayload {
+  title: string;
+  schedule_from: string;
+  schedule_to: string;
+  exam_starting_time: string;
+  exam_ids: number[];
+  lab_ids: number[];
+  holiday_dates: string[];
+  exam_week_days: string[];
+}
+
 export interface ISchedulePayload {
   title?: string;
   exams: IScheduledExamPayload[];
@@ -149,6 +160,16 @@ export const deleteScheduleApi = async (scheduleId: number) => {
   const response = await axiosInstance.delete(
     `${portal}/schedules/${scheduleId}`
   );
+  response.data.schedule.exams = response.data.schedule.exams.map(
+    (exam: IExam) => fixExamDate(exam)
+  );
+  return response as IScheduleResponse;
+};
+
+
+export const autoGenerateScheduleApi = async (payload: IAutomaticSchedulePayload) => {
+  const portal = localStorage.getItem("portal");
+  const response = await axiosInstance.post(`${portal}/schedules/auto_generate`, payload);
   response.data.schedule.exams = response.data.schedule.exams.map(
     (exam: IExam) => fixExamDate(exam)
   );

@@ -112,10 +112,9 @@ export default function EditExam() {
         justifyContent="flex-start"
         alignItems="flex-start"
         spacing={2}
-        sx={{ ml:10 }}
+        sx={{ ml: 10 }}
       >
-        <IconButton aria-label="back" size="large" onClick={handleClose}
-        >
+        <IconButton aria-label="back" size="large" onClick={handleClose}>
           <ArrowBackIosNewIcon
             sx={{ color: theme.palette.text.primary }}
             fontSize="inherit"
@@ -126,6 +125,7 @@ export default function EditExam() {
           onClose={handleAlertClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
+          fullWidth
         >
           <DialogTitle id="alert-dialog-title">{"Are you sure ?"}</DialogTitle>
           <DialogContent>
