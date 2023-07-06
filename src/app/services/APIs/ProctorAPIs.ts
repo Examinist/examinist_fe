@@ -1,4 +1,5 @@
 import { IProctorPortalExam } from "../../types/ProctorPortalExam";
+import { sortWithDate } from "../../utilities/Date";
 import axiosInstance from "../AxiosConfig";
 import { IResponse, IResponseData } from "../Response";
 
@@ -26,6 +27,8 @@ export const getProctorUpcommingExamsApi = async (page: number = -1) => {
     fixExamDate(exam)
   );
 
+  response.data.exams = sortWithDate(response.data.exams);
+
   return response as IExamsListResponse;
 };
 
@@ -36,6 +39,7 @@ export const getProctorSixtyMinutesExamsApi = async (page: number = -1) => {
   response.data.exams = response.data.exams.map((exam: IProctorPortalExam) =>
     fixExamDate(exam)
   );
+  response.data.exams = sortWithDate(response.data.exams);
 
   return response as IExamsListResponse;
 };

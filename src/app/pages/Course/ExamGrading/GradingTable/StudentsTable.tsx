@@ -10,7 +10,7 @@ import {
   TableRow,
 } from "@mui/material";
 import StudentRow from "./StudentRow";
-import React from "react";
+import React, { useEffect } from "react";
 import { setGradeTableContext } from "../Models";
 
 interface IExamTableProp {
@@ -24,9 +24,10 @@ export default function StudentsTable({
 }: IExamTableProp) {
   const { gradeTableState, setGradeTableState } =
     React.useContext(setGradeTableContext);
-  const getPageNumber=()=>{
-    return (gradeTableState?.pageNumber??0)+1;
-    }
+
+  useEffect(() => {
+    console.log("students", gradeTableState.studentsExams);
+  }, [gradeTableState.studentsExams]);
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer>
@@ -62,12 +63,12 @@ export default function StudentsTable({
       <TablePagination
         rowsPerPageOptions={[gradeTableState.studentsExams?.length ?? 1]}
         component="div"
-        count={20*(gradeTableState?.totalPages??1)}
+        count={gradeTableState.count ?? 1}
         rowsPerPage={gradeTableState.studentsExams?.length ?? 1}
         page={gradeTableState.pageNumber ?? 0}
         onPageChange={handleChangePage}
         labelDisplayedRows={({ from, to, count }) =>
-          `page ${getPageNumber()} out of ${
+          `page ${(gradeTableState?.pageNumber ?? 0) + 1} out of ${
             gradeTableState.totalPages
           } pages`
         }

@@ -4,7 +4,7 @@ import {
   IExamQuestionsGroup,
 } from "../../types/Exam";
 import { IExam } from "../../types/Exam";
-import { fixExamDate } from "../../utilities/Date";
+import { fixExamDate, sortWithDate } from "../../utilities/Date";
 import axiosInstance from "../AxiosConfig";
 import { IResponse, IResponseData } from "../Response";
 import { mockDetailedExam, mockExamsList } from "./mockData/MockData";
@@ -74,6 +74,7 @@ export const getExamsApi = async (
         exam.scheduled_date = new Date(exam.scheduled_date);
       }
     });
+
     return response as IExamsListResponse;
   } catch (error) {
     return { data: { exams: mockExamsList } } as IExamsListResponse;

@@ -101,7 +101,7 @@ export default function ExamInfo({
               onChange={handleDurationChange}
               required
               error={isDurationEmpty && entered}
-              inputProps={{ min: "30" }}
+              // inputProps={{ min: "30" }}
             />
             {isDurationEmpty && (
               <FormHelperText error>

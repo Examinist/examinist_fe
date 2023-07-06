@@ -10,8 +10,8 @@ import { ExamStatusEnum } from "../../../../types/Exam";
 import useAlert from "../../../../hooks/useAlert";
 import React from "react";
 import { IErrorResponse } from "../../../../services/Response";
-import { setGradeTableContext } from "../Models";
 import { useParams } from "react-router";
+import { setGradeTableContext } from "../Models";
 
 interface IExamCardProp {
   tabs: string[];
@@ -28,10 +28,6 @@ export default function TableContainer({ tabs, tableHeader }: IExamCardProp) {
 
   const handleChangePage = (event: unknown, newPage: number) => {
     loadStudents(newPage, gradeTableState.filterType ?? ExamStatusEnum.ALL);
-    setGradeTableState({
-      ...gradeTableState,
-      pageNumber: newPage - 1,
-    });
   };
   const handleChangeTab = (event: React.SyntheticEvent, newTab: number) => {
     selectTab(newTab);
@@ -40,22 +36,23 @@ export default function TableContainer({ tabs, tableHeader }: IExamCardProp) {
   const getFilterType = (tabName: string) => {
     switch (tabName) {
       case "All":
-        loadStudents(1, ExamStatusEnum.ALL);
+        loadStudents(0, ExamStatusEnum.ALL);
         return;
       case "Pending Grading":
-        loadStudents(1, ExamStatusEnum.PENDINGGRADING);
+        loadStudents(0, ExamStatusEnum.PENDINGGRADING);
         return;
       case "Graded":
-        loadStudents(1, ExamStatusEnum.GRADED);
+        loadStudents(0, ExamStatusEnum.GRADED);
         return;
     }
     return;
   };
   const loadStudents = (pageNumber: number, type: ExamStatusEnum) => {
     setIsLoading(true);
+    console.log("page ", pageNumber);
     (type == ExamStatusEnum.ALL
-      ? getStudentExamsApi(parseInt(examId!), pageNumber)
-      : getStudentExamsApi(parseInt(examId!), pageNumber, type)
+      ? getStudentExamsApi(parseInt(examId!), pageNumber + 1)
+      : getStudentExamsApi(parseInt(examId!), pageNumber + 1, type)
     )
       .then(({ data }: IStudentExamsListResponse) => {
         setGradeTableState({
@@ -63,6 +60,7 @@ export default function TableContainer({ tabs, tableHeader }: IExamCardProp) {
           totalPages: data.number_of_pages,
           pageNumber: pageNumber,
           filterType: type,
+          count: getCount(data.student_exams, data.number_of_pages),
         });
       })
       .catch(({ response: { status, statusText, data } }: IErrorResponse) => {
@@ -76,8 +74,22 @@ export default function TableContainer({ tabs, tableHeader }: IExamCardProp) {
         setIsLoading(false);
       });
   };
+  const getCount = (student_exams: IStudentExam[], number_of_pages: number) => {
+    console.log("student_exams ", student_exams.length);
+    console.log("number_of_pages ", number_of_pages);
+
+    const count = 20 * number_of_pages;
+    console.log("count ", count);
+    if (student_exams.length <= 20) {
+      console.log("pp ", 20 * (number_of_pages - 1) + student_exams.length);
+      return 20 * (number_of_pages - 1) + student_exams.length;
+    }
+    console.log("shit ", count);
+    return count;
+  };
+
   useEffect(() => {
-    loadStudents(1, ExamStatusEnum.ALL);
+    loadStudents(0, ExamStatusEnum.ALL);
   }, []);
 
   return (

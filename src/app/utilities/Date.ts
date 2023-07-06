@@ -1,4 +1,4 @@
-import { IStudentPortalStudentExam } from './../types/StudentPortalStudentExam';
+import { IStudentPortalStudentExam } from "./../types/StudentPortalStudentExam";
 import { IExam } from "../types/Exam";
 import dayjs, { Dayjs } from "dayjs";
 
@@ -50,7 +50,6 @@ export const addTime = (date: Date, offset: number) => {
   return new Date(date.getTime() + offset * 60000);
 };
 
-
 export const fixExamDate = (exam: IExam) => {
   return {
     ...exam,
@@ -69,4 +68,11 @@ export const dayjsToDate = (date: Dayjs, time?: Dayjs) => {
     time.millisecond()
   );
   return newDate;
+};
+
+export const sortWithDate = (exams: any) => {
+  exams.sort((a: any, b: any) => {
+    return a.scheduled_date.getDate() - b.scheduled_date.getDate();
+  });
+  return exams;
 };

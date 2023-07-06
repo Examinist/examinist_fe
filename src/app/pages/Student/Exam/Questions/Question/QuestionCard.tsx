@@ -91,6 +91,7 @@ export default function QuestionCard({ answer, index }: IQuestionCardProps) {
         py: 2,
         gap: 1,
         borderRadius: 3,
+       maxWidth: "1500px",
       }}
     >
       <Box sx={{ display: "flex", gap: 2, justifyContent: "space-between" }}>

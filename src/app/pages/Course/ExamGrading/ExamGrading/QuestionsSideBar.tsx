@@ -140,7 +140,7 @@ export default function QuestionsSideBar() {
                 fontSize: 15,
               }}
             >
-              {`${partialScore} / ${gradeState.totalScore}`}
+              {`${partialScore.toPrecision(2)} / ${gradeState.totalScore}`}
             </Typography>
           </Stack>
         </Box>

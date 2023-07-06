@@ -3,6 +3,7 @@ import {
   IStudentDetailedExam,
   IStudentPortalStudentExam,
 } from "../../types/StudentPortalStudentExam";
+import { sortWithDate } from "../../utilities/Date";
 import axiosInstance from "../AxiosConfig";
 import { IResponse, IResponseData } from "../Response";
 import { mockStudentDetailedExam, mockStudentExams } from "./mockData/MockData";
@@ -37,37 +38,45 @@ export const getStudentExamsApi = async (
   page: number = -1,
   status?: string
 ) => {
-    const response = await axiosInstance.get(
-      `student_portal/student_exams?page=${page}&filter_by_status=${status}`
-    );
-    response.data.student_exams = response.data.student_exams.map((exam : IStudentPortalStudentExam) => fixExamDate(exam));
-    return response as IStudentExamsListResponse;
+  const response = await axiosInstance.get(
+    `student_portal/student_exams?page=${page}&filter_by_status=${status}`
+  );
+  response.data.student_exams = sortWithDate(
+    response.data.student_exams.map((exam: IStudentPortalStudentExam) =>
+      fixExamDate(exam)
+    )
+  );
+  return response as IStudentExamsListResponse;
 };
 
 export const getStudentSixtyMinutesExamsApi = async (page: number = -1) => {
-   const response = await axiosInstance.get(
-     `student_portal/student_exams/sixty_minutes_exams?page=${page}`
-   );
-   response.data.student_exams = response.data.student_exams.map(
-     (exam: IStudentPortalStudentExam) => fixExamDate(exam)
-   );
-   
-   return response as IStudentExamsListResponse;
-    // try {
-    //   const response = await axiosInstance.get(
-    //     `student_portal/student_exams/sixty_minutes_exams?page=${page}`
-    //   );
-    //   return response as IStudentExamsListResponse;
-    // } catch (error) {
-    //   return {data: {student_exams: mockStudentExams, number_of_pages: 1}} as IStudentExamsListResponse;
-    // }
+  const response = await axiosInstance.get(
+    `student_portal/student_exams/sixty_minutes_exams?page=${page}`
+  );
+  response.data.student_exams = sortWithDate(
+    response.data.student_exams.map((exam: IStudentPortalStudentExam) =>
+      fixExamDate(exam)
+    )
+  );
+
+  return response as IStudentExamsListResponse;
+  // try {
+  //   const response = await axiosInstance.get(
+  //     `student_portal/student_exams/sixty_minutes_exams?page=${page}`
+  //   );
+  //   return response as IStudentExamsListResponse;
+  // } catch (error) {
+  //   return {data: {student_exams: mockStudentExams, number_of_pages: 1}} as IStudentExamsListResponse;
+  // }
   // return {
   //   data: { student_exams: mockStudentExams, number_of_pages: 1 },
   // } as IStudentExamsListResponse;
 };
 
 export const getStudentExamApi = async (id: number) => {
-  const response = await axiosInstance.get(`student_portal/student_exams/${id}`);
+  const response = await axiosInstance.get(
+    `student_portal/student_exams/${id}`
+  );
   return response as IStudentExamResponse;
   // return {
   //   data: { student_exam: mockStudentDetailedExam },

@@ -7,6 +7,7 @@ import { IStudent } from "../../../types/User";
 export interface IGradeTable {
   totalPages?: number;
   pageNumber?: number;
+  count?: number;
   filterType?: ExamStatusEnum;
   studentsExams?: IStudentExam[];
 }

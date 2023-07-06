@@ -36,9 +36,10 @@ export default function GradingTablePage() {
 
   const [gradeTableState, setGradeTableState] = React.useState<IGradeTable>({
     totalPages: 1,
-    pageNumber: 1,
+    pageNumber: 0,
     filterType: ExamStatusEnum.ALL,
     studentsExams: [],
+    count: 0,
   });
 
   const contextValue: IGradingTableContext = {

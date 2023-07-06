@@ -82,7 +82,7 @@ export default function StudentRow({ student }: { student: IStudentExam }) {
         )}
       </TableCell>
       <TableCell key="grading_status">
-        {student.student_status == StudentStatusEnum.ATTENDED ? (
+        {student.student_status !== StudentStatusEnum.ABSENT ? (
           <Chip
             label={student.status.replace("_", " ")}
             variant="outlined"
@@ -105,31 +105,56 @@ export default function StudentRow({ student }: { student: IStudentExam }) {
         )}
       </TableCell>
       <TableCell key="graded_questions">
-        <Typography
-          sx={{
-            color: theme.palette.text.primary,
-            fontWeight: "regular",
-            fontSize: "16px",
-          }}
-        >
-          {student.partial_graded_questions +
-            "/" +
-            student.total_graded_questions}
-        </Typography>
+        {student.student_status === StudentStatusEnum.ABSENT ? (
+          <Typography
+            sx={{
+              color: theme.palette.text.primary,
+              fontWeight: "regular",
+              fontSize: "16px",
+            }}
+          >
+            ---
+          </Typography>
+        ) : (
+          <Typography
+            sx={{
+              color: theme.palette.text.primary,
+              fontWeight: "regular",
+              fontSize: "16px",
+            }}
+          >
+            {student.partial_graded_questions +
+              "/" +
+              student.total_graded_questions}
+          </Typography>
+        )}
       </TableCell>
       <TableCell key="score">
-        <Typography
-          sx={{
-            color: theme.palette.text.primary,
-            fontWeight: "regular",
-            fontSize: "16px",
-          }}
-        >
-          {student.partial_score + "/" + student.total_score}
-        </Typography>
+        {student.student_status === StudentStatusEnum.ABSENT ? (
+          <Typography
+            sx={{
+              color: theme.palette.text.primary,
+              fontWeight: "regular",
+              fontSize: "16px",
+            }}
+          >
+            ---
+          </Typography>
+        ) : (
+          <Typography
+            sx={{
+              color: theme.palette.text.primary,
+              fontWeight: "regular",
+              fontSize: "16px",
+            }}
+          >
+            {student.partial_score.toPrecision(2) + "/" + student.total_score}
+          </Typography>
+        )}
       </TableCell>
-      <TableCell key="action">
+    {  <TableCell key="action">
         <IconButton
+        disabled={student.student_status === StudentStatusEnum.ABSENT}
           aria-label="grade"
           size="large"
           color="primary"
@@ -139,7 +164,7 @@ export default function StudentRow({ student }: { student: IStudentExam }) {
         >
           <Grade fontSize="inherit" />
         </IconButton>
-      </TableCell>
+      </TableCell>}
     </TableRow>
   );
 }

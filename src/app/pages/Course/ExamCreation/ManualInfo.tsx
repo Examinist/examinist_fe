@@ -22,7 +22,7 @@ export default function ManualInfo({
     examState.title?.trim() === ""
   );
   const [isDurationEmpty, setIsDurationEmpty] = useState(
-    (examState.duration ?? 0) < 30
+    (examState.duration ?? 0) < 2
   );
   const [entered, setEntered] = useState(false);
 
@@ -40,9 +40,9 @@ export default function ManualInfo({
   const handleDurationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEntered(true);
     setExamState({ ...examState, duration: parseInt(e.target.value) });
-    setIsDurationEmpty(!e.target.value || parseInt(e.target.value) < 30);
+    setIsDurationEmpty(!e.target.value || parseInt(e.target.value) < 2);
     setDisabled(
-      !e.target.value || parseInt(e.target.value) < 30 || isTitleEmpty
+      !e.target.value || parseInt(e.target.value) < 2 || isTitleEmpty
     );
   };
 
@@ -98,7 +98,7 @@ export default function ManualInfo({
               onChange={handleDurationChange}
               required
               error={isDurationEmpty && entered}
-              inputProps={{ min: "30" }}
+              // inputProps={{ min: "30" }}
             />
             {isDurationEmpty && (
               <FormHelperText error>

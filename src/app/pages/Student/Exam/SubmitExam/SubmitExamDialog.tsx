@@ -167,6 +167,7 @@ export default function SubmitExamDialog({
                   To confirm submitting, enter your username:
                 </Box>
                 <TextField
+                autoCorrect="off"
                   {...register("username", {
                     required:
                       "Please enter your username to confirm submitting.",
