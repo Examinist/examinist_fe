@@ -79,7 +79,10 @@ export default function ExamUpperBar() {
         >
           <HoursMinutesCountDown
             toDate={addTime(exam.scheduled_date, exam.duration)}
-            onComplete={() => {}}
+            onComplete={() => {
+              navigate("/proctor");
+              localStorage.removeItem("exam");
+            }}
           />
         </Box>
 

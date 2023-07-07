@@ -202,11 +202,11 @@ export default function GenerateAutomaticScheduleDialog({
 
           <DialogActions>
             <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "right" }}>
-              {/* {errorMessage && (
+              {errorMessage && (
                 <Alert severity="error" sx={{ flexGrow: 2, borderRadius: 2 }}>
                   {errorMessage}
                 </Alert>
-              )} */}
+              )}
               <Button
                 variant="outlined"
                 sx={{

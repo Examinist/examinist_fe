@@ -37,6 +37,7 @@ export default function ScheduleDialog({
   };
 
   const handleDelete = () => {
+    setLoading(true);
     deleteScheduleApi(schedule.id)
       .then(() => {
         setAlertState({
@@ -53,7 +54,8 @@ export default function ScheduleDialog({
           severity: "error",
           message: data.message || statusText || "Something went wrong",
         });
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   const handleUpdate = (schedule: IDetailedSchedule) => {

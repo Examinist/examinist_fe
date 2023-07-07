@@ -15,7 +15,7 @@ export default function ExamsLabs() {
 
   useEffect(() => {
     setLoading(true);
-    getExamsApi(undefined, ExamStatusEnum.SCHEDULED)
+    getExamsApi(undefined, ExamStatusEnum.SCHEDULED, true)
       .then(({ data }: IExamsListResponse) => {
         setExams(data.exams);
       })
@@ -45,7 +45,10 @@ export default function ExamsLabs() {
       {loading && <CustomCircularProgress />}
       {!loading &&
         (exams.length === 0 ? (
-          <Box sx={{ my: 3, mx: 1, fontSize: '1.2rem' }}> No scheduled exams to show.</Box>
+          <Box sx={{ my: 3, mx: 1, fontSize: "1.2rem" }}>
+            {" "}
+            No scheduled exams to show.
+          </Box>
         ) : (
           exams.map((exam) => {
             return <ExamsLabsCard exam={exam} key={exam.id}></ExamsLabsCard>;

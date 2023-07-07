@@ -22,8 +22,8 @@ export const schema = yup.object().shape({
   schedule_to: yup
     .date()
     .required("To date is required")
-    .typeError("To date is required")
-    .min(yup.ref("schedule_from"), "To date must be after from date"),
+    .typeError("To date is required"),
+
   exam_starting_time: yup
     .object()
     .required("Time is required")
@@ -45,7 +45,7 @@ export type FieldPath = Path<IFormInput>;
 
 const mapDate = (date: Date) => {
   return dayjs(date).format("DD-MM-YYYY");
-}
+};
 
 export const mapInput: (
   input: IFormInput,

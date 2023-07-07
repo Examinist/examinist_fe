@@ -36,7 +36,7 @@ const row = (exam: IStudentPortalStudentExam) => [
   exam.duration,
   getTimeStr(exam.scheduled_date),
   getTimeStr(addTime(exam.scheduled_date, exam.duration)),
-  exam.busy_lab.name,
+  exam.busy_lab?.name || '--',
 ];
 const fontSize = "16px";
 
@@ -53,7 +53,7 @@ const rowWithGrade = (exam: IStudentPortalStudentExam) => [
   exam.course.title + " - " + exam.course.code.toUpperCase(),
   getFullDateStr(exam.scheduled_date),
   exam.duration,
-  exam.grade ? exam.grade + "/" + exam.total_score : "NA",
+  exam.grade ? exam.grade.toPrecision(2) + "/" + exam.total_score : "NA",
 ];
 
 interface IExamsTableProps {

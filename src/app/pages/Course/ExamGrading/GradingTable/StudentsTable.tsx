@@ -63,8 +63,8 @@ export default function StudentsTable({
       <TablePagination
         rowsPerPageOptions={[gradeTableState.studentsExams?.length ?? 1]}
         component="div"
-        count={gradeTableState.count ?? 1}
-        rowsPerPage={gradeTableState.studentsExams?.length ?? 1}
+        count={50}
+        rowsPerPage={20}
         page={gradeTableState.pageNumber ?? 0}
         onPageChange={handleChangePage}
         labelDisplayedRows={({ from, to, count }) =>

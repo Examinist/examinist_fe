@@ -31,10 +31,10 @@ export default function ExamsTabs({ onChange }: IExamsTabsProps) {
       <Tabs value={value} onChange={handleChange}>
         <Tab value={StudentExamStatusEnum.UPCOMING} label="Upcomming" />
         <Tab value={StudentExamStatusEnum.ONGOING} label="Ongoing" />
-        <Tab
+        {/* <Tab
           value={StudentExamStatusEnum.PENDING_GRADING}
           label="Pending Grading"
-        />
+        /> */}
         <Tab value={StudentExamStatusEnum.GRADED} label="Graded" />
       </Tabs>
     </Box>

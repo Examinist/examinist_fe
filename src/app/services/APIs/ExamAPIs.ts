@@ -56,7 +56,9 @@ const mapQuestions = (questions: any) => {
 export const getExamsApi = async (
   course_id?: number,
   status?: ExamStatusEnum,
-  page: number = -1
+  sortByPendingLabs: boolean = false,
+  page: number = -1,
+  
 ) => {
   try {
     const portal = localStorage.getItem("portal");
@@ -65,6 +67,7 @@ export const getExamsApi = async (
         course_id: course_id,
         filter_by_status: status,
         page: page,
+        order_by_pending_labs_assignment: sortByPendingLabs ? 'desc' : null,
       },
     });
     let exams: IExam[] = response.data.exams;

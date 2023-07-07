@@ -80,7 +80,7 @@ export default function TableContainer({ tabs, tableHeader }: IExamCardProp) {
 
     const count = 20 * number_of_pages;
     console.log("count ", count);
-    if (student_exams.length <= 20) {
+    if (student_exams.length < 20) {
       console.log("pp ", 20 * (number_of_pages - 1) + student_exams.length);
       return 20 * (number_of_pages - 1) + student_exams.length;
     }
