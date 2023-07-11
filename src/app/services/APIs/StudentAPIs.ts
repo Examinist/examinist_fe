@@ -60,17 +60,6 @@ export const getStudentSixtyMinutesExamsApi = async (page: number = -1) => {
   );
 
   return response as IStudentExamsListResponse;
-  // try {
-  //   const response = await axiosInstance.get(
-  //     `student_portal/student_exams/sixty_minutes_exams?page=${page}`
-  //   );
-  //   return response as IStudentExamsListResponse;
-  // } catch (error) {
-  //   return {data: {student_exams: mockStudentExams, number_of_pages: 1}} as IStudentExamsListResponse;
-  // }
-  // return {
-  //   data: { student_exams: mockStudentExams, number_of_pages: 1 },
-  // } as IStudentExamsListResponse;
 };
 
 export const getStudentExamApi = async (id: number) => {
@@ -78,9 +67,6 @@ export const getStudentExamApi = async (id: number) => {
     `student_portal/student_exams/${id}`
   );
   return response as IStudentExamResponse;
-  // return {
-  //   data: { student_exam: mockStudentDetailedExam },
-  // } as IStudentExamResponse;
 };
 
 export const submitStudentExamApi = async (
@@ -92,7 +78,4 @@ export const submitStudentExamApi = async (
     payload
   );
   return response as IStudentExamResponse;
-  // return {
-  //   data: { student_exam: mockStudentDetailedExam },
-  // } as IStudentExamResponse;
 };

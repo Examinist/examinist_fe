@@ -1,4 +1,9 @@
-import { IExamTemplate, IEditExamTemplate, IQuestionType, ITopic } from "../../types/CourseSettings";
+import {
+  IExamTemplate,
+  IEditExamTemplate,
+  IQuestionType,
+  ITopic,
+} from "../../types/CourseSettings";
 import axiosInstance from "../AxiosConfig";
 import { IResponse, IResponseData } from "../Response";
 import {
@@ -34,17 +39,16 @@ export interface ITopicResponse extends IResponse<ITopicData> {}
 export interface IExamTemplateResponse extends IResponse<IExamTemplateData> {}
 
 export const getQuestionTypesApi = async (course_id: any) => {
-  try {
+  if (import.meta.env.VITE_IS_SERVER_UP === "true") {
     const portal = localStorage.getItem("portal");
     const response = await axiosInstance.get(
       `${portal}/courses/${course_id}/question_types`
     );
     return response as IQuestionTypesListResponse;
-  } catch (error) {
-    return {
-      data: { question_types: mockQuestionTypes },
-    } as IQuestionTypesListResponse;
   }
+  return {
+    data: { question_types: mockQuestionTypes },
+  } as IQuestionTypesListResponse;
 };
 
 export const createQuestionTypeApi = async (
@@ -93,15 +97,14 @@ export const deleteQuestionTypeApi = async (
 };
 
 export const getTopicsApi = async (course_id: any) => {
-  try {
+  if (import.meta.env.VITE_IS_SERVER_UP === "true") {
     const portal = localStorage.getItem("portal");
     const response = await axiosInstance.get(
       `${portal}/courses/${course_id}/topics`
     );
     return response as ITopicsListResponse;
-  } catch (error) {
-    return { data: { topics: mockTopics } } as ITopicsListResponse;
   }
+  return { data: { topics: mockTopics } } as ITopicsListResponse;
 };
 
 export const createTopiceApi = async (
@@ -138,17 +141,16 @@ export const deleteTopicApi = async (course_id: any, topic_id: any) => {
 };
 
 export const getExamTemplateApi = async (course_id: any) => {
-  try {
+  if (import.meta.env.VITE_IS_SERVER_UP === "true") {
     const portal = localStorage.getItem("portal");
     const response = await axiosInstance.get(
       `${portal}/courses/${course_id}/exam_template`
     );
     return response as IExamTemplateResponse;
-  } catch (error) {
-    return {
-      data: { exam_template: mockExamTemplate },
-    } as IExamTemplateResponse;
   }
+  return {
+    data: { exam_template: mockExamTemplate },
+  } as IExamTemplateResponse;
 };
 
 export const updateExamTemplateApi = async (

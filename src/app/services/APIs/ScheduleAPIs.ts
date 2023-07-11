@@ -49,56 +49,25 @@ export interface ISchedulesListResponse extends IResponse<ISchedulesListData> {}
 export interface IScheduleResponse extends IResponse<IScheduleData> {}
 
 export const getSchedulesListApi = async () => {
-  // try {
-  //   const portal = localStorage.getItem("portal");
-  //   const response = await axiosInstance.get(`${portal}/schedules`);
-  //   return response as ISchedulesListResponse;
-  // } catch (error) {
-  //   return {
-  //     data: {
-  //       schedules: [],
-  //     },
-  //   } as ISchedulesListResponse;
-  // }
-  const portal = localStorage.getItem("portal");
-  const response = await axiosInstance.get(`${portal}/schedules`);
-  return response as ISchedulesListResponse;
+  if (import.meta.env.VITE_IS_SERVER_UP === "true") {
+    const portal = localStorage.getItem("portal");
+    const response = await axiosInstance.get(`${portal}/schedules`);
+    return response as ISchedulesListResponse;
+  }
+  return {
+    data: {
+      schedules: [],
+    },
+  } as ISchedulesListResponse;
 };
 
 export const addScheduleApi = async (schedule: ISchedulePayload) => {
   const portal = localStorage.getItem("portal");
   const response = await axiosInstance.post(`${portal}/schedules`, schedule);
   return response as ISchedulesListResponse;
-  // try {
-  //   const portal = localStorage.getItem("portal");
-  //   const response = await axiosInstance.post(`${portal}/schedules`, schedule);
-  //   return response as ISchedulesListResponse;
-  // } catch (error) {
-  //   return {
-  //     data: {
-  //       schedule: {},
-  //     },
-  //   } as IScheduleResponse;
-  // }
 };
 
 export const getScheduleApi = async (scheduleId: number) => {
-  // try {
-  //   const portal = localStorage.getItem("portal");
-  //   const response = await axiosInstance.get(
-  //     `${portal}/schedules/${scheduleId}`
-  //   );
-  //   response.data.schedule.exams = response.data.schedule.exams.map(
-  //     (exam: IExam) => fixExamDate(exam)
-  //   );
-  //   return response as IScheduleResponse;
-  // } catch (error) {
-  //   return {
-  //     data: {
-  //       schedule: {},
-  //     },
-  //   } as IScheduleResponse;
-  // }
   const portal = localStorage.getItem("portal");
   const response = await axiosInstance.get(`${portal}/schedules/${scheduleId}`);
   response.data.schedule.exams = response.data.schedule.exams.map(
@@ -111,23 +80,6 @@ export const updateScheduleApi = async (
   scheduleId: number,
   schedule: IUpdateSchedulePayload
 ) => {
-  // try {
-  //   const portal = localStorage.getItem("portal");
-  //   const response = await axiosInstance.patch(
-  //     `${portal}/schedules/${scheduleId}`,
-  //     schedule
-  //   );
-  //   response.data.schedule.exams = response.data.schedule.exams.map(
-  //     (exam: IExam) => fixExamDate(exam)
-  //   );
-  //   return response as IScheduleResponse;
-  // } catch (error) {
-  //   return {
-  //     data: {
-  //       schedule: {},
-  //     },
-  //   } as IScheduleResponse;
-  // }
   const portal = localStorage.getItem("portal");
   const response = await axiosInstance.patch(
     `${portal}/schedules/${scheduleId}`,
@@ -140,22 +92,6 @@ export const updateScheduleApi = async (
 };
 
 export const deleteScheduleApi = async (scheduleId: number) => {
-  // try {
-  //   const portal = localStorage.getItem("portal");
-  //   const response = await axiosInstance.delete(
-  //     `${portal}/schedules/${scheduleId}`
-  //   );
-  //   response.data.schedule.exams = response.data.schedule.exams.map(
-  //     (exam: IExam) => fixExamDate(exam)
-  //   );
-  //   return response as IScheduleResponse;
-  // } catch (error) {
-  //   return {
-  //     data: {
-  //       schedule: {},
-  //     },
-  //   } as IScheduleResponse;
-  // }
   const portal = localStorage.getItem("portal");
   const response = await axiosInstance.delete(
     `${portal}/schedules/${scheduleId}`
@@ -166,10 +102,14 @@ export const deleteScheduleApi = async (scheduleId: number) => {
   return response as IScheduleResponse;
 };
 
-
-export const autoGenerateScheduleApi = async (payload: IAutomaticSchedulePayload) => {
+export const autoGenerateScheduleApi = async (
+  payload: IAutomaticSchedulePayload
+) => {
   const portal = localStorage.getItem("portal");
-  const response = await axiosInstance.post(`${portal}/schedules/auto_generate`, payload);
+  const response = await axiosInstance.post(
+    `${portal}/schedules/auto_generate`,
+    payload
+  );
   response.data.schedule.exams = response.data.schedule.exams.map(
     (exam: IExam) => fixExamDate(exam)
   );

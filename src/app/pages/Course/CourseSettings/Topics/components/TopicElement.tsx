@@ -5,9 +5,9 @@ import {
   TextField,
 } from "@mui/material";
 import { useState } from "react";
-import { ITopic } from "../../../../../types/Question";
 import ConfirmIcons from "./ConfirmIcons";
 import UpdateIcons from "./UpdateIcons";
+import { ITopic } from "../../../../../types/CourseSettings";
 
 interface ITopicElementProps {
   name: string;

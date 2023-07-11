@@ -47,27 +47,20 @@ interface IDetailedExamData extends IResponseData {
 export interface IExamsListResponse extends IResponse<ExamsListData> {}
 export interface IExamResponse extends IResponse<IDetailedExamData> {}
 
-const mapQuestions = (questions: any) => {
-  return new Map(
-    questions.map((obj: any) => [Object.keys(obj)[0], obj[Object.keys(obj)[0]]])
-  );
-};
-
 export const getExamsApi = async (
   course_id?: number,
   status?: ExamStatusEnum,
   sortByPendingLabs: boolean = false,
-  page: number = -1,
-  
+  page: number = -1
 ) => {
-  try {
+  if (import.meta.env.VITE_IS_SERVER_UP === "true") {
     const portal = localStorage.getItem("portal");
     const response = await axiosInstance.get(`${portal}/exams`, {
       params: {
         course_id: course_id,
         filter_by_status: status,
         page: page,
-        order_by_pending_labs_assignment: sortByPendingLabs ? 'desc' : null,
+        order_by_pending_labs_assignment: sortByPendingLabs ? "desc" : null,
       },
     });
     let exams: IExam[] = response.data.exams;
@@ -79,44 +72,40 @@ export const getExamsApi = async (
     });
 
     return response as IExamsListResponse;
-  } catch (error) {
-    return { data: { exams: mockExamsList } } as IExamsListResponse;
   }
+  return { data: { exams: mockExamsList } } as IExamsListResponse;
 };
 
 export const getExamApi = async (exam_id: number) => {
-  try {
+  if (import.meta.env.VITE_IS_SERVER_UP === "true") {
     const portal = localStorage.getItem("portal");
     const response = await axiosInstance.get(`${portal}/exams/${exam_id}`);
     response.data.exam = fixExamDate(response.data.exam);
     return response as IExamResponse;
-  } catch (error) {
-    return { data: { exam: mockDetailedExam } } as IExamResponse;
   }
+  return { data: { exam: mockDetailedExam } } as IExamResponse;
 };
 
 export const createExamApi = async (exam: IExamPayload) => {
-  try {
+  if (import.meta.env.VITE_IS_SERVER_UP === "true") {
     const portal = localStorage.getItem("portal");
     const response = await axiosInstance.post(`${portal}/exams`, { ...exam });
     return response as IExamResponse;
-  } catch (error) {
-    return { data: { exam: mockDetailedExam } } as IExamResponse;
   }
+  return { data: { exam: mockDetailedExam } } as IExamResponse;
 };
 
 export const autoGenerateExamApi = async (
   exam_parameters: IAutoGeneratePayload
 ) => {
-  try {
+  if (import.meta.env.VITE_IS_SERVER_UP === "true") {
     const portal = localStorage.getItem("portal");
     const response = await axiosInstance.post(`${portal}/exams/auto_generate`, {
       ...exam_parameters,
     });
     return response as IExamResponse;
-  } catch (error) {
-    return { data: { exam: mockDetailedExam } } as IExamResponse;
   }
+  return { data: { exam: mockDetailedExam } } as IExamResponse;
 };
 
 export const updateExamApi = async (exam_id: number, exam: IExamPayload) => {
@@ -125,23 +114,10 @@ export const updateExamApi = async (exam_id: number, exam: IExamPayload) => {
     ...exam,
   });
   return response as IExamResponse;
-  // try {
-  //   const portal = localStorage.getItem("portal");
-  //   const response = await axiosInstance.put(`${portal}/exams/${exam_id}`, {
-  //     exam,
-  //   });
-  //   return response as IExamResponse;
-  // } catch (error) {
-  //   return { data: { exam: mockDetailedExam } } as IExamResponse;
-  // }
 };
 
 export const deleteExamApi = async (exam_id: number) => {
-  try {
-    const portal = localStorage.getItem("portal");
-    const response = await axiosInstance.delete(`${portal}/exams/${exam_id}`);
-    return response as IExamResponse;
-  } catch (error) {
-    return { data: { exam: {} } } as IExamResponse;
-  }
+  const portal = localStorage.getItem("portal");
+  const response = await axiosInstance.delete(`${portal}/exams/${exam_id}`);
+  return response as IExamResponse;
 };

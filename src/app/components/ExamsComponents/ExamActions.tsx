@@ -38,7 +38,7 @@ export default function ExamActions({exam,status, allExams}: IExamStatusProps) {
     if(allExams){
         actions = ["View Course Exams"]
     }else if(status!=undefined){
-        actions = getStatusActions(status)
+        actions = getStatusActions(status)!;
     }
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);

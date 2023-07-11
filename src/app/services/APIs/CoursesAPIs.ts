@@ -23,47 +23,44 @@ export interface ICourseInfoResponse extends IResponse<ICourseInfoData> {}
 export interface ICourseGroupsResponse extends IResponse<ICourseGroupsData> {}
 
 const getCoursesListApi = async (page: number = -1) => {
-  try {
+  if (import.meta.env.VITE_IS_SERVER_UP === "true") {
     const portal = localStorage.getItem("portal");
     const response = await axiosInstance.get(`${portal}/courses`);
     return response as ICoursesListResponse;
-  } catch (error) {
-    return {
-      data: {
-        courses: mockCourses,
-      },
-    } as ICoursesListResponse;
   }
+  return {
+    data: {
+      courses: mockCourses,
+    },
+  } as ICoursesListResponse;
 };
 
 const getCourseGeneralInfoAPI = async (courseId: string) => {
-  try {
+  if (import.meta.env.VITE_IS_SERVER_UP === "true") {
     const portal = localStorage.getItem("portal");
     const response = await axiosInstance.get(`${portal}/courses/${courseId}`);
     return response as ICourseInfoResponse;
-  } catch (error) {
-    return {
-      data: {
-        course_info: mockCourseInfo,
-      },
-    } as ICourseInfoResponse;
   }
+  return {
+    data: {
+      course_info: mockCourseInfo,
+    },
+  } as ICourseInfoResponse;
 };
 
 const getCourseGroupsAPI = async (courseId: string) => {
-  try {
+  if (import.meta.env.VITE_IS_SERVER_UP === "true") {
     const portal = localStorage.getItem("portal");
     const response = await axiosInstance.get(
       `${portal}/courses/${courseId}/course_groups`
     );
     return response as ICourseGroupsResponse;
-  } catch (error) {
-    return {
-      data: {
-        course_groups: mockCourseGroups,
-      },
-    } as ICourseGroupsResponse;
   }
+  return {
+    data: {
+      course_groups: mockCourseGroups,
+    },
+  } as ICourseGroupsResponse;
 };
 
 export { getCourseGeneralInfoAPI, getCourseGroupsAPI, getCoursesListApi };

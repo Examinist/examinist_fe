@@ -1,8 +1,14 @@
-import { AnswerTypeEnum, DifficultyLevelEnum, IChoice, ICorrectAnswer, IFilterQuestionsParams, IQuestion } from "../../types/Question";
+import {
+  AnswerTypeEnum,
+  DifficultyLevelEnum,
+  IChoice,
+  ICorrectAnswer,
+  IFilterQuestionsParams,
+  IQuestion,
+} from "../../types/Question";
 import axiosInstance from "../AxiosConfig";
 import { IResponse, IResponseData } from "../Response";
 import { mockQuestions } from "./mockData/MockData";
-
 
 export interface IQuestionPayload {
   header?: string;
@@ -30,7 +36,7 @@ export const getQuestionsApi = async (
   course_id: number,
   filterParams?: IFilterQuestionsParams
 ) => {
-  try {
+  if (import.meta.env.VITE_IS_SERVER_UP === "true") {
     const portal = localStorage.getItem("portal");
     const response = await axiosInstance.get(
       `${portal}/courses/${course_id}/questions`,
@@ -39,9 +45,10 @@ export const getQuestionsApi = async (
       }
     );
     return response as IQuestionsListResponse;
-  } catch (error) {
-    return { data: { questions: mockQuestions, number_of_pages: 1 } } as IQuestionsListResponse;
   }
+  return {
+    data: { questions: mockQuestions, number_of_pages: 1 },
+  } as IQuestionsListResponse;
 };
 
 export const createQuestionApi = async (
@@ -56,10 +63,7 @@ export const createQuestionApi = async (
   return response as IQuestionResponse;
 };
 
-export const deleteQuestionApi = async (
-  course_id: any,
-  question_id: any
-) => {
+export const deleteQuestionApi = async (course_id: any, question_id: any) => {
   const portal = localStorage.getItem("portal");
   const response = await axiosInstance.delete(
     `${portal}/courses/${course_id}/questions/${question_id}`

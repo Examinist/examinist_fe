@@ -1,4 +1,8 @@
-import { IDetailedStudentExam, IStudentExam, StudentStatusEnum } from "../../types/StudentExam";
+import {
+  IDetailedStudentExam,
+  IStudentExam,
+  StudentStatusEnum,
+} from "../../types/StudentExam";
 import axiosInstance from "../AxiosConfig";
 import { IResponse, IResponseData } from "../Response";
 import {
@@ -34,32 +38,35 @@ export const getStudentExamsApi = async (
   page: number = -1,
   status?: string
 ) => {
-  try {
+  if (import.meta.env.VITE_IS_SERVER_UP === "true") {
     const response = await axiosInstance.get(
-      `staff_portal/exams/${examId}/student_exams?page=${page}&filter_by_status=${status || ""}`
+      `staff_portal/exams/${examId}/student_exams?page=${page}&filter_by_status=${
+        status || ""
+      }`
     );
     return response as IStudentExamsListResponse;
-  } catch (error) {
-    return {
-      data: { student_exams: mockStudentExams, number_of_pages: 1 },
-    } as IStudentExamsListResponse;
   }
+  return {
+    data: { student_exams: mockStudentExams, number_of_pages: 1 },
+  } as IStudentExamsListResponse;
 };
 
 export const getStudentExamApi = async (
   examId: number,
   studentExamId: number
 ) => {
-  try {
-    const response = await axiosInstance.get(
-      `staff_portal/exams/${examId}/student_exams/${studentExamId}`
-    );
-    return response as IStudentExamResponse;
-  } catch (error) {
+  if(import.meta.env.VITE_IS_SERVER_UP === "true"){
+     const response = await axiosInstance.get(
+       `staff_portal/exams/${examId}/student_exams/${studentExamId}`
+     );
+     return response as IStudentExamResponse;
+  }
+  else{
     return {
       data: { student_exam: mockDetailedStudentExam },
     } as IStudentExamResponse;
   }
+
 };
 
 export const updateStudentExamApi = async (
@@ -72,15 +79,4 @@ export const updateStudentExamApi = async (
     { ...payload }
   );
   return response as IStudentExamResponse;
-  // try {
-  //   const response = await axiosInstance.patch(
-  //     `staff_portal/exams/${examId}/student_exams/${studentExamId}`,
-  //     { ...payload }
-  //   );
-  //   return response as IStudentExamResponse;
-  // } catch (error) {
-  //   return {
-  //     data: { student_exam: mockDetailedStudentExam },
-  //   } as IStudentExamResponse;
-  // }
 };
